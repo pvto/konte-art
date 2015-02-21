@@ -1,6 +1,6 @@
 package org.konte.lang;
 
-import org.konte.generate.MapDBShapeReader;
+import org.konte.generate.DiskBackedShapeReader;
 import org.konte.generate.ShapeReader;
 import org.konte.generate.SmallnessOrderShapeReader;
 import org.konte.generate.StreamingShapeReader;
@@ -30,7 +30,7 @@ public enum ShapeReaders {
                     case WIDTH: return new WidthOrderShapeReader(m);
                     case SMALLNESS: return new SmallnessOrderShapeReader(m);
                     case STREAM: return new StreamingShapeReader(m);
-                    case DB: return new MapDBShapeReader(m, new MapDBShapeReader.ZMetric(m));
+                    case DB: return new DiskBackedShapeReader(m, new DiskBackedShapeReader.ZMetric(m));
                     case Z:
                     default:
                         return new ZOrderShapeReader(m);

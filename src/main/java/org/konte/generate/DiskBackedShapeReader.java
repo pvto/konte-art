@@ -21,14 +21,14 @@ import org.konte.model.Model;
 /**
  * @author pvto https://github.com/pvto
  */
-public class MapDBShapeReader implements ShapeReader {
+public class DiskBackedShapeReader implements ShapeReader {
 
     Layers layers = new Layers();
     private RuleWriter rulew;
     private Canvas canvas;
     
     private Model model;
-    public MapDBShapeReader(Model model, PointMetric metric) {
+    public DiskBackedShapeReader(Model model, PointMetric metric) {
         this.model = model;
         this.metric = metric;
     }

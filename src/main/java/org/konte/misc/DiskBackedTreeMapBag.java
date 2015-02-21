@@ -14,7 +14,7 @@ import java.util.TreeMap;
  */
 public class DiskBackedTreeMapBag extends TreeMap {
     
-    private List<BackupFile> backupFiles = new ArrayList<BackupFile>();
+    private final List<BackupFile> backupFiles = new ArrayList<>();
     private final Serializer serializer;
     
     public static interface Serializer {
@@ -100,9 +100,10 @@ public class DiskBackedTreeMapBag extends TreeMap {
                 }
                 w = w.next;
             }
-            e = higherEntry(e);
+            e = higherEntry(e.getKey());
         }
         
+        //transform what is left to wrapped entries
         e = firstEntry();
         int positionRef = 0;
         while(e != null)
@@ -112,17 +113,21 @@ public class DiskBackedTreeMapBag extends TreeMap {
             {
                 BagWrapper w = new BagWrapper();
                 w.val = o;
-                put(e.getKey(), w);
-                o = w;
-            }
-            BagWrapper w = (BagWrapper)o;
+                w.next = null;
+                w.last = w;
+                super.put(e.getKey(), w);
+            } 
+            e = higherEntry(e.getKey());
+        }
+        //write all entries that hold content to disk
+        e = lastEntry();
+        while(e != null)
+        {
+
+            BagWrapper w = (BagWrapper)e.getValue();
             while(w != null)
             {
-                if (w.ref != -1)
-                {
-                    //already stored;
-                }
-                else
+                if (w.ref == -1)
                 {
                     byte[] bytes = serializer.marshal(w.val);
                     backupFile.file.write(bytes);
@@ -133,7 +138,7 @@ public class DiskBackedTreeMapBag extends TreeMap {
                 }
                 w = w.next;
             }
-            e = higherEntry(e);
+            e = lowerEntry(e.getKey());
         }
         backupFiles.add(backupFile);
     }
