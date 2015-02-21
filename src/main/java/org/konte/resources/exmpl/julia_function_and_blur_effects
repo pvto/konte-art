@@ -1,0 +1,51 @@
+// build two asymmetric blur effects on layer 3
+// each character is a composite of 1+2+4+8 [R,G,B,A channels], so 7 gives full RGB without alpha layer blur
+fx 3 { 
+770000000
+077000000
+007700000
+000777000
+770077700
+770007777
+}
+fx 3 {
+770000000
+077000000
+007700000
+000777000
+000077700
+000007777
+}
+
+rule sets {
+    3* { layer -0 s 1.5 }
+    loop { DEF { re = -1.5 ; im = -0.9}
+            s .5 .5 1
+            rz 90
+            //ry 30
+layer 3
+    }
+}
+
+rule loop {
+    100* { x .02 DEF { re=re+.02} }
+    100* { y .02 DEF { im=im+.02} }
+      juliapoint { x -1 y -1
+                  z (sin(re+im)*0.2)
+                  s .04
+                  DEF { mcolor =
+                    julia(re,im,0,0.75)/256
+                  }
+      }
+
+}
+
+rule juliapoint {
+    SQUARE { R 1 hue (72000*mcolor) sat -.4 z 1 A -.99 s .2    }
+    CIRCLE { s (saw(mcolor*6+re*im*0.5)*1)
+             L (square(mcolor*5)+.5)
+             }
+}
+
+bg {RGB .2 .2 .2}
+camera { z -2 }

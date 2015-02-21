@@ -1,0 +1,38 @@
+camera { z -4 }
+
+rule scene {
+
+  7* { y .4 DEF { skewyval = skewyval + 15; } }
+    7* { x .4 DEF { skewxval = skewxval + 15; } }
+        mybox
+        {
+            x -1.2
+            y -1.2
+            scale .2
+            rotx 20 roty -10
+            skewx skewxval
+            skewy skewyval
+        }
+}
+
+
+rule mybox {
+    cube_templ { PUSH squ2 }
+}
+
+rule cube_templ {
+    PEEK { z -.5 }
+    PEEK { z .5 ry 180 }
+    PEEK { x -.5 ry -90 }
+    PEEK { x .5 ry 90 }
+    PEEK { y -.5 rx 90 }
+    PEEK { y .5 rx -90 }
+}
+
+rule squ2 {
+    10 * { x .1 }
+        SQUARE { x -.5 scale .1 1 1}
+    10 * { x .1 }
+        SQUARE { x -.5 scale .05 .8 .8 lightness 1 z -.1}
+    CIRCLE { z -.2 scale .3 }
+}

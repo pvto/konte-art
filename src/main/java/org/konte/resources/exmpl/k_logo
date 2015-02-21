@@ -1,0 +1,164 @@
+/*
+   konte "k" logo v1.3c
+   (c) pvtoi 2014
+*/
+
+
+model { order STREAM }
+  light { point(0, 0, .1)  { RGB 1 1 .8 } s 1 }
+  light { point(0, 0, 5)   { RGB 1 1 1  } s 6 }
+  bg{ RGB #191919 }
+
+  camera { PANNING 1.8 }
+
+k_logo {
+
+
+    38000*{} star {
+        y -1.25
+        z 1
+        x (-.75 + (x) + rnd() * 1.5)
+        y (y + rnd() * 2.5)
+        scale .018
+        lightness 1
+        alpha -.52
+        green (-rnd()*.25+x)
+        }
+
+   tilp{layer 1}
+}
+
+// 3x3 fade blur on layer 0, applied 5 times
+fx 0*5{777 070 070}
+// 4x4 blur on layer 1, applied once (default)
+fx 1{0077 7700 7700 0077}
+tilp {
+
+    200*{y -.005}SQUARE{s 2 .0045 .001 L 1}
+
+    write { PUSH E3 T3 N3 O3 K3
+            y -.62 x -.45 scale .27 lightness 1 red -.1}
+
+    K { x .25 y .3 s 1.4 layer 1}
+}
+
+write { POP{s .3 PUSH lblock }
+        if(n<5){write{x 1 DEF{n=n+1;}} } }
+lblock {
+    10*{s .95 red -.1 green -.095 blue -.085}
+    {
+        RSQU{ z .1 s 1.2 sat -1 A -.75 }
+        RSQU{}
+    }
+}
+
+K3 { I3 { x -1 d (d)} PEEK { x 1 y 1 } PEEK { } PEEK { x 1 y -1 } }
+O3 { C3 { d (d) } PEEK { x 1 } }
+N3 { x_3 { y 1 d (d)} PEEK { x -1 y -1 } PEEK { x 1 y 1 } }
+T3 { I3 { d (d)} PEEK { x -1 y 1 } PEEK { x 1 y 1 } }
+E3 { I3 { x -1 d (d)} PEEK { y 1 } PEEK { y -1 } }
+
+C3 { L3 { d (d)} PEEK { y 1 } PEEK {y 1 x 1 } }
+I3 { 3* { y 1 d (d)} PEEK { y -1 } }
+L3 { I3 { x -1 d (d)} PEEK { y -1 } PEEK { y -1 x 1 } }
+x_3 { 3* { x 1 } PEEK { x -1 y -1 } }
+
+
+K {
+  // drop shadow
+
+    2 *
+    {
+        scale .98
+    } konte_kb3
+        {
+            scale 1.01
+            x -.001
+            alpha -.8
+            lightness 1 red -.6 blue -.4
+        }
+
+
+  // luminous K
+
+    47 *
+    {
+        //scale .996
+        rx 1.5
+        x -.0001
+    } konte_kb3
+        {
+            scale .96
+            alpha -.96
+//            RGB (197/255) (213/255) (219/255)
+        }
+}
+
+
+
+
+star 2 { star { blue -.01 } }
+star 2 { star { sat (.1 + saw(x + .25) / 5) } }
+star 5 { star { hue -.1 } }
+star {
+    dstar {
+        scale (1 + sin(y * x*x*x * 200) * 1.5)
+        scale (abs(x*x + y*y)*.5+1)
+        z (-sin(x*x + y*y)*17)
+        rotz (rnd()*360 + x)
+        sat .3
+        hue (-50 + 360 * x*x * y)}
+}
+dstar {
+    3*{rz 60 } 3*{ s .92 }
+            CIRCLE { scaley .1 }
+}
+dstar { konte_kb3 { alpha 1 } }
+star { dstar { scaley 2 scalex .1 skewy 100 } }
+
+
+path konte_kb3 {
+    moveto(-0.500, 0.100, 0.000)
+    bend(0.000, 0.400, 0.000)
+    bend(0.100, 0.100, 0.000)
+    curveto(0.100, 0.100, 0.000)
+    bend(0.100, 0.100, 0.000)
+    bend(-0.300, 0.000, 0.000)
+    curveto(-0.300, 0.000, 0.000)
+    bend(-0.300, 0.000, 0.000)
+    bend(-0.074, -0.168, 0.000)
+    curveto(0.049, -0.100, 0.000)
+    bend(0.050, -0.100, 0.000)
+    bend(0.120, -0.434, 0.000)
+    curveto(0.096, -0.516, 0.000)
+    bend(0.100, -0.500, 0.000)
+    bend(-0.300, 0.000, 0.000)
+    curveto(-0.300, 0.000, 0.000)
+    bend(-0.300, 0.000, 0.000)
+    bend(-0.292, -0.106, 0.000)
+    curveto(-0.300, -0.150, 0.000)
+    bend(-0.299, -0.428, 0.000)
+    bend(-0.296, -0.451, 0.000)
+    curveto(-0.296, -0.451, 0.000)
+    bend(-0.296, -0.451, 0.000)
+    bend(-0.346, -0.471, 0.000)
+    curveto(-0.505, -0.471, 0.000)
+    bend(-0.487, -0.316, 0.000)
+    bend(-0.501, -0.134, 0.000)
+    curveto(-0.500, -0.100, 0.000)
+    bend(-0.497, -0.031, 0.000)
+    bend(-0.497, -0.051, 0.000)
+    curveto(-0.499, -0.003, 0.000)
+    bend(-0.518, 0.038, 0.000)
+    bend(-0.448, 0.108, 0.000)
+    curveto(-0.383, 0.157, 0.000)
+    bend(-0.362, 0.143, 0.000)
+    bend(-0.336, 0.121, 0.000)
+    curveto(-0.329, 0.112, 0.000)
+    bend(-0.304, 0.096, 0.000)
+    bend(-0.312, 0.028, 0.000)
+    curveto(-0.300, 0.000, 0.000)
+    bend(-0.328, -0.005, 0.000)
+    bend(0.000, 0.400, 0.000)
+    close
+}

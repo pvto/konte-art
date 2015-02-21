@@ -1,0 +1,28 @@
+
+fov { x -.45 z -1.2}
+   // fov=camera - synonymous
+
+rule spiral {
+    1001*{
+        rotz 2.12
+        scale .998 y .0177}
+    SQUARE { scale .015 scalex 7}
+}
+
+/*
+   rotz turns "logo" around the z axis
+   rotx                         x
+   roty                         y
+
+
+                  y  - rotation counterclockwise
+                ^
+                |
+                |
+                 ---->
+               /      x  - rotation counterclockwise
+              /
+             /
+              z  - rotation is counterclockwise
+*/
+

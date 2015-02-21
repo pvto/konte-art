@@ -1,0 +1,40 @@
+/*
+  MACROs are global expressions.
+  DEFs are global scalars.
+  MACROS are evaluated generate time.
+  DEFS are evaluated compile time.
+
+
+  Both can be redefined inside rules.
+  (not shown in this example)
+
+  The new value will be applied while
+  generating, and it will last until a
+  next dynamic redefinition.
+
+*/
+
+
+DEF siz .02
+DEF cols (1/siz)
+
+MACRO TY (x*y)
+MACRO TT (TY%saw(z*5)*2)
+
+rule scene { box { rx 30 ry 30 } }
+
+rule box {
+  (cols)* {z siz}
+    (cols)* {x siz}
+      (cols)* {y siz}
+
+        SPHERE {
+            s siz
+            red TT
+            x -(cols/2)
+            y -(cols/2)
+            z -(cols/2)
+        }
+}
+
+camera { z -2 }

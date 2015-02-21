@@ -1,0 +1,33 @@
+// Press [Ctrl+i] to open the shading editor
+
+rule example {
+    CIRCLE {shading rbgg col0 0 s .1 x -3}
+    CIRCLE {shading rbgg col0 1 s .1 x -1}
+    CIRCLE {shading rbgg col0 2 s .1 x  1}
+    CIRCLE {shading rbgg col0 3 s .1 x  3}
+
+  100*{x .01 col0 (col0+.05)}
+    SQUARE {shading rbgg
+            col0 (col0-1)
+             y -.2 x -.5 s .01 .1 .1}
+
+  100*{x .01 col0 (col0+.05)}
+    BOX    {shading rbgg
+            col0 (col0-1-rnd()*1)
+             y -.3 x -.5 s .01 .02 .02}
+}
+
+shading rbgg {
+    point (0.0) {
+        RGB 1.000 0.000 0.000
+        A 1      }
+    point (1.0) {
+        RGB 0.000 0.000 1.000
+        A 1      }
+    point (2.0) {
+        RGB 0.600 0.600 0.600
+        A 1      }
+    point (3.0) {
+        RGB 0.000 1.000 0.000
+        A 1      }
+}

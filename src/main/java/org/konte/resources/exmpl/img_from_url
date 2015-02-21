@@ -1,0 +1,26 @@
+include "http://media-1.web.britannica.com/eb-media/79/579-004-62E9E7AB.gif" img0
+fov { z -1.2 }
+rule wrap {
+    draw_img
+    {
+        DEF
+        {
+            iw = imgwidth(img0);
+            ih = imgheight(img0);
+            pixsize = (1/imgwidth(img0));
+        }
+    }
+}
+rule draw_img {
+    (iw) * { DEF {u=u+1} }
+        (ih) * { DEF {v=v+1} }
+            i_pxl
+            {
+                x -.5 y (.5*ih/iw)
+                s pixsize x u y -v
+                RGB imgred(img0,u,v) imggreen(img0,u,v) imgblue(img0,u,v)
+            }
+}
+//rule i_pxl { i_pxl { x 1 } }
+//rule i_pxl { i_pxl { rz 77 } }
+rule i_pxl { CIRCLE { s 1.5 L -.2 } SQUARE { s .9 z -.1} }

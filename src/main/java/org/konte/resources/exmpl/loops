@@ -1,0 +1,23 @@
+camera {x .45 y .45}
+
+rule example {
+  10 * {y .1}
+    (8 - y*8) * {x .1 scale .9 red .1}
+      fuzicle {scale .1}
+}
+
+
+
+/* Usage:
+* ([iterator-expression] "*" "{" [transform]* "}")+
+*   [rule-name] "{" [transform]* "}"
+*
+*/
+
+
+rule fuzicle {
+    30 *
+    { scale .98 }
+        CIRCLE
+        { alpha -.8 }
+}

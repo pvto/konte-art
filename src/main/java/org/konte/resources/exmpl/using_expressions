@@ -1,0 +1,34 @@
+/*
+* Expression syntax
+*/
+
+
+DEF example 0.1             // ok
+DEF example2 2*0.1   //  this is valid since v.0.9
+DEF example3    (5*0.1)+1     // ok
+DEF example4   -(5*0.1)     // ok
+DEF example5 sin(5*0.1)     // ok
+
+
+// inside a transform DEF{} block
+// bounding brackets not required:
+rule alternatives {
+ 10* { DEF { foo = foo+PI/5 } }
+
+
+
+// ...
+    trail {  x 0.25*cos(foo)     // brackets not required since v.0.9
+             y sin(foo/10)*2
+             x -0.1              // ok
+             y -0.35
+             s example           // ok
+             L -example          // ok
+             }
+
+}
+rule trail {
+    CIRCLE { }
+    CIRCLE { s 0.8 L 1 z -.3}
+    trail { s 0.95 x 1 rz 90 rx 20}
+}

@@ -1,0 +1,19 @@
+camera { z -.35 y .1 rz -39 ry 10}
+bg     { RGB 0.800 0.000 0.000}
+
+
+rule alpha_tilted_layers {
+    5* { layer -1  s 1.5  A (-A/2) }
+        spin { RGB 1 .7 .1 d 5 }
+}
+
+
+rule spin {
+    12* {s .95 B .01 G -.01 R -.01 layer .01 rx -30.0  d -1}    
+        CIRCLE { s .01 .2 .1 L (saw((G+.5)*20)*2) }
+    6*{rz 60 } 
+        spin { y .08125 ry -45 s .5 }
+} 
+
+light  { point(0,.2,0) { RGB 1 1 1 } s .085 }
+light  { point(-.2,-.2,0) { RGB 1 0 0 } s .03 }

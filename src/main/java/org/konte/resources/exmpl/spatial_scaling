@@ -1,0 +1,32 @@
+rule example {
+    SQUARE {y .2 x -.2
+            size .1
+            blue 1}
+    SQUARE {y .1 x -.2
+            size .15 .05 .1
+            blue 1}
+
+    SQUARE {size .1
+            y 2 x 2
+            red 1}
+    SQUARE {size .15 .05 .1
+            y 2 x 1.325
+            red 1}
+
+    SQUARE {size .1
+            y -2 z 2
+            }
+
+}
+
+
+/*Usage:
+* "scale [exp]" or "size [exp]" or "s [exp]"
+* "scale [exp] [exp] [exp]" or "size ..." or "s ..."
+*
+* "scalex [exp]" or "sx [exp]"
+* "scaley [exp]" or "sy [exp]"
+* "scalez [exp]" or "sz [exp]"
+*/
+
+

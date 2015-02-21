@@ -1,0 +1,20 @@
+rule example {
+    CIRCLE {red 1    s .1 x -3}
+    CIRCLE {green 1  s .1 x -1}
+    CIRCLE {blue 1   s .1 x  1}
+    CIRCLE {RGB 0 0.4 0.4
+                     s .1 x  3}
+  100*{x .01 R .01}
+    SQUARE {y -.2 x -.5 s .01 .1 .1}
+
+  100*{x .01 R .01 B -.01}
+    BOX    {B 1
+             y -.3 x -.5 s .01 .02 .02}
+}
+
+/* Usage:
+* "red   [expression]"  or "R [expression]"
+* "green [expression]"  or "G [expression]"
+* "blue  [expression]"  or "B [expression]"
+* "RGB [expression] [expression] [expression]"
+*/

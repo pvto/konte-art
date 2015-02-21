@@ -1,0 +1,70 @@
+bg { RGB .9 .95 .2 }
+camera { ORTOGRAPHIC }
+
+
+
+fx 0 { 
+770000000
+077000000
+007700000
+000777000
+770077700
+770007777
+}
+//fx 1 {10000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007}
+
+
+DEF T1 (1/3)        DEF T2 (T1*2)
+DEF iterations 4    DEF SHD_ATTRACTOR_SIZE 0.001
+
+
+light broad_reddish  { point(0.5,0,0) { RGB 1 1 .7 } s .3 }
+light point_white    { point(-0.1,0,-.45) { RGB 1 1 1 } s .01 }
+light point_white2   { point(-0.4,0,-.2) { RGB 1 1 1 } s .01 }
+
+
+shading shading_whites {
+    point(2) { RGB .1 0 .6 s SHD_ATTRACTOR_SIZE}
+    point(0) { RGB 0 0 0 s (SHD_ATTRACTOR_SIZE*3)}
+    point(1) { RGB 1 1 1 s (SHD_ATTRACTOR_SIZE*2)}
+}
+
+
+
+rule scene_start {
+    3* { rz -90  y .2 skewz 3}
+    menger { shading shading_whites
+ layer 1
+        x -.2 y -.2 d iterations y .1 s .3 rx 25 ry 75}
+  2*{rz 45}
+    40* { x .05 rz 2} SQUARE { RGB 1 1 1 x -.6 rz -15 ry -20 s .0125 1 1 }
+}
+
+
+rule menger {
+    possible_box  {d -1 } // no iteration control when drawing
+    2*{ x T2 } 3*{ y T1 } 2*{ z T2 }
+        recurse { s T1 x -1 y -1 z -1 DEF {cur_itr=cur_itr+1}}
+    2*{ y T2 } 2*{ z T2 }
+        recurse { s T1 y -1 z -1 DEF {cur_itr=cur_itr+1}}
+    2*{ y T2 } 2*{ x T2 }
+        recurse { s T1 y -1 x -1 DEF {cur_itr=cur_itr+1}}
+
+}
+rule recurse { menger { depth (depth) } } // maintain correct iteration count on callback
+
+rule  possible_box {
+    pre { iterations < cur_itr+2 }
+    box { s .99 1 1 s .9 rz (sin(x*15+y*15)*60.5)}
+//    BOX { s 3 rz 45 RGB 1 1 1 shading -1 A -.96}
+}
+
+
+rule box {
+    2* { ry 90 }
+    2* { z 1 col0 (B+1) } SQUARE { z -.5 }
+    2* { y -1 col0 (0+y)} SQUARE { rx 90 z .5 L .3 }
+
+}
+
+

@@ -1,0 +1,49 @@
+/*
+       (Resetting 'mesh' value changes which mesh is piled to
+    in context.
+       This 'mesh' identifier is a floating point scalar, rounded
+    always automatically to a 100th.)
+*/
+
+camera { z -6 }
+startshape meshball_15
+DEF SCALE 64
+
+
+rule loop {
+    (SCALE) *  {  DEF { u = u + PI/SCALE} }
+        (SCALE*0.6) *
+        {
+            DEF
+            {
+                v = v + PI/SCALE;
+                row = row + 1
+            }
+        }
+            MESH
+            {
+                rotx 30
+                roty (u*100) rotx (-v*100)
+                z (-.6)
+                lightness (sin(u*v*mesh*68))
+            }
+}
+
+
+
+rule meshball_15 {
+ 5*{rz 60 DEF{mesh=mesh+1000}}
+ 45*{x .5 s .95 ry 1.5 rx 40 rz (10+square(mesh/3)*90)
+        DEF
+        {
+            mesh=(mesh+1) // %3  // uncomment to merge every third ball
+        }
+    }
+    loop { DEF {
+            u = (PI/12);
+            v = -(PI/4)}
+            ry 8
+            s .5
+    }
+}
+

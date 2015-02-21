@@ -1,0 +1,70 @@
+/*
+* load rules to stack with PUSH.
+*/
+
+rule example {
+    box {   PUSH SQUARE
+            s .2 y 1.5 rx 45 ry 45}
+ /* chaining: "CIRCLE";
+  * "4x4.PUSHED" on top */
+    box {   PUSH CIRCLE 4x4.PUSHED
+            s .2 y -.25
+            rx -45 rz 45
+        }
+    box {   PUSH 4x4
+            s .2 y -1 x 1.5
+            rx -45 ry 45
+        }
+    box {   PUSH 16x16
+            s .2 y -1 x -1.5
+            rx -45 ry -45}
+}
+
+/*
+* Accessing top of the stack:
+* POP (remove-last)
+* PEEK (lookup-last)
+*
+*/
+
+rule Popper {   POP { } }
+
+/* box sides receive PUSHed rules */
+rule box {
+    2* { ry 90 H -20}
+    2* { z 1 L 1 S .5 H 240} Popper { z -.5 }
+    2* { y -1 H 20 } Popper { rx 90 z .5 L .3 H 20 }
+}
+
+/* * * * * * * * * * * */
+
+rule 4x4.PUSHED {
+    PEEK { s .5 x -.5 y -.5 }
+    PEEK { s .5 x -.5 y .5 }
+    PEEK { s .5 x .5 y -.5 }
+    PEEK { s .5 x .5 y .5 }
+}
+rule 4x4 {
+    SQUARE { s .5 x -.5 y -.5 }
+    SQUARE { s .5 x -.5 y .5 }
+    SQUARE { s .5 x .5 y -.5 }
+    SQUARE { s .5 x .5 y .5 }
+}
+rule 16x16 {
+    4x4 { s .5 x -.5 y -.5 }
+    4x4 { s .5 x -.5 y .5 }
+    4x4 { s .5 x .5 y -.5 }
+    4x4 { s .5 x .5 y .5 }
+}
+
+
+
+/*
+* Rule stack has a finite size. First inserts
+* will silently drop out if the stack gets too
+* full. Default size is 16.
+*
+*/
+model { pushstack 2 }
+
+

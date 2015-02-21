@@ -1,0 +1,16 @@
+// hint: render multiple times;
+// default camera is the first one
+
+camera { C1 z -1.6 }
+camera { C2 z -3 x -1 ry -15 }
+camera { C3 x 3 ry 90}
+
+rule box {
+    box { camera C2 } }
+
+rule box {
+    box { camera C3 } }
+
+rule box {
+    BOX { rx 45 ry 45 s .3 .6 .1}
+}

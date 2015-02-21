@@ -1,0 +1,35 @@
+bg { RGB 0 0 0 }
+
+
+rule scene {
+    ladder
+    {
+        y -.4 x -.4 scale .03 roty 45
+    }
+}
+rule ladder {
+    box { PUSH SQUARE}
+    if (step < 52) {
+        if (step % 2 < 1) {
+            ladder { x 1 DEF { step = step + .5} }
+        }
+        if (step % 2 >= 1) {
+            ladder { y 1 DEF { step = step + 1} }
+        }
+    }
+}
+
+
+rule box {  // make a box with colored sides
+    2* { ry 90 H -20}
+    2* { z 1 L 1 S .5 H 240} PEEK { z -.5 }
+    2* { y -1 H 20 } PEEK { rx 90 z .5 L .3 H 20 }
+}
+
+
+
+
+light rd {
+    point(0,0,0) { RGB #ffff80 }
+    s .3
+}

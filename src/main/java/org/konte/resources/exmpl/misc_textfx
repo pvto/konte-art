@@ -1,0 +1,299 @@
+rule __f__ALL_ {
+// -- 3D effects at top row -----------------
+    carved{x -.4 y .3 PUSH f_text2380_ s .1}
+    trail_persp{x -.2 y .3 PUSH f_text2380_ s .1}
+    trail_rot{y .3 PUSH f_text2380_ s .1}
+    trail_wild{x .2 y .3 rx 40 PUSH f_text2380_ s .1 shading rbp layer -10}
+    trail_prsp2{x .4 y .3 PUSH f_text2380_ s .1}
+// -- bevel effects at 2nd row ------------------
+    bevel_alt{x -.4 y .15 PUSH f_text2380_ s .1}
+    bevel_twist{x -.2 y .15 PUSH f_text2380_ s .1}
+    bevel_rand{x 0 y .15 PUSH f_text2380_ s .1}
+    bevel_shad{x .2 y .15 PUSH f_text2380_ s .1}
+    bev_shd_rt{x .4 y .15 PUSH f_text2380_ s .1}
+// -- shadow effects at 3rd row ------------------
+    shdw_front{x -.4 PUSH f_text2380_ s .1}
+    shdw_rec{x -.2 PUSH f_text2380_ s .05}
+    shdw_2{x 0 PUSH f_text2380_ s .1 ry 20}
+    shdw_back{x .2 PUSH 2f_text2380_ s .1 }
+    shdw_sweep{x .4 PUSH 2f_text2380_ s .1 ry 20 }
+// -- mirror effects at 4th row ------------------------
+    mrro_1 { x 0 y -.15 PUSH f_text2380_ trail_persp s .1}
+    mrro_2 { x .2 y -.15 PUSH f_text2380_ carved s .1}
+// -- recursive effects at bottom row ------------------
+    rec6{x -.4 y -.3 PUSH f_text2380_ d 3 s .05}
+    rec12{x -.2 y -.3 PUSH f_text2380_ d 2 s .05}
+    rec_spir{ y -.3 PUSH f_text2380_ s .03 y -2}
+    rec4{x .2 y -.3 PUSH f_text2380_ d 4 s .1}
+    recbox3{x .4 y -.3 PUSH f_text2380_ trail_prsp2 s .1 rx 35 ry 25}
+
+}
+
+// -- 3D effects at top row -----------------
+
+rule carved{
+    PEEK {RGB 0 0 0 }
+    60*{s 1.006 z .001 x -.0004 y .0002} PEEK{A -.96}
+}
+rule trail_persp{
+    60*{s 1.00 z .01  ry 1 B .02 G .015} tp0{}
+    POP{layer 1 L 1}
+}
+rule trail_prsp2{
+    60*{s 1.00 z .015 rx -1 L .02} PEEK{}
+    60*{s 1.001 z .015 rx -1 x .002} PEEK{ L 1}
+}
+rule tp0 { PEEK { } PEEK { x .003 L 1 } }
+rule trail_rot{
+    140*{s 1.00 rz 2 x .01 z .01  R .02} tp0{}
+}
+rule trail_wild{
+    160*{s 1.0099 z .002 ry .8 rx .4 rz 1 col0 (col0+.03)} tw0{}
+}
+rule tw0 { PEEK { } PEEK { s .85 x .02 shading -1 RGB 1 1 1 A -.7} }
+
+
+// -- bevel effects at 2nd row ------------------
+
+rule bevel_alt {
+    15* {s 1.04 L (1-L*2) z .01} PEEK { }
+}
+rule bevel_twist {
+    15* {s 1.04 L (1-L*2) z .01 rz 2} PEEK { }
+}
+rule bevel_rand {
+    25* {s 1.01 L (1-L*2) z .01 rz (-10+rnd()*20+foo)} PEEK { }
+}
+rule bevel_shad {
+    20* {s 1.01 x -.03 z .01 
+            shading -(foo%2) col0 (col0+.1) DEF {foo=foo+1}} 
+        PEEK { L 1}
+}
+rule bev_shd_rt {
+    30* {s 1.0 x -.03 z .02 rz 10
+            shading -(foo%2) col0 (col0+.1) DEF {foo=foo+1}} 
+        PEEK { L 1}
+}
+
+
+// -- shadow effects at 3rd row ------------------
+
+rule shdw_front {  PEEK { }
+    15* {s 1.003 } PEEK { rx 100 z -.5 y .75 sy 2 A -.95}
+}
+rule shdw_rec {  rec12 { d 3}
+    15* {s 1.003 } rec12 { d 3 rx 100 z -.5 y 6 sy 2 A -.95}
+}
+rule shdw_2 {  PEEK { } PEEK { s .95 x .002 z -.01 L 1} PEEK { s .92 z -.02}
+    35* {s 1.003 rz .5} PEEK { ry -70 rx -30 z .15 sx 2 x -.1 A -.98}
+}
+rule shdw_sweep {  PEEK { }
+    15* {s 1.003 ry 5} PEEK { ry -90 rx -30 z .25 sx 2 x -.1 A -.95}
+}
+rule shdw_back {  PEEK { }
+    15* {s 1.01 } PEEK { rx -80 z .35 y 1.25 sy 3 A -.95}
+}
+
+
+// -- mirror effects at 4th row ------------------------
+rule mrro_1 {
+    popper { s .5 x -.5 y .5 ry -40 rx -40 }
+    popper { s .5 x .5 y .5 flipy 40 rx 40 }
+    popper { s .5 x -.5 y -.5 ry -40 flipx 40 }
+    popper { s .5 x .5 y -.5 flipy 40 flipx -40 }
+}
+rule mrro_2{ 2*{rz 45} mrro_1{rz 45}}
+
+
+// -- recursive effects at bottom row ------------------
+
+rule rec12 {
+    PEEK{d -1} PEEK{d -1 x .04 RGB 1.000 0.800 0.000 z -.02}
+    12*{rz 30} rec12 { x .75 s .5 layer -1}
+}
+rule rec6 {
+    PEEK{d -1} PEEK{d -1 x .04 RGB 1 1 1 z -.02}
+    6*{rz 60} rec6 { x .75 s .5}
+}
+rule rec_spir {
+    5* { rz 72.5} PEEK{ } 
+    rec_spir { s .95 rz 40 x 1.5 }
+}
+rule rec4 {
+    RSQU { RGB 1 1 1 A -.7 s 1.4 }
+    15*{rz .4} PEEK{ A -.9}
+    2*{x .6}2*{y .6} rec4 { x -.3 y -.3 s .5 layer -1}
+}
+rule recbox3 {
+    3*{x (1/3)} 3*{y (1/3)} 3*{z (1/3)} popper {s (1/3) x -1 y -1 z -1}
+}
+rule popper{POP{}}
+
+// colors
+shading rbp {
+    point (0.0) {
+        RGB 0 .2 0
+        A 1      }
+    point (1.0) {
+        RGB 1.000 0.000 0.200
+        A 1      }
+    point (2.0) {
+        RGB 0.400 1.000 1.000
+        A 1      }
+    point (1.298969) {
+        RGB 0.600 0.000 0.600
+        A 1      }
+}
+
+
+// paths (imported from svg)
+rule 2f_text2380_ { f_text2380{s 5} f_text2380{x .75}}
+rule f_text2380_ { f_text2380{s 5} }
+path f_text2380 {
+    moveto(-0.080, 0.064, 0.000)
+    lineto(-0.073, 0.064, 0.000)
+    lineto(-0.073, 0.074, 0.000)
+    bend(-0.073, 0.084, 0.000)
+    bend(-0.071, 0.092, 0.000)
+    curveto(-0.069, 0.099, 0.000)
+    bend(-0.066, 0.105, 0.000)
+    bend(-0.062, 0.109, 0.000)
+    curveto(-0.055, 0.112, 0.000)
+    bend(-0.049, 0.115, 0.000)
+    bend(-0.041, 0.116, 0.000)
+    curveto(-0.030, 0.116, 0.000)
+    bend(-0.011, 0.116, 0.000)
+    bend(-0.001, 0.111, 0.000)
+    curveto(-0.001, 0.102, 0.000)
+    bend(-0.001, 0.099, 0.000)
+    bend(-0.002, 0.096, 0.000)
+    curveto(-0.004, 0.094, 0.000)
+    bend(-0.006, 0.092, 0.000)
+    bend(-0.009, 0.091, 0.000)
+    curveto(-0.011, 0.091, 0.000)
+    bend(-0.013, 0.091, 0.000)
+    bend(-0.015, 0.091, 0.000)
+    curveto(-0.018, 0.091, 0.000)
+    bend(-0.021, 0.092, 0.000)
+    bend(-0.024, 0.092, 0.000)
+    curveto(-0.026, 0.092, 0.000)
+    bend(-0.032, 0.092, 0.000)
+    bend(-0.036, 0.090, 0.000)
+    curveto(-0.037, 0.087, 0.000)
+    bend(-0.039, 0.083, 0.000)
+    bend(-0.040, 0.078, 0.000)
+    curveto(-0.040, 0.072, 0.000)
+    lineto(-0.040, 0.064, 0.000)
+    lineto(-0.032, 0.064, 0.000)
+    bend(-0.019, 0.064, 0.000)
+    bend(-0.013, 0.060, 0.000)
+    curveto(-0.013, 0.053, 0.000)
+    bend(-0.013, 0.047, 0.000)
+    bend(-0.015, 0.044, 0.000)
+    curveto(-0.018, 0.043, 0.000)
+    bend(-0.021, 0.041, 0.000)
+    bend(-0.026, 0.040, 0.000)
+    curveto(-0.032, 0.040, 0.000)
+    lineto(-0.040, 0.040, 0.000)
+    lineto(-0.040, -0.047, 0.000)
+    bend(-0.040, -0.053, 0.000)
+    bend(-0.041, -0.058, 0.000)
+    curveto(-0.044, -0.061, 0.000)
+    bend(-0.047, -0.065, 0.000)
+    bend(-0.051, -0.067, 0.000)
+    curveto(-0.056, -0.067, 0.000)
+    bend(-0.061, -0.067, 0.000)
+    bend(-0.065, -0.065, 0.000)
+    curveto(-0.068, -0.061, 0.000)
+    bend(-0.071, -0.058, 0.000)
+    bend(-0.073, -0.053, 0.000)
+    curveto(-0.073, -0.047, 0.000)
+    lineto(-0.073, 0.040, 0.000)
+    lineto(-0.082, 0.040, 0.000)
+    bend(-0.087, 0.040, 0.000)
+    bend(-0.090, 0.042, 0.000)
+    curveto(-0.093, 0.044, 0.000)
+    bend(-0.096, 0.046, 0.000)
+    bend(-0.097, 0.049, 0.000)
+    curveto(-0.097, 0.052, 0.000)
+    bend(-0.097, 0.060, 0.000)
+    bend(-0.091, 0.064, 0.000)
+    curveto(-0.080, 0.064, 0.000)
+    lineto(-0.080, 0.064, 0.000)
+    close
+    moveto(0.076, -0.053, 0.000)
+    lineto(0.052, -0.018, 0.000)
+    lineto(0.028, -0.053, 0.000)
+    bend(0.024, -0.058, 0.000)
+    bend(0.021, -0.061, 0.000)
+    curveto(0.019, -0.063, 0.000)
+    bend(0.016, -0.066, 0.000)
+    bend(0.013, -0.067, 0.000)
+    curveto(0.009, -0.067, 0.000)
+    bend(0.005, -0.067, 0.000)
+    bend(0.002, -0.065, 0.000)
+    curveto(-0.001, -0.063, 0.000)
+    bend(-0.004, -0.060, 0.000)
+    bend(-0.006, -0.057, 0.000)
+    curveto(-0.006, -0.054, 0.000)
+    bend(-0.006, -0.050, 0.000)
+    bend(-0.004, -0.045, 0.000)
+    curveto(0.001, -0.039, 0.000)
+    lineto(0.031, 0.004, 0.000)
+    lineto(0.004, 0.039, 0.000)
+    bend(-0.000, 0.045, 0.000)
+    bend(-0.003, 0.050, 0.000)
+    curveto(-0.003, 0.055, 0.000)
+    bend(-0.003, 0.058, 0.000)
+    bend(-0.001, 0.061, 0.000)
+    curveto(0.002, 0.063, 0.000)
+    bend(0.004, 0.066, 0.000)
+    bend(0.008, 0.067, 0.000)
+    curveto(0.012, 0.067, 0.000)
+    bend(0.016, 0.067, 0.000)
+    bend(0.019, 0.066, 0.000)
+    curveto(0.022, 0.064, 0.000)
+    bend(0.024, 0.062, 0.000)
+    bend(0.027, 0.058, 0.000)
+    curveto(0.031, 0.054, 0.000)
+    lineto(0.052, 0.024, 0.000)
+    lineto(0.073, 0.054, 0.000)
+    bend(0.076, 0.058, 0.000)
+    bend(0.079, 0.062, 0.000)
+    curveto(0.082, 0.064, 0.000)
+    bend(0.084, 0.066, 0.000)
+    bend(0.087, 0.067, 0.000)
+    curveto(0.091, 0.067, 0.000)
+    bend(0.095, 0.067, 0.000)
+    bend(0.099, 0.066, 0.000)
+    curveto(0.102, 0.063, 0.000)
+    bend(0.105, 0.061, 0.000)
+    bend(0.106, 0.058, 0.000)
+    curveto(0.106, 0.055, 0.000)
+    bend(0.106, 0.052, 0.000)
+    bend(0.106, 0.050, 0.000)
+    curveto(0.104, 0.047, 0.000)
+    bend(0.103, 0.045, 0.000)
+    bend(0.101, 0.042, 0.000)
+    curveto(0.099, 0.039, 0.000)
+    lineto(0.073, 0.004, 0.000)
+    lineto(0.102, -0.039, 0.000)
+    bend(0.107, -0.046, 0.000)
+    bend(0.109, -0.051, 0.000)
+    curveto(0.109, -0.054, 0.000)
+    bend(0.109, -0.057, 0.000)
+    bend(0.108, -0.060, 0.000)
+    curveto(0.105, -0.063, 0.000)
+    bend(0.102, -0.065, 0.000)
+    bend(0.099, -0.067, 0.000)
+    curveto(0.094, -0.067, 0.000)
+    bend(0.091, -0.067, 0.000)
+    bend(0.087, -0.066, 0.000)
+    curveto(0.085, -0.063, 0.000)
+    bend(0.082, -0.061, 0.000)
+    bend(0.079, -0.058, 0.000)
+    curveto(0.076, -0.053, 0.000)
+    lineto(0.076, -0.053, 0.000)
+    close
+}
+
