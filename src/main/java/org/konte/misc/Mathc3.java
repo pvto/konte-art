@@ -1,13 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.konte.misc;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class Mathc3 {
     

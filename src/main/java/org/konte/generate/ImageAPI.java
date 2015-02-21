@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.konte.generate;
 
 import java.awt.image.BufferedImage;
@@ -14,10 +10,7 @@ import org.konte.model.Model;
 import org.konte.parse.ParseException;
 import org.konte.parse.Parser;
 
-/**
- *
- * @author pto
- */
+
 public class ImageAPI {
 
     private RenderTuple rtuple;

@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.konte.lang.help;
 
 import java.util.HashMap;
@@ -22,22 +17,28 @@ public class Help {
     
     private Help() { }
     
-    public static void addReference(String keyword, String explanation) {
+    public static void addReference(String keyword, String explanation)
+    {
         mp.put(keyword, explanation);
     }
     
-    static {
+    static
+    {
         Properties props = new Properties();
-        try {
+        try
+        {
             props.load(Help.class.getResourceAsStream("help.properties"));
-        } catch(Exception e) {
+        }
+        catch(Exception e)
+        {
             System.out.println("Help properties file not found");
         }
-        for (Entry e : props.entrySet()) {
+        for (Entry e : props.entrySet())
+        {
             mp.put((String)e.getKey(), (String)e.getValue());
         }
-        
     }
+    
     private static String[][] keywords = {
         {"ALL","all"},
         {"INTRO","introduction","intro","topics","help"},
@@ -55,8 +56,10 @@ public class Help {
     public enum Topic {
         ALL,INTRO, MODEL, TOKENS, CONTEXTS, INNER, AFFINE, INNER_O, INNER_EXP, CONTROLS, COMPARATORS, FUNCTIONS;
         private Topic() { }
-        private Class getClassTyp() {
-            switch(this) {
+        private Class getClassTyp()
+        {
+            switch(this)
+            {
                 case CONTEXTS: return Context.class;
                 case INNER: return InnerToken.class;
                 case AFFINE: return AffineTransform.class;
@@ -68,14 +71,19 @@ public class Help {
                     return null;
             }
         }
-        private static Topic getTopic(String keyword) {
-            for(String[] ss : keywords) {
-                try {
+        private static Topic getTopic(String keyword)
+        {
+            for(String[] ss : keywords)
+            {
+                try
+                {
                     Topic t = Topic.valueOf(Topic.class, ss[0]);
                     for (int i=1 ; i < ss.length; i++) 
                         if (ss[i].equals(keyword))
                             return t;
-                } catch(Exception ex) {
+                }
+                catch(Exception ex)
+                {
                     
                 }
             }
@@ -84,28 +92,39 @@ public class Help {
     }
 
     private static int greyCounter = 0;
-    public static String getExplanation(String keyword) {
+    public static String getExplanation(String keyword)
+    {
         String s = null;
         Token t = Language.tokenByName(keyword);
-        if (t!=null) {
+        if (t!=null)
+        {
             if (((s = mp.get(t.name)) == null))
                 for (String s2 : t.aliases) 
                     if ((s = mp.get(s2)) != null) break;
         }
-        if (s==null) s = mp.get(keyword);
+        if (s==null)
+        {
+            s = mp.get(keyword);
+        }
         Topic top = Topic.getTopic(keyword);
-        if (top != null) {
-            if (s == null) {
+        if (top != null)
+        {
+            if (s == null)
+            {
                 s = helpTopic(top);
             }
-            if (s.contains("<tr>")) {
+            if (s.contains("<tr>"))
+            {
                 return String.format("</table><table  class='konteHelp' >%s</table><table class='konteHelp'>\n", s);
             }
             return String.format("</table><table  class='konteHelp' ><tr><td>%s</td></tr></table><table class='konteHelp'>\n",s);
         }
-        if (s==null)  {
+        if (s==null)
+        {
             s = String.format("<tr><td>No help found on topic \"%s\"</td></tr>",keyword);
-        } else {
+        }
+        else
+        {
             s = String.format("<tr %s><td class='konte_tbl_first'>\n<a name='%s'><b><code>%s</code></b></a>\n</td>\n<td>\n<p>%s</td></tr>\n",
                     greyCounter++ %2 == 0 ? "style='background-color:#dddddd;'" : "",
                     (t != null) ? t.name : keyword,
@@ -114,9 +133,12 @@ public class Help {
         }
         return s;
     }
-    private static String om(String str, boolean omitXml) {
-        if (!omitXml)  {
-            for(Token t: Language.tokens) {
+    private static String om(String str, boolean omitXml)
+    {
+        if (!omitXml)
+        {
+            for(Token t: Language.tokens)
+            {
                 if (t instanceof Operator ||
                         t instanceof Context ||
                         t instanceof ControlToken)
@@ -124,7 +146,8 @@ public class Help {
 
                 str = str.replaceAll("[\\s>]("+t.name+")[\\s,\\.]",
                         String.format(" <a href='#%s'>%s</a> ", t.name, "$1"));
-                for (String name : t.aliases) {
+                for (String name : t.aliases)
+                {
                     str = str.replaceAll("[\\s>]("+name+")\\s",
                         String.format(" <a href='#%s'>%s</a> ", t.name, "$1"));
 
@@ -137,7 +160,8 @@ public class Help {
     }
         
     
-    public static String help(String keyword, boolean omitXml) {
+    public static String help(String keyword, boolean omitXml)
+    {
         return om(new StringBuilder().append("\n\t").
                 append("<table class='konteHelp'>").
                 append(getExplanation(keyword)).
@@ -146,12 +170,15 @@ public class Help {
                 omitXml)
                 ;
     }
-    private static String help(Token t) {
+    private static String help(Token t)
+    {
          return help(t.name, false);
     }
 
-    private static String getExplTop(Topic topic) {
-        switch(topic) {
+    private static String getExplTop(Topic topic)
+    {
+        switch(topic)
+        {
             case ALL:
             case INTRO:
                 return "";
@@ -169,12 +196,14 @@ public class Help {
         }
     }
 
-    public static String helpTopic(Topic topic) {
+    public static String helpTopic(Topic topic)
+    {
         StringBuilder bd = new StringBuilder();
         String exp = getExplTop(topic);
         if (exp.length() > 0)
             bd.append("</table><table><tr><td><H4 class='konteHelpH4'>-- "+exp+":</H4></td></tr></table>\n<table class='konteHelp'>\n\n");
-        switch(topic) {
+        switch(topic)
+        {
             case ALL:
                 bd.append(helpTopic(topic.INTRO));
                 bd.append(helpTopic(topic.MODEL));
@@ -189,13 +218,15 @@ public class Help {
                 bd.append(getExplanation(topic.toString().toLowerCase()));
                 break;
             case TOKENS:
-                for (Token t : Language.tokens) {
+                for (Token t : Language.tokens)
+                {
                     if (!(t instanceof Function || t instanceof InnerToken || t instanceof Comparator))
                         bd.append(getExplanation(t.name));
                 }
                 break;
             case INNER_O:
-                for (Token t : Language.tokens) {
+                for (Token t : Language.tokens)
+                {
                     if (t instanceof InnerToken && !(t instanceof AffineTransform))
                         bd.append(getExplanation(t.name));
                 }                
@@ -207,7 +238,8 @@ public class Help {
             case CONTROLS:
             case COMPARATORS:
             case FUNCTIONS:
-                for (Token t : Language.tokens) {
+                for (Token t : Language.tokens)
+                {
                     if (topic.getClassTyp().isInstance(t))
                         bd.append(getExplanation(t.name));
                 }
@@ -217,7 +249,8 @@ public class Help {
         return bd.toString();
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         System.out.println(Help.help("all",false));
         System.out.println(Help.help("sz",false));
         System.out.println(Help.help("affine",true));

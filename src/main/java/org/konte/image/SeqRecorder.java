@@ -1,8 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package org.konte.image;
 
 import java.awt.image.BufferedImage;
@@ -12,10 +7,7 @@ import java.util.TimerTask;
 import org.konte.generate.RenderTuple;
 import org.konte.misc.CommandLine;
 
-/**
- *
- * @author pto
- */
+
 public class SeqRecorder {
     private String prefix = "seq";
     private int index = 0;
@@ -26,50 +18,62 @@ public class SeqRecorder {
     private RenderTuple rtuple;
     private Timer timer;
 
-    public SeqRecorder(String prefix) {
+    public SeqRecorder(String prefix)
+    {
         this.prefix = prefix;
     }
     
-    public void start() {
+    public void start()
+    {
         this.index = 0;
         maxState = 0;
         finishFlag = 0;
         timer = new Timer();
         schedTask(timer, frequency);
     }
-    private void schedTask(final Timer timer, final long frequency) {
+    
+    private void schedTask(final Timer timer, final long frequency)
+    {
         TimerTask task = new TimerTask() {
             @Override
-            public void run() {
+            public void run()
+            {
                 String filename = genNextFilename();
-                synchronized(rtuple.ruleWriter.lock1) {
+                synchronized(rtuple.ruleWriter.lock1)
+                {
                     long start = System.currentTimeMillis();
                     int state = rtuple.shapeReader.state();
                     maxState = Math.max(state, maxState);
-                        try {
-                            if (maxState > 0)
-                                switch(state){
-                                    case 1:
-                                        if ((flags & 1) == 1) {
-                                            BufferedImage img = rtuple.canvas.getImage();
-                                            if (img != null)
-                                                CommandLine.writeImage(filename, img);
-                                        }
-                                        break;
-                                    case 0:
-                                    case 3:
-                                        if ((flags & 2) == 2) {
-                                            BufferedImage img = rtuple.canvas.getImage();
-                                            if (img != null)
-                                                CommandLine.writeImage(filename, img);
-                                        }
-                                        break;
-                                };
-                            if (maxState == 0 || state != 0 || finishFlag++<1)
-                                schedTask(timer, Math.max(1,frequency - (System.currentTimeMillis() - start)));
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
+                    try
+                    {
+                        if (maxState > 0)
+                        {
+                            switch(state)
+                            {
+                                case 1:
+                                    if ((flags & 1) == 1)
+                                    {
+                                        BufferedImage img = rtuple.canvas.getImage();
+                                        if (img != null)
+                                            CommandLine.writeImage(filename, img);
+                                    }
+                                    break;
+                                case 0:
+                                case 3:
+                                    if ((flags & 2) == 2)
+                                    {
+                                        BufferedImage img = rtuple.canvas.getImage();
+                                        if (img != null)
+                                            CommandLine.writeImage(filename, img);
+                                    }
+                                    break;
+                            };
                         }
+                        if (maxState == 0 || state != 0 || finishFlag++<1)
+                            schedTask(timer, Math.max(1,frequency - (System.currentTimeMillis() - start)));
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
                     index++;
                 } // sync(ruleWriter)
             }
@@ -77,39 +81,48 @@ public class SeqRecorder {
         timer.schedule(task, frequency);
     }
 
-    private String genNextFilename() {
+    private String genNextFilename()
+    {
         return String.format("%s%04d.png",prefix, index);
     }
 
-    public void setFrequency(long frequency) {
+    public void setFrequency(long frequency)
+    {
         this.frequency = frequency;
     }
 
-    public long getFrequency() {
+    public long getFrequency()
+    {
         return frequency;
     }
 
-    public String getPrefix() {
+    public String getPrefix()
+    {
         return prefix;
     }
 
-    public void setPrefix(String prefix) {
+    public void setPrefix(String prefix)
+    {
         this.prefix = prefix;
     }
 
-    public RenderTuple getRenderTuple() {
+    public RenderTuple getRenderTuple()
+    {
         return rtuple;
     }
 
-    public void setRenderTuple(RenderTuple rtuple) {
+    public void setRenderTuple(RenderTuple rtuple)
+    {
         this.rtuple = rtuple;
     }
 
-    public void setFlags(int flags) {
+    public void setFlags(int flags)
+    {
         this.flags = flags;
     }
 
-    public int getFlags() {
+    public int getFlags()
+    {
         return flags;
     }
 
