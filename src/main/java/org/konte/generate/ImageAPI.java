@@ -15,7 +15,7 @@ public class ImageAPI {
 
     private RenderTuple rtuple;
     private int imgWidth = 512,  imgHeight = 512;
-    private static MemoryWatcher memoryWatcher;
+    private MemoryWatch memoryWatch;
     private RenderType renderType = RenderType.IMAGE;
 
     public void setRenderType(RenderType renderType)
@@ -88,8 +88,8 @@ public class ImageAPI {
 
     public void start()
     {
-        if (memoryWatcher==null)
-            (memoryWatcher = new MemoryWatcher()).start();
+        if (memoryWatch==null)
+            memoryWatch = new MemoryWatch();
         Thread tmt2 = new Thread(rtuple.shapeReader);
         tmt2.setDaemon(true);
         tmt2.start();
@@ -100,7 +100,6 @@ public class ImageAPI {
         Thread tmt = new Thread(new Tmper(rtuple.ruleWriter));
         tmt.setDaemon(true);
         tmt.start();
-        memoryWatcher.signalRender();
     }
     
     public void waitFor()
@@ -112,12 +111,14 @@ public class ImageAPI {
         commit();
     }
     
-    public void commit() {
-        memoryWatcher.signalRenderEnd();
+    public void commit()
+    {
+        //noop
     }
     
     public static BufferedImage createImage(String grammar, String randomKey, int width, int height) 
-            throws ParseException, IOException, Exception {
+            throws ParseException, IOException, Exception
+    {
         ImageAPI iapi = new ImageAPI().setImageSize(width, height);
         RandomFeed rnd = new RandomFeed(randomKey);
         iapi.init(grammar, rnd);

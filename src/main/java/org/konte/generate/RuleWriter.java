@@ -124,8 +124,8 @@ public class RuleWriter {
 
         drained = false;
         ObjectInputStream ois = null;
-        int nToOut = MemoryWatcher.getMoveCountEstimate() / 250;
-        int tmpFileSz = MemoryWatcher.getMoveCountEstimate() / 3;
+        int nToOut = MemoryWatch.getMoveCountEstimate() / 250;
+        int tmpFileSz = MemoryWatch.getMoveCountEstimate() / 3;
 
         NonDeterministicRule ndr = model.rules.get(model.startshape);
         processRule(ndr.randomRule(this.rndFeed));

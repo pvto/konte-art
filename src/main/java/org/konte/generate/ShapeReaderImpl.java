@@ -730,9 +730,9 @@ public abstract class ShapeReaderImpl implements ShapeReader{
     private void moveToTmpFiles() throws IOException
     {
         int fileSize = 50000;
-        if (MemoryWatcher.getMemorySizeFactor() < 64000000)
+        if (MemoryWatch.getMemorySizeFactor() < 64000000)
             fileSize /= 4;
-        if (MemoryWatcher.getMemorySizeFactor() < 32000000)
+        if (MemoryWatch.getMemorySizeFactor() < 32000000)
             fileSize /= 2;
 //        System.out.println(fileSize + " shapes per file");
         long l = 0;
@@ -826,7 +826,6 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         l += added;
 //        statString = "Moved: " + l + " shapes";
 //        System.out.println(statString);
-        MemoryWatcher.setMemoryNeeded(false);
     }
 
     TreeMap<Order, TmpFile> tmpMin = new TreeMap<Order, TmpFile>();
