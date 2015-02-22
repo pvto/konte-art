@@ -2,9 +2,7 @@ package org.konte.lang;
 
 import org.konte.generate.DiskBackedShapeReader;
 import org.konte.generate.ShapeReader;
-import org.konte.generate.SmallnessOrderShapeReader;
 import org.konte.generate.StreamingShapeReader;
-import org.konte.generate.WidthOrderShapeReader;
 import org.konte.generate.ZOrderShapeReader;
 import org.konte.model.Model;
 
@@ -27,8 +25,8 @@ public enum ShapeReaders {
             {
                 switch(r)
                 {
-                    case WIDTH: return new WidthOrderShapeReader(m);
-                    case SMALLNESS: return new SmallnessOrderShapeReader(m);
+                    case WIDTH: return new DiskBackedShapeReader(m, new DiskBackedShapeReader.MinWidthMetric(m)); //new WidthOrderShapeReader(m);
+                    case SMALLNESS: return new DiskBackedShapeReader(m, new DiskBackedShapeReader.MaxWidthMetric(m));//new SmallnessOrderShapeReader(m);
                     case STREAM: return new StreamingShapeReader(m);
                     case DB: return new DiskBackedShapeReader(m, new DiskBackedShapeReader.ZMetric(m));
                     case Z:
