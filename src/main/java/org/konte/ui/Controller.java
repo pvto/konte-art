@@ -148,21 +148,17 @@ public class Controller {
         lastModel = rtuple.model;
 
         while (rtuple.shapeReader.state() != 0) {
-            try {
-                if (stopStrength >= 2) {
-                    ev.setDisplayImage(rtuple.canvas.getImage());
-                    ev.updateRenderInfo(rtuple.ruleWriter.getRandomFeed());
-                    return;
-                }
-                Thread.sleep(10);
-                if (ind % 40 == 0) {
-                    rtuple.ruleWriter.printStats();
-                }
-                if (ind++ % 10 == 0) {
-                    ev.setDisplayImage(rtuple.canvas.getImage());
-                }
-            } catch (InterruptedException ex) { 
-                ex.printStackTrace();
+            if (stopStrength >= 2) {
+                ev.setDisplayImage(rtuple.canvas.getImage());
+                ev.updateRenderInfo(rtuple.ruleWriter.getRandomFeed());
+                return;
+            }
+            org.konte.misc.Func.sleep(10);
+            if (ind % 40 == 0) {
+                rtuple.ruleWriter.printStats();
+            }
+            if (ind++ % 10 == 0) {
+                ev.setDisplayImage(rtuple.canvas.getImage());
             }
         }
         iapi.commit();
@@ -194,10 +190,7 @@ public class Controller {
             long start = System.currentTimeMillis();
             while (System.currentTimeMillis() < start + maxtime / 10 
                     || bsr.getAddedCount() < 1000) {
-                try {
-                    Thread.sleep(20);
-                } catch (InterruptedException ex) {
-                }
+                org.konte.misc.Func.sleep(20);
             }
             if (bsr.state() != 0) {
                 rw.finish();

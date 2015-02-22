@@ -25,8 +25,8 @@ public enum ShapeReaders {
             {
                 switch(r)
                 {
-                    case WIDTH: return new DiskBackedShapeReader(m, new DiskBackedShapeReader.MinWidthMetric(m)); //new WidthOrderShapeReader(m);
-                    case SMALLNESS: return new DiskBackedShapeReader(m, new DiskBackedShapeReader.MaxWidthMetric(m));//new SmallnessOrderShapeReader(m);
+                    case WIDTH: return new DiskBackedShapeReader(m, new DiskBackedShapeReader.MinWidthMetric(m));
+                    case SMALLNESS: return new DiskBackedShapeReader(m, new DiskBackedShapeReader.MaxWidthMetric(m));
                     case STREAM: return new StreamingShapeReader(m);
                     case DB: return new DiskBackedShapeReader(m, new DiskBackedShapeReader.ZMetric(m));
                     case Z:

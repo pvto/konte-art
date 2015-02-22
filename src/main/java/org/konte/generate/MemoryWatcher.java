@@ -48,7 +48,7 @@ public class MemoryWatcher implements Runnable {
                     {
                         setMemoryNeeded(true);
                         BitmapCache.clearCache();
-                        try { Thread.sleep(1000); } catch(InterruptedException ec) { ec.printStackTrace(); }
+                        org.konte.misc.Func.sleep(1000);
                     }
                 } else {
 
@@ -56,9 +56,7 @@ public class MemoryWatcher implements Runnable {
             } catch(Exception e) {
                 e.printStackTrace();
             }
-            try { Thread.sleep(50); } catch(Exception e) {
-                
-            }
+            org.konte.misc.Func.sleep(10);
         }
     }
 

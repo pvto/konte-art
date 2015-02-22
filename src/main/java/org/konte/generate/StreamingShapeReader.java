@@ -180,11 +180,7 @@ public class StreamingShapeReader implements ShapeReader {
         float req = rate * (System.currentTimeMillis()-lastUpdtCycle) / 1000f;
         while(estimate > req)
         {
-            try
-            {
-                Thread.sleep(1);
-            }
-            catch (Exception e) { }
+            org.konte.misc.Func.sleep(1);
             req = rate * (System.currentTimeMillis()-lastUpdtCycle) / 1000f;
         }
         if (shapesDrawnInCycle >= rate)

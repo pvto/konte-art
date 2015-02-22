@@ -1169,11 +1169,7 @@ public class Ui extends MyJFrame {
             if (height == -1) height = ev.getView().getIcon().getIconHeight();
         } else {
             while(ev.getView().getWidth() <= 0) {
-                try {
-                    Thread.sleep(10);
-                    System.out.print("x");
-                } catch (Exception e) {
-                }
+                org.konte.misc.Func.sleep(10);
             }
             if (width == -1) width = ev.getView().getWidth();
             if (height == -1) height = ev.getView().getHeight();

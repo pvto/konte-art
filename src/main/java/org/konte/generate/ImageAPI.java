@@ -18,18 +18,23 @@ public class ImageAPI {
     private static MemoryWatcher memoryWatcher;
     private RenderType renderType = RenderType.IMAGE;
 
-    public void setRenderType(RenderType renderType) {
+    public void setRenderType(RenderType renderType)
+    {
         this.renderType = renderType;
     }
 
 
 
-    public enum RenderType {
+    public enum RenderType{
 
-        IMAGE,SVG,SEQUENCE}
+        IMAGE,
+        SVG,
+        SEQUENCE
+    }
 
     
-    public ImageAPI setImageSize(int width, int height) {
+    public ImageAPI setImageSize(int width, int height)
+    {
         imgWidth = width;
         imgHeight = height;
         return this;
@@ -39,7 +44,8 @@ public class ImageAPI {
 
 
     public RenderTuple init(String grammar, RandomFeed rndFeed)
-            throws ParseException, IOException, Exception {
+            throws ParseException, IOException, Exception
+            {
         Name.gene = null;
         Model model = new Parser().parse(
                 Tokenizer.retrieveTokenStrings(
@@ -48,13 +54,16 @@ public class ImageAPI {
     }
     
     public RenderTuple init(Model model, RandomFeed rndFeed)
-            throws ParseException, IOException, Exception {
+            throws ParseException, IOException, Exception
+            {
         rtuple = new RenderTuple();
         rtuple.model = model;
-        if (!rtuple.model.isGenerateContext) {
+        if (!rtuple.model.isGenerateContext)
+        {
             rtuple.model.initForGenerate();
         }
-        switch(renderType) {
+        switch(renderType)
+        {
             case IMAGE:
             case SEQUENCE:
                 rtuple.canvas = new DefaultCanvas(rtuple.model, rtuple.model.bg, rtuple.model.lighting);
@@ -77,25 +86,28 @@ public class ImageAPI {
         return rtuple;
     }
 
-    public void start() {
+    public void start()
+    {
         if (memoryWatcher==null)
             (memoryWatcher = new MemoryWatcher()).start();
         Thread tmt2 = new Thread(rtuple.shapeReader);
         tmt2.setDaemon(true);
         tmt2.start();
-        while(rtuple.shapeReader.state() == 0) try { Thread.sleep(1); } catch(Exception ex) { };
+        while(rtuple.shapeReader.state() == 0) 
+        {
+            org.konte.misc.Func.sleep(1);
+        }
         Thread tmt = new Thread(new Tmper(rtuple.ruleWriter));
         tmt.setDaemon(true);
         tmt.start();
         memoryWatcher.signalRender();
     }
     
-    public void waitFor() {
-        while (rtuple.shapeReader.state() != 0) {
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException ex) {
-            }
+    public void waitFor()
+    {
+        while (rtuple.shapeReader.state() != 0)
+        {
+            org.konte.misc.Func.sleep(10);
         }  
         commit();
     }
