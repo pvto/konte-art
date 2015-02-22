@@ -761,7 +761,8 @@ public class Parser {
                                     " in camera declaration. Valid tokens are: x y z rx ry rz s", lineNr, caretPos);
                         }
                     } else if (t == Language.right_curl) {
-                        lastInnerToken = null;
+                        if (lastInnerToken != null)
+                            throw new ParseException("Orphaned " + lastInnerToken + " in Camera declaration", lineNr, caretPos);
                         curCtx = contextStack.pop();
                         m.cameras.add(camBd.build());
                         camBd = null;
@@ -769,23 +770,25 @@ public class Parser {
                         boolean used = false;
                         for (CameraProperties prop : CameraProperties.values())
                             if (s.equalsIgnoreCase(prop.toString())) {
+                                if (lastInnerToken != null)
+                                    throw new ParseException("Orphaned " + s + " follows " + lastInnerToken + " in Camera declaration", lineNr, caretPos);
                                 camBd.addProperty(prop);
                                 used = true;
                             } 
                         if (!used) {
-                            Float val_ = Language.returnAsValue(s);
-                            if (val_ != null)
-                            {
-                                camBd.addExtra(new Value(val_));
-                            }
+                            i = getExpressionList(tokenStrings, i, exprL);
+                            lexpr = exprParser.parse(exprL, 0, m);
                             if (lastInnerToken == null) {
-                                if (camBd.getName() != null)
-                                    throw new ParseException("Camera name was already set: can't use " +s, lineNr, caretPos);
-                                camBd.setName(s);
+                                if (lexpr instanceof Name) {
+                                    if (camBd.getName() != null)
+                                        throw new ParseException("Duplicate camera name " + s, lineNr, caretPos);
+                                    camBd.setName(s);
+                                } else {
+                                    camBd.addExtra(lexpr);
+                                }
                             } else {
-                                i = getExpressionList(tokenStrings, i, exprL);
                                 lexprs.clear();
-                                lexprs.add(lexpr = exprParser.parse(exprL, 0, m));
+                                lexprs.add(lexpr);
                                 ltfm.setShapeTransform(lastInnerToken, lexprs);
                                 lastInnerToken = null;
                             }
