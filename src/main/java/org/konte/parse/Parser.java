@@ -38,11 +38,12 @@ import org.konte.plugin.KonteScriptExtension;
  *<p>Method parse creates a state machine for the task. Parse returns a new
  * model or throws a parse exception, if it encounters a syntax error.
  * 
- * @author pt
+ * @author pvto
  */
 public class Parser {
 
-    private ArrayList<Expression> decodeHtmlRgb(String s) {
+    private ArrayList<Expression> decodeHtmlRgb(String s)
+    {
         ArrayList<Expression> lexprs = new ArrayList<Expression>();
         int intval = Integer.parseInt(s.substring(1), 16);
         lexprs.clear();

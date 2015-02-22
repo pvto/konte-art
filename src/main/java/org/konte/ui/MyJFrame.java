@@ -18,7 +18,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
- * @author pt
+ * @author pvto
  */
 public class MyJFrame extends JFrame {
     private FileNameExtensionFilter fname;

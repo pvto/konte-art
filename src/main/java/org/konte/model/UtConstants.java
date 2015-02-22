@@ -6,7 +6,7 @@ import org.konte.misc.Matrix4;
 
 /**
  *
- * @author pt
+ * @author pvto
  */
 public class UtConstants {
 

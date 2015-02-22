@@ -7,22 +7,26 @@ import org.konte.misc.Matrix4;
 
 /**
  *
- * @author pt
+ * @author pvto
  */
 public abstract class KontePluginShape {
 
     protected UtBuilder builder = UtBuilder.getUtBuilder();
 
-    public KontePluginShape() throws Exception {
+    public KontePluginShape() throws Exception
+    {
         builder.name(this.getName());
 
-        for (int i=0; i < getShapes().length; i++) {
+        for (int i=0; i < getShapes().length; i++)
+        {
             builder.addShape(getShapes()[i]);
             if (isCurved()) 
                 builder.addControlPoints(getControlPoints()[i]);
         }
         Language.addUntransformable(builder.build());
     }
+
+    
     public abstract String getName();
     public abstract Matrix4[][] getShapes();
     public abstract boolean isCurved();

@@ -32,7 +32,7 @@ import org.konte.parse.ParseException;
 
 /**
  *
- * @author pt
+ * @author pvto
  */
 public class ColSpaceEditPane extends javax.swing.JPanel {
 

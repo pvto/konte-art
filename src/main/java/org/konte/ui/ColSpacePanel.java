@@ -26,7 +26,7 @@ import org.konte.parse.Parser;
 
 /**
  *
- * @author pt
+ * @author pvto
  */
 public class ColSpacePanel extends JPanel {
     private ColorSpace cspace;
