@@ -23,7 +23,8 @@ public class CommandLine {
 
     public static void main(String[] args) throws ParseException, IllegalArgumentException, IllegalAccessException, IOException, Exception {
 
-        if (args.length == 0) {
+        if (args.length == 0)
+        {
             printHelp();
             return;
         }
@@ -34,7 +35,8 @@ public class CommandLine {
         String VARIATION = null;
         boolean doSave = true;
 
-        Object[][] params = new Object[][]{
+        Object[][] params = new Object[][]
+        {
             {"^-s(\\d+):(\\d+)", new String[]{"\\d+"}},
             {"^-f.*", null},
             {"^-d.*", null},
@@ -44,41 +46,53 @@ public class CommandLine {
         };
         ArrayList<ArrayList<Pattern>> patterns = new ArrayList<ArrayList<Pattern>>();
 
-        for (int i = 0; i < args.length; i++) {
+        for (int i = 0; i < args.length; i++)
+        {
             String s = args[i];
-            if (i == 0) {
-                for (int j = 0; j < params.length; j++) {
+            if (i == 0)
+            {
+                for (int j = 0; j < params.length; j++)
+                {
                     ArrayList<Pattern> p = new ArrayList<Pattern>();
                     patterns.add(p);
                     p.add(Pattern.compile((String) params[j][0]));
-                    if (params[j][1] != null) {
-                        for (int k = 0; k < ((String[]) params[j][1]).length; k++) {
+                    if (params[j][1] != null)
+                    {
+                        for (int k = 0; k < ((String[]) params[j][1]).length; k++)
+                        {
                             p.add(Pattern.compile(((String[]) params[j][1])[k]));
                         }
                     }
                 }
             }
-            for (int j = 0; j < params.length; j++) {
+            for (int j = 0; j < params.length; j++)
+            {
 
                 ArrayList<Pattern> p = patterns.get(j);
                 ArrayList<String> results = new ArrayList<String>();
                 boolean matched = true;
-                for (int k = 0; k < p.size() && matched; k++) {
+                for (int k = 0; k < p.size() && matched; k++)
+                {
                     Matcher m = p.get(k).matcher(s);
-                    switch (k) {
+                    switch (k)
+                    {
                         case 0:
-                            if (!m.matches()) {
+                            if (!m.matches())
+                            {
                                 matched = false;
                             }
                             break;
                         default:
-                            while (m.find()) {
+                            while (m.find())
+                            {
                                 results.add(s.substring(m.start(), m.end()));
                             }
                     }
                 }
-                if (matched) {
-                    switch (j) {
+                if (matched)
+                {
+                    switch (j)
+                    {
                         case 0:
                             width = Integer.parseInt(results.get(0));
                             height = Integer.parseInt(results.get(1));
@@ -97,7 +111,8 @@ public class CommandLine {
                             break;
                         case 5:
                             boolean doHtml = s.startsWith("helph") ? true : false;
-                            if (results.size() > 1) {
+                            if (results.size() > 1)
+                            {
                                 System.out.println(Help.help(results.get(1), doHtml));                                
                             }
                             else 
@@ -108,7 +123,8 @@ public class CommandLine {
                 }
             }
         }
-        if (destfile == null) {
+        if (destfile == null)
+        {
             destfile = filename.replaceAll("(\\.\\w+)$", ".png").replaceAll("\\\\","/");
             if (!destfile.endsWith(".png")) destfile += ".png";
         }
@@ -119,11 +135,13 @@ public class CommandLine {
 
         org.konte.generate.Runtime.stateServer.setListener(new Observer() {
 
-            public void update(Observable o, Object o1) {
+            public void update(Observable o, Object o1)
+            {
                 System.out.println(o1.toString());
             }
         });
-        if (!doSave) {
+        if (!doSave)
+        {
             JFrame frame = new JFrame();
             frame.setSize(width, height);
             JLabel panel = new JLabel();
@@ -142,10 +160,13 @@ public class CommandLine {
         curp(startt);
         System.exit(0);
     }
-    public static void writeImage(String destfile, BufferedImage image) throws FileNotFoundException, IOException {
-        int destType = destfile.toLowerCase().endsWith("jpg") ? 1 : 0; // 0 jpg, 1 png        
+    public static void writeImage(String destfile, BufferedImage image)
+            throws FileNotFoundException, IOException
+    {
+        int destType = destfile.toLowerCase().endsWith("jpg") ? 1 : 0;
 //        System.out.println("Writing " + destfile);
-        switch (destType) {
+        switch (destType)
+        {
             case 1:
                 ImageIO.write(image, "JPG", new File(destfile));
                 break;
@@ -158,13 +179,15 @@ public class CommandLine {
     }
     
     
-    private static void curp(long startt) {
+    private static void curp(long startt)
+    {
         System.out.println("Done (" + (System.currentTimeMillis()-startt) + " ms)");
     }
 
     private static SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd-HH-mm-");
 
-    public static String makeExportFileName(String rnd, String destfile) {
+    public static String makeExportFileName(String rnd, String destfile)
+    {
         String fof = f.format(new Date(System.currentTimeMillis()));
         int ind = destfile.lastIndexOf("/") + 1;
         destfile  = ind > 0 ?
@@ -172,11 +195,12 @@ public class CommandLine {
             :  fof + destfile;
         return destfile;
     }
-    private static void printHelp() {
+    private static void printHelp()
+    {
         System.out.println(
                 "CommandLine -f[filename=grammar.c3dg] -d[imagefile=from filename and modifiers] ");
         System.out.println("\t\t-s[width=1024]:[height=800] --[variation=random] -no");
-        System.out.println("\timagefile (optional) can end with .png or .jpg, but jpg needs really new export library");
+        System.out.println("\timagefile (optional) can end with .png or .jpg, but jpg export is crappy");
         System.out.println("\tvariation is a code for the random seed, from A to ZZZZZZZ");
         System.out.println("\t-no outputs to a window instead of file");
     }
