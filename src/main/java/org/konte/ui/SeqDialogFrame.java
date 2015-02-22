@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /*
  * SeqDialogFrame.java
@@ -19,7 +15,7 @@ import javax.swing.JTextField;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class SeqDialogFrame extends javax.swing.JFrame {
 

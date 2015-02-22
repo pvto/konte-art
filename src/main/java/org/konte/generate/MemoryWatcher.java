@@ -7,7 +7,7 @@ import org.konte.model.BitmapCache;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class MemoryWatcher implements Runnable {
 

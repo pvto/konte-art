@@ -9,7 +9,7 @@ import org.konte.parse.ParseException;
 
 /**Creates expressions that backreferences a name in the model.
  *
- * @author pto
+ * @author pvto
  */
 public class BackReferenceFactory {
 

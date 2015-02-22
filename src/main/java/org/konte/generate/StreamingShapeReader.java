@@ -10,7 +10,7 @@ import org.konte.model.Model;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class StreamingShapeReader implements ShapeReader {
 

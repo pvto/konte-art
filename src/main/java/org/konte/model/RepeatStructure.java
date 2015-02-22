@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package org.konte.model;
 
@@ -21,7 +17,7 @@ import org.konte.expression.Expression;
  * by the member field repeatTransform - not RepeatStructure itself. This is for 
  * parsing convenience.
  *
- * @author Paavo Toivanen
+ * @author pvto
  */
 public class RepeatStructure extends Transform {
     

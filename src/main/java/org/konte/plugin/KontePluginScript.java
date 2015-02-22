@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package org.konte.plugin;
 
@@ -10,7 +6,7 @@ import org.konte.model.Rule;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public interface KontePluginScript {
 

@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * {@link org.konte.model.Parser} will create a model from the tokens.
  *<p>Tokenizer stores token strings and line numbers for later reference.
  * {@link Tokenizer.TokenizerString}
- * @author pto
+ * @author pvto
  */
 public class Tokenizer {
 

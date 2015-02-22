@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package org.konte.model;
 
@@ -16,7 +12,7 @@ import sun.awt.image.ToolkitImage;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class BitmapCache {
 

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package org.konte.model;
 
@@ -14,7 +10,7 @@ import org.konte.image.OutputShape;
 
 /**A serializable shape (quadrilateral).
  *
- * @author pto
+ * @author pvto
  */
 public class MeshSqu extends Untransformable implements Serializable {
 

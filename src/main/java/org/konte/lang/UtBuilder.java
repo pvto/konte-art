@@ -9,7 +9,7 @@ import org.konte.misc.Vector3;
 
 /**Helper class to build output shape prototypes.
  *
- * @author pto
+ * @author pvto
  */
 public class UtBuilder implements
         java.util.Comparator<Untransformable> {

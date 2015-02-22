@@ -10,7 +10,7 @@ import org.konte.parse.ParseException;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public interface Camera {
 

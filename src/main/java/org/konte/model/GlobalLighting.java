@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package org.konte.model;
 
@@ -11,7 +7,7 @@ import org.konte.misc.Mathc3;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class GlobalLighting  {
 

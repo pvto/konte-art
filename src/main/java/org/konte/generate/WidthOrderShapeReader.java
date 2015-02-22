@@ -4,7 +4,7 @@ import org.konte.generate.ShapeReaderImpl;
 import org.konte.image.OutputShape;
 import org.konte.model.Model;
 
-/** @author pto */
+/** @author pvto */
 public class WidthOrderShapeReader extends ShapeReaderImpl {
 
     public WidthOrderShapeReader(Model model) {

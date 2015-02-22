@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.konte.model;
 
 import java.util.ArrayList;
@@ -9,7 +5,7 @@ import org.konte.generate.RandomFeed;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class NonDeterministicRule {
 

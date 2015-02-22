@@ -7,7 +7,7 @@ import org.konte.parse.ParseException;
  * is defined in org.konte.lang.BackReference.
  * <p>Boolean Expressions are defined in BooleanExpression.
  *
- * @author pto
+ * @author pvto
  */
 public interface Expression {
 

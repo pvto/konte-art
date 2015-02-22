@@ -14,7 +14,7 @@ import static org.konte.misc.Mathc3.roll1;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class DrawingContext implements Serializable {
 

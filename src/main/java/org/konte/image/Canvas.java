@@ -6,7 +6,7 @@ import org.konte.model.Model;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public interface Canvas {
 

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package org.konte.model;
 
@@ -12,7 +8,7 @@ import org.konte.parse.ParseException;
 import static org.konte.misc.Mathc3.bounds1;
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class LinearColorSpace extends ColorSpaceImpl {
     private ArrayList<RGBA> transformPoints;

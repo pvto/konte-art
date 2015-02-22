@@ -28,7 +28,7 @@ import org.konte.model.PathRule.Placeholder;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class Model {
 

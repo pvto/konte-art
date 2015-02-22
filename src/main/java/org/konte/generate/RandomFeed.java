@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**<p>Contains Mersenne Twister by Michael Lecuyer (GNU GPL 2).
  *
- * @author pto
+ * @author pvto
  */
 public class RandomFeed {
 

@@ -4,7 +4,7 @@ package org.konte.expression;
 /**<p>Expressions that can immediately return a value, by being value expressions
  * or by referencing the model (constants, local context during generation)
  *
- * @author pto
+ * @author pvto
  */
 public interface ExpressionFinal extends Expression {
 }

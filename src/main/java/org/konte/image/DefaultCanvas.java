@@ -19,7 +19,7 @@ import org.konte.model.Model;
 import org.konte.generate.Runtime;
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class DefaultCanvas implements Canvas {
 

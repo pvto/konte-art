@@ -9,7 +9,7 @@ import org.konte.lang.Language;
 
 /**Language help facility. Uses help.properties.
  *
- * @author pto
+ * @author pvto
  */
 public class Help {
 

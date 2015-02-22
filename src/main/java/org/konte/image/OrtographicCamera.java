@@ -6,7 +6,7 @@ import org.konte.misc.Vector3;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class OrtographicCamera extends SimpleCamera {
 

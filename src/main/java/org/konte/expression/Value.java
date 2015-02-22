@@ -3,7 +3,7 @@ package org.konte.expression;
 /**<p>This is an evaluated, constant expression of value type.
  * Should always return the same value when once instantiated.
  *
- * @author pto
+ * @author pvto
  */
 public class Value implements ExpressionFinal {
 

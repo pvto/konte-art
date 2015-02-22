@@ -40,7 +40,7 @@ import org.konte.generate.Runtime;
  * In the other case, only evaluable spatial matrices will be evaluated, and
  * the super evaluation is postponed to generate time.
  *
- * @author pto
+ * @author pvto
  */
 public class Transform {
 

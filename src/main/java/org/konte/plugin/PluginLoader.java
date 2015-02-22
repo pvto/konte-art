@@ -1,6 +1,6 @@
 package org.konte.plugin;
 
-/** @author pto */
+/** @author pvto */
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;

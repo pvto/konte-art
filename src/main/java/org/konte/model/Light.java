@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package org.konte.model;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public interface Light {
     public float[] lightObject(DrawingContext point);

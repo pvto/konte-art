@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /*
  * PathEditPane.java
@@ -57,7 +53,7 @@ import org.w3c.dom.NodeList;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class PathEditPane extends javax.swing.JPanel {
 

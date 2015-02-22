@@ -6,7 +6,7 @@ import static org.konte.lang.Tokens.*;
  *
  * {@see org.konte.plugin.PluginLoader} for loading dynamic functions.
  *
- * @author pto
+ * @author pvto
  */
 public class Mathm {
 

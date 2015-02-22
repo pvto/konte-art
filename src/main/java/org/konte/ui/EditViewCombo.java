@@ -29,7 +29,7 @@ import org.konte.misc.CommandLine;
 /**<p>A split pane with text editor to left and empty panel to right.
  * <p>Plugs to Ui actions (key handling in edit TextArea).
  *
- * @author pto
+ * @author pvto
  */
 public abstract class EditViewCombo extends JSplitPane implements EditViewInterface {
 

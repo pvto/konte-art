@@ -21,7 +21,7 @@ import static org.konte.lang.Tokens.*;
 
 /**Many of the language features are defined here.
  *
- * @author pto
+ * @author pvto
  */
 public class Language {
     

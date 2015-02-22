@@ -7,7 +7,7 @@ import org.konte.model.Path;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class ReverseParseTools {
 

@@ -5,7 +5,7 @@ import org.konte.model.DrawingContext;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class Expansion implements Comparable<Expansion>, Serializable {
 

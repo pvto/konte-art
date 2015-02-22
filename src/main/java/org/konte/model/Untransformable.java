@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.konte.model;
 
 
@@ -18,7 +14,7 @@ import org.konte.misc.Matrix4;
 
 /**<p>A shape (Untransformable) that can be drawn.
  * 
- * @author pto
+ * @author pvto
  */
 public abstract class Untransformable extends Token implements Serializable {
 

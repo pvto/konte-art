@@ -28,7 +28,7 @@ import org.konte.image.OutputShape;
 import org.konte.model.Model;
 
 
-/** @author pto */
+/** @author pvto */
 public abstract class ShapeReaderImpl implements ShapeReader{
 
     protected HashMap<Float,Layer> layers =

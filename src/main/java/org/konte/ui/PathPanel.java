@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package org.konte.ui;
 
@@ -31,7 +27,7 @@ import org.konte.model.Untransformable;
 
 /**This will draw a path and map mouse coordinates to path coordinates.
  *
- * @author pto
+ * @author pvto
  */
 public class PathPanel extends JPanel {
 

@@ -36,7 +36,7 @@ import org.konte.plugin.KontePluginScript;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class RuleWriter {
 
@@ -280,10 +280,23 @@ public class RuleWriter {
         }
     }
     
+    private void sleep(long ms)
+    {
+        try {
+            Thread.sleep(ms);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
     private void addShape(OutputShape s) {
-        if (shapes.size() < 1000 || !(sr instanceof StreamingShapeReader)) {
+        if (shapes.size() < 1000 || !(sr instanceof StreamingShapeReader) && shapes.size() < 100000) {
             shapes.add(s);
         } else {
+            if (shapes.size() > 200000) {
+                //reader has trouble keeping up... wait
+                sleep(10);
+            }
             addShapeAndSubmit(s);
         }
     }

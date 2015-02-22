@@ -1,13 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package org.konte.parse;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class ParseException extends Exception {
 

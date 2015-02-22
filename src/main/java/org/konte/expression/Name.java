@@ -17,7 +17,7 @@ import org.konte.parse.ParseException;
  * or local constants, which include shape transform tokens and user defined
  * tokens.
  *
- * @author pto
+ * @author pvto
  */
 public class Name implements ExpressionFinal {
 

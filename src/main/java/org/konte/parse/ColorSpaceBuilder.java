@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 
 package org.konte.parse;
 
@@ -17,7 +13,7 @@ import static org.konte.model.ColorSpace.RGBA;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class ColorSpaceBuilder {
 

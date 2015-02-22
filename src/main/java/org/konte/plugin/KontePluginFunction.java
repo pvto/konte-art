@@ -5,7 +5,7 @@ import org.konte.lang.Tokens.Function;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public abstract class KontePluginFunction extends Function {
 

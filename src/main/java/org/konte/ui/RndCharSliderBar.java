@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.konte.ui;
 
 import java.awt.Color;
@@ -16,7 +12,7 @@ import org.konte.misc.Misc;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class RndCharSliderBar extends JPanel {
 

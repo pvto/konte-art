@@ -9,7 +9,7 @@ import org.konte.model.Untransformable;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class OutputShape implements Serializable {
     public Matrix4 matrix;

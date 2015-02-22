@@ -35,7 +35,7 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author pto
+ * @author pvto
  */
 public class SvgImport {
 

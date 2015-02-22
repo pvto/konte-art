@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.konte.model;
 
 import java.util.List;
@@ -18,7 +14,7 @@ import static org.konte.misc.Mathc3.*;
  * x, y, rx, A, and d, that are passed inside a { } block to modify a
  * branch.
  *
- * @author pto
+ * @author pvto
  */
 public abstract class TransformModifier {
 
