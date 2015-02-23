@@ -117,24 +117,21 @@ public class Parser {
             if (t == Language.left_bracket || t instanceof Function)
             {
             // skip to loop
-            } else if (t == Language.subtract)
+            }
+            else if (t == Language.subtract)
             {
                 if (!hasNext)
                 {
                     throw new ParseException("Orphaned negation ", lineNr, caretPos);
                 }
 
-                if (u == Language.left_bracket || u instanceof Function 
+                if (u == null || u == Language.left_bracket || u instanceof Function 
                         || (u != null && InnerExpressiveToken.class.isAssignableFrom(u.getClass())))
-                        {
-                // skip to loop
-                } else if (u == null)
                 {
-                    ret.add(first);
-                    ret.add(new Token(ttOrig.get(startpos + 1).getString()));
-                    return startpos + 1;
-    //                }
-                } else {
+                // skip to loop
+                }
+                else
+                {
                     throw new ParseException("Expression: expecting ( or number or name after -", lineNr, caretPos);
                 }
             } else if (t == null || t instanceof Untransformable)
@@ -1546,7 +1543,8 @@ public class Parser {
             }
             } catch(ParseException ex )
             {
-                throw new ParseException(ex.getMessage(),lineNr,caretPos);
+                ex.printStackTrace();
+                throw ex; //new ParseException(ex.getMessage(),lineNr,caretPos);
             } catch(Exception ex)
             {
                 ex.printStackTrace();
@@ -1584,20 +1582,4 @@ public class Parser {
         return fl;
     }
 
-
-
-    
-    public static void main(String... args)
-    {
-        try {
-            Model m = new Parser().parse( 
-                    Tokenizer.retrieveTokenStrings( 
-                            Readers.fillStringBuilder(new File("ss.txt")))
-                    );
-            m.initForGenerate();
-        } catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-    }
 }
