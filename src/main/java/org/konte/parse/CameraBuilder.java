@@ -106,15 +106,16 @@ public class CameraBuilder {
                 {
                     try
                     {
-                        float tmp = ((Expression)o).evaluate() / 180f * (float)Math.PI;
+                        float tmp = ((Expression)o).evaluate();
                         if (step == 0)
                         {
-                            angle = tmp;
+                            angle = tmp / 180f * (float)Math.PI;
                         }
                         else if (step == 1) 
                         {
                             zContraction = tmp;
                         }
+                        step++;
                     }
                     catch (Exception e)
                     {
@@ -122,6 +123,7 @@ public class CameraBuilder {
                     }
                 }
             }
+            System.out.println(angle + " " + zContraction);
             c = new CabinetCamera(angle, zContraction);
         }
         else if ((flag & 64) != 0)
