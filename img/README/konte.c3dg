@@ -1,0 +1,23 @@
+write_konte {
+  K_{scale .1 x -2 scale .25}
+  O_{scale .1 x -1 scale .25}
+  N_{scale .1 x 0 scale .25}
+  T_{scale .1 x 1 scale .25}
+  E_{scale .1 x 2 scale .25}
+}
+
+K_ { X_ { x 0 d (d)} shape { x -1 } }
+O_ { C_ { d (d) } shape { x 1 } }
+N_ { x_3 { y 1 d (d)} shape { x -1 y -1 } shape { x 1 y 1 } }
+T_ { I_ { d (d)} shape { x -1 y 1 } shape { x 1 y 1 } }
+E_ { I_ { x -1 d (d)} shape { y 1 } shape { y -1 } }
+
+C_ { L_ { d (d)} shape { y 1 } shape {y 1 x 1 } }
+I_ { 3* { y 1 d (d)} shape { y -1 } }
+L_ { I_ { x -1 d (d)} shape { y -1 } shape { y -1 x 1 } }
+X_ { 3* { x 1 y 1 } shape { x -1 y -1 } shape { x -1 y 1 } shape { x 1 y -1 } }
+x_3 { 3* { x 1 } shape { x -1 y -1 } }
+
+shape {
+  SQUARE{}
+}

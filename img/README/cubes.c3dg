@@ -1,0 +1,16 @@
+DEF CU (1/12)
+
+scene {
+  cube{roty 40 rotx 20}
+}
+cube {
+  3*{x CU}
+    3*{y CU}
+      3*{z CU}
+        featurez{x -CU y -CU z -CU s -CU}
+}
+featurez {
+  50*{z .01} 
+    RSQU{}
+  RSQU{scale .8 red 1 sat -.7 hue 360*rnd()+x}
+}

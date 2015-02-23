@@ -1,0 +1,14 @@
+fov {x 4 z -10}
+rule colors {shapes{blue .4}}
+rule shapes
+{
+    SQUARE   {s .8}
+    RSQU     {x 1 s .8}
+    CIRCLE   {x 2 s .8}
+    TRIANGLE {x 3 s .8}
+    RTRIANGLE{x 4 s .8}
+    BOX      {x 5 rx 20 ry 20 s .8}
+    PIPE     {x 6 s .8 rx 20}
+    CONE     {x 7 s .8 rx 20 }
+    SPHERE   {x 8 s .8}
+}

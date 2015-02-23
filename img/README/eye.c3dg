@@ -1,0 +1,9 @@
+shading eyeshades { 
+    point(-2)    { RGB  1  1  1 A 0  } 
+    point(0)    { RGB  .1  0  0  } 
+    point(0.1)  { RGB  .4 .2  0  }
+    point(0.2)  { RGB 0.075 0.506 0.875  }
+    point(0.4)  { RGB 1 .3 .2 A .4 }
+    point(0.5)  { RGB 1  1  1   }
+    point(.6)  { RGB 1  1  1  A 0 }
+}
