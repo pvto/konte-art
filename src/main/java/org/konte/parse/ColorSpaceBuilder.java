@@ -38,7 +38,8 @@ public class ColorSpaceBuilder {
         this.strength = strength;
         return this;
     }     
-    public ColorSpaceBuilder point(ArrayList<Expression> coords, Transform colors) throws ParseException { 
+    public ColorSpaceBuilder point(ArrayList<Expression> coords, Transform colors) throws ParseException 
+    {
         if (dimension != -1 && dimension != coords.size())
         {
             if (dimension < coords.size())
@@ -93,7 +94,8 @@ public class ColorSpaceBuilder {
         return this; 
     }
     
-    public ColorSpace build() throws Exception {
+    public ColorSpace build() throws Exception 
+    {
         if (name == null || name.isEmpty())
             throw new ParseException("Colorspace must have a name");
         ColorSpace sp;

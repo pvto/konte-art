@@ -31,7 +31,8 @@ public class ExpressionFunction extends Operator {
         return args;
     }
 
-    public Float evaluate() throws ParseException {
+    public Float evaluate() throws ParseException 
+    {
         for (int i = 0; i < resolvedArgs.length; i++) {
             resolvedArgs[i] = args[i].evaluate();
         }

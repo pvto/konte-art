@@ -37,7 +37,8 @@ public final class Matrix4 implements Serializable {
 
 
     private void writeObject(java.io.ObjectOutputStream out)
-            throws IOException {
+            throws IOException 
+           {
         out.writeFloat(m00);
         out.writeFloat(m01);
         out.writeFloat(m02);
@@ -57,7 +58,8 @@ public final class Matrix4 implements Serializable {
     }
 
     private void readObject(java.io.ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
+            throws IOException, ClassNotFoundException 
+           {
                 m00 = in.readFloat();
                 m01 = in.readFloat();
                 m02 = in.readFloat();
@@ -77,7 +79,8 @@ public final class Matrix4 implements Serializable {
     }
 
     private void readObjectNoData()
-            throws ObjectStreamException {
+            throws ObjectStreamException 
+           {
 
     }
     /**

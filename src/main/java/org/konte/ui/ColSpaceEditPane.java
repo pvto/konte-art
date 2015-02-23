@@ -137,7 +137,8 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
         cb.setContents(contents, owner);
     }
 
-    private void insertPivot() throws ParseException {
+    private void insertPivot() throws ParseException 
+    {
         float[] coords = new float[3];
         ColorSpace cspace = colSpacePanel1.getColorSpace();
         if (cspace != null)
@@ -219,7 +220,8 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
         }
     }
 
-    private void updatePointFromModel(RGBA rgba, int ind) throws ParseException {
+    private void updatePointFromModel(RGBA rgba, int ind) throws ParseException 
+    {
         String text = jTextArea1.getText();
         String pts = numeric;
         if (this.colSpacePanel1.getColorSpace().getDimension() == 2)

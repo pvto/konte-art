@@ -36,7 +36,8 @@ public class Path extends Untransformable implements Serializable {
 
 
     private void writeObject(java.io.ObjectOutputStream out)
-            throws IOException {
+            throws IOException 
+           {
         out.writeInt(closed);
         if (closed == 2)
         {
@@ -51,7 +52,8 @@ public class Path extends Untransformable implements Serializable {
         value = {"unchecked"}
     )
     private void readObject(java.io.ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
+            throws IOException, ClassNotFoundException 
+           {
         closed = in.readInt();
         if (closed == 2)
         {
@@ -71,7 +73,8 @@ public class Path extends Untransformable implements Serializable {
         }
     }
 
-    private void readObjectNoData() throws ObjectStreamException {
+    private void readObjectNoData() throws ObjectStreamException 
+    {
     }
 
 }

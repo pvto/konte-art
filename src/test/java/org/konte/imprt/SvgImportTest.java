@@ -90,7 +90,8 @@ m 742.88303,722.74042 0,-49.2257 -24.08917,0
     c 36.65739,-3.14207 125.68266,-3.14207 166.52948,-3.14207 45.03623,0 95.30937,0 140.3456,3.14207    
 */
     @Test
-    public void testImport() throws Exception {
+    public void testImport() throws Exception 
+    {
         SvgImport i = new SvgImport();
         i.initDocument(new ByteArrayInputStream(svg.getBytes("UTF-8")));
         //i.getPaths().item(0)

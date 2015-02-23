@@ -59,7 +59,8 @@ public class RuleWriter {
     private int generatedExpansions;
     boolean drained = false;
 
-    public RuleWriter(Model model) throws ParseException, IOException {
+    public RuleWriter(Model model) throws ParseException, IOException 
+    {
         this.model = model;
         resetShapes();
     }
@@ -100,7 +101,8 @@ public class RuleWriter {
 
     }
 
-    public void init(ShapeReader sr) throws ParseException {
+    public void init(ShapeReader sr) throws ParseException 
+    {
         expansions = new LinkedList<Expansion>();
         outoftheway = new OutQueueList();
         expansionTmpFiles = new ArrayList<File>();
@@ -116,7 +118,8 @@ public class RuleWriter {
     }
 
     CountDownLatch countdown = new CountDownLatch(1);
-    public void generate() throws ParseException {
+    public void generate() throws ParseException 
+    {
         try {
             countdown.await(100, TimeUnit.MILLISECONDS);
         } catch(InterruptedException ie)
@@ -263,7 +266,8 @@ public class RuleWriter {
         }
     }
 
-    private ObjectOutputStream nextOos(ObjectOutputStream oos) throws IOException {
+    private ObjectOutputStream nextOos(ObjectOutputStream oos) throws IOException 
+    {
         if (oos != null)
         {
             try {
@@ -283,7 +287,8 @@ public class RuleWriter {
 
     }
 
-    private void processRule(Rule r) throws ParseException {
+    private void processRule(Rule r) throws ParseException 
+    {
         for (BooleanExpression be : r.pre)
         {
             if (!be.bevaluate())
@@ -348,7 +353,8 @@ public class RuleWriter {
             lock1.notifyAll();
         }
     }
-    public List<OutputShape> exchangeShapes() throws InterruptedException {
+    public List<OutputShape> exchangeShapes() throws InterruptedException 
+    {
         List<OutputShape> ret = null;
         synchronized(lock1)
         {
@@ -368,7 +374,8 @@ public class RuleWriter {
     }
     
     private void processShapeTransform(Transform st, List<BooleanExpression> post)
-            throws ParseException {
+            throws ParseException 
+           {
         if (model.context.d == 0)
         {
             return;
@@ -491,7 +498,8 @@ public class RuleWriter {
         }
     }
 
-    private void processClosedPath(PathRule pr) throws ParseException {
+    private void processClosedPath(PathRule pr) throws ParseException 
+    {
         DrawingContext cur = model.context;
         Untransformable ut;
         if (pr.closed == 2)

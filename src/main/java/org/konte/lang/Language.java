@@ -95,7 +95,8 @@ public class Language {
         }
         public int getArgsCount() { return argsCount; }
         @Override
-        public float value(float... args) throws Exception {
+        public float value(float... args) throws Exception 
+        {
             return 0f;
         }
     }

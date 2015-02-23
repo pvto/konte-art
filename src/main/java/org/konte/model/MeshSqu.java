@@ -27,14 +27,16 @@ public class MeshSqu extends Untransformable implements Serializable {
     }
     
     private void writeObject(java.io.ObjectOutputStream out)
-            throws IOException {
+            throws IOException 
+           {
         for(int i=0;i<4;i++) 
             for(int j=0;j<3;j++)
                 out.writeFloat(coords[i][j]);
     }
 
     private void readObject(java.io.ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
+            throws IOException, ClassNotFoundException 
+           {
         coords = new float[4][3];
         for(int i=0;i<4;i++) 
             for(int j=0;j<3;j++)
@@ -42,7 +44,8 @@ public class MeshSqu extends Untransformable implements Serializable {
     }
 
     private void readObjectNoData()
-            throws ObjectStreamException {
+            throws ObjectStreamException 
+           {
 
     }
 

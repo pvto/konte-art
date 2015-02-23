@@ -13,7 +13,8 @@ public class PathEditFrame extends EditFrame {
 
     private PathEditPane ppane;
 
-    public PathEditFrame() throws ParseException {
+    public PathEditFrame() throws ParseException 
+    {
         super(new FileNameExtensionFilter(
                 "c3dg path files", "c3dg"));
         ppane = new PathEditPane();
@@ -46,7 +47,8 @@ public class PathEditFrame extends EditFrame {
         }
     }
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) throws ParseException 
+    {
         PathEditFrame fr = new PathEditFrame();
         fr.setSize(700,600);
         fr.setVisible(true);

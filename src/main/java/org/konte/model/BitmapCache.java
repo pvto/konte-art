@@ -27,7 +27,8 @@ public class BitmapCache {
         return fl.getAbsolutePath() + "_" + fl.lastModified();
     }
 
-    public Image add(Object src, String reference) throws Exception {
+    public Image add(Object src, String reference) throws Exception 
+    {
         String key = null;
         if (src instanceof File)
             key = getKey((File)src);

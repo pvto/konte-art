@@ -27,7 +27,8 @@ public class PanningCamera extends SimpleCamera {
         super();
     }
 
-    public PanningCamera(Transform position) throws ParseException {
+    public PanningCamera(Transform position) throws ParseException 
+    {
         super(position);
     }
 
@@ -47,7 +48,8 @@ public class PanningCamera extends SimpleCamera {
     }
     
     @Override
-    public void setPosition(Transform posT) throws ParseException {
+    public void setPosition(Transform posT) throws ParseException 
+    {
         super.setPosition(posT);
         float unitL = 1/(float)Math.sqrt(3);
         moveDirection = new Vector3();

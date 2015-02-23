@@ -172,7 +172,8 @@ public class LightBuilder {
     private int type =0;
 
     
-    public Light build() throws Exception {
+    public Light build() throws Exception 
+    {
         Light light = null;
         int i = 0;
         Expression x = points.get(i).point.get(0);
@@ -212,7 +213,8 @@ public class LightBuilder {
         name = s;
     }
 
-    void point(ArrayList<Expression> coords, Transform colors) throws ParseException {
+    void point(ArrayList<Expression> coords, Transform colors) throws ParseException 
+    {
 
         if (coords.size() != 3)
             throw new ParseException("Light position must have three coordinates");

@@ -15,7 +15,8 @@ import org.konte.model.Model;
  */
 public class ExpressionParser {
 
-    private int getSmallestPriority(int i, int i0, int[] priority, ArrayList<Token> ttOrig) throws ParseException {
+    private int getSmallestPriority(int i, int i0, int[] priority, ArrayList<Token> ttOrig) throws ParseException 
+    {
         int minN = priority[i];
         int place = -1;
         while(ttOrig.get(i)==Language.left_bracket&&ttOrig.get(i0)==Language.right_bracket)
@@ -38,7 +39,8 @@ public class ExpressionParser {
         return place;
     }
 
-    private void pickArguments2(int arguments, int i, Expression[] exps, int[] priority, int[] ref, List<Token> tt) throws ParseException {
+    private void pickArguments2(int arguments, int i, Expression[] exps, int[] priority, int[] ref, List<Token> tt) throws ParseException 
+    {
         org.konte.expression.Operator ee = (org.konte.expression.Operator) exps[i];
         int curPrio = priority[i];
         if (arguments == 0 || arguments == -1)
@@ -130,7 +132,8 @@ public class ExpressionParser {
     @SuppressWarnings(
         value = {"unchecked"}
     )
-    public Expression parse(ArrayList<Token> ttOrig, int startpos, Model model) throws ParseException {
+    public Expression parse(ArrayList<Token> ttOrig, int startpos, Model model) throws ParseException 
+    {
 
         List<Token> tt = ttOrig; // ttOrig.subList(startpos+1, ii + 1);
         int[] priority = new int[tt.size()];

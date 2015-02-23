@@ -70,7 +70,8 @@ public abstract class AbstractExporterBase {
         return e;
     }
 
-    public void export(File file) throws IOException {
+    public void export(File file) throws IOException 
+    {
         init();
         bsr.rewind();
         BufferedWriter bw = new BufferedWriter(new FileWriter(file));

@@ -12,7 +12,8 @@ public class Multiplication extends Operator {
     }
 
     @Override
-    public Float evaluate() throws ParseException {
+    public Float evaluate() throws ParseException 
+    {
         return leading.evaluate() * trailing.evaluate();
 
     }

@@ -55,7 +55,8 @@ public abstract class TransformModifier {
         n++;
     }
 
-    public Float[] evaluateAll() throws ParseException {
+    public Float[] evaluateAll() throws ParseException 
+    {
         for (int i = 0; i < n ; i++)
             values[i] = exprs.get(i).evaluate();
         return values;
@@ -73,7 +74,8 @@ public abstract class TransformModifier {
     
     /* For spatial transforms.
      */ 
-    public Matrix4 getTransform(Float[] f) throws ParseException {
+    public Matrix4 getTransform(Float[] f) throws ParseException 
+    {
         if (resolved) return transform;
         return createTransform(f);
     }    

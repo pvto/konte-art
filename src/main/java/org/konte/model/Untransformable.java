@@ -70,12 +70,14 @@ public abstract class Untransformable extends Token implements Serializable {
         this.controlPoints = cpl;   }
     
     private void writeObject(java.io.ObjectOutputStream out)
-            throws IOException {
+            throws IOException 
+           {
         out.writeInt(id);
     }
 
     private void readObject(java.io.ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
+            throws IOException, ClassNotFoundException 
+           {
         id = in.readInt();
         Untransformable u = Language.getUntransformable(id);
         if (u == null)
@@ -87,7 +89,8 @@ public abstract class Untransformable extends Token implements Serializable {
         controlPoints = u.controlPoints;
     }
 
-    private void readObjectNoData() throws ObjectStreamException {
+    private void readObjectNoData() throws ObjectStreamException 
+    {
     }
 
 

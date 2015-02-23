@@ -27,7 +27,8 @@ public abstract class ColorSpaceImpl implements ColorSpace {
     {
         this.strength = strength;
     }
-    public float getStrength() throws ParseException {
+    public float getStrength() throws ParseException 
+    {
         return strength.evaluate();
     }  
     

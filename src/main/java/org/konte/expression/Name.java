@@ -46,7 +46,8 @@ public class Name implements ExpressionFinal {
         return name;
     }
 
-    public static Expression createExpressionFinalName(String name) throws ParseException {
+    public static Expression createExpressionFinalName(String name) throws ParseException 
+    {
         Token token = Language.tokenByName(name);
         if (token instanceof InnerToken) {
             if (!(token instanceof InnerExpressiveToken)) {
@@ -75,7 +76,8 @@ public class Name implements ExpressionFinal {
     private boolean constancyEvaluated = false;
     private Constant constant = null;
 
-    public Float evaluate() throws ParseException {
+    public Float evaluate() throws ParseException 
+    {
         Float d;
         if (constancyEvaluated) {
             if (constant != null) {

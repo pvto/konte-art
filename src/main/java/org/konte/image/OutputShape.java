@@ -19,7 +19,8 @@ public class OutputShape implements Serializable {
     public Untransformable shape;
 
     private void writeObject(java.io.ObjectOutputStream out)
-            throws IOException {
+            throws IOException 
+           {
 //        out.writeObject(matrix);
         out.writeFloat(matrix.m00);  out.writeFloat(matrix.m01);  out.writeFloat(matrix.m02);  out.writeFloat(matrix.m03);
         out.writeFloat(matrix.m10);  out.writeFloat(matrix.m11);  out.writeFloat(matrix.m12);  out.writeFloat(matrix.m13);
@@ -32,7 +33,8 @@ public class OutputShape implements Serializable {
     }
 
     private void readObject(java.io.ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
+            throws IOException, ClassNotFoundException 
+           {
         matrix = new Matrix4();
         matrix.m00 = in.readFloat();  matrix.m01 = in.readFloat();  matrix.m02 = in.readFloat();  matrix.m03 = in.readFloat();
         matrix.m10 = in.readFloat();  matrix.m11 = in.readFloat();  matrix.m12 = in.readFloat();  matrix.m13 = in.readFloat();

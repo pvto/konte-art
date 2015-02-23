@@ -81,7 +81,8 @@ public class Transform {
         }
     }
     /** Run this before attaching a RuleWriter to Model. */
-    public void initialize(Model model) throws ParseException {
+    public void initialize(Model model) throws ParseException 
+    {
         this.model = model;
         NonDeterministicRule ndr;
         for (int cnind = 0; cnind < continuationNames.size(); cnind++)
@@ -217,7 +218,8 @@ public class Transform {
                 return true;
         return false;
     }
-    private Matrix4 createTransformMatrix() throws ParseException {
+    private Matrix4 createTransformMatrix() throws ParseException 
+    {
         Matrix4 tmp = null; // = Matrix4.IDENTITY;
         try {
             if (acqTrs != null)
@@ -245,7 +247,8 @@ public class Transform {
         return tmp;
     }
 
-    public Matrix4 getTransformMatrix() throws ParseException {
+    public Matrix4 getTransformMatrix() throws ParseException 
+    {
         if (superMatrix != null) return superMatrix;
         return createTransformMatrix();
     }
@@ -296,7 +299,8 @@ public class Transform {
     @SuppressWarnings( 
         value = {"unchecked"}
     )
-    public void setShapeTransform(Token t, ArrayList<Expression> lexprs) throws ParseException {
+    public void setShapeTransform(Token t, ArrayList<Expression> lexprs) throws ParseException 
+    {
 //        Runtime.sysoutln("SETTING " + t + ": " + lexprs, 0);
         Expression lexpr =  lexprs.get(0);
         
@@ -373,7 +377,8 @@ public class Transform {
      * @return
      * @throws org.konte.model.ParseException
      */
-    public DrawingContext transform(DrawingContext old) throws ParseException {
+    public DrawingContext transform(DrawingContext old) throws ParseException 
+    {
         DrawingContext newt = new DrawingContext();
         if (terminatingShape)
             newt.shape = ((TerminatingShape)this).shape;

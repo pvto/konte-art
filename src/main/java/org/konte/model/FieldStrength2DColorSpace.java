@@ -28,7 +28,8 @@ public class FieldStrength2DColorSpace extends ColorSpaceImpl {
     }
     private float[] rgbas = new float[5];
     private float[] dists;
-    public float[] getValue(float... args) throws ParseException {
+    public float[] getValue(float... args) throws ParseException 
+    {
         float x = args[0];
         float y = args[1];
         float dist0, dist1;
@@ -60,7 +61,8 @@ public class FieldStrength2DColorSpace extends ColorSpaceImpl {
     }
 
 
-    public float[][] getBounds() throws ParseException {
+    public float[][] getBounds() throws ParseException 
+    {
         float xmin = 0f, xmax = 0f, ymin = 0f, ymax = 0f;
         for(RGBA rgba : transformPoints)
         {

@@ -21,7 +21,8 @@ import org.konte.parse.ParseException;
 
 public class CommandLine {
 
-    public static void main(String[] args) throws ParseException, IllegalArgumentException, IllegalAccessException, IOException, Exception {
+    public static void main(String[] args) throws ParseException, IllegalArgumentException, IllegalAccessException, IOException, Exception 
+    {
 
         if (args.length == 0)
         {

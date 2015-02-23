@@ -21,7 +21,8 @@ public class UtBuilder implements
     private Matrix4 HALF = Matrix4.translation(0.5f, 0f, 0f);
     private Vector3 v3d = new Vector3();
     
-    public Untransformable build() throws Exception {
+    public Untransformable build() throws Exception 
+    {
         Untransformable u = null;
         if (name.equals("SPHERE")) {
             u = new Untransformable.Sphere(name, nextId--, shapes, controlPoints);

@@ -44,7 +44,8 @@ public class DrawingContext implements Serializable {
 
 
     private void writeObject(java.io.ObjectOutputStream out)
-            throws IOException {
+            throws IOException 
+           {
         out.writeObject(matrix);
         out.writeFloat(R);
         out.writeFloat(G);
@@ -72,7 +73,8 @@ public class DrawingContext implements Serializable {
     }
 
     private void readObject(java.io.ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
+            throws IOException, ClassNotFoundException 
+           {
         matrix = (Matrix4)in.readObject();
         R = in.readFloat();
         G = in.readFloat();
@@ -193,7 +195,8 @@ public class DrawingContext implements Serializable {
         return (float)getDef(Name.model.imgIndex);
     }
     private static transient float[] cols = new float[3];
-    public void applyShading(Model model) throws ParseException {
+    public void applyShading(Model model) throws ParseException 
+    {
         if (shading != -1)
         {
             ColorSpace sp = model.colorSpaces.get(shading);

@@ -37,7 +37,8 @@ public class PathRule extends Rule {
     }
 
     
-    public Matrix4 translation(Expression[] trns) throws ParseException {
+    public Matrix4 translation(Expression[] trns) throws ParseException 
+    {
         return new Matrix4(
                 1f,0f,0f,trns[0].evaluate(),
                 0f,1f,0f,trns[1].evaluate(),
@@ -67,10 +68,12 @@ public class PathRule extends Rule {
         }*/
     }
 
-    public Untransformable createUntransformable() throws ParseException {
+    public Untransformable createUntransformable() throws ParseException 
+    {
         return createUntransformable(0);
     }
-    public Untransformable createUntransformable(int flags) throws ParseException {
+    public Untransformable createUntransformable(int flags) throws ParseException 
+    {
         checkBezierControls();
         Path p = new Path();
         ArrayList<ArrayList<Matrix4>> sl = new ArrayList<ArrayList<Matrix4>>();
@@ -155,7 +158,8 @@ public class PathRule extends Rule {
      * @return
      * @throws org.konte.parse.ParseException
      */
-    public static Untransformable createUntransformable(float[] data) throws ParseException {
+    public static Untransformable createUntransformable(float[] data) throws ParseException 
+    {
         PathRule pr = new PathRule();
         int i = 0;
         pr.steps.add(new Placeholder(PathRule.MOVE_TO, new Expression[]

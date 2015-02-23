@@ -75,12 +75,14 @@ public class BackReferenceFactory {
         }
         return null;
     }
-    public static Name newBackReference(InnerExpressiveToken matchingToken, String name, final Model modl) throws ParseException {
+    public static Name newBackReference(InnerExpressiveToken matchingToken, String name, final Model modl) throws ParseException 
+    {
         if (matchingToken == Language.depth)
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return (float)modl.context.d;
                 }
             };
@@ -88,7 +90,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getx();
                 }
             };
@@ -96,7 +99,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.gety();
                 }
             };
@@ -104,7 +108,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getz();
                 }
             };
@@ -112,7 +117,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return (modl.context.getsx()+modl.context.getsy()+modl.context.getsz()) / 3f;
                 }
             };
@@ -120,7 +126,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getsx();
                 }
             };
@@ -128,7 +135,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getsy();
                 }
             };
@@ -136,7 +144,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getsz();
                 }
             };
@@ -144,7 +153,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getrx();
                 }
             };
@@ -152,7 +162,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getry();
                 }
             };
@@ -160,7 +171,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getrz();
                 }
             };
@@ -168,7 +180,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getskewx();
                 }
             };
@@ -176,7 +189,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getskewy();
                 }
             };
@@ -184,7 +198,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getskewz();
                 }
             };
@@ -192,7 +207,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getR();
                 }
             };
@@ -200,7 +216,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getG();
                 }
             };
@@ -208,7 +225,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getB();
                 }
             };
@@ -216,7 +234,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getA();
                 }
             };
@@ -224,7 +243,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getshading();
                 }
             };
@@ -232,7 +252,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getcol0();
                 }
             };
@@ -240,7 +261,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getcol1();
                 }
             };
@@ -248,7 +270,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getcol2();
                 }
             };
@@ -257,7 +280,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getHue();
                 }
             };
@@ -265,7 +289,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getSat();
                 }
             };
@@ -273,7 +298,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getL();
                 }
             };
@@ -281,7 +307,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getlayer();
                 }
             };
@@ -289,7 +316,8 @@ public class BackReferenceFactory {
         {
             return new Name()
             {
-                @Override public Float evaluate() throws ParseException {
+                @Override public Float evaluate() throws ParseException 
+                {
                     return modl.context.getBitmap();
                 }
             };*/

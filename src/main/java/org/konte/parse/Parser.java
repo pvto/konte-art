@@ -98,10 +98,12 @@ public class Parser {
         BLOCK_CREATE,
         BLOCK}
     
-    public static int getExpressionList(ArrayList<Tokenizer.TokenizerString> ttOrig, int startpos, ArrayList<Token> ret) throws ParseException {
+    public static int getExpressionList(ArrayList<Tokenizer.TokenizerString> ttOrig, int startpos, ArrayList<Token> ret) throws ParseException 
+    {
         return getExpressionList(ttOrig, startpos, ret, 0);
     }
-    public static int getExpressionList(ArrayList<Tokenizer.TokenizerString> ttOrig, int startpos, ArrayList<Token> ret, int isSemicolons) throws ParseException {
+    public static int getExpressionList(ArrayList<Tokenizer.TokenizerString> ttOrig, int startpos, ArrayList<Token> ret, int isSemicolons) throws ParseException 
+    {
         int lbcount = 0;
         Token t = Language.tokenByName(ttOrig.get(startpos).getString());
         Token first = (t == null) ? new Token(ttOrig.get(startpos).getString()) : t;
@@ -237,7 +239,8 @@ public class Parser {
     private static int caretPos;   // caret position (running) in source, for parse exceptions
 
 
-    public Model parse(ArrayList<Tokenizer.TokenizerString> tokenStrings) throws ParseException {
+    public Model parse(ArrayList<Tokenizer.TokenizerString> tokenStrings) throws ParseException 
+    {
 
         Runtime.stateServer.clear();
         

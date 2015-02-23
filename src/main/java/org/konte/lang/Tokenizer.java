@@ -92,7 +92,8 @@ public class Tokenizer {
         return false;
     }
     
-    private void readNext() throws ParseException {
+    private void readNext() throws ParseException 
+    {
 
         char curchar = b.charAt(offset);
         while(curchar == ' ' || curchar == '\t' || curchar == '\r' || checkEndline() || curchar < ' ' || curchar == 160)

@@ -814,7 +814,8 @@ public class PathEditPane extends javax.swing.JPanel {
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
 
-    public static void main(String[] args) throws ParseException {
+    public static void main(String[] args) throws ParseException 
+    {
         JFrame test = new JFrame();
         test.setSize(800,600);
         PathEditPane pe = new PathEditPane();

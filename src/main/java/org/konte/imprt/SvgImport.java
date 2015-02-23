@@ -79,7 +79,8 @@ public class SvgImport {
         }
     }
     
-    public Document initDocument(InputStream in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException {
+    public Document initDocument(InputStream in) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException 
+    {
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         domFactory.setNamespaceAware(false);
         DocumentBuilder builder = domFactory.newDocumentBuilder();
@@ -118,7 +119,8 @@ public class SvgImport {
     
                             //new ByteArrayInputStream(str.getBytes()));
 
-    public NodeList getPaths() throws XPathExpressionException {
+    public NodeList getPaths() throws XPathExpressionException 
+    {
         XPathExpression expr = xpath.compile("//path");
         NodeList paths = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
         if (paths.getLength() == 0)
@@ -128,7 +130,8 @@ public class SvgImport {
         return paths;
     }
 
-    public Path toKontePath(int sel) throws XPathExpressionException, ParseException {
+    public Path toKontePath(int sel) throws XPathExpressionException, ParseException 
+    {
         Node path = getPaths().item(sel);
         Matrix3 group = new Matrix3(1f,0f,0f,0f,1f,0f,0f,0f,1f);
         ArrayDeque<Node> groups = new ArrayDeque<Node>();

@@ -27,7 +27,8 @@ public class Operator implements Expression {
                 || (trailing != null ? trailing.findExpression(c) : false);
     }
 
-    public Float evaluate() throws ParseException {
+    public Float evaluate() throws ParseException 
+    {
         return null;
     }
 

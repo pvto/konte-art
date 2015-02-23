@@ -202,7 +202,8 @@ public class ColSpacePanel extends JPanel {
         }
     }
 
-    public void setColorSpace(String grammar) throws Exception{
+    public void setColorSpace(String grammar) throws Exception
+    {
         grammar = grammar + "\n rule shading_editor_def { }";  // no rules throws a parse exception
         ArrayList<TokenizerString> tokens = Tokenizer.retrieveTokenStrings(new StringBuilder(grammar));
         Parser parser = new Parser();

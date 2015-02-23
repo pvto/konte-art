@@ -14,7 +14,8 @@ import org.konte.parse.ParseException;
 
 
         @Override
-        public Float evaluate() throws ParseException {
+        public Float evaluate() throws ParseException 
+        {
             return (float)Math.pow(leading.evaluate(), trailing.evaluate());
         }
 

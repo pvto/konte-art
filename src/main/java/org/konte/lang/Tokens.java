@@ -310,7 +310,8 @@ public class Tokens {
         public boolean isMacro;
         public float constVal;
 
-        public Constant(String name, Expression value, boolean isDef) throws ParseException {
+        public Constant(String name, Expression value, boolean isDef) throws ParseException 
+        {
 //        try {
             this.name = name;
             this.value = value;
@@ -328,7 +329,8 @@ public class Tokens {
             this.value = value;
         }
 
-        public void preEval(boolean isDef) throws ParseException {
+        public void preEval(boolean isDef) throws ParseException 
+        {
             if (value instanceof Value || isDef) {
                 isMacro = false;
                 constVal = value.evaluate();

@@ -15,7 +15,8 @@ public class Negation extends Operator {
     }
 
     @Override
-    public Float evaluate() throws ParseException {
+    public Float evaluate() throws ParseException 
+    {
         return -trailing.evaluate();
     }
 

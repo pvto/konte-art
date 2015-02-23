@@ -10,7 +10,8 @@ public class Division extends Operator {
         this.operator = Language.divide;
     }
 
-    public Float evaluate() throws ParseException {
+    public Float evaluate() throws ParseException 
+    {
         return leading.evaluate() / trailing.evaluate();
     }
 

@@ -15,7 +15,8 @@ public interface BooleanExpression {
             return passval;
         }
 
-        public boolean bevaluate() throws ParseException {
+        public boolean bevaluate() throws ParseException 
+        {
             if ((passval = evaluate()) != null) {
                 return true;
             }
@@ -29,7 +30,8 @@ public interface BooleanExpression {
 
     public static class Equals extends Compare {
 
-        public boolean bevaluate() throws ParseException {
+        public boolean bevaluate() throws ParseException 
+        {
             if (super.bevaluate()) {
                 return getPassval().compareTo(ZERO) == 0;
             }
@@ -53,7 +55,8 @@ public interface BooleanExpression {
             this.trailing = t;
         }
 
-        public boolean bevaluate() throws ParseException {
+        public boolean bevaluate() throws ParseException 
+        {
             if (super.bevaluate()) {
                 return getPassval().compareTo(ZERO) != 0;
             }
@@ -68,7 +71,8 @@ public interface BooleanExpression {
 
     public static class Lt extends Compare {
 
-        public boolean bevaluate() throws ParseException {
+        public boolean bevaluate() throws ParseException 
+        {
             if (super.bevaluate()) {
                 return getPassval().compareTo(ZERO) < 0;
             }
@@ -82,7 +86,8 @@ public interface BooleanExpression {
 
     public static class Lte extends Compare {
 
-        public boolean bevaluate() throws ParseException {
+        public boolean bevaluate() throws ParseException 
+        {
             if (super.bevaluate()) {
                 return getPassval().compareTo(ZERO) <= 0;
             }
@@ -96,7 +101,8 @@ public interface BooleanExpression {
 
     public static class Gt extends Compare {
 
-        public boolean bevaluate() throws ParseException {
+        public boolean bevaluate() throws ParseException 
+        {
             if (super.bevaluate()) {
                 return getPassval().compareTo(ZERO) > 0;
             }
@@ -110,7 +116,8 @@ public interface BooleanExpression {
 
     public static class Gte extends Compare {
 
-        public boolean bevaluate() throws ParseException {
+        public boolean bevaluate() throws ParseException 
+        {
             if (super.bevaluate()) {
                 return getPassval().compareTo(ZERO) >= 0;
             }

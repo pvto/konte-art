@@ -83,7 +83,8 @@ public class DiskBackedShapeReader implements ShapeReader {
             state = 5;
         }
     }
-    private void runInternal() throws IOException {
+    private void runInternal() throws IOException 
+    {
         rulew.countdown.countDown();
         state = 1;
         Throwable t = null;
