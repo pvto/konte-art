@@ -66,29 +66,38 @@ public class Ui extends MyJFrame {
     private RndCharSliderBar rndCharSliderBar1;
     private RandomFeed rndFeed;
     static Ui instance;
-    private java.util.ArrayDeque<String> deq = new ArrayDeque<String>(10) {
+    private java.util.ArrayDeque<String> deq = new ArrayDeque<String>(10)
+    {
 
-        public boolean add(String e) {
+        public boolean add(String e)
+        {
             super.add(e);
-            if (this.size() > 10) {
+            if (this.size() > 10)
+            {
                 this.removeFirst();
             }
             return true;
         }
     };
 
-    private KeyEventPostProcessor pp = new KeyEventPostProcessor() {
+    private KeyEventPostProcessor pp = new KeyEventPostProcessor()
+    {
 
-        public boolean postProcessKeyEvent(KeyEvent evt) {
+        public boolean postProcessKeyEvent(KeyEvent evt)
+        {
 //            System.out.println(evt.paramString());
-            if (!Ui.this.isFocused()) {
+            if (!Ui.this.isFocused())
+            {
 //                System.out.println("Ui.java - no focus");
                 return false;
             }
-            if (evt.getID() == evt.KEY_RELEASED) {
+            if (evt.getID() == evt.KEY_RELEASED)
+            {
 
-                if (evt.isControlDown()) {
-                    switch(evt.getKeyCode()) {
+                if (evt.isControlDown())
+                {
+                    switch(evt.getKeyCode())
+                    {
                         case 70:   // Ctrl+F
                             replaceItemActionPerformed(null);
                             repDi.focus('f');
@@ -109,7 +118,8 @@ public class Ui extends MyJFrame {
     private PathEditFrame pathEditFrame;
 //    KeyComboHandler keyComboHandler = new KeyComboHandler(2);
     /** Creates new form Ui */
-    public Ui() {
+    public Ui()
+    {
         super(new FileNameExtensionFilter(
                 "cfdg and c3dg grammar files", "cfdg", "c3dg"));
         initComponents();
@@ -133,10 +143,12 @@ public class Ui extends MyJFrame {
         instance = this;
 
         controller = new Controller();
-        this.addWindowListener(new WindowAdapter() {
+        this.addWindowListener(new WindowAdapter()
+        {
 
             @Override
-            public void windowOpened(WindowEvent e) {
+            public void windowOpened(WindowEvent e)
+            {
                 String svgD = props.getProperty("SvgPath");
                 if (svgD != null)
                     svgDir = new File(svgD);
@@ -146,9 +158,11 @@ public class Ui extends MyJFrame {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventPostProcessor(pp);
     }
     
-    protected void finalizeProps() {
+    protected void finalizeProps()
+    {
         super.finalizeProps();
-        for (int i = 10; i > 0; i--) {
+        for (int i = 10; i > 0; i--)
+        {
             String s = props.getProperty("M" + i);
             if (s != null)
                 addLatest(s);
@@ -157,20 +171,23 @@ public class Ui extends MyJFrame {
         
     }
 
-    public void makeOpenDialog() {
+    public void makeOpenDialog()
+    {
         setFileChooser();
 
         int retVal = getFc().showOpenDialog(this);
         System.out.println(retVal);
         if (retVal == 0) { // ok
             File f = getFc().getSelectedFile();
-            if (f != null) {
+            if (f != null)
+            {
                 open(f);
             }
         }
     }
 
-    private void addLatest(String s) {
+    private void addLatest(String s)
+    {
         if (deq.contains(s))
             deq.remove(s);
         deq.addFirst(s);
@@ -181,12 +198,14 @@ public class Ui extends MyJFrame {
 
     private File svgDir = null;
 
-    private void exportSvg() {
+    private void exportSvg()
+    {
         controller.addTask(new Controller.TaskInfo(
                 Controller.Task.EXPORT_SCENE, new Object[]{AbstractExporterBase.Type.SVG}));
     }
 
-    private void importFromSvg() {
+    private void importFromSvg()
+    {
         JFileChooser fc = new JFileChooser();
         fc.setFileFilter(new FileNameExtensionFilter(
                 "Scalable Vector Graphics", "svg"));
@@ -196,7 +215,8 @@ public class Ui extends MyJFrame {
         System.out.println(retVal);
         if (retVal == 0) { // ok
             File f = fc.getSelectedFile();
-            if (f != null) {
+            if (f != null)
+            {
                 try {
                     svgDir = new File(f.getParent());
                     props.setProperty("SvgPath", f.getParent());
@@ -207,7 +227,8 @@ public class Ui extends MyJFrame {
                     svg.initDocument(f);
                    
                     String prefix = JOptionPane.showInputDialog("Enter path prefix:");
-                    if (prefix != null) {
+                    if (prefix != null)
+                    {
                         addUntitledTab();
                         EditViewCombo ev = (EditViewCombo)tabs.getSelectedComponent();
                         HashMap<String,String> props = new HashMap<String,String>();
@@ -216,7 +237,8 @@ public class Ui extends MyJFrame {
                         ev.setText(text);
                     }
 
-                } catch(Exception ex) {
+                } catch(Exception ex)
+                {
                     ex.printStackTrace();
                     addMessage(ex.getMessage());
                 }
@@ -225,8 +247,10 @@ public class Ui extends MyJFrame {
         }
     }
 
-    private void openColSpaceEditFrame() {
-        if (colSpaceEditFrame == null) {
+    private void openColSpaceEditFrame()
+    {
+        if (colSpaceEditFrame == null)
+        {
             colSpaceEditFrame = new ColSpaceEditFrame();
             colSpaceEditFrame.setSize(640,600);
         }
@@ -234,11 +258,14 @@ public class Ui extends MyJFrame {
         colSpaceEditFrame.toFront();
     }
 
-    private void openPathEditFrame() {
-        if (pathEditFrame == null) {
+    private void openPathEditFrame()
+    {
+        if (pathEditFrame == null)
+        {
             try {
                 pathEditFrame = new PathEditFrame();
-            } catch(Exception ex) {
+            } catch(Exception ex)
+            {
                 ex.printStackTrace();
             }
             pathEditFrame.setSize(800,600);
@@ -247,9 +274,11 @@ public class Ui extends MyJFrame {
         pathEditFrame.toFront();
     }
 
-    private void pickColor() {
+    private void pickColor()
+    {
         Color color = JColorChooser.showDialog(this, "Select color to clipboard", Color.BLACK);
-        if (color != null) {
+        if (color != null)
+        {
             String rgb = String.format(Locale.ENGLISH, "RGB %.3f %.3f %.3f",
                     (float)color.getRed() / 255f,
                     (float)color.getGreen() / 255f,
@@ -257,8 +286,10 @@ public class Ui extends MyJFrame {
                     );
             addMessage("\"" + rgb + "\" copied to clipboard");
             Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
-            ClipboardOwner owner = new ClipboardOwner() {
-                public void lostOwnership(Clipboard clipboard, Transferable contents) {
+            ClipboardOwner owner = new ClipboardOwner()
+            {
+                public void lostOwnership(Clipboard clipboard, Transferable contents)
+                {
                 }
             };
             StringSelection contents = new StringSelection(rgb);
@@ -268,16 +299,20 @@ public class Ui extends MyJFrame {
         }
     }
     
-    private void showHelp(String string) {
-        if (helpFrame==null) {
+    private void showHelp(String string)
+    {
+        if (helpFrame==null)
+        {
             helpFrame = new JFrame();            
             helpPane = new JEditorPane();
             JPanel p = new JPanel();
             p.setLayout(new FlowLayout(FlowLayout.CENTER));
-            p.add(new JButton("Close") {
+            p.add(new JButton("Close")
+            {
 
                 @Override
-                protected void processMouseEvent(MouseEvent e) {
+                protected void processMouseEvent(MouseEvent e)
+                {
                     super.processMouseEvent(e);
                     helpFrame.setVisible(false);
                 }
@@ -293,9 +328,11 @@ public class Ui extends MyJFrame {
         helpPane.setText(Help.help(string, false));
         helpPane.setCaretPosition(0);
     }
-    private void updateLatestMenu() {
+    private void updateLatestMenu()
+    {
         //this.latestMenu.removeAll();
-        for (int i = this.fileMenu.getItemCount()-1; i >= 0; i--) {
+        for (int i = this.fileMenu.getItemCount()-1; i >= 0; i--)
+        {
             Component comp = (fileMenu.getItem(i));
             if (comp==null)
                 continue;
@@ -306,13 +343,16 @@ public class Ui extends MyJFrame {
                  break;
         }
         int count = 1;
-        for (String s : deq) {
+        for (String s : deq)
+        {
             props.setProperty("M" + count, s);            
             final JMenuItem item = new JMenuItem();
             item.setText(s);
-            item.addActionListener(new java.awt.event.ActionListener() {
+            item.addActionListener(new java.awt.event.ActionListener()
+            {
 
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                public void actionPerformed(java.awt.event.ActionEvent evt)
+                {
                     open(new File(item.getText().substring(2)));
                 }
             });
@@ -325,7 +365,8 @@ public class Ui extends MyJFrame {
         }
     }
     
-    private void open(File f) {
+    private void open(File f)
+    {
         setPath(f);
         try {
             String text = Readers.fillStringBuilder(f).toString();
@@ -336,42 +377,51 @@ public class Ui extends MyJFrame {
             addLatest("  " + f.getAbsolutePath());
             updateLatestMenu();
             saveProps();
-        } catch(Exception e) {
+        } catch(Exception e)
+        {
             this.addMessage(e.getMessage());
         }
     }
 
-    private void openTab(EditViewCombo ev) {
+    private void openTab(EditViewCombo ev)
+    {
         tabs.add(ev, ev.getName());
         tabs.setSelectedComponent(ev);
         ev.edit.requestFocus();
         ev.edit.setCaretPosition(0);
     }
 
-    void addUntitledTab() {
+    void addUntitledTab()
+    {
         EditViewCombo evc = newEditViewCombo("Untitled", this.getSize());
         openTab(evc);
     }
 
-    void closeTab() {
-        if (tabs.getSelectedComponent() != null) {
+    void closeTab()
+    {
+        if (tabs.getSelectedComponent() != null)
+        {
             tabs.remove(tabs.getSelectedComponent());
         }
     }
 
-    public void save() {
+    public void save()
+    {
         EditViewCombo ev = (EditViewCombo) tabs.getSelectedComponent();
-        if (ev.getFile() != null) {
+        if (ev.getFile() != null)
+        {
             FileWriter fw = null;
             try {
                 fw = new FileWriter(ev.getFile());
                 fw.write(ev.getScriptText());
-            } catch (IOException e) {
+            } catch (IOException e)
+            {
                 e.printStackTrace();
             } finally {
                 try {
                     fw.close();
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                 }
             }
@@ -380,18 +430,22 @@ public class Ui extends MyJFrame {
         }
     }
 
-    public void saveWithName() {
+    public void saveWithName()
+    {
         setFileChooser();
-        if (getPath() != null) {
+        if (getPath() != null)
+        {
             getFc().setCurrentDirectory(new File(getPath()));
         }
         int retVal = getFc().showSaveDialog(this);
         if (retVal == 0) { // ok
             File f = getFc().getSelectedFile();
             getFc().isAcceptAllFileFilterUsed();
-            if (f != null) {
+            if (f != null)
+            {
                 if (getFc().getFileFilter() != getFc().getAcceptAllFileFilter() &&
-                        !f.getName().toLowerCase().endsWith(".c3dg")) {
+                        !f.getName().toLowerCase().endsWith(".c3dg"))
+                        {
                     f = new File(f.getAbsolutePath() + ".c3dg");
                 }
                 EditViewCombo ev = (EditViewCombo) tabs.getSelectedComponent();
@@ -407,28 +461,33 @@ public class Ui extends MyJFrame {
 
     }
 
-    void addMessage(String string) {
+    void addMessage(String string)
+    {
         messagesList1.addMessage(string);
     }
 
-    void incrementVariationKey() {
+    void incrementVariationKey()
+    {
         EditViewCombo ev = (EditViewCombo) tabs.getSelectedComponent();
         if (ev.lastRenderKey != null && ev.lastRenderKey.equals(rndCharSliderBar1.getKeyCode()))
             rndCharSliderBar1.addToSlider(1);
     }
 
-    RandomFeed synchronizeVariationKey() {
+    RandomFeed synchronizeVariationKey()
+    {
         rndFeed.setKey(rndCharSliderBar1.getKeyCode());
         return rndFeed;
     }
 
-    public void export() {
+    public void export()
+    {
         EditViewCombo ev = (EditViewCombo) tabs.getSelectedComponent();
         controller.addTask(new Controller.TaskInfo(Controller.Task.EXPORT, new Object[]{ev, getPath()}));
 
     }
 
-    private void initTutorials() {
+    private void initTutorials()
+    {
         final String pth = "/org/konte/resources/exmpl/";
         String res = pth + "__list";
         BufferedReader br = null;
@@ -436,63 +495,77 @@ public class Ui extends MyJFrame {
 
             br = new BufferedReader(new InputStreamReader(Ui.class.getResource(res).openStream()));
             String s;
-            while ((s = br.readLine()) != null) {
+            while ((s = br.readLine()) != null)
+            {
                 final JMenuItem item = new JMenuItem();
                 item.setText(s.replaceAll("_", " "));
-                item.addActionListener(new java.awt.event.ActionListener() {
+                item.addActionListener(new java.awt.event.ActionListener()
+                {
 
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    public void actionPerformed(java.awt.event.ActionEvent evt)
+                    {
                         if (!item.getText().matches("^-+$"))
                             openTut(pth + item.getText().replaceAll(" ", "_"));
                     }
                 });
                 this.tutMenu.add(item);
             }
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             Runtime.sysoutln("Can't find resource " + res, 5);
         } finally {
             try {
                 br.close();
-            } catch (IOException ex) {
+            } catch (IOException ex)
+            {
 
             }
         }
     }
 
-    private void openTut(String res) {
+    private void openTut(String res)
+    {
         BufferedReader br = null;
         try {
 
             StringBuilder bd = new StringBuilder();
             br = new BufferedReader(new InputStreamReader(Ui.class.getResource(res).openStream()));
             String s;
-            while ((s = br.readLine()) != null) {
+            while ((s = br.readLine()) != null)
+            {
                 bd.append(s).append("\r\n");
             }
 
             EditViewCombo ev = newEditViewCombo("? " + res.substring(res.lastIndexOf("/") + 1).replaceAll("_", " "), this.getSize());
             ev.edit.setText(bd.toString());
             openTab(ev);
-            new Thread(new Runnable() {
-                public void run() {
+            new Thread(new Runnable()
+            {
+                public void run()
+                {
                     generatePic();
                 }
             }).start();
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             Runtime.sysoutln("Can't find resource " + res, 5);
         } finally {
             try {
                 br.close();
-            } catch (IOException ex) {
+            } catch (IOException ex)
+            {
 
             }
         }
     }
 
-    private EditViewCombo newEditViewCombo(String h, Dimension dim) {
-        EditViewCombo evc = new EditViewCombo(h, dim) {
+    private EditViewCombo newEditViewCombo(String h, Dimension dim)
+    {
+        EditViewCombo evc = new EditViewCombo(h, dim)
+        {
             @Override
-            void finishRender() {
+            void finishRender()
+            {
                 messagesList1.scrollDown();
             }
         };
@@ -506,7 +579,8 @@ public class Ui extends MyJFrame {
      * always regenerated by the Form Editor.
      */
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel1 = new javax.swing.JPanel();
@@ -604,8 +678,10 @@ public class Ui extends MyJFrame {
         jButton6.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/document.png"))); // NOI18N
         jButton6.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
         jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton6.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton6cancelMM(evt);
             }
         });
@@ -621,8 +697,10 @@ public class Ui extends MyJFrame {
         jButton4.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/floppy.png"))); // NOI18N
         jButton4.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton4.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton4cancelMM(evt);
             }
         });
@@ -638,8 +716,10 @@ public class Ui extends MyJFrame {
         jButton5.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/png.png"))); // NOI18N
         jButton5.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton5.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton5cancelMM(evt);
             }
         });
@@ -654,8 +734,10 @@ public class Ui extends MyJFrame {
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/preview.png"))); // NOI18N
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton3.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton3cancelMM(evt);
             }
         });
@@ -670,8 +752,10 @@ public class Ui extends MyJFrame {
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/niceplayer.png"))); // NOI18N
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.TOP);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 generateMM(evt);
             }
         });
@@ -687,8 +771,10 @@ public class Ui extends MyJFrame {
         jButton2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/Stop.png"))); // NOI18N
         jButton2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 cancelMM(evt);
             }
         });
@@ -707,8 +793,10 @@ public class Ui extends MyJFrame {
 
         openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         openMenuItem.setText("Open");
-        openMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        openMenuItem.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 openM(evt);
             }
         });
@@ -716,8 +804,10 @@ public class Ui extends MyJFrame {
 
         newMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         newMenuItem.setText("New");
-        newMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        newMenuItem.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 newM(evt);
             }
         });
@@ -725,8 +815,10 @@ public class Ui extends MyJFrame {
 
         saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         saveMenuItem.setText("Save");
-        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 saveMM(evt);
             }
         });
@@ -734,8 +826,10 @@ public class Ui extends MyJFrame {
 
         saveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         saveAsMenuItem.setText("Save As ...");
-        saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        saveAsMenuItem.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 saveAsM(evt);
             }
         });
@@ -743,8 +837,10 @@ public class Ui extends MyJFrame {
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem6.setText("Close");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 closeM(evt);
             }
         });
@@ -752,8 +848,10 @@ public class Ui extends MyJFrame {
 
         jMenuItem12.setText("Inkscape/svg path import");
         jMenuItem12.setToolTipText("Import available paths from a svg file");
-        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItem12ActionPerformed(evt);
             }
         });
@@ -761,8 +859,10 @@ public class Ui extends MyJFrame {
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         exitMenuItem.setText("Quit");
-        exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        exitMenuItem.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 exitMenuItemActionPerformed(evt);
             }
         });
@@ -775,16 +875,20 @@ public class Ui extends MyJFrame {
         editMenu.setText("Edit");
 
         undoItem.setText("Undo");
-        undoItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        undoItem.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 undoItemActionPerformed(evt);
             }
         });
         editMenu.add(undoItem);
 
         redoItem.setText("Redo");
-        redoItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        redoItem.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 redoItemActionPerformed(evt);
             }
         });
@@ -792,8 +896,10 @@ public class Ui extends MyJFrame {
 
         replaceItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         replaceItem.setText("Find/Replace");
-        replaceItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        replaceItem.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 replaceItemActionPerformed(evt);
                 deleteMenuItemActionPerformed(evt);
             }
@@ -802,8 +908,10 @@ public class Ui extends MyJFrame {
 
         jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem10.setText("Shading editor");
-        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItem10ActionPerformed(evt);
             }
         });
@@ -811,8 +919,10 @@ public class Ui extends MyJFrame {
 
         jMenuItem11.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem11.setText("Path editor");
-        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItem11ActionPerformed(evt);
             }
         });
@@ -820,8 +930,10 @@ public class Ui extends MyJFrame {
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem5.setText("Pick Color");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItem5ActionPerformed(evt);
             }
         });
@@ -834,36 +946,48 @@ public class Ui extends MyJFrame {
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem1.setText("Generate");
-        jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
+        jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseReleased(java.awt.event.MouseEvent evt)
+            {
                 generate(evt);
             }
         });
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 generateMM(evt);
             }
         });
-        jMenuItem1.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
-            public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
+        jMenuItem1.addMenuKeyListener(new javax.swing.event.MenuKeyListener()
+        {
+            public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt)
+            {
                 generateM(evt);
             }
-            public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt) {
+            public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt)
+            {
             }
-            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
+            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt)
+            {
             }
         });
         generateMenu.add(jMenuItem1);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("Generate to Size");
-        jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
+        jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseReleased(java.awt.event.MouseEvent evt)
+            {
                 generSM(evt);
             }
         });
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 generSizeM(evt);
             }
         });
@@ -871,8 +995,10 @@ public class Ui extends MyJFrame {
 
         jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem8.setText("Stop");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 cancelMM(evt);
             }
         });
@@ -880,8 +1006,10 @@ public class Ui extends MyJFrame {
 
         jMenuItem7.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_LESS, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem7.setText("Fast preview");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 previewM(evt);
             }
         });
@@ -892,8 +1020,10 @@ public class Ui extends MyJFrame {
 
         jMenuItem14.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem14.setText("Generate Sequence");
-        jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem14.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItem14ActionPerformed(evt);
             }
         });
@@ -906,8 +1036,10 @@ public class Ui extends MyJFrame {
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setText("Export image");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 exportM(evt);
             }
         });
@@ -915,8 +1047,10 @@ public class Ui extends MyJFrame {
 
         jMenuItem13.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem13.setText("Export svg");
-        jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem13.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jMenuItem13ActionPerformed(evt);
             }
         });
@@ -926,8 +1060,10 @@ public class Ui extends MyJFrame {
 
         jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem9.setText("Sunflow");
-        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 sceneExportM(evt);
             }
         });
@@ -945,16 +1081,20 @@ public class Ui extends MyJFrame {
         helpMenu.setText("Help");
 
         contentsMenuItem.setText("Contents");
-        contentsMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        contentsMenuItem.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 contentsMenuItemActionPerformed(evt);
             }
         });
         helpMenu.add(contentsMenuItem);
 
         aboutMenuItem.setText("About");
-        aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        aboutMenuItem.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 showAbout(evt);
             }
         });
@@ -982,7 +1122,8 @@ public class Ui extends MyJFrame {
     }// </editor-fold>//GEN-END:initComponents
     private void exitMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitMenuItemActionPerformed
         if (JOptionPane.showConfirmDialog(this, "Quit Konte?", "", JOptionPane.YES_NO_OPTION)
-                == JOptionPane.YES_OPTION) {
+                == JOptionPane.YES_OPTION)
+                {
             this.dispose();
             System.exit(0);
         }
@@ -1051,7 +1192,8 @@ public class Ui extends MyJFrame {
     }//GEN-LAST:event_sceneExportM
 
     private void messagesList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_messagesList1MouseClicked
-        if (evt.getClickCount() < 2) {
+        if (evt.getClickCount() < 2)
+        {
             return;
         }
         System.out.println("double");
@@ -1076,7 +1218,8 @@ public class Ui extends MyJFrame {
     private ReplaceDialog repDi;
 
     private void replaceItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceItemActionPerformed
-        if (repDi == null) {
+        if (repDi == null)
+        {
             repDi = new ReplaceDialog();
         }
         repDi.setTarget(((EditViewCombo) tabs.getSelectedComponent()).edit);
@@ -1131,17 +1274,23 @@ public class Ui extends MyJFrame {
         generateSequence();
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
-    private void showAbout() {
+    private void showAbout()
+    {
         new KonteAboutDialog().setVisible(true);
 
     }
 
-    void generateToSize() {
-        if (generDia == null) {
+    void generateToSize()
+    {
+        if (generDia == null)
+        {
             generDia = new GenerateDialog(props);
-            generDia.addPropertyChangeListener(new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent evt) {
-                    if (evt.getPropertyName().equals("GenerateToSize")) {
+            generDia.addPropertyChangeListener(new PropertyChangeListener()
+            {
+                public void propertyChange(PropertyChangeEvent evt)
+                {
+                    if (evt.getPropertyName().equals("GenerateToSize"))
+                    {
                         props = (Properties)evt.getNewValue();
                         generateToSize0();
                     }
@@ -1150,25 +1299,30 @@ public class Ui extends MyJFrame {
         }
         this.generDia.setVisible(true);
     }
-    private void generateToSize0() {
+    private void generateToSize0()
+    {
         int width = Integer.parseInt(props.getProperty("png-width"));
         int height = Integer.parseInt(props.getProperty("png-height"));
         generatePic(width, height,-1,RenderType.IMAGE, null);
     }
 
-    void generatePic() {
+    void generatePic()
+    {
         generatePic(-1, -1, -1, RenderType.IMAGE, null);
     }
 
-    void generatePic(int width, int height, long maxtime, RenderType imgTyp, SeqRecorder seq) {
+    void generatePic(int width, int height, long maxtime, RenderType imgTyp, SeqRecorder seq)
+    {
         EditViewCombo ev = ((EditViewCombo)tabs.getSelectedComponent());
-        if (ev.getView().getIcon() != null) {
+        if (ev.getView().getIcon() != null)
+        {
             if (width == -1 || (height == -1))
                 incrementVariationKey();
             if (width == -1) width = ev.getView().getIcon().getIconWidth();
             if (height == -1) height = ev.getView().getIcon().getIconHeight();
         } else {
-            while(ev.getView().getWidth() <= 0) {
+            while(ev.getView().getWidth() <= 0)
+            {
                 org.konte.misc.Func.sleep(10);
             }
             if (width == -1) width = ev.getView().getWidth();
@@ -1181,11 +1335,15 @@ public class Ui extends MyJFrame {
                 imgTyp, seq}));
     }
 
-    void generateSequence() {
+    void generateSequence()
+    {
         SeqDialogFrame seqfr = new SeqDialogFrame(props);
-        seqfr.addPropertyChangeListener(new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                if (evt.getPropertyName().equals("GenerateSequence")) {
+        seqfr.addPropertyChangeListener(new PropertyChangeListener()
+        {
+            public void propertyChange(PropertyChangeEvent evt)
+            {
+                if (evt.getPropertyName().equals("GenerateSequence"))
+                {
                     props = (Properties)evt.getNewValue();
                     generateSequence0();
                 }
@@ -1194,7 +1352,8 @@ public class Ui extends MyJFrame {
         seqfr.setVisible(true);
     }
 
-    void generateSequence0() {
+    void generateSequence0()
+    {
         int width = Integer.parseInt(props.getProperty("seq_width"));
         int height = Integer.parseInt(props.getProperty("seq_height"));
         int freq = 1000/Integer.parseInt(props.getProperty("seq_frequency"));
@@ -1203,9 +1362,11 @@ public class Ui extends MyJFrame {
             1, "seq_is_phase_generate",
             2, "seq_is_phase_final"
         };
-        for(int i = 0; i < sett.length; i+=2) {
+        for(int i = 0; i < sett.length; i+=2)
+        {
             String prop = props.getProperty((String)sett[i+1]);
-            if (prop != null && prop.toUpperCase().equals("TRUE")) {
+            if (prop != null && prop.toUpperCase().equals("TRUE"))
+            {
                 flags |= (Integer)sett[i];
             }
         }
@@ -1223,14 +1384,19 @@ public class Ui extends MyJFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
+    public static void main(String args[])
+    {
+        java.awt.EventQueue.invokeLater(new Runnable()
+        {
 
-            public void run() {
+            public void run()
+            {
                 final Ui ui = new Ui();
                 ui.setVisible(true);
-                Runtime.stateServer.setListener(new Observer() {
-                    public void update(Observable o, Object arg) {
+                Runtime.stateServer.setListener(new Observer()
+                {
+                    public void update(Observable o, Object arg)
+                    {
                         ui.addMessage((String)arg);
                     }
                 });

@@ -49,7 +49,8 @@ public class CameraBuilder {
         return this;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
     

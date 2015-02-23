@@ -22,11 +22,13 @@ public abstract class AbstractExporterBase {
     protected Model m;
 
 
-    private void setModel(Model m) {
+    private void setModel(Model m)
+    {
         this.m = m;
     }
 
-    private void setShapeReader(ShapeReader bsr) {
+    private void setShapeReader(ShapeReader bsr)
+    {
         this.bsr = bsr;
     }
 
@@ -38,18 +40,22 @@ public abstract class AbstractExporterBase {
         
         String ext;
 
-        private Type(String ext) {
+        private Type(String ext)
+        {
             this.ext = ext;
         }
-        public String getFileNameExtension() {
+        public String getFileNameExtension()
+        {
             return ext;
         }
         
     }
 
-    public static AbstractExporterBase createExporter(ShapeReader bsr, Model m, Type t) {
+    public static AbstractExporterBase createExporter(ShapeReader bsr, Model m, Type t)
+    {
         AbstractExporterBase e;
-        switch (t) {
+        switch (t)
+        {
             case SUNFLOW:
                 e = new SunflowExporter();
                 break;
@@ -72,14 +78,16 @@ public abstract class AbstractExporterBase {
         bw.write(transform(m, bsr));
         bw.write(transform(m.cameras));
         bw.write(transform(m.bg));
-        for (Untransformable shape : Language.untransformables()) {
+        for (Untransformable shape : Language.untransformables())
+        {
             bw.write(transform(shape));
         }
 
 
         Iterator<OutputShape> ii = getIterator(bsr);
         OutputShape p = null;
-        while ((p = ii.next()) != null) {
+        while ((p = ii.next()) != null)
+        {
             bw.write(transform(p, m));
         }
         bw.write(finish(m,bsr));

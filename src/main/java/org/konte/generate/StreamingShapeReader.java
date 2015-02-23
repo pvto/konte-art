@@ -145,11 +145,13 @@ public class StreamingShapeReader implements ShapeReader {
         return addedCount;
     }
 
-    public Iterator<OutputShape> iterator() {
+    public Iterator<OutputShape> iterator()
+    {
         throw new UnsupportedOperationException("Not supported yet: " + this.getClass().getName());
     }
 
-    public Iterator<OutputShape> descendingIterator() {
+    public Iterator<OutputShape> descendingIterator()
+    {
         throw new UnsupportedOperationException("Not supported yet: " + this.getClass().getName());
     }
 

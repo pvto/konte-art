@@ -60,7 +60,8 @@ public class SimpleCamera implements Camera {
         float rx = 0f;
         float ry = 0f;
         float rz = 0f;
-        for(TransformModifier tr : posT.acqTrs) {
+        for(TransformModifier tr : posT.acqTrs)
+        {
             if (tr instanceof TransformModifier.rx)
                 rx += tr.evaluateAll()[0] * toRad;
             else

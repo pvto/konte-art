@@ -39,20 +39,25 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
     private ColSpacePanel colSpacePanel1;
 
     /** Creates new form ColSpaceEditPane */
-    public ColSpaceEditPane() {
+    public ColSpaceEditPane()
+    {
         initComponents();
         colSpacePanel1 = new ColSpacePanel();
         add(colSpacePanel1, BorderLayout.CENTER);
-        colSpacePanel1.addMouseMotionListener(new MouseMotionListener() {
+        colSpacePanel1.addMouseMotionListener(new MouseMotionListener()
+        {
             private int grabbedPoint = -1;
-            public void mouseDragged(MouseEvent e) {
+            public void mouseDragged(MouseEvent e)
+            {
                 try {
-                    if (grabbedPoint == -1) {
+                    if (grabbedPoint == -1)
+                    {
                         ColorSpace cspace = colSpacePanel1.getColorSpace();
                         float[][] bounds = cspace.getBounds();
                         float fuzzy = (bounds[1][0] - bounds[0][0]) / 120f;
                         int pivot = colSpacePanel1.getPivot(e, fuzzy);
-                        if (pivot != -1) {
+                        if (pivot != -1)
+                        {
                             grabbedPoint = pivot;
                             System.out.println("drag at " + pivot);
                         }
@@ -62,37 +67,44 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
                         float x = colSpacePanel1.getColSpaceX(e.getX());
                         float y = colSpacePanel1.getColSpaceY(e.getY());
                         rgba.point.set(0, new Value(x));
-                        if (cspace.getDimension() > 1) {
+                        if (cspace.getDimension() > 1)
+                        {
                             rgba.point.set(1, new Value(y));
                         }
                         updatePointFromModel(rgba, grabbedPoint);
                         colSpacePanel1.repaint();
 
                     }
-                } catch(Exception ex) {
+                } catch(Exception ex)
+                {
                     ex.printStackTrace();
                 }
             }
             private int i = 0;
-            public void mouseMoved(MouseEvent e) {
+            public void mouseMoved(MouseEvent e)
+            {
                 grabbedPoint = -1;
                 if (i++ % 20 == 0)
                     updateColorspacePanel();
             }
         });
-        colSpacePanel1.addMouseListener(new MouseAdapter() {
+        colSpacePanel1.addMouseListener(new MouseAdapter()
+        {
 
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e)
+            {
                 super.mouseClicked(e);
-                if (e.getClickCount() == 2) {
+                if (e.getClickCount() == 2)
+                {
                     ColorSpace cspace;
                     try {
                         cspace = colSpacePanel1.getColorSpace();
                         float[][] bounds = cspace.getBounds();
                             float fuzzy = (bounds[1][0] - bounds[0][0]) / 80f;
                         int pivot = colSpacePanel1.getPivot(e, fuzzy);
-                        if (pivot == -1) {
+                        if (pivot == -1)
+                        {
                             float[] coords = new float[] {
                                 colSpacePanel1.getColSpaceX(e.getX()),
                                 colSpacePanel1.getColSpaceY(e.getY())
@@ -102,7 +114,8 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
                             colSpacePanel1.setLastActive(pivot);
                             changePivotColor();
                         }
-                    } catch(Exception ex) {
+                    } catch(Exception ex)
+                    {
                         ex.printStackTrace();
                     }
                 }
@@ -111,10 +124,13 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
         });
     }
 
-    private void copyToClipboard() {
+    private void copyToClipboard()
+    {
         Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
-        ClipboardOwner owner = new ClipboardOwner() {
-            public void lostOwnership(Clipboard clipboard, Transferable contents) {
+        ClipboardOwner owner = new ClipboardOwner()
+        {
+            public void lostOwnership(Clipboard clipboard, Transferable contents)
+            {
             }
         };
         StringSelection contents = new StringSelection(jTextArea1.getText());
@@ -124,13 +140,15 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
     private void insertPivot() throws ParseException {
         float[] coords = new float[3];
         ColorSpace cspace = colSpacePanel1.getColorSpace();
-        if (cspace != null) {
+        if (cspace != null)
+        {
             float[][] bounds = cspace.getBounds();
             float step = 1f;
             if (cspace.getPivots().size() > 1)
                 step = (bounds[1][0] - bounds[0][0])/(cspace.getPivots().size() - 1f);
             coords[0] = bounds[1][0] + step;
-            if (cspace.getDimension() > 1) {
+            if (cspace.getDimension() > 1)
+            {
                 step = 1f;
                 if (cspace.getPivots().size() > 1)
                     step = (bounds[1][1] - bounds[0][1])/(cspace.getPivots().size() - 1f);
@@ -139,27 +157,32 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
         }
         insertPivot(coords);
     }
-    private void insertPivot(float[] coords) {
+    private void insertPivot(float[] coords)
+    {
         String gram = jTextArea1.getText();
         int dim = 1;
-        if (colSpacePanel1.getColorSpace() == null) {
+        if (colSpacePanel1.getColorSpace() == null)
+        {
             dim = JOptionPane.showOptionDialog(null, "Select dimension", "Insert shading control point", 0, JOptionPane.PLAIN_MESSAGE,
                 null, new Object[] { " 1", " 2" }, null);
         } else {
             dim = colSpacePanel1.getColorSpace().getDimension() - 1;
         }
 
-        if (dim >= 0) {
+        if (dim >= 0)
+        {
             dim++;
             StringBuilder point = new StringBuilder();
             point.append("    point(");
-            for(int i=0; i < dim; i++) {
+            for(int i=0; i < dim; i++)
+            {
                 point.append(coords[i]);
                 if (i < dim-1)
                     point.append(", ");
             }
             point.append(") { A 1\n        RGB 0 0 0");
-            if (dim > 1) {
+            if (dim > 1)
+            {
                 point.append("  s 1");
             }
             point.append(" }\n");
@@ -170,7 +193,8 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
 
     private String numeric = "([0-9]+|[0-9]*\\.[0-9]+)";
     
-    private void updateColorFromModel(int lastActive, float[] color) {
+    private void updateColorFromModel(int lastActive, float[] color)
+    {
         String text = jTextArea1.getText();
         Pattern pattern = Pattern.compile(
                 String.format("(RGB\\s+)%s(\\s+)%s(\\s+)%s([\\s/\\}])",
@@ -178,8 +202,10 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
                 );
         Matcher m = pattern.matcher(text);
         int count = 0;
-        while(m.find()) {
-            if (count++ == lastActive) {
+        while(m.find())
+        {
+            if (count++ == lastActive)
+            {
                 text = text.substring(0, m.start()) +
                             m.group(0).replaceFirst(pattern.pattern(),
                             String.format(
@@ -203,11 +229,14 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
                 );
         Matcher m = pattern.matcher(text);
         int ind0 = 0;
-        while(m.find()) {
-            if (ind0++ != ind) {
+        while(m.find())
+        {
+            if (ind0++ != ind)
+            {
                 continue;
             }
-            if (colSpacePanel1.getColorSpace().getDimension() == 1) {
+            if (colSpacePanel1.getColorSpace().getDimension() == 1)
+            {
                 text = String.format("%s%s%s",
                         text.substring(0, m.start()),
 
@@ -217,7 +246,8 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
                         text.substring(m.end()));
                 jTextArea1.setText(text);
                 return;
-            } else if (colSpacePanel1.getColorSpace().getDimension() == 2) {
+            } else if (colSpacePanel1.getColorSpace().getDimension() == 2)
+            {
                 text = String.format("%s%s%s",
                         text.substring(0, m.start()),
 
@@ -233,15 +263,18 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
             break;
         }
     }
-    private void changePivotColor() {
-        if (colSpacePanel1.getLastActive() != -1) {
+    private void changePivotColor()
+    {
+        if (colSpacePanel1.getLastActive() != -1)
+        {
             RGBA rgba = colSpacePanel1.getColorSpace().getPivots().get(colSpacePanel1.getLastActive());
 
             Color initialColor;
             try {
                 initialColor = new Color(rgba.R.evaluate(), rgba.G.evaluate(), rgba.B.evaluate(), rgba.A.evaluate());
                 Color color = JColorChooser.showDialog(this, "Select color (alpha value will remain!)", initialColor);
-                if (color != null) {
+                if (color != null)
+                {
                     float[] cols = color.getColorComponents(null);
                     rgba.R = new Value(cols[0]);
                     rgba.G = new Value(cols[1]);
@@ -250,7 +283,8 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
                     updateColorFromModel(colSpacePanel1.getLastActive(), cols);
                     colSpacePanel1.repaint();
                 }
-            } catch (ParseException ex) {
+            } catch (ParseException ex)
+            {
             }
 
         } else {
@@ -258,12 +292,14 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
         }
     }
 
-    public void updateColorspacePanel() {
+    public void updateColorspacePanel()
+    {
         try {
             String text = jTextArea1.getText();
             colSpacePanel1.setColorSpace(text);
             jTextField1.setText("");
-        } catch(Exception ex) {
+        } catch(Exception ex)
+        {
             jTextField1.setText(ex instanceof NullPointerException ?
                 "NullPointerException at " + ex.getStackTrace()[0].toString() :
                 ex.getMessage());
@@ -279,12 +315,15 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea() {
-            public void setText(String text) {
+        jTextArea1 = new javax.swing.JTextArea()
+        {
+            public void setText(String text)
+            {
                 super.setText(text);
                 updateColorspacePanel();
             }
@@ -307,8 +346,10 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
         jTextArea1.setFont(new java.awt.Font("Monospaced", 0, 11)); // NOI18N
         jTextArea1.setRows(5);
         jTextArea1.setText("shading mycolors {\n}");
-        jTextArea1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+        jTextArea1.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mousePressed(java.awt.event.MouseEvent evt)
+            {
                 jTextArea1MousePressed(evt);
             }
         });
@@ -327,13 +368,17 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
         jButton1.setToolTipText("Add point to model");
         jButton1.setBorder(null);
         jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/Hardware ad alt.png"))); // NOI18N
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mousePressed(java.awt.event.MouseEvent evt)
+            {
                 jButton1MousePressed(evt);
             }
         });
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton1ActionPerformed(evt);
             }
         });
@@ -344,8 +389,10 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
         jButton2.setToolTipText("Select color");
         jButton2.setBorder(null);
         jButton2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/drop.png"))); // NOI18N
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mousePressed(java.awt.event.MouseEvent evt)
+            {
                 jButton2MousePressed(evt);
             }
         });
@@ -356,8 +403,10 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
         jButton3.setToolTipText("Change shading name");
         jButton3.setBorder(null);
         jButton3.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/applications.png"))); // NOI18N
-        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mousePressed(java.awt.event.MouseEvent evt)
+            {
                 jButton3MousePressed(evt);
             }
         });
@@ -368,8 +417,10 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
         jButton4.setToolTipText("Copy to clipboard");
         jButton4.setBorder(null);
         jButton4.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/clipping_unknow.png"))); // NOI18N
-        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mousePressed(java.awt.event.MouseEvent evt)
+            {
                 jButton4MousePressed(evt);
             }
         });
@@ -380,8 +431,10 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
         saveShadingButton.setToolTipText("Save shading");
         saveShadingButton.setBorder(null);
         saveShadingButton.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/floppy.png"))); // NOI18N
-        saveShadingButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+        saveShadingButton.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mousePressed(java.awt.event.MouseEvent evt)
+            {
                 saveShadingButtonMousePressed(evt);
             }
         });
@@ -397,12 +450,14 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
         Pattern pattern = Pattern.compile("(shading\\s+)([a-zA-Z0-9\\.\\-_]*)(\\s*\\{)");
         Matcher matcher = pattern.matcher(gram);
         String name = "";
-        if (matcher.find()) {
+        if (matcher.find())
+        {
             name = matcher.group(2);
         }
 
         String name2 = JOptionPane.showInputDialog(null, "Type new name for the shading", name);
-        if (name2 != null && !name.isEmpty()) {
+        if (name2 != null && !name.isEmpty())
+        {
             gram = matcher.replaceFirst(String.format("$1%s$3",name2));
             jTextArea1.setText(gram);
         }
@@ -412,7 +467,8 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
         try {
             insertPivot();
-        } catch (ParseException ex) {
+        } catch (ParseException ex)
+        {
             ex.printStackTrace();
         }
     }//GEN-LAST:event_jButton1MousePressed
@@ -442,7 +498,8 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
 }//GEN-LAST:event_saveShadingButtonMousePressed
 
 
-    public JButton getSaveShadingButton() {
+    public JButton getSaveShadingButton()
+    {
         return saveShadingButton;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -459,7 +516,8 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         JFrame fr = new JFrame();
         fr.setSize(800,600);
         ColSpaceEditPane csep = new ColSpaceEditPane();

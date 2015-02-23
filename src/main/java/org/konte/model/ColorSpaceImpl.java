@@ -14,21 +14,25 @@ public abstract class ColorSpaceImpl implements ColorSpace {
     protected String name;
     protected Expression strength;
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.id = id;
     }
-    public int getId() {
+    public int getId()
+    {
         return id;
     }
 
-    public void setStrength(Expression strength) {
+    public void setStrength(Expression strength)
+    {
         this.strength = strength;
     }
     public float getStrength() throws ParseException {
         return strength.evaluate();
     }  
     
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
     

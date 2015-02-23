@@ -12,14 +12,17 @@ public class FieldStrength2DColorSpace extends ColorSpaceImpl {
     private ArrayList<RGBA> transformPoints;
 
 
-    public int getDimension() {
+    public int getDimension()
+    {
         return 2;
     }
-    public FieldStrength2DColorSpace(String name, int id) {
+    public FieldStrength2DColorSpace(String name, int id)
+    {
         this.name = name;
         this.id = id;
     }
-    public void setPoints(ArrayList<RGBA> points) {
+    public void setPoints(ArrayList<RGBA> points)
+    {
         this.transformPoints = points;
         dists = new float[points.size()];
     }
@@ -33,7 +36,8 @@ public class FieldStrength2DColorSpace extends ColorSpaceImpl {
         rgbas[0] = rgbas[1] = rgbas[2] = rgbas[3] = 0f;
         rgbas[4] = strength.evaluate();
         int i = 0;
-        for (RGBA rgba : this.transformPoints) {
+        for (RGBA rgba : this.transformPoints)
+        {
             dist0 = x - rgba.point.get(0).evaluate();
             dist1 = y - rgba.point.get(1).evaluate();
             dists[i] =  1f /
@@ -43,7 +47,8 @@ public class FieldStrength2DColorSpace extends ColorSpaceImpl {
             i++;
         }        
         i = 0;
-        for (RGBA rgba : this.transformPoints) {
+        for (RGBA rgba : this.transformPoints)
+        {
             dist0 = dists[i] / totdist;
             rgbas[0] += rgba.R.evaluate() * dist0;
             rgbas[1] += rgba.G.evaluate() * dist0;
@@ -57,7 +62,8 @@ public class FieldStrength2DColorSpace extends ColorSpaceImpl {
 
     public float[][] getBounds() throws ParseException {
         float xmin = 0f, xmax = 0f, ymin = 0f, ymax = 0f;
-        for(RGBA rgba : transformPoints) {
+        for(RGBA rgba : transformPoints)
+        {
             float x = rgba.point.get(0).evaluate();
             if (x < xmin)
                 xmin = x;
@@ -75,7 +81,8 @@ public class FieldStrength2DColorSpace extends ColorSpaceImpl {
         };
     }
 
-    public List<RGBA> getPivots() {
+    public List<RGBA> getPivots()
+    {
         return transformPoints;
     }
     

@@ -110,18 +110,24 @@ public class Parser {
         boolean hasNextAfter = ttOrig.size() > startpos + 2;
         Token u = !hasNext ? null : Language.tokenByName(ttOrig.get(startpos + 1).getString());
 
-        if (isSemicolons != 1) {
-            if (t == Language.left_bracket || t instanceof Function) {
+        if (isSemicolons != 1)
+        {
+            if (t == Language.left_bracket || t instanceof Function)
+            {
             // skip to loop
-            } else if (t == Language.subtract) {
-                if (!hasNext) {
+            } else if (t == Language.subtract)
+            {
+                if (!hasNext)
+                {
                     throw new ParseException("Orphaned negation ", lineNr, caretPos);
                 }
 
                 if (u == Language.left_bracket || u instanceof Function 
-                        || (u != null && InnerExpressiveToken.class.isAssignableFrom(u.getClass()))) {
+                        || (u != null && InnerExpressiveToken.class.isAssignableFrom(u.getClass())))
+                        {
                 // skip to loop
-                } else if (u == null) {
+                } else if (u == null)
+                {
                     ret.add(first);
                     ret.add(new Token(ttOrig.get(startpos + 1).getString()));
                     return startpos + 1;
@@ -129,8 +135,10 @@ public class Parser {
                 } else {
                     throw new ParseException("Expression: expecting ( or number or name after -", lineNr, caretPos);
                 }
-            } else if (t == null || t instanceof Untransformable) {
-                if (isSemicolons == 2 || !(u instanceof Operator)) {
+            } else if (t == null || t instanceof Untransformable)
+            {
+                if (isSemicolons == 2 || !(u instanceof Operator))
+                {
                     ret.add(first);
                     return startpos;
                 }
@@ -141,39 +149,48 @@ public class Parser {
         int ii = startpos;
         boolean moveToNext = true; 
         Token last = null;
-        while (moveToNext) {
+        while (moveToNext)
+        {
             int lbctmp = lbcount;
             String s = ttOrig.get(ii).getString();
             last = ii>startpos ? 
                 t : null;
             t = Language.tokenByName(s);
             if (t == Language.right_curl || t == Language.semicolon || 
-                    (lbcount==0 && t == Language.comma)) {
+                    (lbcount==0 && t == Language.comma))
+                    {
                 moveToNext = false;
                 break;
-            }else if (t == null) {
+            }else if (t == null)
+            {
                 t = new Token(s);
-            } else if (t == Language.left_bracket) {
+            } else if (t == Language.left_bracket)
+            {
                 if ( startpos < ii 
                     && ! (last == Language.left_bracket || last instanceof Operator 
-                        || Function.class.isAssignableFrom(last.getClass()))) {
+                        || Function.class.isAssignableFrom(last.getClass())))
+                        {
                     moveToNext = false;
                     break;
                 }
                 lbcount++;
-            } else if (t == Language.right_bracket) {
+            } else if (t == Language.right_bracket)
+            {
                 lbcount--;
-                if (lbcount <= 0 && isSemicolons != 1) {
+                if (lbcount <= 0 && isSemicolons != 1)
+                {
                     moveToNext = false;
                     if (isSemicolons == 0 && ttOrig.size() > ii + 1 
-                            && Language.tokenByName(ttOrig.get(ii + 1).getString()) instanceof Operator) {
+                            && Language.tokenByName(ttOrig.get(ii + 1).getString()) instanceof Operator)
+                            {
                         moveToNext = true;
                     }
                 }
             } else if ( startpos < ii 
                     && (last.getClass() == Token.class || InnerExpressiveToken.class.isAssignableFrom(last.getClass()))
                     && ! (t instanceof Operator || t instanceof Comparator 
-                        || lbctmp > 0 && t == Language.comma)) {
+                        || lbctmp > 0 && t == Language.comma))
+                        {
                 moveToNext = false;
                 break;
             }
@@ -184,20 +201,24 @@ public class Parser {
                           t == Language.right_curl ||
                           t == Language.right_bracket ||
                           t == Language.comma ||
-                          t == Language.semicolon)) {
+                          t == Language.semicolon))
+                          {
                 moveToNext = false;
                 break;
             }
             ret.add(t);
-            if (ii + 1 >= ttOrig.size()) {
+            if (ii + 1 >= ttOrig.size())
+            {
                 moveToNext = false;
             }
             ii++;
         }
-        if (lbcount > 0) {
+        if (lbcount > 0)
+        {
             throw new ParseException("Missing  ) \n" +
                     ret.toString(), lineNr, caretPos);
-        } else if (lbcount < 0) {
+        } else if (lbcount < 0)
+        {
             throw new ParseException("Unexpected  ) \n " +
                     ret.toString(), lineNr, caretPos);
         } else {
@@ -254,19 +275,24 @@ public class Parser {
         ColorSpaceBuilder colBd = new ColorSpaceBuilder();
         LightBuilder lightBd = new LightBuilder();
         String s = null;
-        for (int i = 0; i < tokenStrings.size(); i++) {
+        for (int i = 0; i < tokenStrings.size(); i++)
+        {
             s = tokenStrings.get(i).getString();
             lineNr = tokenStrings.get(i).getLineNr();
             caretPos = tokenStrings.get(i).getCaretPos();
             
-            if (s.startsWith(Language.comment_start.name)) {
+            if (s.startsWith(Language.comment_start.name))
+            {
                 s = s.substring(2);
-                for(KonteScriptExtension ext : Language.scriptExtensions) {
-                    if (ext.isScript(s)) {
+                for(KonteScriptExtension ext : Language.scriptExtensions)
+                {
+                    if (ext.isScript(s))
+                    {
                         try {
                             KontePluginScript script = ext.getInstance(s);
                             script.setModel(m);
-                            switch(curCtx) {
+                            switch(curCtx)
+                            {
                                 case GRAMMAR:
                                     script.execute();
                                     break;
@@ -275,7 +301,8 @@ public class Parser {
                                     lastRule.addScript(script);
                                     break;
                             }
-                        } catch(Exception ex) {
+                        } catch(Exception ex)
+                        {
                             throw new ParseException("plugin script failure: " + ex.getMessage(), lineNr, caretPos);
                         }
                         break;
@@ -286,32 +313,45 @@ public class Parser {
             Token t = null;
             t = Language.tokenByName(s);
             try {
-            switch (curCtx) {
+            switch (curCtx)
+            {
                 case GRAMMAR:
                     contextStack.push(curCtx);
-                    if (t == Language.rule) {
+                    if (t == Language.rule)
+                    {
                         curCtx = ParsingContext.RULE_CREATE;
-                    } else if (t == Language.path) {
+                    } else if (t == Language.path)
+                    {
                         curCtx = ParsingContext.PATH_CREATE;
-                    } else if (t == Language.def) {
+                    } else if (t == Language.def)
+                    {
                         curCtx = ParsingContext.DEF_NAME;
-                    } else if (t == Language.macro) {
+                    } else if (t == Language.macro)
+                    {
                         curCtx = ParsingContext.MACRO_NAME;
-                    } else if (t == Language.background) {
+                    } else if (t == Language.background)
+                    {
                         curCtx = ParsingContext.BACKGROUND_CREATE;
-                    } else if (t == Language.light) {
+                    } else if (t == Language.light)
+                    {
                         curCtx = ParsingContext.LIGHT_CREATE;
-                    } else if (t == Language.startshape) {
+                    } else if (t == Language.startshape)
+                    {
                         curCtx = ParsingContext.STARTSHAPE;
-                    } else if (t == Language.fov) {
+                    } else if (t == Language.fov)
+                    {
                         curCtx = ParsingContext.CAMERA_CREATE;
-                    } else if (t == Language.shading) {
+                    } else if (t == Language.shading)
+                    {
                         curCtx = ParsingContext.SHADING_CREATE;                        
-                    } else if (t == Language.model) {
+                    } else if (t == Language.model)
+                    {
                         curCtx = ParsingContext.MODEL_CREATE;
-                    } else if (t == Language.include) {
+                    } else if (t == Language.include)
+                    {
                         curCtx = ParsingContext.INCLUDE;
-                    } else if (t == Language.fx) {
+                    } else if (t == Language.fx)
+                    {
                         curCtx = ParsingContext.FX;
                     } else {
                         if (t != null)
@@ -322,7 +362,8 @@ public class Parser {
                     }
                     break;
                 case MODEL_CREATE:
-                    if (t == Language.left_curl) {
+                    if (t == Language.left_curl)
+                    {
                         curCtx = Parser.ParsingContext.MODEL;
                         pos = 0;
                     } else {
@@ -331,37 +372,49 @@ public class Parser {
                     }
                     break;
                 case MODEL:
-                    if ((pos & 8) != 0) {
+                    if ((pos & 8) != 0)
+                    {
                         if (m.shapeReader == null)
                             throw new ParseException("streamrate definition before order definition near " + s + ". Try 'order STREAM'.", lineNr, caretPos);
-                        if (! (m.shapeReader instanceof StreamingShapeReader)) {
+                        if (! (m.shapeReader instanceof StreamingShapeReader))
+                        {
                             throw new ParseException("Streamrate directive is available for 'order STREAM' shapereader only ", lineNr, caretPos);
                         }
                         try {
                             i = getExpressionList(tokenStrings, i, exprL);
                             Expression streamRate = exprParser.parse(exprL, 0, m);
                             ((StreamingShapeReader)m.shapeReader).streamRate = streamRate;
-                        } catch(Exception ex) {
+                        } catch(Exception ex)
+                        {
                             throw new ParseException("Can not parse streamrate expression near ", lineNr, caretPos);
                         }
                         pos = 0;
-                    } else if (t == Language.feature_size) {
+                    } else if (t == Language.feature_size)
+                    {
                         pos |= 1;
-                    } else if (t == Language.max_shapes) {
+                    } else if (t == Language.max_shapes)
+                    {
                         pos |= 2;
-                    } else if (t == Language.push_stack) {
+                    } else if (t == Language.push_stack)
+                    {
                         pos |= 4;                    
-                    } else if (t == Language.order) {
+                    } else if (t == Language.order)
+                    {
                         pos = 0x100;
-                    } else if (t == Language.stream_rate) {
+                    } else if (t == Language.stream_rate)
+                    {
                         pos |= 8;
-                    } else if (t == Language.right_curl) {
+                    } else if (t == Language.right_curl)
+                    {
                         curCtx = contextStack.pop();
-                    } else if (t == null) {
+                    } else if (t == null)
+                    {
                         if (pos == 0)
                             throw new ParseException("Model - orphaned token " + s, lineNr, caretPos);
-                        else if (pos >= 0x100) {
-                            if (pos == 0x100) {
+                        else if (pos >= 0x100)
+                        {
+                            if (pos == 0x100)
+                            {
                                 if (m.shapeReader != null)
                                     throw new ParseException("Repeated order definition near " + s, lineNr, caretPos);
                                 m.shapeReader = ShapeReaders.getReader(s, m);
@@ -371,13 +424,16 @@ public class Parser {
                             Float v = Language.returnAsValue(s);
                             if (v == null)
                                 throw new ParseException("Expecting plain value in model settings near " + s, lineNr, caretPos);
-                            if ((pos & 1) != 0) {
+                            if ((pos & 1) != 0)
+                            {
                                 m.minfeaturesize = v;
                             }
-                            if ((pos & 2) != 0) {
+                            if ((pos & 2) != 0)
+                            {
                                 m.maxShapes = (int)Math.floor((double)v); 
                             }
-                            if ((pos & 4) != 0) {
+                            if ((pos & 4) != 0)
+                            {
                                 m.pushStackSize = Math.max(0,(int)Math.floor((double)v));
                             }
                             pos = 0;
@@ -389,7 +445,8 @@ public class Parser {
                     }
                     break;                      
                 case BACKGROUND_CREATE:
-                    if (t == Language.left_curl) {
+                    if (t == Language.left_curl)
+                    {
                         ltfm = new Transform("background");
                         m.backgroundTransform = ltfm;
                         curCtx = Parser.ParsingContext.BACKGROUND;
@@ -399,11 +456,13 @@ public class Parser {
                     }
                     break;
                 case BACKGROUND:
-                    if (t instanceof InnerToken) {
+                    if (t instanceof InnerToken)
+                    {
                         if ((t == Language.R) || (t == Language.G) ||
                                 (t == Language.B) || (t == Language.A) ||
                                 (t == Language.H) || (t == Language.S) ||
-                                (t == Language.L) || (t == Language.RGB)) {
+                                (t == Language.L) || (t == Language.RGB))
+                                {
                             lastInnerToken = t;
                             isSpecialContext = true;
                             lexprs.clear();  
@@ -412,24 +471,28 @@ public class Parser {
                             throw new ParseException("background - not expecting " + s +
                                     ". Valid tokens are R G B A H S L RGB", lineNr, caretPos);
                         }
-                    } else if (t == Language.right_curl) {
+                    } else if (t == Language.right_curl)
+                    {
                         lastInnerToken = null;
                         curCtx = contextStack.pop();
                         isSpecialContext = false;
                     } else {
-                        if (!isSpecialContext) {
+                        if (!isSpecialContext)
+                        {
                             throw new ParseException("background - expecting R G B A H S or L before " + s, lineNr, caretPos);
                         }
                         if (lastInnerToken == null)
                             throw new ParseException("Missing token in background declaration before " +s, lineNr, caretPos);
-                        else if (lastInnerToken == Language.RGB && s.matches("#[0-9A-Fa-f]{6}")) {
+                        else if (lastInnerToken == Language.RGB && s.matches("#[0-9A-Fa-f]{6}"))
+                        {
                             lexprs = decodeHtmlRgb(s);
                             ltfm.setShapeTransform(lastInnerToken, lexprs);
                             lastInnerToken = null;
                         } else {
                             i = getExpressionList(tokenStrings, i, exprL);
                             lexprs.add(lexpr = exprParser.parse(exprL, 0, m));
-                            if (!((InnerToken)lastInnerToken).higherParamCountAllowed(++pos)) {
+                            if (!((InnerToken)lastInnerToken).higherParamCountAllowed(++pos))
+                            {
                                 if (!((InnerToken)lastInnerToken).nParamsAllowed(pos))
                                     throw new ParseException("Wrong number of arguments to " + lastInnerToken, lineNr, caretPos);
                                 ltfm.setShapeTransform(lastInnerToken, lexprs);
@@ -440,40 +503,47 @@ public class Parser {
                     break;
                 case INCLUDE:
                     boolean wasLast = false;
-                    if (t == null || t == Language.divide) {
+                    if (t == null || t == Language.divide)
+                    {
                         if (lastName == null)
                             lastName = s;
                         else {
                             if (i < tokenStrings.size()-1 
-                                    && Language.tokenByName(tokenStrings.get(i + 1).getString()) != null) {
+                                    && Language.tokenByName(tokenStrings.get(i + 1).getString()) != null)
+                                    {
                                 lastName += " ";
                             }
                             lastName += s;
                         }
-                        if (i == tokenStrings.size()-1) {
+                        if (i == tokenStrings.size()-1)
+                        {
                             wasLast = true;
                             i++;
                         }
                     } else if (i < tokenStrings.size()-1 &&
-                            "/".equals(tokenStrings.get(i+1).getString())) {
+                            "/".equals(tokenStrings.get(i+1).getString()))
+                            {
                         if (lastName == null)
                             lastName = s;
                         else lastName += s;
                         t = null;
                     }
-                    if ((t != null && t != Language.divide) || wasLast) {
+                    if ((t != null && t != Language.divide) || wasLast)
+                    {
                         if (lastName == null || lastName.isEmpty())
                             throw new ParseException("Include file not specified", lineNr, caretPos);
                         Matcher matcher = Pattern.compile(
                                 "(.*(jpg|jpeg|png|gif|JPG|PNG|GIF))\\s*(\\w*)$").matcher(lastName);
-                        if (matcher.find()) {
+                        if (matcher.find())
+                        {
                             try {
                                 String refName = matcher.group(3);
                                 if (refName.length() == 0)
                                     throw new ParseException("Syntax: include [bitmap-name] [ref-name]", lineNr, caretPos);
                                 File fl = getFile(workdir, matcher.group(1));
                                 Image img = null;
-                                if (fl.exists()) {
+                                if (fl.exists())
+                                {
                                     img = Model.bitmapCache.add(fl, refName);
                                 } else {
                                     img = Model.bitmapCache.add(new URL(matcher.group(1)), refName);
@@ -486,7 +556,8 @@ public class Parser {
                                         img.getHeight(null), refName), 5);
                                 Model.bitmapCache.init();
                                 i--;
-                            } catch(Exception ex) {
+                            } catch(Exception ex)
+                            {
                                 throw new ParseException(String.format(
                                         "bitmap %s not loaded: %s", matcher.group(1), ex.getMessage()),
                                         lineNr, caretPos);
@@ -498,7 +569,8 @@ public class Parser {
                                 throw new ParseException("Empty or missing include file: " + lastName, lineNr, caretPos);
                             ArrayList<Tokenizer.TokenizerString> included =
                                     Tokenizer.retrieveTokenStrings(tmp);
-                            if (included.size() > 0) {
+                            if (included.size() > 0)
+                            {
                                 tokenStrings.addAll(i, included);
                                 Runtime.sysoutln(lastName + " included", 5);
                                 i--;
@@ -569,7 +641,8 @@ public class Parser {
                             lastValue = null;
                             val = null;
                         }
-                        else if (t == Language.multiply) {
+                        else if (t == Language.multiply)
+                        {
                             isSpecialContext = true;
                         }
                         else {
@@ -590,12 +663,15 @@ public class Parser {
                     }
                     break;
                 case LIGHT_CREATE:
-                    if (t==Language.left_curl) {
+                    if (t==Language.left_curl)
+                    {
                         lightBd.clearPointData();
                         curCtx = Parser.ParsingContext.LIGHT;                    
-                    } else if (lastName == null) {
+                    } else if (lastName == null)
+                    {
                         lastName = s;
-                        if (Language.isName(s)) {
+                        if (Language.isName(s))
+                        {
                             if (t != null)
                                 throw new ParseException("Unexpected token for light name: " + s, lineNr, caretPos);
                             lightBd.name(s);
@@ -606,22 +682,27 @@ public class Parser {
                     }
                     break;   
                 case LIGHT:
-                    if (t == Language.right_curl) {
+                    if (t == Language.right_curl)
+                    {
                         try {
                             lightBd.point(tmpexps, lrstfm);
                             m.addLight(lightBd.build());
-                        } catch(Exception ex) {
+                        } catch(Exception ex)
+                        {
                             throw new ParseException(ex.getMessage(), lineNr, caretPos);
                         }
                         lrstfm = null;
                         lastName = null;
                         tmpexps.clear();                        
                         curCtx = contextStack.pop();
-                    } else if (t == Language.point) {
-                        if (tmpexps.size() > 0) {
+                    } else if (t == Language.point)
+                    {
+                        if (tmpexps.size() > 0)
+                        {
                             try {
                                 lightBd.point(tmpexps, lrstfm);
-                            } catch(Exception ex) {
+                            } catch(Exception ex)
+                            {
                                 throw new ParseException(ex.getMessage(), lineNr, caretPos);
                             }
                             lrstfm = null;
@@ -629,28 +710,35 @@ public class Parser {
                         i = getExpressionList(tokenStrings, i, exprL);
                         try {
                             lexpr = exprParser.parse(exprL, 0, m);
-                        } catch(ParseException pex) {
+                        } catch(ParseException pex)
+                        {
                             throw new ParseException(
                                 pex.getMessage(), lineNr, caretPos);
                         }
                         tmpexps.clear();
                         ExpressionFunction func = (ExpressionFunction)lexpr;
-                        for (Expression e : func.getArgs()) {
+                        for (Expression e : func.getArgs())
+                        {
                             tmpexps.add(e);
                         }
                         //colSp = ColorSpace.createColorSpace(lastName, lexprs);
-                    } else if  (t == Language.s) {
+                    } else if  (t == Language.s)
+                    {
                          i = getExpressionList(tokenStrings, i+1, exprL);
                         lexpr = exprParser.parse(exprL, 0, m);
                         lightBd.strength(lexpr);
-                    } else if (t == Language.left_curl) {
+                    } else if (t == Language.left_curl)
+                    {
                         contextStack.push(curCtx);
                         lrstfm = new Transform();
                         curCtx = ParsingContext.LIGHT_ADJUSTMENTS;
                     } else {
-                        for (LightModifier mod: LightModifier.values()) {
-                            if (s.compareTo(mod.name())==0) {
-                                switch(mod) {
+                        for (LightModifier mod: LightModifier.values())
+                        {
+                            if (s.compareTo(mod.name())==0)
+                            {
+                                switch(mod)
+                                {
                                     case DEFAULT:
                                         lightBd.type(0);
                                         break;
@@ -667,37 +755,45 @@ public class Parser {
                     }
                     break;                    
                 case SHADING_CREATE:
-                    if (lastName == null) {
+                    if (lastName == null)
+                    {
                         lastName = s;
-                        if (Language.isName(s)) {
+                        if (Language.isName(s))
+                        {
                             if (t != null)
                                 throw new ParseException("Unexpected token for shading name: " + s, lineNr, caretPos);
                             colBd.name(s);
                         } else 
                             throw new ParseException("'shading' must be followed by a name, found " + s, lineNr, caretPos);
-                    } else if (t==Language.left_curl) {
+                    } else if (t==Language.left_curl)
+                    {
                         curCtx = Parser.ParsingContext.SHADING;
                     }else {
                         throw new ParseException("Repeated name definition for shading: " + lastName + "," + s, lineNr, caretPos);
                     }
                     break;
                 case SHADING:
-                    if (t == Language.right_curl) {
+                    if (t == Language.right_curl)
+                    {
                         try {
                             colBd.point(tmpexps, lrstfm);
                             m.addColorSpace(colBd.build());
-                        } catch(Exception ex) {
+                        } catch(Exception ex)
+                        {
                             throw new ParseException(ex.getMessage(), lineNr, caretPos);
                         }
                         lrstfm = null;
                         lastName = null;
                         tmpexps.clear();                        
                         curCtx = contextStack.pop();
-                    } else if (t == Language.point) {
-                        if (tmpexps.size() > 0) {
+                    } else if (t == Language.point)
+                    {
+                        if (tmpexps.size() > 0)
+                        {
                             try {
                                 colBd.point(tmpexps, lrstfm);
-                            } catch(Exception ex) {
+                            } catch(Exception ex)
+                            {
                                 throw new ParseException(ex.getMessage(), lineNr, caretPos);
                             }
                             lrstfm = null;
@@ -705,32 +801,38 @@ public class Parser {
                         i = getExpressionList(tokenStrings, i, exprL);
                         try {
                             lexpr = exprParser.parse(exprL, 0, m);
-                        } catch(ParseException pex) {
+                        } catch(ParseException pex)
+                        {
                             throw new ParseException(
                                 pex.getMessage(), lineNr, caretPos);
                         }
                         tmpexps.clear();
                         ExpressionFunction func = (ExpressionFunction)lexpr;
-                        for (Expression e : func.getArgs()) {
+                        for (Expression e : func.getArgs())
+                        {
                             tmpexps.add(e);
                         }
                         //colSp = ColorSpace.createColorSpace(lastName, lexprs);
-                    } else if  (t == Language.A) {
+                    } else if  (t == Language.A)
+                    {
                         i = getExpressionList(tokenStrings, i+1, exprL);
                         lexpr = exprParser.parse(exprL, 0, m);
                         colBd.strength(lexpr);
-                    } else if (t == Language.left_curl) {
+                    } else if (t == Language.left_curl)
+                    {
                         contextStack.push(curCtx);
                         lrstfm = new Transform();
                         curCtx = ParsingContext.SHADING_ADJUSTMENTS;
                     }
                     break;
                 case STARTSHAPE:
-                    if (t != null) {
+                    if (t != null)
+                    {
                         throw new ParseException(
                                 "Misplaced token after startshape: " + s, lineNr, caretPos);
                     } else {
-                        if (Language.returnAsValue(s) != null) {
+                        if (Language.returnAsValue(s) != null)
+                        {
                             throw new ParseException(
                                     "Not expecting a numerical constant after startshape", lineNr, caretPos);
                         }
@@ -739,7 +841,8 @@ public class Parser {
                     }
                     break;
                 case CAMERA_CREATE:
-                    if (t == Language.left_curl) {
+                    if (t == Language.left_curl)
+                    {
                         curCtx = Parser.ParsingContext.CAMERA;
                         ltfm = new Transform("fov");
                         camBd = new CameraBuilder(ltfm);
@@ -750,17 +853,20 @@ public class Parser {
                     }
                     break;
                 case CAMERA:
-                    if (t instanceof InnerToken) {
+                    if (t instanceof InnerToken)
+                    {
                         if ((t == Language.x) || (t == Language.y) ||
                                 (t == Language.z) || (t == Language.rx) ||
                                 (t == Language.ry) || (t == Language.rz) ||
-                                (t == Language.s)) {
+                                (t == Language.s))
+                                {
                             lastInnerToken = t;
                         } else {
                             throw new ParseException("Not expecting " + s +
                                     " in camera declaration. Valid tokens are: x y z rx ry rz s", lineNr, caretPos);
                         }
-                    } else if (t == Language.right_curl) {
+                    } else if (t == Language.right_curl)
+                    {
                         if (lastInnerToken != null)
                             throw new ParseException("Orphaned " + lastInnerToken + " in Camera declaration", lineNr, caretPos);
                         curCtx = contextStack.pop();
@@ -769,17 +875,21 @@ public class Parser {
                     } else {
                         boolean used = false;
                         for (CameraProperties prop : CameraProperties.values())
-                            if (s.equalsIgnoreCase(prop.toString())) {
+                            if (s.equalsIgnoreCase(prop.toString()))
+                            {
                                 if (lastInnerToken != null)
                                     throw new ParseException("Orphaned " + s + " follows " + lastInnerToken + " in Camera declaration", lineNr, caretPos);
                                 camBd.addProperty(prop);
                                 used = true;
                             } 
-                        if (!used) {
+                        if (!used)
+                        {
                             i = getExpressionList(tokenStrings, i, exprL);
                             lexpr = exprParser.parse(exprL, 0, m);
-                            if (lastInnerToken == null) {
-                                if (lexpr instanceof Name) {
+                            if (lastInnerToken == null)
+                            {
+                                if (lexpr instanceof Name)
+                                {
                                     if (camBd.getName() != null)
                                         throw new ParseException("Duplicate camera name " + s, lineNr, caretPos);
                                     camBd.setName(s);
@@ -800,8 +910,10 @@ public class Parser {
                 case DEF_NAME:
                     isDef = true;
                 case MACRO_NAME:
-                    if (t == null) {
-                        if (Language.isName(s)) {
+                    if (t == null)
+                    {
+                        if (Language.isName(s))
+                        {
                             lastName = s;
                             curCtx = ParsingContext.MACRO_VALUE;
                         } else {
@@ -817,7 +929,8 @@ public class Parser {
                     i = getExpressionList(tokenStrings, i, exprL);
                     lexpr = exprParser.parse(exprL, 0, m);
                     val = null;
-                    if (isDef) {
+                    if (isDef)
+                    {
                         if ((val = lexpr.evaluate()) == null)
                             throw new ParseException("Could not evaluate constant " + lastName);
                         lexpr = new Value(val);
@@ -835,14 +948,18 @@ public class Parser {
                 case PATH_CREATE:
                     isSpecialContext = true;
                 case RULE_CREATE:
-                    if (t == null) {
-                        if (Language.isName(s)) {
-                            if (!wasNamed) {
+                    if (t == null)
+                    {
+                        if (Language.isName(s))
+                        {
+                            if (!wasNamed)
+                            {
                                 lastName = s;
                                 lastValue = null;
                                 lastRule = null;
                                 lndr = null;
-                                if (m.constants.get(s) != null) {
+                                if (m.constants.get(s) != null)
+                                {
                                     throw new ParseException(
                                             "Rule/path name reserved to a constant: " + s, lineNr, caretPos);
                                 }
@@ -853,28 +970,34 @@ public class Parser {
                                         "(near " + s + ")", lineNr, caretPos);
                             }
                         } else {
-                            if (!wasNamed) {
+                            if (!wasNamed)
+                            {
                                 throw new ParseException("Missing rule name near " + s, lineNr, caretPos);
                             }
                             lastValue = Language.returnAsValue(s);
-                            if (lastValue == null) {
+                            if (lastValue == null)
+                            {
                                 throw new ParseException(
                                         "Invalid syntax: 'rule' or 'path' must be followed by name and weight or '{' " +
                                         "(near " + s + ")", lineNr, caretPos);
                             }
                         }
-                    } else if (t == Language.left_curl) {
-                        if (!wasNamed) {
+                    } else if (t == Language.left_curl)
+                    {
+                        if (!wasNamed)
+                        {
                             throw new ParseException("Missing rule or path name", lineNr, caretPos);
                         }
-                        if (lastValue == null) {
+                        if (lastValue == null)
+                        {
                             lastValue = 1.0f;
                         }
                         lrepeat = null;
                         Rule tmprule = isSpecialContext ? new PathRule() : new Rule();
                         lastRule = m.addRule(lastName, lastValue, tmprule);
                         lndr = lastRule.getNonDeterministicRule();
-                        if (isSpecialContext) {
+                        if (isSpecialContext)
+                        {
                             curCtx = Parser.ParsingContext.PATH;
                             isSpecialContext = false;
                         } else {
@@ -912,18 +1035,22 @@ public class Parser {
                     }
                 case RULE:
                     if (t == null || t instanceof Untransformable || 
-                            t == Language.peek || t == Language.pop) {
-                        if (Language.isName(s)) {
+                            t == Language.peek || t == Language.pop)
+                            {
+                        if (Language.isName(s))
+                        {
                             if (lastRule instanceof PathRule)
                                 throw new ParseException(String.format(
                                         "call ('%s') within 'path' is prohibited", s), lineNr, caretPos);
-                            if (t instanceof Untransformable) {
+                            if (t instanceof Untransformable)
+                            {
                                 ltfm = new TerminatingShape(s);
                                 ((TerminatingShape)ltfm).shape = (Untransformable)t;
                             } else {
                                 ltfm = new Transform(s);
                             }
-                            if (lrepeat != null) {
+                            if (lrepeat != null)
+                            {
                                 lrepeat.repeatedTransform = ltfm;
                                 lrepeat = null;
                             } else {
@@ -935,7 +1062,8 @@ public class Parser {
 
                         } else {
                             lastValue = Language.returnAsValue(s);
-                            if (lastValue != null) {
+                            if (lastValue != null)
+                            {
                                 lexpr = new Value(lastValue);
                             } else {
                                 lexpr = Name.createExpressionFinalName(s);
@@ -946,13 +1074,15 @@ public class Parser {
                             
                         }
 
-                    } else if (t == Language.moveto && lastRule instanceof PathRule) {
+                    } else if (t == Language.moveto && lastRule instanceof PathRule)
+                    {
 //                        if (((PathRule)lastRule).moveto != null)
 //                            throw new ParseException("Not expecting 'moveto' again", lineNr, caretPos);
                         i = getExpressionList(tokenStrings, i, exprL);
                         try {
                             lexpr = exprParser.parse(exprL, 0, m);
-                        } catch(ParseException pex) {
+                        } catch(ParseException pex)
+                        {
                             throw new ParseException(
                                 pex.getMessage(), lineNr, caretPos);
                         }
@@ -960,7 +1090,8 @@ public class Parser {
                         Placeholder ple = new Placeholder(PathRule.MOVE_TO, func.getArgs());
                         ((PathRule)lastRule).steps.add(ple);
                         ((PathRule)lastRule).closed = 0;
-                    } else if (t == Language.bend && lastRule instanceof PathRule) {
+                    } else if (t == Language.bend && lastRule instanceof PathRule)
+                    {
                         PathRule pr = (PathRule)lastRule;
 //                        if (pr.closed > 0)
 //                            throw new ParseException("Path already closed", lineNr, caretPos);
@@ -971,7 +1102,8 @@ public class Parser {
                         i = getExpressionList(tokenStrings, i, exprL);
                         try {
                             lexpr = exprParser.parse(exprL, 0, m);
-                        } catch(ParseException pex) {
+                        } catch(ParseException pex)
+                        {
                             throw new ParseException(
                                 pex.getMessage(), lineNr, caretPos);
                         }
@@ -979,7 +1111,8 @@ public class Parser {
                         Placeholder ple = new Placeholder(PathRule.BEND, func.getArgs());
                         pr.steps.add(ple);
                         pr.closed = 0;
-                    } else if (t == Language.curveto && lastRule instanceof PathRule) {
+                    } else if (t == Language.curveto && lastRule instanceof PathRule)
+                    {
                         PathRule pr = (PathRule)lastRule;
 //                        if (pr.closed > 0)
 //                            throw new ParseException("Path already closed", lineNr, caretPos);
@@ -989,7 +1122,8 @@ public class Parser {
                         i = getExpressionList(tokenStrings, i, exprL);
                         try {
                             lexpr = exprParser.parse(exprL, 0, m);
-                        } catch(ParseException pex) {
+                        } catch(ParseException pex)
+                        {
                             throw new ParseException(
                                 pex.getMessage(), lineNr, caretPos);
                         }
@@ -997,53 +1131,65 @@ public class Parser {
                         Placeholder ple = new Placeholder(PathRule.CURVE_TO, func.getArgs());
                         pr.steps.add(ple);
                         pr.closed = 0;
-                    } else if (t == Language.lineto && lastRule instanceof PathRule) {
+                    } else if (t == Language.lineto && lastRule instanceof PathRule)
+                    {
                         PathRule pr = (PathRule)lastRule;
                         i = getExpressionList(tokenStrings, i, exprL);
                         try {
                             lexpr = exprParser.parse(exprL, 0, m);
-                        } catch(ParseException pex) {
+                        } catch(ParseException pex)
+                        {
                             throw new ParseException(
                                 pex.getMessage(), lineNr, caretPos);
                         }
                         ExpressionFunction func = (ExpressionFunction)lexpr;
                         pr.steps.add(new Placeholder(PathRule.LINE_TO, func.getArgs()));
-                    } else if (t == Language.close && lastRule instanceof PathRule) {
+                    } else if (t == Language.close && lastRule instanceof PathRule)
+                    {
                         PathRule pr = (PathRule)lastRule;
                         pr.steps.add(new Placeholder(PathRule.CLOSE, null));
                         pr.closed = 1;
-                    } else if (t instanceof LanguageFunctor) {
+                    } else if (t instanceof LanguageFunctor)
+                    {
                         throw new ParseException(String.format(
                                 "Keyword '%s' prohibited in 'rule' block", s), lineNr, caretPos);
                     } else if (t == Language.subtract || t == Language.left_bracket ||
-                                t instanceof Function) {
+                                t instanceof Function)
+                                {
                         i = getExpressionList(tokenStrings, i, exprL, 2);
                         lexpr = exprParser.parse(exprL, 0, m);
                         contextStack.push(curCtx);
                         curCtx = Parser.ParsingContext.REPEAT_CREATE;
                         isSpecialContext = false;
-                    } else if (t == Language.pre_context) {
+                    } else if (t == Language.pre_context)
+                    {
                         contextStack.push(curCtx);
                         curCtx = Parser.ParsingContext.RULE_PRE_CREATE;
-                    } else if (t == Language.post_context) {
+                    } else if (t == Language.post_context)
+                    {
                         contextStack.push(curCtx);
                         curCtx = Parser.ParsingContext.RULE_POST_CREATE;
-                    } else if (t == Language.def) {    
+                    } else if (t == Language.def)
+                    {
                         contextStack.push(curCtx);
                         curCtx = Parser.ParsingContext.MACRO_NAME;                          
-                    } else if (t == Language.macro) {    
+                    } else if (t == Language.macro)
+                    {
                         contextStack.push(curCtx);
                         curCtx = Parser.ParsingContext.MACRO_NAME;
-                    } else if (t == Language.ifToken) {
+                    } else if (t == Language.ifToken)
+                    {
                         contextStack.push(curCtx);
                         curCtx = Parser.ParsingContext.IF_CREATE;
-                    } else if (t == Language.left_curl) {
+                    } else if (t == Language.left_curl)
+                    {
                         contextStack.push(curCtx);
                         isSpecialContext = true;
                         conditionalStack.push(new BlockStructure());
                         curCtx = Parser.ParsingContext.BLOCK_CREATE;
                         i--; // curl is required by next state
-                    } else if (t == Language.right_curl) {
+                    } else if (t == Language.right_curl)
+                    {
                         isSpecialContext = false;
                         wasNamed = false;   // clear our trail
                         lastName = null;
@@ -1055,7 +1201,8 @@ public class Parser {
                     }
                     break;
                 case RULE_TRANSFORM_CREATE:
-                    if (t == Language.left_curl) {
+                    if (t == Language.left_curl)
+                    {
                         curCtx = Parser.ParsingContext.TRANSFORM_ADJUSTMENTS;
                         lastValue = null;
                     } else {
@@ -1068,8 +1215,10 @@ public class Parser {
                 case TRANSFORM_ADJUSTMENTS:
                 case REPEAT_ADJUSTMENTS:
                     if (t instanceof InnerToken || t == Language.def || t == Language.undef || 
-                            t == Language.right_curl || t == Language.left_curl) {
-                        if (lastInnerToken == null && t instanceof InnerToken) {
+                            t == Language.right_curl || t == Language.left_curl)
+                            {
+                        if (lastInnerToken == null && t instanceof InnerToken)
+                        {
                             lastInnerToken = t;
                             pos = 0;
                         } else if (lastInnerToken != null && ((InnerToken)lastInnerToken).nParamsAllowed(pos)) {  // number of set arguments is (pos+1)-1 = pos
@@ -1079,35 +1228,41 @@ public class Parser {
                                 lrstfm.setShapeTransform(lastInnerToken, lexprs);
                             lastInnerToken = (t instanceof InnerToken ? t : null);
                             pos = 0;
-                        } else if (t instanceof InnerToken){
+                        } else if (t instanceof InnerToken)
+                        {
                             throw new ParseException("Wrong number of arguments to " + lastInnerToken + 
                                     " or missing () in " + lastRule, lineNr, caretPos);
                         }
-                        if (t == Language.def || t == Language.undef) {
+                        if (t == Language.def || t == Language.undef)
+                        {
                             contextStack.push(curCtx);
                             isSpecialContext = false;
                             pos = (t == Language.undef ? 1 : 0);    // 0 denotes def
                             curCtx = Parser.ParsingContext.TRANSFORM_DEFS;
-                        } else if (t == Language.left_curl) {
+                        } else if (t == Language.left_curl)
+                        {
                             isSpecialContext = true;
                             contextStack.push(curCtx);
                             pos = 0;
                             curCtx = Parser.ParsingContext.TRANSFORM_DEFS;
                             isSpecialContext = true;
                             wasSet = wasNamed = false;
-                        } else if (t == Language.right_curl) {
+                        } else if (t == Language.right_curl)
+                        {
                             if (curCtx != ParsingContext.REPEAT_ADJUSTMENTS)
                                 lrepeat = null;
                             curCtx = contextStack.pop();
                         }
                     } else {
-                        if (lastInnerToken == null) {
+                        if (lastInnerToken == null)
+                        {
                             if (t==Language.left_bracket && i > 0 &&
                                     Language.tokenByName(tokenStrings.get(i-1).getString())==null)
                                 throw new ParseException("Unknown function: " + tokenStrings.get(i-1).getString(), lineNr, caretPos);
                             throw new ParseException("token missing or unknown expression near " + s + " in " + lastRule, lineNr, caretPos);
                         }
-                        if (lastInnerToken == Language.RGB && s.matches("#[0-9A-Fa-f]{6}")) {
+                        if (lastInnerToken == Language.RGB && s.matches("#[0-9A-Fa-f]{6}"))
+                        {
                             lexprs = decodeHtmlRgb(s);
                             if (curCtx==ParsingContext.TRANSFORM_ADJUSTMENTS)
                                 ltfm.setShapeTransform(lastInnerToken, lexprs);
@@ -1119,7 +1274,8 @@ public class Parser {
                         i = getExpressionList(tokenStrings, i, exprL);
                         lexpr = exprParser.parse(exprL, 0, m);
                         
-                        switch (pos) {
+                        switch (pos)
+                        {
                             case 0:
                                 lexprs.clear();
                             default:
@@ -1127,7 +1283,8 @@ public class Parser {
                                     throw new ParseException("Too many arguments to " + lastInnerToken + " in " + lastRule, lineNr, caretPos);
                                 lexprs.add(lexpr);
                                 if (!((InnerToken)lastInnerToken).higherParamCountAllowed(pos+1) &&
-                                        ((InnerToken)lastInnerToken).nParamsAllowed(pos+1)) {
+                                        ((InnerToken)lastInnerToken).nParamsAllowed(pos+1))
+                                        {
                                     if (curCtx==ParsingContext.TRANSFORM_ADJUSTMENTS)
                                         ltfm.setShapeTransform(lastInnerToken, lexprs);
                                     else
@@ -1142,12 +1299,14 @@ public class Parser {
                 case TRANSFORM_DEFS:
                     if (!isSpecialContext && t != Language.left_curl) 
                         throw new ParseException("DEF block should start with a  {", lineNr, caretPos);
-                    if (wasNamed && wasSet && isSpecialContext) {
+                    if (wasNamed && wasSet && isSpecialContext)
+                    {
                         i = getExpressionList(tokenStrings, i, exprL, Language.IS_SEMICOLON_SEPARATORS?1:0);
                         lexpr = exprParser.parse(exprL, 0, m);
                         boolean isUndef = pos == 1 ? true : false;
                         Definition d = null;
-                        if (contextStack.peek()==ParsingContext.REPEAT_ADJUSTMENTS) {
+                        if (contextStack.peek()==ParsingContext.REPEAT_ADJUSTMENTS)
+                        {
                             d = lrstfm.setDef(lastName, lexpr, isUndef);
                         } else
                             d = ltfm.setDef(lastName, lexpr, isUndef);
@@ -1156,21 +1315,27 @@ public class Parser {
                             m.addDefinition(d);
                         wasNamed = wasSet = false;
                         
-                    } else if (t == Language.left_curl) {
+                    } else if (t == Language.left_curl)
+                    {
                         if (isSpecialContext) 
                             throw new ParseException("Duplicate  {  in DEFinition block", lineNr, caretPos);
                         isSpecialContext = true;
                         wasSet = wasNamed = false;
-                    } else if (t == Language.semicolon || t == Language.comma) {
+                    } else if (t == Language.semicolon || t == Language.comma)
+                    {
                         wasSet = wasNamed = false;
-                    } else if (t == Language.right_curl) {
+                    } else if (t == Language.right_curl)
+                    {
                         isSpecialContext = false;
                         lastName = null;
                         curCtx = contextStack.pop();
-                    } else if (t == Language.equals) {
+                    } else if (t == Language.equals)
+                    {
                         wasSet = true;
-                    } else if (t == null) {
-                        if (!wasNamed) {
+                    } else if (t == null)
+                    {
+                        if (!wasNamed)
+                        {
                             if (wasSet) throw new ParseException("Orphaned  =  near " + s, lineNr, caretPos);
                             lastName = s;
                             wasNamed = true;
@@ -1183,8 +1348,10 @@ public class Parser {
                     break;
                 case RULE_PRE_CREATE:
                 case RULE_POST_CREATE:
-                    if (t == Language.left_curl) {
-                        switch(curCtx) {
+                    if (t == Language.left_curl)
+                    {
+                        switch(curCtx)
+                        {
                             case RULE_PRE_CREATE: curCtx = Parser.ParsingContext.RULE_PRE; break;
                             case RULE_POST_CREATE: curCtx = Parser.ParsingContext.RULE_POST; break;
                         }
@@ -1196,35 +1363,44 @@ public class Parser {
                     break;
                 case RULE_PRE:
                 case RULE_POST:
-                    if (t == Language.semicolon || t == Language.comma) {
+                    if (t == Language.semicolon || t == Language.comma)
+                    {
                         isSpecialContext = false;
-                    } else if (t instanceof Comparator) {
+                    } else if (t instanceof Comparator)
+                    {
                         throw new ParseException("Misplaced comparator " + lexpr + " in " + 
                                 curCtx + " near " + s, lineNr, caretPos);
-                    } else if (t == Language.right_curl) {
+                    } else if (t == Language.right_curl)
+                    {
                         curCtx = contextStack.pop();
                     } else {
                         i = getExpressionList(tokenStrings, i, exprL, Language.IS_SEMICOLON_SEPARATORS?1:0);
                         lexpr = exprParser.parse(exprL, 0, m);
-                        switch (curCtx) {
+                        switch (curCtx)
+                        {
                             case RULE_PRE: lastRule.addPre((BooleanExpression) lexpr); break;
                             case RULE_POST: lastRule.addPost((BooleanExpression) lexpr); break;
                         }
                     }
                     break;
                 case REPEAT_CREATE:
-                    if (t == Language.left_curl) {
-                        if (!isSpecialContext) {
+                    if (t == Language.left_curl)
+                    {
+                        if (!isSpecialContext)
+                        {
                             throw new ParseException("Missing * from repeat block near " + s, lineNr, caretPos);
                         }
-                        if (lastRule instanceof PathRule) {
+                        if (lastRule instanceof PathRule)
+                        {
                             throw new ParseException("keyword '*' prohibited within 'path'", lineNr, caretPos);
                         }
                         RepeatStructure r = new RepeatStructure();
                         r.repeats = lexpr;
-                        if (lrepeat != null) {
+                        if (lrepeat != null)
+                        {
                             lrepeat.repeatedTransform = r;
-                        } else if (conditionalStack.size() > 0) {
+                        } else if (conditionalStack.size() > 0)
+                        {
                             conditionalStack.peek().onCondition.add(r);
                         } else {
                             lastRule.addTransform(r);
@@ -1233,7 +1409,8 @@ public class Parser {
                         lrstfm = new Transform();  // will be loaded in repeat block
                         lrepeat.repeatTransform = lrstfm;
                         curCtx = Parser.ParsingContext.REPEAT_ADJUSTMENTS;
-                    } else if (t == Language.multiply) {
+                    } else if (t == Language.multiply)
+                    {
                         if (isSpecialContext)
                             throw new ParseException("Duplicate *", lineNr, caretPos);
                         isSpecialContext = true;
@@ -1244,7 +1421,8 @@ public class Parser {
                     break;
                 case BLOCK_CREATE:
                 case IF_CREATE:
-                    if (t == Language.left_bracket) {
+                    if (t == Language.left_bracket)
+                    {
                         if (isSpecialContext)
                             throw new ParseException(
                                     "Expecting ')' - found '" + t + "' after conditional", lineNr, caretPos);
@@ -1253,27 +1431,33 @@ public class Parser {
                         lexpr = exprParser.parse(exprL, 0, m);
 
                         ConditionalStructure cond = new ConditionalStructure();
-                        if (!(lexpr instanceof BooleanExpression)) {
+                        if (!(lexpr instanceof BooleanExpression))
+                        {
                             lexpr = new BooleanExpression.Ne(lexpr, new Value(0f));
                             
                         }
                         cond.conditional = (BooleanExpression)lexpr;
                         conditionalStack.push(cond);
                     }
-                    else if(t == Language.right_bracket)  {
+                    else if(t == Language.right_bracket)
+                    {
                         throw new ParseException("Orphaned ')' after 'if'", lineNr, caretPos);
                     }
-                    else if(t == Language.left_curl)  {
+                    else if(t == Language.left_curl)
+                    {
                         ConditionalStructure cond = conditionalStack.peek();
                         if (cond == null || !isSpecialContext)
                             throw new ParseException("Requiring a conditional after if, found " + s, lineNr, caretPos);
-                        if (lastRule instanceof PathRule) {
+                        if (lastRule instanceof PathRule)
+                        {
                             throw new ParseException("block structuring prohibited within 'path'", lineNr, caretPos);
                         }
-                        if (lrepeat != null) {
+                        if (lrepeat != null)
+                        {
                             lrepeat.repeatedTransform = cond;
                         } else
-                        if (conditionalStack.size() > 1) {
+                        if (conditionalStack.size() > 1)
+                        {
                             Iterator it = conditionalStack.descendingIterator();
                             ((ConditionalStructure)it.next()).onCondition.add(cond);
                         }  else
@@ -1287,9 +1471,12 @@ public class Parser {
                     break;
                 case IF:
                     if (t == null || t instanceof Untransformable ||
-                            t == Language.peek || t == Language.pop) {
-                        if (Language.isName(s)) {
-                            if (t instanceof Untransformable) {
+                            t == Language.peek || t == Language.pop)
+                            {
+                        if (Language.isName(s))
+                        {
+                            if (t instanceof Untransformable)
+                            {
                                 ltfm = new TerminatingShape(s);
                                 ((TerminatingShape)ltfm).shape = (Untransformable)t;
                             } else {
@@ -1305,7 +1492,8 @@ public class Parser {
 
                         } else {
                             lastValue = Language.returnAsValue(s);
-                            if (lastValue != null) {
+                            if (lastValue != null)
+                            {
                                 lexpr = new Value(lastValue);
                             } else {
                                 lexpr = Name.createExpressionFinalName(s);
@@ -1315,27 +1503,32 @@ public class Parser {
                             isSpecialContext = false;
 
                         }
-                    } else if (t instanceof LanguageFunctor) {
+                    } else if (t instanceof LanguageFunctor)
+                    {
                         throw new ParseException(String.format(
                                 "Keyword '%s' prohibited in 'if' block", s), lineNr, caretPos);
                     } else if (t == Language.subtract || t == Language.left_bracket ||
-                                t instanceof Function) {
+                                t instanceof Function)
+                                {
                         i = getExpressionList(tokenStrings, i, exprL);
                         lexpr = exprParser.parse(exprL, 0, m);
                         contextStack.push(curCtx);
                         curCtx = Parser.ParsingContext.REPEAT_CREATE;
                         isSpecialContext = false;
-                    } else if (t == Language.ifToken) {
+                    } else if (t == Language.ifToken)
+                    {
                         contextStack.push(curCtx);
                         curCtx = Parser.ParsingContext.IF_CREATE;
                         isSpecialContext = false;
-                    } else if (t == Language.left_curl) {
+                    } else if (t == Language.left_curl)
+                    {
                         contextStack.push(curCtx);
                         conditionalStack.push(new BlockStructure());
                         isSpecialContext = true;
                         curCtx = Parser.ParsingContext.BLOCK_CREATE;
                         i--;    // next state requires {
-                    } else if (t == Language.right_curl) {
+                    } else if (t == Language.right_curl)
+                    {
                         isSpecialContext = false;
                         conditionalStack.pop();
                         lrepeat = null;
@@ -1348,9 +1541,11 @@ public class Parser {
                 default:
                     throw new ParseException("Parsing broken", lineNr, caretPos);
             }
-            } catch(ParseException ex ) {
+            } catch(ParseException ex )
+            {
                 throw new ParseException(ex.getMessage(),lineNr,caretPos);
-            } catch(Exception ex) {
+            } catch(Exception ex)
+            {
                 ex.printStackTrace();
                 throw new ParseException(ex.getMessage(), lineNr, caretPos);
             }
@@ -1365,15 +1560,19 @@ public class Parser {
     }
 
 
-    private File getFile(String workdir, String lastName) {
+    private File getFile(String workdir, String lastName)
+    {
         File fl = (new File(lastName));
-        if (workdir != null && !fl.getAbsolutePath().equals(lastName)) {
+        if (workdir != null && !fl.getAbsolutePath().equals(lastName))
+        {
             int lind = workdir.indexOf("/");
             int wind = workdir.indexOf("\\");
-            if (lind >= 0) {
+            if (lind >= 0)
+            {
                 lastName = lastName.replace("\\", "/");
             }
-            if (wind >= 0) {
+            if (wind >= 0)
+            {
                 lastName = lastName.replace("/", "\\\\");
             }
             lastName = workdir + lastName;
@@ -1385,14 +1584,16 @@ public class Parser {
 
 
     
-    public static void main(String... args) {
+    public static void main(String... args)
+    {
         try {
             Model m = new Parser().parse( 
                     Tokenizer.retrieveTokenStrings( 
                             Readers.fillStringBuilder(new File("ss.txt")))
                     );
             m.initForGenerate();
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
     }

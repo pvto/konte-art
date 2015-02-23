@@ -13,23 +13,29 @@ public class GlobalLighting  {
 
     private ArrayList<Light> lights;
 
-    public GlobalLighting() {
+    public GlobalLighting()
+    {
         lights = new ArrayList<Light>();
     }
     
-    public void addLight(Light light) {
+    public void addLight(Light light)
+    {
         lights.add(light);
     }
 
-    public List<Light> getLights() {
+    public List<Light> getLights()
+    {
         return lights;
     }
     
     
-    public void lightObject(DrawingContext point) {
+    public void lightObject(DrawingContext point)
+    {
         float[] color = lights.get(0).lightObject(point);
-        if (lights.size() > 1) {
-            for (int i=1; i<lights.size(); i++) {
+        if (lights.size() > 1)
+        {
+            for (int i=1; i<lights.size(); i++)
+            {
                 float[] tmp = lights.get(i).lightObject(point);
                 color[0] += tmp[0];
                 color[1] += tmp[1];

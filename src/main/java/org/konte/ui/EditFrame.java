@@ -15,26 +15,32 @@ public abstract class EditFrame extends MyJFrame {
     protected File file;
     public abstract String getText0();
 
-    public EditFrame(FileNameExtensionFilter fname) {
+    public EditFrame(FileNameExtensionFilter fname)
+    {
         super(fname);
     }
     
-    public void save() {
+    public void save()
+    {
 
         setFileChooser();
-        if (getPath() != null) {
+        if (getPath() != null)
+        {
             getFc().setCurrentDirectory(new File(getPath()));
         }
-        if (getFile() != null) {
+        if (getFile() != null)
+        {
             getFc().setSelectedFile(file);
         }
         int retVal = getFc().showSaveDialog(this);
         if (retVal == 0) { // ok
             File f = getFc().getSelectedFile();
             getFc().isAcceptAllFileFilterUsed();
-            if (f != null) {
+            if (f != null)
+            {
                 if (getFc().getFileFilter() != getFc().getAcceptAllFileFilter() &&
-                        !f.getName().toLowerCase().endsWith(".c3dg")) {
+                        !f.getName().toLowerCase().endsWith(".c3dg"))
+                        {
                     f = new File(f.getAbsolutePath() + ".c3dg");
                 }
                 setFile(f);
@@ -43,12 +49,14 @@ public abstract class EditFrame extends MyJFrame {
                 try {
                     fw = new FileWriter(getFile());
                     fw.write(getText0());
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                 } finally {
                     try {
                         fw.close();
-                    } catch (IOException e) {
+                    } catch (IOException e)
+                    {
                         e.printStackTrace();
                     }
                 }
@@ -58,11 +66,13 @@ public abstract class EditFrame extends MyJFrame {
 
     }
 
-    private File getFile() {
+    private File getFile()
+    {
         return file;
     }
 
-    private void setFile(File f) {
+    private void setFile(File f)
+    {
         file = f;
     }
 }

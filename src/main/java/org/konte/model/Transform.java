@@ -60,15 +60,18 @@ public class Transform {
     public boolean repeatStructure = false;
     public boolean conditionalStructure = false;
 
-    public Definition setDef(String lastName, Expression lexpr, boolean isUndef) {
+    public Definition setDef(String lastName, Expression lexpr, boolean isUndef)
+    {
         Definition def = new Definition(lastName, lexpr);
         def.isUndef = isUndef;
         int i = -1;
-        for (int j=0; j < defs.size(); j++) {
+        for (int j=0; j < defs.size(); j++)
+        {
             if (defs.get(j).name.equals(def.name))
                 i = j;
         }
-        if(i>=0) {
+        if(i>=0)
+        {
             defs.get(i).definition = lexpr; // forsake existing definition
             defs.get(i).isUndef = isUndef;
             return defs.get(i);
@@ -81,11 +84,14 @@ public class Transform {
     public void initialize(Model model) throws ParseException {
         this.model = model;
         NonDeterministicRule ndr;
-        for (int cnind = 0; cnind < continuationNames.size(); cnind++) {
+        for (int cnind = 0; cnind < continuationNames.size(); cnind++)
+        {
             String name = continuationNames.get(cnind);
             boolean cont = false;
-            for(Untransformable u : Language.untransformables()) {
-                if (u.compareTo(name)==0) {
+            for(Untransformable u : Language.untransformables())
+            {
+                if (u.compareTo(name)==0)
+                {
                     cont = true; 
                     Runtime.sysoutln("CONT(UNTR): " + u,0);
                     continuationStack.set(cnind, u.getId());
@@ -93,7 +99,8 @@ public class Transform {
                 }
             }
             if (cont)    continue;
-            if ((ndr = model.rules.get(name)) == null) {
+            if ((ndr = model.rules.get(name)) == null)
+            {
                 throw new ParseException(String.format(
                         "No rule matching \"%s\" in %s",
                         continuationNames.get(cnind),
@@ -102,9 +109,11 @@ public class Transform {
             Runtime.sysoutln("CONT: " + ndr,0);
             continuationStack.set(cnind, ndr.id);
         }        
-        if (Language.peek.compareTo(ruleName) == 0) {
+        if (Language.peek.compareTo(ruleName) == 0)
+        {
             indexedNd = -2;
-        } else if (Language.pop.compareTo(ruleName) == 0) {
+        } else if (Language.pop.compareTo(ruleName) == 0)
+        {
             indexedNd = -3;    
         }        
         boolean matrixIsResolved = true;
@@ -113,30 +122,39 @@ public class Transform {
         tmplist.addAll(acqTrs);
         Runtime.sysoutln("Init expressions: " + tmplist, 0);
         Value tmpe = null;
-        for (TransformModifier aq : tmplist) {
+        for (TransformModifier aq : tmplist)
+        {
             boolean isEvaluated = true;
             Float[] res = new Float[aq.n];
 
-            for (int i = 0 ; i < aq.n ; i++) {
-                if (aq instanceof TransformModifier.fov) {
-                   for (int j =0; j < model.cameras.size(); j++) {
+            for (int i = 0 ; i < aq.n ; i++)
+            {
+                if (aq instanceof TransformModifier.fov)
+                {
+                   for (int j =0; j < model.cameras.size(); j++)
+                   {
                         Camera c = model.cameras.get(j);
-                        if (c.getName().equals(aq.exprs.get(i).toString())) {
+                        if (c.getName().equals(aq.exprs.get(i).toString()))
+                        {
                             Runtime.sysoutln("camera attached!",-1);
                             tmpe = new Value((float)j);
                             aq.exprs.set(i,tmpe);
                         }
                     }                        
-                } else if (aq instanceof TransformModifier.shading) {
-                   for (int j =0; j < model.colorSpaces.size(); j++) {
+                } else if (aq instanceof TransformModifier.shading)
+                {
+                   for (int j =0; j < model.colorSpaces.size(); j++)
+                   {
                         ColorSpace s = model.colorSpaces.get(j);
-                        if (s.getName().equals(aq.exprs.get(i).toString())) {
+                        if (s.getName().equals(aq.exprs.get(i).toString()))
+                        {
                             Runtime.sysoutln("shading attached!",-1);
                             tmpe = new Value((float)j);
                             aq.exprs.set(i,tmpe);
                         }
                     }                        
-/*                } else if (aq instanceof TransformModifier.img) {
+/*                } else if (aq instanceof TransformModifier.img)
+                {
                     int ind = model.bitmapCache.getIndex(
                             aq.exprs.get(i).toString());
                     if (ind == -1)
@@ -145,42 +163,52 @@ public class Transform {
                     aq.exprs.set(i, new Value((float)ind));*/
                 } else {
                     try {
-                        if ((res[i] = aq.exprs.get(i).evaluate()) == null) {
+                        if ((res[i] = aq.exprs.get(i).evaluate()) == null)
+                        {
                             isEvaluated = false;
-                        } else if (!(aq.exprs.get(i) instanceof Value)) {
-                            if (!aq.exprs.get(i).findExpression(Mathm.ERandom.class)) {
+                        } else if (!(aq.exprs.get(i) instanceof Value))
+                        {
+                            if (!aq.exprs.get(i).findExpression(Mathm.ERandom.class))
+                            {
                                 tmpe = new Value(res[i]);
                                 aq.exprs.set(i,tmpe);
                             }
                         }
-                    } catch(NullPointerException npe) {
+                    } catch(NullPointerException npe)
+                    {
                         // definitions are not defined yet - 
                         isEvaluated = false;
                     }
                 }
             }
             
-            if (isEvaluated) {
+            if (isEvaluated)
+            {
                 aq.resolved = true;
                 aq.transform = aq.createTransform(res);
             }            
-            if (!isEvaluated && aq.isInTransform()) {
+            if (!isEvaluated && aq.isInTransform())
+            {
                 matrixIsResolved = false;
             }
         }
-        if (matrixIsResolved) {
+        if (matrixIsResolved)
+        {
             superMatrix = createTransformMatrix();
         }
-        for(int i = 0; i < continuationNames.size(); i++) {
+        for(int i = 0; i < continuationNames.size(); i++)
+        {
             String s = continuationNames.get(i);
             int ind = continuationStack.get(i);
-            if (ind == -1) {
+            if (ind == -1)
+            {
                 Runtime.sysoutln("Setting PUSH target to " + s, 0);
                 
             }
         }
     }
-    public boolean hasTransformType(Class c) {
+    public boolean hasTransformType(Class c)
+    {
         for (TransformModifier e : this.acqExps)
             if (c.isInstance(e))
                 return true;
@@ -193,12 +221,15 @@ public class Transform {
         Matrix4 tmp = null; // = Matrix4.IDENTITY;
         try {
             if (acqTrs != null)
-                for (TransformModifier aq : acqTrs) {
+                for (TransformModifier aq : acqTrs)
+                {
                     Float[] f = new Float[aq.n];
-                    for (int i = 0; i < aq.n; i++) {
+                    for (int i = 0; i < aq.n; i++)
+                    {
                         f[i] = aq.exprs.get(i).evaluate();            
                     }
-                    if (tmp == null) {
+                    if (tmp == null)
+                    {
                         tmp = aq.getTransform(f);
                         if (tmp == null) throw new NullPointerException();
                     } else {
@@ -206,7 +237,8 @@ public class Transform {
                     }
                 }
             if (tmp == null) tmp = Matrix4.IDENTITY;
-        } catch(NullPointerException e) {
+        } catch(NullPointerException e)
+        {
             e.printStackTrace();
             throw new ParseException("Null Transform " + this.ruleName);
         }
@@ -218,7 +250,8 @@ public class Transform {
         return createTransformMatrix();
     }
 
-    public Transform() {
+    public Transform()
+    {
         continuationNames = new ArrayList<String>();
         continuationStack = new ArrayList<Integer>();
         acqExps = new ArrayList<TransformModifier>();   // other expressions
@@ -226,25 +259,30 @@ public class Transform {
         defs = new ArrayList<Definition>();        
     }
 
-    public Transform(String ruleName) {
+    public Transform(String ruleName)
+    {
         this();
         this.ruleName = ruleName;
     }
 /*
-    public void toImplementRestOfTr() {
+    public void toImplementRestOfTr()
+    {
         }
     }
 */
-    public NonDeterministicRule getRule() {
+    public NonDeterministicRule getRule()
+    {
         return rule;
     }
 
-    public void setRule(NonDeterministicRule rule) {
+    public void setRule(NonDeterministicRule rule)
+    {
         this.rule = rule;
         this.ruleName = rule.getName();
     }
 
-    public String getRuleName() {
+    public String getRuleName()
+    {
         return ruleName;
     }
 
@@ -262,12 +300,16 @@ public class Transform {
 //        Runtime.sysoutln("SETTING " + t + ": " + lexprs, 0);
         Expression lexpr =  lexprs.get(0);
         
-        if (t instanceof InnerToken) {
-            if (t == Language.push) {
-                for (int i = 0; i < lexprs.size(); i++) {
+        if (t instanceof InnerToken)
+        {
+            if (t == Language.push)
+            {
+                for (int i = 0; i < lexprs.size(); i++)
+                {
                     if (i > 0)
                         lexpr = lexprs.get(i);
-                    if (!(lexpr instanceof Name)) {
+                    if (!(lexpr instanceof Name))
+                    {
                         throw new ParseException("Push directive must be followed by a rule name instead of:  " + lexpr);
                     }
                     continuationNames.add(((Name)lexpr).toString());
@@ -290,16 +332,20 @@ public class Transform {
                         acqTrs.add(te);
                     else
                         acqExps.add(te);
-/*                } catch(InstantiationException e) {
+/*                } catch(InstantiationException e)
+                {
                     Runtime.sysoutln("Could not initialize " +t);
                     e.printStackTrace();
-                } catch(NoSuchMethodException e) {
+                } catch(NoSuchMethodException e)
+                {
                     Runtime.sysoutln("No constructor for " +t);
                     e.printStackTrace();
-                } catch(IllegalAccessException e) {
+                } catch(IllegalAccessException e)
+                {
                     Runtime.sysoutln("Illegal access near " +t);
                     e.printStackTrace();
-                } catch(InvocationTargetException e) {
+                } catch(InvocationTargetException e)
+                {
                     Runtime.sysoutln("Target not clear: " +t);
                     e.printStackTrace();
                 }*/
@@ -332,13 +378,16 @@ public class Transform {
         if (terminatingShape)
             newt.shape = ((TerminatingShape)this).shape;
         // init all fields from st
-        if (indexedNd < 0) {
-            if (old.pushstack == null || old.pushstack.length == 0) {
+        if (indexedNd < 0)
+        {
+            if (old.pushstack == null || old.pushstack.length == 0)
+            {
                 poppedContinuation = Integer.MIN_VALUE;
             } else {
                 poppedContinuation = old.pushstack[old.pushstack.length-1]; // will be picked up by rulewriter
                 if (indexedNd == -3) { // POP
-                    if (old.pushstack.length > 1) {
+                    if (old.pushstack.length > 1)
+                    {
                         old.pushstack = Arrays.copyOf(old.pushstack, old.pushstack.length-1);
                     } else {
                         old.pushstack = null;
@@ -346,7 +395,8 @@ public class Transform {
                 }
             }
         }
-        if (this.continuationStack.size() > 0) {
+        if (this.continuationStack.size() > 0)
+        {
             int oldsize = old.pushstack != null ? old.pushstack.length : 0;
             int requestedSize = oldsize+this.continuationStack.size();
             int size = Math.min(requestedSize,model.pushStackSize);
@@ -370,7 +420,8 @@ public class Transform {
         newt.d = old.d;      
         // decrement iteration level counter, if necessary
         // when the counter reaches zero, that branch will be cut from recursion
-        if (newt.d > 0) {
+        if (newt.d > 0)
+        {
             newt.d--;
         }        
         // copy colors
@@ -389,7 +440,8 @@ public class Transform {
         // update matrix
         newt.matrix = old.matrix.multiply(this.getTransformMatrix());        
         // update other expressions
-        for (TransformModifier aq : this.acqExps) {
+        for (TransformModifier aq : this.acqExps)
+        {
             if (aq.n > 1)
                 aq.updateSTVal(newt, aq.evaluateAll());
             else {
@@ -400,7 +452,8 @@ public class Transform {
         // apply shading - moved to ruleWriter (only for final shapes)
         
         // update definition table
-        if (this.defs.size() == 0) {
+        if (this.defs.size() == 0)
+        {
             newt.defs = old.defs;
         // if there are changes to parent,    
         // first add all definitions from old object for the transform            
@@ -415,17 +468,22 @@ public class Transform {
             // remove undefs of st.defs from tmpdef
 
             int stind = 0;
-            while (thisind < tmpdef.size() || stind < this.defs.size()) {
+            while (thisind < tmpdef.size() || stind < this.defs.size())
+            {
                 Definition sd = stind>=this.defs.size() ? null : this.defs.get(stind);
                 Def dd = thisind>=tmpdef.size() ? null : tmpdef.get(thisind);
-                if (sd == null) {
+                if (sd == null)
+                {
                     break;
-                } else if (dd == null || sd.nameId == dd.nameid) {
-                    if (sd.isUndef) {
+                } else if (dd == null || sd.nameId == dd.nameid)
+                {
+                    if (sd.isUndef)
+                    {
                         if (dd!=null) tmpdef.remove(thisind);
                         stind++;
                     } else {
-                        if (dd!=null) {
+                        if (dd!=null)
+                        {
                             dd.defval = sd.definition.evaluate();
                         } else {
                             tmpdef.add(thisind,new Def(sd.nameId,sd.definition.evaluate()));
@@ -433,9 +491,11 @@ public class Transform {
                         thisind++;                    
                         stind++;
                     }                
-                } else if (sd.nameId > dd.nameid) {
+                } else if (sd.nameId > dd.nameid)
+                {
                     thisind++;
-                } else if (sd.nameId < dd.nameid) {
+                } else if (sd.nameId < dd.nameid)
+                {
                     tmpdef.add(thisind,new Def(sd.nameId,sd.definition.evaluate()));
                     thisind++;
                     stind++;   
@@ -451,17 +511,21 @@ public class Transform {
     }
     
     
-    public String toString() {
+    public String toString()
+    {
         return String.format("\"%s\"", ruleName != null ? ruleName : "");
     }
     
-    public String toStringVerbose() {
+    public String toStringVerbose()
+    {
         StringBuilder bd = new StringBuilder();
         bd.append("{ ").append(ruleName != null ? ruleName : "").append("   ");
-        for (TransformModifier aq: acqTrs) {
+        for (TransformModifier aq: acqTrs)
+        {
             bd.append(aq.token.name).append(":").append(aq.exprs).append(" ");
         }
-        for (TransformModifier aq: acqExps) {
+        for (TransformModifier aq: acqExps)
+        {
             bd.append(aq.token.name).append(":").append(aq.exprs).append(" ");
         }
         for(String ss: continuationNames)

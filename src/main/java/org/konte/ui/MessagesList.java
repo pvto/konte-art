@@ -13,7 +13,8 @@ public class MessagesList extends JScrollPane {
 
     JList list;
     DefaultListModel data;
-    public MessagesList() {
+    public MessagesList()
+    {
         super();
         data = new DefaultListModel();
         
@@ -28,11 +29,14 @@ public class MessagesList extends JScrollPane {
 
     private class AddMessage implements Runnable {
         private String msg;
-        private AddMessage(String msg) {
+        private AddMessage(String msg)
+        {
             this.msg = msg;
         }
-        public void run() {
-            synchronized(MessagesList.this) {
+        public void run()
+        {
+            synchronized(MessagesList.this)
+            {
                 data.addElement(msg);
                 if (data.getSize() > 60)
                     data.remove(0);
@@ -40,33 +44,40 @@ public class MessagesList extends JScrollPane {
             scrollDown();
         }
     }
-    public synchronized void addMessage(String msg) {
+    public synchronized void addMessage(String msg)
+    {
         if (data.size() > 0 && data.get(data.size()-1).equals(msg))
             return;
         SwingUtilities.invokeLater(new AddMessage(msg));
     }
 
-    public DefaultListModel getData() {
+    public DefaultListModel getData()
+    {
         return data;
     }
 
     @Override
-    public synchronized void addMouseListener(MouseListener l) {
+    public synchronized void addMouseListener(MouseListener l)
+    {
         //super.addMouseListener(l);
         list.addMouseListener(l);
     }
 
-    private Runnable r = new Runnable() {
-        public void run() {
+    private Runnable r = new Runnable()
+    {
+        public void run()
+        {
             JScrollBar bar = MessagesList.this.getVerticalScrollBar();
             bar.setValue(bar.getMaximum());
             MessagesList.this.repaint();
         }
     };
-    public void scrollDown() {
+    public void scrollDown()
+    {
         scrollDown(true);
     }
-    public void scrollDown(boolean invokeLater) {
+    public void scrollDown(boolean invokeLater)
+    {
         if (invokeLater)
             SwingUtilities.invokeLater(r);
         else

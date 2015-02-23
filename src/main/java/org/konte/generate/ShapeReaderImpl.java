@@ -97,7 +97,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
             layerInd = new ArrayList<Layer>();
             layers = new HashMap<Float,Layer>();
             Runnable rble =
-            new Runnable() {
+            new Runnable()
+            {
                 public void run()
                 {
                     long then = shapeCount;
@@ -156,8 +157,10 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                     for (Layer ll : lls)
                     {
                         Entry<Float, ? extends List<OutputShape>> e = ll.points.firstEntry();
-                        while (e != null && state == 3) {
-                            for(OutputShape p : e.getValue()) {
+                        while (e != null && state == 3)
+                        {
+                            for(OutputShape p : e.getValue())
+                            {
                                 //canvas.drawShape(model.cameras.get(p.fov), p);
                                 p.shape.draw(model.cameras.get(p.fov),canvas,p);
                                 shapeCount++;
@@ -294,9 +297,11 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                             break;
                     }
                 }
-                catch(EOFException ex) {
+                catch(EOFException ex)
+                {
                     ex.printStackTrace();
-                } catch(Exception ex) {
+                } catch(Exception ex)
+                {
                     ex.printStackTrace();
                 } 
                 finally
@@ -408,9 +413,11 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                         if (state != 3)
                             break;
                     }
-                } catch(EOFException ex) {
+                } catch(EOFException ex)
+                {
                     Runtime.sysoutln("EOF " + curTmp.file + "=" + l, 0);
-                } catch(Exception ex) {
+                } catch(Exception ex)
+                {
                     ex.printStackTrace();
                 } finally
                 {
@@ -442,7 +449,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                         break;
                 }
             }
-            if ((curMin == null || (curMin = tmpMin.higherEntry(curMin.getKey())) == null) && openFiles.size() == 0) {
+            if ((curMin == null || (curMin = tmpMin.higherEntry(curMin.getKey())) == null) && openFiles.size() == 0)
+            {
                 break;
             }
                 
@@ -551,7 +559,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         }
         try {
             rulew.exchangeShapes();
-        } catch(InterruptedException ie) {
+        } catch(InterruptedException ie)
+        {
             throw new RuntimeException("ShapeReader:run:draw remaining");
         } 
         Runtime.sysoutln("sr2 " + state, 0);
@@ -642,7 +651,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
     protected Layer addLayer(Layer l)
     {
         int ind = Collections.binarySearch(this.layerInd, l);
-        if (ind >= 0) {
+        if (ind >= 0)
+        {
             
         } else {
             this.layers.put(l.layerIndex, l);            
@@ -660,19 +670,22 @@ public abstract class ShapeReaderImpl implements ShapeReader{
             Entry<Float, ? extends List<OutputShape>> curEntry;
             Iterator<OutputShape> curI;
             
-            public boolean hasNext() {
+            public boolean hasNext()
+            {
                 throw new UnsupportedOperationException("Not supported.");
             }
             public OutputShape next()
             {
-                if (curEntry == null) {
+                if (curEntry == null)
+                {
                     layer++;
                     if (layer >= layerInd.size())
                         return null;
                     curEntry = layerInd.get(layer).points.firstEntry();
 
                 }
-                if (curI == null) {
+                if (curI == null)
+                {
                     curI = curEntry.getValue().iterator();
                 }
                 if (curI.hasNext())
@@ -682,7 +695,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                 return next();
             }
 
-            public void remove() {
+            public void remove()
+            {
                 throw new UnsupportedOperationException("Not supported.");
             }
             
@@ -690,25 +704,31 @@ public abstract class ShapeReaderImpl implements ShapeReader{
     }
 
 
-    public Iterator<OutputShape> descendingIterator() {
-        return new Iterator<OutputShape>() {
+    public Iterator<OutputShape> descendingIterator()
+    {
+        return new Iterator<OutputShape>()
+        {
 
             int layer = -1;
             Entry<Float, ? extends List<OutputShape>> curEntry;
             Iterator<OutputShape> curI;
 
-            public boolean hasNext() {
+            public boolean hasNext()
+            {
                 throw new UnsupportedOperationException("Not supported.");
             }
-            public OutputShape next() {
-                if (curEntry == null) {
+            public OutputShape next()
+            {
+                if (curEntry == null)
+                {
                     layer++;
                     if (layer >= layerInd.size())
                         return null;
                     curEntry = layerInd.get(layer).points.lastEntry();
 
                 }
-                if (curI == null) {
+                if (curI == null)
+                {
                     curI = curEntry.getValue().iterator(); // TODO: to descending
                 }
                 if (curI.hasNext())
@@ -718,7 +738,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                 return next();
             }
 
-            public void remove() {
+            public void remove()
+            {
                 throw new UnsupportedOperationException("Not supported.");
             }
 
@@ -759,7 +780,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
 
             while (e != null)
             {
-                if (f.oos == null) {
+                if (f.oos == null)
+                {
                     f = createTmpFile(f, ll.layerIndex,
                                 e.getKey());
                 }
@@ -767,7 +789,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                 {
                     try{
                     f.oos.writeObject(new Order(ll.layerIndex,e.getKey()));
-                    }catch(Exception ex) {
+                    }catch(Exception ex)
+                    {
                             System.out.println("foo");
                     }
                     f.oos.writeObject(p);
@@ -929,7 +952,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                         new ObjectInputStream(
                         new BufferedInputStream(
                         new FileInputStream(file)));
-            } catch(Exception e) {
+            } catch(Exception e)
+            {
                 e.printStackTrace();
                 return null;
             }

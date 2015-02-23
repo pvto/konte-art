@@ -28,12 +28,15 @@ public class DiskBackedShapeReader implements ShapeReader {
     private Canvas canvas;
     
     private Model model;
-    public DiskBackedShapeReader(Model model, PointMetric metric) {
+    
+    public DiskBackedShapeReader(Model model, PointMetric metric)
+    {
         this.model = model;
         this.metric = metric;
     }
     
     private PointMetric metric;
+
 
     public interface PointMetric { float measure(OutputShape p); }
     public static class ZMetric implements PointMetric {
@@ -41,7 +44,17 @@ public class DiskBackedShapeReader implements ShapeReader {
         public ZMetric(Model model) { this.model = model; }
         public float measure(OutputShape p) { return model.cameras.get(p.fov).distMetric(p.matrix); }
     }
-    
+    public static class MinWidthMetric implements PointMetric {
+        private Model model;
+        public MinWidthMetric(Model model) { this.model = model; }
+        public float measure(OutputShape p) { return p.getMinWidth(); }
+    }
+    public static class MaxWidthMetric implements PointMetric {
+        private Model model;
+        public MaxWidthMetric(Model model) { this.model = model; }
+        public float measure(OutputShape p) { return - p.getMinWidth(); }
+    }
+
     @Override public int getAddedCount() { return layers.addedCount; }
     public transient int state = 0;
     @Override public int state() { return state; }
@@ -64,7 +77,8 @@ public class DiskBackedShapeReader implements ShapeReader {
     {
         try {
             runInternal();
-        } catch(IOException e) {
+        } catch(IOException e)
+        {
             e.printStackTrace();
             state = 5;
         }
@@ -171,6 +185,7 @@ public class DiskBackedShapeReader implements ShapeReader {
                 else
                 {
                     BagWrapper w = (BagWrapper)o;
+                    BagWrapper orig = w;
                     while(w != null)
                     {
                         OutputShape p = (OutputShape)w.getValue();
@@ -178,11 +193,15 @@ public class DiskBackedShapeReader implements ShapeReader {
                         shapeCount++;
                         w = w.next;
                     }
+                    orig.val = null;  orig.next = orig.last = null; // cleanup to save memory
                 }
             }
-            if (state == 3) {
+            if (state == 3)
+            {
                 canvas.applyEffects(model, keyset[i]);
             }
+            layer.points.freeDiskCache();
+            layers.layers.put(keyset[i], null); //cleanup to save memory
         }
         //Runtime.sysoutln("drawn: " + (shapeCount-then) + " state=" + state, 0);
     }
@@ -255,10 +274,12 @@ public class DiskBackedShapeReader implements ShapeReader {
                 layers.put(p.layer, layer = new Layer(map, p.layer));
             }
             layer.addPoint(p);
-            if ((++addedCount % 1000000) == 0)
+            if (addedCount >= 2000000 && addedCount % 200000 == 0)
             {
+                Runtime.sysoutln("DB-SR: flush " + addedCount, 10);
                 layer.points.flushToDiskAssumeConstantSizeObjects();
             }
+            addedCount++;
         }
         public Iterator<OutputShape> shapeIterator()
         {

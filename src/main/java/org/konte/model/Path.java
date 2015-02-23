@@ -19,12 +19,14 @@ public class Path extends Untransformable implements Serializable {
 
 
     @Override
-    public void draw(Camera camera, Canvas canvas, OutputShape shape) {
+    public void draw(Camera camera, Canvas canvas, OutputShape shape)
+    {
         canvas.drawCurve(camera, shape);
     }
 
     
-    public Path() {
+    public Path()
+    {
         this.id = id_gen;
         this.name = "Path" + id_gen++;
         this.shapes = new ArrayList<ArrayList<Matrix4>>();
@@ -36,7 +38,8 @@ public class Path extends Untransformable implements Serializable {
     private void writeObject(java.io.ObjectOutputStream out)
             throws IOException {
         out.writeInt(closed);
-        if (closed == 2) {
+        if (closed == 2)
+        {
             out.writeInt(id);
         } else {
             out.writeObject(shapes);
@@ -50,10 +53,12 @@ public class Path extends Untransformable implements Serializable {
     private void readObject(java.io.ObjectInputStream in)
             throws IOException, ClassNotFoundException {
         closed = in.readInt();
-        if (closed == 2) {
+        if (closed == 2)
+        {
             id = in.readInt();
             Untransformable u = Language.getUntransformable(id);
-            if (u == null) {
+            if (u == null)
+            {
                 return;
             }
             isCurved = u.isCurved;

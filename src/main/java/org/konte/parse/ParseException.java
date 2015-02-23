@@ -10,11 +10,13 @@ public class ParseException extends Exception {
     private int lineNr;
     private int caretPos;
     
-    public ParseException(String message) {
+    public ParseException(String message)
+    {
         super(message);
     }
 
-    public ParseException(String message, int lineNr, int caretPos) {
+    public ParseException(String message, int lineNr, int caretPos)
+    {
         super(message);
         this.caretPos = caretPos;
         this.lineNr = lineNr;
@@ -22,17 +24,20 @@ public class ParseException extends Exception {
 
     
     
-    public int getCaretPos() {
+    public int getCaretPos()
+    {
         return caretPos;
     }
 
-    public int getLineNr() {
+    public int getLineNr()
+    {
         return lineNr;
     }
 
 
     @Override
-    public String getMessage() {
+    public String getMessage()
+    {
         return /*lineNr + ":" + caretPos + " " + */
                 super.getMessage()/*.replaceAll("^\\d+:\\d+ ", " ")*/;
     }

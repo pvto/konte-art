@@ -22,7 +22,8 @@ public class SeqDialogFrame extends javax.swing.JFrame {
     private Properties presets;
     
     /** Creates new form SeqDialogFrame */
-    public SeqDialogFrame(Properties presets) {
+    public SeqDialogFrame(Properties presets)
+    {
         initComponents();
         this.presets = presets;
         loadProp(jTextField1, "seq_prefix");
@@ -33,7 +34,8 @@ public class SeqDialogFrame extends javax.swing.JFrame {
         loadProp(jCheckBox2, "seq_is_phase_final");
     }
 
-    private void saveAndFire() {
+    private void saveAndFire()
+    {
         saveProp(jTextField1, "seq_prefix");
         saveProp(jFormattedTextField1, "seq_frequency");
         saveProp(jFormattedTextField2, "seq_width");
@@ -43,32 +45,38 @@ public class SeqDialogFrame extends javax.swing.JFrame {
         firePropertyChange("GenerateSequence", null, presets);
     }
 
-    private void loadProp(JTextField f, String key) {
+    private void loadProp(JTextField f, String key)
+    {
         Object val = presets.get(key);
         if (val != null)
             f.setText(val.toString());
     }
 
-    private void loadProp(JCheckBox b, String key) {
+    private void loadProp(JCheckBox b, String key)
+    {
         Object val = presets.get(key);
         if (val != null)
             b.setSelected(val.toString().toUpperCase().equals("TRUE")?true:false);
     }
 
-    private void saveProp(JTextField f, String key) {
+    private void saveProp(JTextField f, String key)
+    {
         if (f instanceof JFormattedTextField)
             try {
             ((JFormattedTextField) f).commitEdit();
-        } catch (ParseException ex) {
+        } catch (ParseException ex)
+        {
             return;
         }
         String s = f.getText();
-        if (s.length() > 0) {
+        if (s.length() > 0)
+        {
             presets.setProperty(key, s);
         }
     }
 
-    private void saveProp(JCheckBox b, String key) {
+    private void saveProp(JCheckBox b, String key)
+    {
         presets.setProperty(key, b.isSelected()?"TRUE":"FALSE");
     }
 
@@ -79,7 +87,8 @@ public class SeqDialogFrame extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -186,8 +195,10 @@ public class SeqDialogFrame extends javax.swing.JFrame {
         jPanel14.setLayout(new java.awt.BorderLayout());
 
         jButton1.setText("Ok");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton1ActionPerformed(evt);
             }
         });
@@ -198,8 +209,10 @@ public class SeqDialogFrame extends javax.swing.JFrame {
         jPanel15.setLayout(new java.awt.BorderLayout());
 
         jButton2.setText("Cancel");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton2ActionPerformed(evt);
             }
         });

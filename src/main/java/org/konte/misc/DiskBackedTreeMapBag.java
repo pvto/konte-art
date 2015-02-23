@@ -16,6 +16,7 @@ public class DiskBackedTreeMapBag extends TreeMap {
     
     private final List<BackupFile> backupFiles = new ArrayList<>();
     private final Serializer serializer;
+
     
     public static interface Serializer {
         byte[] marshal(Object o) throws IOException;
@@ -30,7 +31,7 @@ public class DiskBackedTreeMapBag extends TreeMap {
     
     public class BagWrapper {
         private int ref = -1;
-        private Object val;
+        public Object val;
         public BagWrapper next;
         public BagWrapper last;
         public Object getValue() throws IOException
@@ -143,13 +144,27 @@ public class DiskBackedTreeMapBag extends TreeMap {
         backupFiles.add(backupFile);
     }
     
-    public static class BackupFile {
+    public static class BackupFile
+    {
         int storedCount = 0;
         int retrievedCount = 0;
         int objectSizeInBytes = 4;
         RandomAccessFile file;
-        public BackupFile(File f) throws FileNotFoundException {
+        File filefile;
+        public BackupFile(File f) throws FileNotFoundException
+        {
             file = new RandomAccessFile(f, "rw");
+            filefile = f;
         }
     }
+    
+    public void freeDiskCache() throws IOException
+    {
+        for(BackupFile backupFile : backupFiles)
+        {
+            backupFile.file.close();
+            backupFile.filefile.delete();
+        }
+    }
+
 }

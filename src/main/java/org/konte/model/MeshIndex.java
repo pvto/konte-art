@@ -15,17 +15,20 @@ public class MeshIndex {
     private int rowId;
     private int wrapId;
     
-    public MeshIndex(Model m) {
+    public MeshIndex(Model m)
+    {
         index = new HashMap<Integer, Mesh>();
         meshId = m.getNameExpressionId("mesh");
         rowId = m.getNameExpressionId("row");
         wrapId = m.getNameExpressionId("wrap");
     }
     
-    public void add(DrawingContext p) {
+    public void add(DrawingContext p)
+    {
         int meshIndex = (int)p.getDef(meshId);
         Mesh m = index.get(meshIndex);
-        if (m==null) {
+        if (m==null)
+        {
             index.put(meshIndex, m=new Mesh((int)p.getDef(wrapId)));
         }
         m.addMeshElement((int)p.getDef(rowId), p);
@@ -35,7 +38,8 @@ public class MeshIndex {
         private Wrap(int i) { this.code = i; }
         private int code;
         public static Wrap getWrap(float i) { return getWrap((int)i); }
-        private static Wrap getWrap(int i) {
+        private static Wrap getWrap(int i)
+        {
             for(Wrap w : values())
                 if (w.code==i)
                     return w;
@@ -48,13 +52,16 @@ public class MeshIndex {
         private ArrayList<DrawingContext> currentRow;
         public Wrap wrap;
 
-        public Mesh(int wrapType) {
+        public Mesh(int wrapType)
+        {
             rows = new ArrayList<ArrayList<DrawingContext>>();
             rowIndex = -1;
             wrap = Wrap.getWrap(wrapType);
         }
-        public void addMeshElement(int row,DrawingContext p) {
-            if (rowIndex < row) {
+        public void addMeshElement(int row,DrawingContext p)
+        {
+            if (rowIndex < row)
+            {
                 rows.add(currentRow = new ArrayList<DrawingContext>());
                 rowIndex++;
                 row = rowIndex;

@@ -16,16 +16,20 @@ import org.konte.model.TransformModifier;
  */
 public class LightBuilder {
 
-    void type(int i) {
+    void type(int i)
+    {
         type = i;
     }
 
     private Light createDefault(final Expression x, 
                 final Expression y, final Expression z, final Expression strgth, 
-                final RGBA rgba) {
-        return new Light() {
+                final RGBA rgba)
+                {
+        return new Light()
+        {
 
-            public float[] lightObject(DrawingContext shape) {
+            public float[] lightObject(DrawingContext shape)
+            {
 //                Name.gene.current = shape;
                 float dirMult = 1f;
                 float strength = 1f;
@@ -38,7 +42,8 @@ public class LightBuilder {
                     strength = strgth.evaluate()*dirMult;
                     if (strength < 0f)
                         strength = 0f;                    
-                } catch(Exception e) {
+                } catch(Exception e)
+                {
                     e.printStackTrace();
                 }
 
@@ -52,7 +57,8 @@ public class LightBuilder {
                     red = red*rgba.R.evaluate()*factor;
                     green = green*rgba.G.evaluate()*factor;
                     blue = blue*rgba.B.evaluate()*factor;
-                } catch(Exception e) {
+                } catch(Exception e)
+                {
                     e.printStackTrace();
                 }                
                 if (red > 1f) red = 1f;
@@ -68,10 +74,13 @@ public class LightBuilder {
     }
     private Light createOpposite(final Expression x, 
                 final Expression y, final Expression z, final Expression strgth, 
-                final RGBA rgba) {
-        return new Light() {
+                final RGBA rgba)
+                {
+        return new Light()
+        {
 
-            public float[] lightObject(DrawingContext shape) {
+            public float[] lightObject(DrawingContext shape)
+            {
 //                Name.gene.current = shape;
                 float dirMult = 1f;
                 float strength = 1f;
@@ -83,7 +92,8 @@ public class LightBuilder {
                     dist = (float)Math.sqrt(xs*xs+ys*ys+zs*zs);
                     strength = strgth.evaluate()*dirMult;
                 
-                } catch(Exception e) {
+                } catch(Exception e)
+                {
                     e.printStackTrace();
                 }
 
@@ -97,7 +107,8 @@ public class LightBuilder {
                     red = red*rgba.R.evaluate()*factor;
                     green = green*rgba.G.evaluate()*factor;
                     blue = blue*rgba.B.evaluate()*factor;
-                } catch(Exception e) {
+                } catch(Exception e)
+                {
                     e.printStackTrace();
                 }                
 
@@ -108,10 +119,13 @@ public class LightBuilder {
 
     private Light createDarkness(final Expression x, 
                 final Expression y, final Expression z, final Expression strgth, 
-                final RGBA rgba) {
-        return new Light() {
+                final RGBA rgba)
+                {
+        return new Light()
+        {
 
-            public float[] lightObject(DrawingContext shape) {
+            public float[] lightObject(DrawingContext shape)
+            {
 //                Name.gene.current = shape;
                 float dirMult = 1f;
                 float strength = 1f;
@@ -123,7 +137,8 @@ public class LightBuilder {
                     dist = (float)Math.sqrt(xs*xs+ys*ys+zs*zs);
                     strength = strgth.evaluate()*dirMult;
                 
-                } catch(Exception e) {
+                } catch(Exception e)
+                {
                     e.printStackTrace();
                 }
 
@@ -137,7 +152,8 @@ public class LightBuilder {
                     red = rgba.R.evaluate()*factor;
                     green = rgba.G.evaluate()*factor;
                     blue = rgba.B.evaluate()*factor;
-                } catch(Exception e) {
+                } catch(Exception e)
+                {
                     e.printStackTrace();
                     //throw new ParseException("Can't evaluate light expression: " + e.getMessage());
                 }                
@@ -167,11 +183,14 @@ public class LightBuilder {
         
         //final Color c = new Color(pos.getR(),pos.getG(),pos.getB(),pos.getA());
         
-        if (type==0) {
+        if (type==0)
+        {
             light = createDefault(x,y,z,strength,rgba);
-        } else if (type==1) {
+        } else if (type==1)
+        {
             light = createOpposite(x,y,z,strength,rgba);
-        } else if (type==2) {
+        } else if (type==2)
+        {
             light = createDarkness(x,y,z,strength,rgba);
         }
 
@@ -180,14 +199,16 @@ public class LightBuilder {
         return light;
     }
 
-    void clearPointData() {
+    void clearPointData()
+    {
         type = 0;
         if (points == null)
             points = new ArrayList<RGBA>();
         else points.clear();
     }
 
-    void name(String s) {
+    void name(String s)
+    {
         name = s;
     }
 
@@ -196,23 +217,28 @@ public class LightBuilder {
         if (coords.size() != 3)
             throw new ParseException("Light position must have three coordinates");
         current = new RGBA();
-        for (TransformModifier exp : colors.acqExps) {
-            if (exp instanceof TransformModifier.RGB) {
+        for (TransformModifier exp : colors.acqExps)
+        {
+            if (exp instanceof TransformModifier.RGB)
+            {
                 current.R = exp.exprs.get(0);
                 current.G = exp.exprs.get(1);
                 current.B = exp.exprs.get(2);
             } else
                 throw new ParseException("Misplaced transform in light (use RGB only): " + exp);
         }
-        for (TransformModifier exp : colors.acqTrs) {
-            if (exp instanceof TransformModifier.s) {
+        for (TransformModifier exp : colors.acqTrs)
+        {
+            if (exp instanceof TransformModifier.s)
+            {
                 current.fieldStrength = exp.exprs.get(0);
             } else 
                 throw new ParseException("Misplaced transform in shading(use s only to set field strength: " + exp);
         }
         if (current.fieldStrength == null)
             current.fieldStrength = new Value(1f);
-        if (!colors.hasTransformType(TransformModifier.RGB.class)) {
+        if (!colors.hasTransformType(TransformModifier.RGB.class))
+        {
             current.R = current.G = current.B = Value.ZERO;
         } 
         current.point = new ArrayList<Expression>(coords);
@@ -222,7 +248,8 @@ public class LightBuilder {
             throw new ParseException("Only one point in light supported");
     }
 
-    void strength(Expression lexpr) {
+    void strength(Expression lexpr)
+    {
         strength = lexpr;
     }
 

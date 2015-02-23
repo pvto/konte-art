@@ -20,7 +20,8 @@ public class RndCharSliderBar extends JPanel {
     private javax.swing.JTextField jTextField1;
     private int rndCharN;
 
-    public RndCharSliderBar() {
+    public RndCharSliderBar()
+    {
         super();
         this.setLayout(new GridLayout(1, 2));
         this.setMaximumSize(new Dimension(140, 48));
@@ -28,27 +29,35 @@ public class RndCharSliderBar extends JPanel {
         jSlider1 = new javax.swing.JSlider();
         //this.setRollover(true);
 
-        jTextField1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+        jTextField1.addPropertyChangeListener(new java.beans.PropertyChangeListener()
+        {
 
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+            public void propertyChange(java.beans.PropertyChangeEvent evt)
+            {
                 changeRndCharSlider(evt);
             }
         });
-        jTextField1.addKeyListener(new java.awt.event.KeyAdapter() {
+        jTextField1.addKeyListener(new java.awt.event.KeyAdapter()
+        {
 
-            public void keyReleased(java.awt.event.KeyEvent evt) {
+            public void keyReleased(java.awt.event.KeyEvent evt)
+            {
                 changeRndCharN(evt);
             }
         });
-        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jTextField1.addMouseListener(new java.awt.event.MouseAdapter()
+        {
 
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e)
+            {
                 System.out.println(e);
-                if (e.getButton() == MouseEvent.BUTTON2 || e.getButton() == MouseEvent.BUTTON3) {
+                if (e.getButton() == MouseEvent.BUTTON2 || e.getButton() == MouseEvent.BUTTON3)
+                {
                     JTextField f = (JTextField) e.getSource();
                     int n = f.getText().length();
                     String s = "";
-                    for (int i = 0; i < n; i++) {
+                    for (int i = 0; i < n; i++)
+                    {
                         s += (char) ('A' + Math.floor(Math.random() * 25));
                     }
                     f.setText(s);
@@ -58,16 +67,21 @@ public class RndCharSliderBar extends JPanel {
         });
         this.add(jTextField1);
 
-        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener()
+        {
 
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+            public void stateChanged(javax.swing.event.ChangeEvent evt)
+            {
                 changeRndChars(evt);
             }
         });
-        jSlider1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jSlider1.addMouseListener(new java.awt.event.MouseAdapter()
+        {
 
-            public void mouseClicked(MouseEvent e) {
-                if (e.getButton() == MouseEvent.BUTTON1) {
+            public void mouseClicked(MouseEvent e)
+            {
+                if (e.getButton() == MouseEvent.BUTTON1)
+                {
                     int val = jSlider1.getValue();
                     int add =
                             (e.getX() > jSlider1.getWidth() * (val - jSlider1.getMinimum()) / (jSlider1.getMaximum() - jSlider1.getMinimum()) ? 1 : -1);
@@ -85,11 +99,13 @@ public class RndCharSliderBar extends JPanel {
         change();
     }
 
-    public void addToSlider(int add) {
+    public void addToSlider(int add)
+    {
         String orig = jTextField1.getText();
         String newst = orig;
         int val = jSlider1.getValue();
-        while (orig.equals(newst)) {
+        while (orig.equals(newst))
+        {
             val += add;
             newst = RandomFeed.toConvertKey(val);
         }
@@ -101,15 +117,18 @@ public class RndCharSliderBar extends JPanel {
 
     }
 
-    private void changeRndCharN(java.awt.event.KeyEvent evt) {
+    private void changeRndCharN(java.awt.event.KeyEvent evt)
+    {
         change();
     }
 
-    private void changeRndCharSlider(java.beans.PropertyChangeEvent evt) {
+    private void changeRndCharSlider(java.beans.PropertyChangeEvent evt)
+    {
         change();
     }
 
-    private void change() {
+    private void change()
+    {
         JTextField f = jTextField1;
         int car = jTextField1.getCaretPosition();
         f.setText(f.getText().replaceAll("[^\\w]", "").toUpperCase());
@@ -120,27 +139,32 @@ public class RndCharSliderBar extends JPanel {
         } catch(Exception eee) { } 
     }
 
-    private void changeRndChars(javax.swing.event.ChangeEvent evt) {
+    private void changeRndChars(javax.swing.event.ChangeEvent evt)
+    {
         changeRndChars(jSlider1.getValue());
     }
 
-    private void changeRndChars(int value) {
+    private void changeRndChars(int value)
+    {
         this.jTextField1.setText(RandomFeed.toConvertKey(value));
     }
 
-    private void setRndCharSlider(String s) {
+    private void setRndCharSlider(String s)
+    {
         this.rndCharN = s.length();
         this.jSlider1.setMinimum((int) RandomFeed.convertKey(Misc.replicate("A", rndCharN)));
         this.jSlider1.setMaximum((int) RandomFeed.convertKey(Misc.replicate("Z", rndCharN)));
         this.jSlider1.setValue((int) RandomFeed.convertKey(s));
     }
 
-    public String getKeyCode() {
+    public String getKeyCode()
+    {
         return this.jTextField1.getText();
     }
 
     @Override
-    public void setBackground(Color bg) {
+    public void setBackground(Color bg)
+    {
         super.setBackground(bg);
         if (jSlider1 != null)
             jSlider1.setBackground(bg);

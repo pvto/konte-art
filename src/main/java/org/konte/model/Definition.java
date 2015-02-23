@@ -33,16 +33,19 @@ public class Definition implements Comparable<Definition> {
      */
     public boolean isUndef;
 
-    public Definition(String name, Expression definition) {
+    public Definition(String name, Expression definition)
+    {
         this.name = name;
         this.definition = definition;
     }
 
-    public int compareTo(Definition o) {
+    public int compareTo(Definition o)
+    {
         return this.name.compareTo(o.name);
     }
     
-    public String toString() {
+    public String toString()
+    {
         return name + 
                 (nameId == -1 ? "" : "[" + nameId + "]") + 
                 (id == null ? "" : "_" + id) ;
@@ -56,22 +59,26 @@ public class Definition implements Comparable<Definition> {
         int id;
         String name;
 
-        public NameMap(int id, String name) {
+        public NameMap(int id, String name)
+        {
             this.id = id;
             this.name = name;
         }
 
-        public int getId() {
+        public int getId()
+        {
             return id;
         }
         
-        public int compareTo(NameMap o) {
+        public int compareTo(NameMap o)
+        {
             return name.compareTo(o.name);
         }
         
     }
 
-    void setNameId(int ipos) {
+    void setNameId(int ipos)
+    {
         this.nameId = ipos;
     }
 }

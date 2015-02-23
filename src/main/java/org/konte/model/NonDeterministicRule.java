@@ -14,13 +14,15 @@ public class NonDeterministicRule {
     private String name;
     public int id;
 
-    public ArrayList<NonDeterministicRule.WeighedRule> getRules() {
+    public ArrayList<NonDeterministicRule.WeighedRule> getRules()
+    {
         return rules;
     }
     
 
 
-    public NonDeterministicRule(String name) {
+    public NonDeterministicRule(String name)
+    {
         this.name = name;
     }
 
@@ -30,12 +32,14 @@ public class NonDeterministicRule {
         double weigh = 1;
         Rule rule;
 
-        public WeighedRule(double weigh, Rule rule) {
+        public WeighedRule(double weigh, Rule rule)
+        {
             this.weigh = weigh;
             this.rule = rule;
         }
         
-        public String toString() {
+        public String toString()
+        {
             StringBuilder bd = new StringBuilder();
             bd.append(String.format("%.2f", weigh)).append("=");
             bd.append(rule);
@@ -43,37 +47,45 @@ public class NonDeterministicRule {
         }
     }
 
-    public void addRule(double weigh, Rule rule) {
-        if (weigh > 0) {
+    public void addRule(double weigh, Rule rule)
+    {
+        if (weigh > 0)
+        {
             rules.add(new WeighedRule(weigh, rule));
             recalculateTotalWeigh();
         }
     }
 
-    private void recalculateTotalWeigh() {
+    private void recalculateTotalWeigh()
+    {
         total = 0;
-        for (WeighedRule r : rules) {
+        for (WeighedRule r : rules)
+        {
             total += r.weigh;
         }
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
     
-    public Rule randomRule(RandomFeed f) {
+    public Rule randomRule(RandomFeed f)
+    {
         if (rules.size()==1)
             return rules.get(0).rule;
         double d = f.get()*this.total;
         double c = 0;
         WeighedRule w = null;
-        for (int i = 0; c < d; c += w.weigh) {
+        for (int i = 0; c < d; c += w.weigh)
+        {
             w = rules.get(i++);
         }
         return w.rule;
     }
     
-    public String toString() {
+    public String toString()
+    {
         StringBuilder bd = new StringBuilder();
         bd.append(name).append("[").append(String.format("%.2f",total)).append("]-").append(id).append(": ");
         bd.append(rules);

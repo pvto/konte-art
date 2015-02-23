@@ -24,16 +24,19 @@ class SunflowExporter extends AbstractExporterBase {
     private int shapeCnt = 1;
 
     @Override
-    protected String transform(OutputShape p, Model m) {
+    protected String transform(OutputShape p, Model m)
+    {
         StringBuilder bd = new StringBuilder();
         String shader = addShader(p, bd);
-        if (p.shape == Language.SPHERE) {
+        if (p.shape == Language.SPHERE)
+        {
             bd.append(String.format(
                     "object {\n  shader \"%s\"\n  type sphere\n  c %s %s %s\n  r %s\n}", 
                     shapeMap.get(p.shape.getId()),
                     p.matrix.m03, p.matrix.m13, p.matrix.m23,
                     p.getMinWidth()));
-        } else if (!p.shape.isCurved) {
+        } else if (!p.shape.isCurved)
+        {
             bd.append("instance {\n");
             bd.append("\tname \"").append(p.shape.name + shapeCnt++).append("\"\n");
             bd.append("\tgeometry \"").append(shapeMap.get(p.shape.getId())).append("\"\n");
@@ -53,7 +56,8 @@ class SunflowExporter extends AbstractExporterBase {
     private HashMap<MapType, String> shaderMap = new HashMap<MapType, String>();
 
     @Override
-    protected Iterator<OutputShape> getIterator(ShapeReader bsr) {
+    protected Iterator<OutputShape> getIterator(ShapeReader bsr)
+    {
         return bsr.iterator();
     }
 
@@ -63,7 +67,8 @@ class SunflowExporter extends AbstractExporterBase {
 //        DrawingContext.Def[] defs;
 
         @Override
-        public int hashCode() {
+        public int hashCode()
+        {
             return col.hashCode();
             //return (defs == null ? 0 : defs.hashCode()) + col.hashCode();
         }
@@ -71,12 +76,14 @@ class SunflowExporter extends AbstractExporterBase {
     }
     MapType search = new MapType();
 
-    private String addShader(OutputShape p, StringBuilder b) {
+    private String addShader(OutputShape p, StringBuilder b)
+    {
         Color c = p.getColor();
         search.col = c;
 //        search.defs = p.defs;
         String name = shaderMap.get(search);
-        if (name == null) {
+        if (name == null)
+        {
             MapType unique = new MapType();
             unique.col = c;
 //            unique.defs = p.defs;
@@ -89,17 +96,21 @@ class SunflowExporter extends AbstractExporterBase {
             String extra = null;
             float val;
 /*
-            if (phongDefId > -1 && p.getDef(phongDefId) != 0f) {
+            if (phongDefId > -1 && p.getDef(phongDefId) != 0f)
+            {
                 type = "phong";
-            } else if (shinyDefId > -1 && p.getDef(shinyDefId) != 0f) {
+            } else if (shinyDefId > -1 && p.getDef(shinyDefId) != 0f)
+            {
                 type = "shiny";
                 col = "diff";
                 extra = String.format("  refl %s\n", 
                         reflId > -1 && (val = p.getDef(reflId)) != 0f ? val : 1f);
-            } else if (mirrorDefId > -1 && p.getDef(mirrorDefId) != 0f) {
+            } else if (mirrorDefId > -1 && p.getDef(mirrorDefId) != 0f)
+            {
                 type = "mirror";
                 col = "refl";
-            } else if (ambOccDefId > -1 && p.getDef(ambOccDefId) != 0f) {
+            } else if (ambOccDefId > -1 && p.getDef(ambOccDefId) != 0f)
+            {
                 type = "amb-occ";
                 col = "bright";
                 val = p.getDef(darkId);
@@ -135,7 +146,8 @@ class SunflowExporter extends AbstractExporterBase {
     }
      * */
     @Override
-    protected String transform(Background bg) {
+    protected String transform(Background bg)
+    {
         StringBuilder bd = new StringBuilder();
         bd.append("background {\n\tcolor  { \"sRGB nonlinear\" ");
         bd.append(String.format("%s %s %s }\n}\n\n",
@@ -156,7 +168,8 @@ class SunflowExporter extends AbstractExporterBase {
      */
 
     @Override
-    protected String transform(List<Camera> cameras) {
+    protected String transform(List<Camera> cameras)
+    {
         StringBuilder bd = new StringBuilder();
         Camera camera = cameras.get(0);
         bd.append("camera {\n");
@@ -214,11 +227,14 @@ class SunflowExporter extends AbstractExporterBase {
     private HashMap<Integer, String> shapeMap = new HashMap<Integer, String>();
 
     @Override
-    protected String transform(Untransformable shape) {
-        if (shape == Language.SPHERE) {
+    protected String transform(Untransformable shape)
+    {
+        if (shape == Language.SPHERE)
+        {
             return "";
         }
-        if (shape.getShapes() == null) {
+        if (shape.getShapes() == null)
+        {
             return "";
         }
         shapeMap.put(shape.getId(), shape.name);
@@ -234,18 +250,22 @@ class SunflowExporter extends AbstractExporterBase {
         int cnt = 0;
         ArrayList<Integer> centInd = new ArrayList<Integer>();
 
-        for (List<Matrix4> l : shape.getShapes()) {
-            for (Matrix4 m : l) {
+        for (List<Matrix4> l : shape.getShapes())
+        {
+            for (Matrix4 m : l)
+            {
                 cnt++;
             }
             centInd.add(cnt++);
         }
-        if (!shape.isCurved) {
+        if (!shape.isCurved)
+        {
             bd.append("  type generic-mesh\n");
             bd.append("  name \"").append(shape.name).append("\"\n");
             bd.append("  points ");
             
-            if (shape == Language.SQUARE) {
+            if (shape == Language.SQUARE)
+            {
                 bd.append("4\n");
                 bd.append(String.format("\t%s\t%s\t%s\n",-0.5,-0.5,0));
                 bd.append(String.format("\t%s\t%s\t%s\n",-0.5,0.5,0));
@@ -256,12 +276,14 @@ class SunflowExporter extends AbstractExporterBase {
                 bd.append(String.format("\t%s\t%s\t%s\n",0,3,2));
             } else {
                 bd.append(cnt).append("\n");
-                for (List<Matrix4> l : shape.getShapes()) {
+                for (List<Matrix4> l : shape.getShapes())
+                {
                     float cntx = 0f;
                     float cnty = 0f;
                     float cntz = 0f;
                     Matrix4 tmp;
-                    for (Matrix4 m : l) {
+                    for (Matrix4 m : l)
+                    {
                         tmp = orig.multiply(m);
                         cntx+=tmp.m03; cnty+=tmp.m13; cntz+=tmp.m23;
                         bd.append(String.format("\t%s\t%s\t%s\n",
@@ -273,8 +295,10 @@ class SunflowExporter extends AbstractExporterBase {
 
                 bd.append("  triangles ").append(cnt - shape.getShapes().size()).append("\n");
                 int cnt2 = 0;
-                for (List<Matrix4> l : shape.getShapes()) {
-                    for (int i = 0; i < l.size() - 1; i++) {
+                for (List<Matrix4> l : shape.getShapes())
+                {
+                    for (int i = 0; i < l.size() - 1; i++)
+                    {
                         bd.append("\t").append(cnt2).append(" ").append(++cnt2).append(" ").append(centInd.get(0)).append("\n");
                     }
                     bd.append("\t").append(cnt2).append(" ").append(++cnt2 - (l.size())).append(" ").append(centInd.remove(0)).append("\n");
@@ -293,12 +317,14 @@ class SunflowExporter extends AbstractExporterBase {
     }
 
     @Override
-    protected void init() {
+    protected void init()
+    {
 
     }
 
     @Override
-    protected String finish(Model m, ShapeReader bsr) {
+    protected String finish(Model m, ShapeReader bsr)
+    {
         return "";
     }
 /*
@@ -333,8 +359,10 @@ bucket 32 spiral
     private ArrayList<Definition.NameMap> shadings = new ArrayList<Definition.NameMap>();
     
     @Override
-    protected String transform(Model m, ShapeReader bsr) {
-        for (Definition.NameMap nm : m.defMaps) {
+    protected String transform(Model m, ShapeReader bsr)
+    {
+        for (Definition.NameMap nm : m.defMaps)
+        {
             if (nm.compareTo(new Definition.NameMap(-1, "diffuse"))==0)
                 diffuseDefId = nm.getId();
             if (nm.compareTo(new Definition.NameMap(-1, "phong"))==0)

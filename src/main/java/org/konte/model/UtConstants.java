@@ -10,7 +10,8 @@ import org.konte.misc.Matrix4;
  */
 public class UtConstants {
 
-    public UtConstants(UtBuilder utb) {
+    public UtConstants(UtBuilder utb)
+    {
         this.utb = utb;
     }
 
@@ -41,19 +42,23 @@ public class UtConstants {
 
     private UtBuilder utb;
 
-    public void run() {
+    public void run()
+    {
 
         // CIRCLE BEZIER POINTS
-        for (int i=0; i < 4; i++) {
+        for (int i=0; i < 4; i++)
+        {
             float x1 = (i % 2 == 0 ? cf_ : 0.5f);
             float y1 = (i % 2 == 1 ? cf_ : 0.5f);
             float x2 = y1;
             float y2 = x1;
-            if (i > 1) {
+            if (i > 1)
+            {
                 x1 = -x1;
                 x2 = -x2;
             }
-            if (i == 1 || i == 2) {
+            if (i == 1 || i == 2)
+            {
                 y1 = -y1;
                 y2 = -y2;
             }
@@ -92,7 +97,8 @@ public class UtConstants {
             Matrix4 step = Matrix4.scale((float)Math.sin(Math.PI/nn), 1f, 1f).multiply(
                     Matrix4.translation(0f, 0f, -(float)Math.cos(Math.PI/nn)/2f));
             Matrix4 base = Matrix4.IDENTITY;
-            for(int i = 0; i < nn; i++) {
+            for(int i = 0; i < nn; i++)
+            {
                 base = base.multiply(Matrix4.rotateY((float)Math.PI*2f/(float)nn));
                 Matrix4 c = base.multiply(step);
                 utb.addShape(
@@ -104,7 +110,8 @@ public class UtConstants {
             Language.PIPE    = Language.addUntransformable(utb.build());
             utb.name("CONE").clearShapes();
             base = Matrix4.IDENTITY;
-            for(int i = 0; i < nn; i++) {
+            for(int i = 0; i < nn; i++)
+            {
                 base = base.multiply(Matrix4.rotateY((float)Math.PI*2f/(float)nn));
                 Matrix4 c = base.multiply(step);
                 utb.addShape(

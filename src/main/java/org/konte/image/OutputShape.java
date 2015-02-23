@@ -44,10 +44,12 @@ public class OutputShape implements Serializable {
         shape = (Untransformable)in.readObject();
     }
 
-    public OutputShape() {
+    public OutputShape()
+    {
     }
 
-    public Color getColor() {
+    public Color getColor()
+    {
         return new Color((col >> 16) & 0xFF, (col >> 8) & 0xFF, col & 0xFF, (col >> 24) & 0xFF);
     }
     public float getR() { return ((col >> 16) & 0xFF) / 255f; }
@@ -55,7 +57,8 @@ public class OutputShape implements Serializable {
     public float getB() { return (col & 0xFF) / 255f; }
     public float getA() { return (col >> 24) / 255f; }
     
-    public float getMinWidth() {
+    public float getMinWidth()
+    {
         return Math.min(Math.abs(matrix.m00) + Math.abs(matrix.m01) + Math.abs(matrix.m02),
                 Math.min(Math.abs(matrix.m10) + Math.abs(matrix.m11) + Math.abs(matrix.m12),
                 Math.abs(matrix.m20) + Math.abs(matrix.m21) + Math.abs(matrix.m22)));

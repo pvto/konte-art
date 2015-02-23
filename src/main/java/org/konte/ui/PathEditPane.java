@@ -108,32 +108,39 @@ public class PathEditPane extends javax.swing.JPanel {
 
     int[] sel = null;
     /** Creates new form PathEditPane */
-    public PathEditPane() {
+    public PathEditPane()
+    {
         initComponents();
         pathPanel1 = new PathPanel();
         pathPanel1.setStretchAlong(0);
         this.add(pathPanel1, BorderLayout.CENTER);
         DefaultComboBoxModel model = new DefaultComboBoxModel();
         model.addElement("Pick object");
-        for(int i = 0; i < defaultPaths.length; i+= 2) {
+        for(int i = 0; i < defaultPaths.length; i+= 2)
+        {
             model.addElement(defaultPaths[i]);
         }
         jComboBox1.setModel(model);
 
-        pathPanel1.addMouseMotionListener(new MouseMotionListener() {
+        pathPanel1.addMouseMotionListener(new MouseMotionListener()
+        {
             private int grabbedNode = -1;   // add 0x1000 or 0x2000 if bend
-            public void mouseDragged(MouseEvent e) {
+            public void mouseDragged(MouseEvent e)
+            {
                 Vector3 v = pathPanel1.toModelCoords(e.getX(), e.getY());
-                if (grabbedNode == -1) {
+                if (grabbedNode == -1)
+                {
                     if (x0 == null)
                         sel = pathPanel1.getPivot(e, 0.02f, 3);
-                    if (sel != null && sel[0] != -1) {
+                    if (sel != null && sel[0] != -1)
+                    {
                         x0 = y0 = null;
                         grabbedNode = sel[0];
                         if (sel[1] != -1)
                             grabbedNode += (sel[1]+1) * 0x1000;
                     } else {
-                        if (x0 != null) {
+                        if (x0 != null)
+                        {
                             pathPanel1.setP0(
                                     pathPanel1.getX0()+(v.x-x0)/2f,
                                     pathPanel1.getY0()+(v.y-y0)/2f);
@@ -143,21 +150,26 @@ public class PathEditPane extends javax.swing.JPanel {
                         y0 = v.y;
                     }
                 }
-                if (grabbedNode != -1) {
+                if (grabbedNode != -1)
+                {
                     int node = grabbedNode & 0xFFF;
-                    if (e.isControlDown()) {
+                    if (e.isControlDown())
+                    {
                         v = pathPanel1.snapToGrid(v);
                     }
                     float mx = v.x;
                     float my = v.y;
-                    if (grabbedNode >= 0x1000) {
+                    if (grabbedNode >= 0x1000)
+                    {
                         int bend = grabbedNode >= 0x2000 ? 1 : 0;
                         Matrix4[] bends = pathPanel1.getPath().getControlPoints().get(sel[2]).get(node);
                         bends[bend] = Matrix4.translation(mx, my, bends[bend].m23);
-                        if (e.isAltDown()) {
+                        if (e.isAltDown())
+                        {
                             List<Matrix4> list = pathPanel1.getPath().getShapes().get(sel[2]);
                             int node2 = node;
-                            if (bend == 1) {
+                            if (bend == 1)
+                            {
                                 node2 = (node+1) % list.size();
                             }
                             list.set(node2, Matrix4.translation(mx, my, list.get(node2).m23));
@@ -167,7 +179,8 @@ public class PathEditPane extends javax.swing.JPanel {
                     } else {
                         List<Matrix4> list = pathPanel1.getPath().getShapes().get(sel[2]);
                         list.set(grabbedNode, Matrix4.translation(mx, my, list.get(grabbedNode).m23));
-                        if (e.isAltDown()) {
+                        if (e.isAltDown())
+                        {
                             int node2 = node-1;
                             if (node2 == -1)
                                 node2 = list.size()-1;
@@ -181,26 +194,33 @@ public class PathEditPane extends javax.swing.JPanel {
                     pathPanel1.repaint();
                 }
             }
-            public void mouseMoved(MouseEvent e) {
+            public void mouseMoved(MouseEvent e)
+            {
                 grabbedNode = -1;
             }
 
         });
-        pathPanel1.addMouseListener(new MouseAdapter() {
+        pathPanel1.addMouseListener(new MouseAdapter()
+        {
 
             @Override
-            public void mouseReleased(MouseEvent e) {
+            public void mouseReleased(MouseEvent e)
+            {
                 super.mouseReleased(e);
                 x0 = y0 = null;
             }
 
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e)
+            {
                 super.mouseClicked(e);
-                if (e.getClickCount() == 1) {
-                    if (e.getButton() != MouseEvent.BUTTON1 && e.isShiftDown()) {
+                if (e.getClickCount() == 1)
+                {
+                    if (e.getButton() != MouseEvent.BUTTON1 && e.isShiftDown())
+                    {
                         int[] sel = pathPanel1.getPivot(e, 0.02f, 1);
-                        if (sel[0] != -1 && sel[1] == -1) {
+                        if (sel[0] != -1 && sel[1] == -1)
+                        {
                             pathPanel1.getPath().getShapes().get(sel[2]).remove(sel[0]);
                             List<Matrix4[]> cps = pathPanel1.getPath().getControlPoints().get(sel[2]);
                             int sel2 = sel[0] == 0 ? cps.size()-1 : sel[0]-1;
@@ -211,8 +231,10 @@ public class PathEditPane extends javax.swing.JPanel {
                         }
                     }
                 }
-                if (e.getClickCount() == 2) {
-                    if (e.getButton() == MouseEvent.BUTTON1) {
+                if (e.getClickCount() == 2)
+                {
+                    if (e.getButton() == MouseEvent.BUTTON1)
+                    {
                         Vector3 v = pathPanel1.toModelCoords(e.getX(), e.getY());
                         Path p = pathPanel1.getPath();
                         List<Matrix4> shapes = p.getShapes().get(0);
@@ -220,7 +242,8 @@ public class PathEditPane extends javax.swing.JPanel {
                         int j = 1;
                         int sel = 0;
                         float mind = Float.MAX_VALUE;
-                        for (int i = 0; i < shapes.size(); i++) {
+                        for (int i = 0; i < shapes.size(); i++)
+                        {
                             Matrix4 m = shapes.get(i);
                             Matrix4 m2 = shapes.get(j);
                             float dx = v.x-m.m03;
@@ -229,7 +252,8 @@ public class PathEditPane extends javax.swing.JPanel {
                             dx = v.x-m2.m03;
                             dy = v.y-m2.m13;
                             tmpd += (float)Math.sqrt(dx*dx+dy*dy);
-                            if (tmpd < mind) {
+                            if (tmpd < mind)
+                            {
                                 mind = tmpd;
                                 sel = i+1;
                             }
@@ -250,24 +274,29 @@ public class PathEditPane extends javax.swing.JPanel {
 
         });
 
-        FocusAdapter fa = new FocusAdapter() {
-            public void focusGained(FocusEvent e) {
+        FocusAdapter fa = new FocusAdapter()
+        {
+            public void focusGained(FocusEvent e)
+            {
                 javax.swing.ToolTipManager.sharedInstance().setDismissDelay(1000*30);
                 Component c = (Component)e.getSource();
                 c.dispatchEvent( new KeyEvent (c, KeyEvent.KEY_PRESSED, 0, KeyEvent.CTRL_MASK, KeyEvent.VK_F1) );
             }
 
             @Override
-            public void focusLost(FocusEvent e) {
+            public void focusLost(FocusEvent e)
+            {
                 super.focusLost(e);
                 javax.swing.ToolTipManager.sharedInstance().setDismissDelay(1000*3);
             }
 
         };
-        MouseAdapter ma = new MouseAdapter() {
+        MouseAdapter ma = new MouseAdapter()
+        {
 
             @Override
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(MouseEvent e)
+            {
                 super.mouseClicked(e);
                 javax.swing.ToolTipManager.sharedInstance().setDismissDelay(1000*30);
                 Component c = (Component)e.getSource();
@@ -275,7 +304,8 @@ public class PathEditPane extends javax.swing.JPanel {
             }
 
             @Override
-            public void mouseExited(MouseEvent e) {
+            public void mouseExited(MouseEvent e)
+            {
                 super.mouseExited(e);
                 javax.swing.ToolTipManager.sharedInstance().setDismissDelay(1000*3);
             }
@@ -284,20 +314,24 @@ public class PathEditPane extends javax.swing.JPanel {
         jButton4.addMouseListener(ma);
     }
 
-    public String getText() {
+    public String getText()
+    {
         return jTextArea1.getText();
     }
 
-    public JButton getSaveButton() {
+    public JButton getSaveButton()
+    {
         return jButton3;
     }
 
-    public PathPanel getPathPanel() {
+    public PathPanel getPathPanel()
+    {
         return pathPanel1;
     }
 
     private int lastFormSel = 1;
-    public void changeToNewForm() {
+    public void changeToNewForm()
+    {
         int ind = jComboBox1.getSelectedIndex();
         if (ind == 0)
             return;
@@ -309,16 +343,19 @@ public class PathEditPane extends javax.swing.JPanel {
             pathPanel1.repaint();
             updateTextFromModel();
             jComboBox1.setSelectedIndex(0);
-        } catch (ParseException ex) {
+        } catch (ParseException ex)
+        {
             ex.printStackTrace();
         }
     }
 
-    public JComboBox getJComboBox1() {
+    public JComboBox getJComboBox1()
+    {
         return jComboBox1;
     }
 
-    private void importFromSvg() {
+    private void importFromSvg()
+    {
         JFileChooser fc = new JFileChooser();
         fc.setFileFilter(new FileNameExtensionFilter(
                 "Scalable Vector Graphics", "svg"));
@@ -326,7 +363,8 @@ public class PathEditPane extends javax.swing.JPanel {
         System.out.println(retVal);
         if (retVal == 0) { // ok
             File f = fc.getSelectedFile();
-            if (f != null) {
+            if (f != null)
+            {
                 try {
                     SvgImport svg = new SvgImport();
                     svg.initDocument(f);
@@ -334,8 +372,10 @@ public class PathEditPane extends javax.swing.JPanel {
                     NodeList paths = svg.getPaths();
                     Object[] objs = new Object[paths.getLength()];
                     int sel = 0;
-                    if (paths.getLength() > 0) {
-                        for (int i = 0; i < paths.getLength(); i++) {
+                    if (paths.getLength() > 0)
+                    {
+                        for (int i = 0; i < paths.getLength(); i++)
+                        {
                             Node node = paths.item(i);
                             String id = node.getAttributes().getNamedItem("id").getTextContent();
                             objs[i] = id;
@@ -348,14 +388,16 @@ public class PathEditPane extends javax.swing.JPanel {
                     pathPanel1.setPath(p0);
                     pathPanel1.repaint();
                     updateTextFromModel();
-                } catch(Exception ex) {
+                } catch(Exception ex)
+                {
                     ex.printStackTrace();
                 }
             }
         }
     }
 
-    private Float setGrid(String text) {
+    private Float setGrid(String text)
+    {
         try {
             float fl = Float.parseFloat(text);
             if (fl > 10f)
@@ -365,17 +407,20 @@ public class PathEditPane extends javax.swing.JPanel {
             pathPanel1.setGrid(fl);
             pathPanel1.repaint();
             return fl;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
         }
         return null;
     }
 
-    private void setStretch(int i) {
+    private void setStretch(int i)
+    {
         pathPanel1.setStretchAlong(i);
         pathPanel1.repaint();
     }
 
-    private Float setZoomFactor(String text) {
+    private Float setZoomFactor(String text)
+    {
         try {
             float fl = Float.parseFloat(text);
             if (fl > 10f)
@@ -385,31 +430,37 @@ public class PathEditPane extends javax.swing.JPanel {
             pathPanel1.setZoomFactor(fl);
             pathPanel1.repaint();
             return fl;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
         }
         return null;
     }
 
 
-    private void showPathEditHelp() {
+    private void showPathEditHelp()
+    {
 
     }
 
-    private void updateModelFromText() {
+    private void updateModelFromText()
+    {
         try {
             String grammar = jTextArea1.getText();
             ArrayList<TokenizerString> tokens = null;
             try {
                 tokens = Tokenizer.retrieveTokenStrings(new StringBuilder(grammar));
-            } catch(ParseException pe) {
+            } catch(ParseException pe)
+            {
                 pe.printStackTrace();
             }
             Parser parser = new Parser();
             Model model = parser.parse(tokens);
             model.initForGenerate();
-            for (int i = 0; i < model.indexedRules.length; i++) {
+            for (int i = 0; i < model.indexedRules.length; i++)
+            {
                 Rule rule = model.indexedRules[i];
-                if (rule instanceof PathRule) {
+                if (rule instanceof PathRule)
+                {
                     PathRule pr = (PathRule)rule;
                     Path ph = (Path)pr.createUntransformable();
                     pathPanel1.setPath(ph);
@@ -417,31 +468,38 @@ public class PathEditPane extends javax.swing.JPanel {
                     break;
                 }
             }
-        } catch (IllegalArgumentException ex) {
+        } catch (IllegalArgumentException ex)
+        {
             ex.printStackTrace();
-        } catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex)
+        {
             ex.printStackTrace();
-        } catch (ParseException ex) {
+        } catch (ParseException ex)
+        {
             ex.printStackTrace();
         }
     }
 
-    private void updateTextFromModel() {
+    private void updateTextFromModel()
+    {
         Path path = pathPanel1.getPath();
         String res = ReverseParseTools.pathToScript(path);
         jTextArea1.setText(res);
     }
 
-    private void changeName() {
+    private void changeName()
+    {
         String gram = jTextArea1.getText();
         Pattern pattern = Pattern.compile("(path\\s+)([a-zA-Z0-9\\.\\-_]*)(\\s*\\{)");
         Matcher matcher = pattern.matcher(gram);
         String name = "";
-        if (matcher.find()) {
+        if (matcher.find())
+        {
             name = matcher.group(2);
         }
         String name2 = JOptionPane.showInputDialog(null, "Type new name for the path", name);
-        if (name2 != null && !name.isEmpty()) {
+        if (name2 != null && !name.isEmpty())
+        {
             gram = matcher.replaceFirst(String.format("$1%s$3",name2));
             jTextArea1.setText(gram);
         }
@@ -454,7 +512,8 @@ public class PathEditPane extends javax.swing.JPanel {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -489,8 +548,10 @@ public class PathEditPane extends javax.swing.JPanel {
         jTextArea1.setRows(5);
         jTextArea1.setText("path mypath {\n\n\n}");
         jTextArea1.setPreferredSize(new java.awt.Dimension(142, 382));
-        jTextArea1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        jTextArea1.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
                 jTextArea1MouseClicked(evt);
             }
         });
@@ -507,8 +568,10 @@ public class PathEditPane extends javax.swing.JPanel {
 
         jTextField1.setText("1.5");
         jTextField1.setToolTipText("Zoom factor");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jTextField1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jTextField1ActionPerformed(evt);
             }
         });
@@ -519,8 +582,10 @@ public class PathEditPane extends javax.swing.JPanel {
 
         jTextField2.setText("0.1");
         jTextField2.setToolTipText("Grid spacing (units)");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jTextField2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jTextField2ActionPerformed(evt);
             }
         });
@@ -533,8 +598,10 @@ public class PathEditPane extends javax.swing.JPanel {
         jRadioButton1.setText("x");
         jRadioButton1.setToolTipText("This will enable automatic horizontal scaling");
         jRadioButton1.setMargin(new java.awt.Insets(2, 0, 2, 0));
-        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jRadioButton1ActionPerformed(evt);
             }
         });
@@ -544,8 +611,10 @@ public class PathEditPane extends javax.swing.JPanel {
         jRadioButton2.setText("y");
         jRadioButton2.setToolTipText("This will enable automatic vertical scaling");
         jRadioButton2.setMargin(new java.awt.Insets(2, 0, 2, 0));
-        jRadioButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jRadioButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jRadioButton2ActionPerformed(evt);
             }
         });
@@ -556,8 +625,10 @@ public class PathEditPane extends javax.swing.JPanel {
         jRadioButton3.setText("none");
         jRadioButton3.setToolTipText("This will disable automatic scaling");
         jRadioButton3.setMargin(new java.awt.Insets(2, 0, 2, 0));
-        jRadioButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jRadioButton3.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jRadioButton3ActionPerformed(evt);
             }
         });
@@ -566,8 +637,10 @@ public class PathEditPane extends javax.swing.JPanel {
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Pick form" }));
         jComboBox1.setToolTipText("Select new shape to start with");
         jComboBox1.setPreferredSize(new java.awt.Dimension(100, 22));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jComboBox1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jComboBox1ActionPerformed(evt);
             }
         });
@@ -578,8 +651,10 @@ public class PathEditPane extends javax.swing.JPanel {
         jButton1.setToolTipText("Change path name");
         jButton1.setBorder(null);
         jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/applications.png"))); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton1.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton1ActionPerformed(evt);
             }
         });
@@ -590,8 +665,10 @@ public class PathEditPane extends javax.swing.JPanel {
         jButton2.setToolTipText("Copy to clipboard");
         jButton2.setBorder(null);
         jButton2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/clipping_unknow.png"))); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton2.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton2ActionPerformed(evt);
             }
         });
@@ -609,8 +686,10 @@ public class PathEditPane extends javax.swing.JPanel {
         jButton5.setToolTipText("Import path from SVG");
         jButton5.setBorder(null);
         jButton5.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/Inkscape.png"))); // NOI18N
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton5.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton5ActionPerformed(evt);
             }
         });
@@ -621,8 +700,10 @@ public class PathEditPane extends javax.swing.JPanel {
         jButton4.setToolTipText("<html>\n<h3>Mouse help-chart: draw area</h3>\n<p><b>Left Double Click</b> insert node\n<p><b>Right Click+shift</b> remove node\n<p><b>Left Drag+ctrl</b> snap to grid\n<p><b>Left Drag+alt</b> move node and controls together\n<p>\n<h3>Mouse help-chart: text area</h3>\n<p><b>Left Click</b> redraw\n\n</html>");
         jButton4.setBorder(null);
         jButton4.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/org/konte/resources/ui/24/hl/Help file.png"))); // NOI18N
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        jButton4.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 jButton4ActionPerformed(evt);
             }
         });
@@ -639,8 +720,10 @@ public class PathEditPane extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
-        ClipboardOwner owner = new ClipboardOwner() {
-            public void lostOwnership(Clipboard clipboard, Transferable contents) {
+        ClipboardOwner owner = new ClipboardOwner()
+        {
+            public void lostOwnership(Clipboard clipboard, Transferable contents)
+            {
             }
         };
         StringSelection contents = new StringSelection(jTextArea1.getText());
@@ -649,9 +732,12 @@ public class PathEditPane extends javax.swing.JPanel {
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         final Float fl = setZoomFactor(jTextField1.getText().replaceAll(",+", "."));
-        if (fl != null) {
-            javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
+        if (fl != null)
+        {
+            javax.swing.SwingUtilities.invokeLater(new Runnable()
+            {
+                public void run()
+                {
                     jTextField1.setText(String.format(Locale.ENGLISH, "%.1f", fl));
                 }
             });
@@ -682,9 +768,12 @@ public class PathEditPane extends javax.swing.JPanel {
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         final Float fl = setGrid(jTextField2.getText().replaceAll(",+", "."));
-        if (fl != null) {
-            javax.swing.SwingUtilities.invokeLater(new Runnable() {
-                public void run() {
+        if (fl != null)
+        {
+            javax.swing.SwingUtilities.invokeLater(new Runnable()
+            {
+                public void run()
+                {
                     jTextField2.setText(String.format(Locale.ENGLISH, "%.1f", fl));
                 }
             });

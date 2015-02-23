@@ -44,7 +44,8 @@ public class Controller {
         private Task task;
         private Object[] args;
 
-        public TaskInfo(Task task, Object[] args) {
+        public TaskInfo(Task task, Object[] args)
+        {
             this.task = task;
             this.args = args;
         }
@@ -52,20 +53,26 @@ public class Controller {
 
 
 
-    public void addTask(final TaskInfo task) {
+    public void addTask(final TaskInfo task)
+    {
 
-        Runnable r = new Runnable() {
-            public void run() {
+        Runnable r = new Runnable()
+        {
+            public void run()
+            {
 
-                if (task != null) {
-                    switch (task.task) {
+                if (task != null)
+                {
+                    switch (task.task)
+                    {
                         case RENDER:
                             cancel(5);
                             try {
                                 render((Integer) task.args[0], (Integer) task.args[1],
                                     (EditViewInterface) task.args[2], (Long) task.args[3], (RenderType)task.args[4],
                                     (task.args.length>5?(SeqRecorder)task.args[5]:null));
-                            } catch(Exception ex) {
+                            } catch(Exception ex)
+                            {
                                 Runtime.sysoutln("[render] " + ex.getMessage());
                                 ex.printStackTrace();
                             }
@@ -88,18 +95,22 @@ public class Controller {
         executor.submit(r);
     }
 
-    public Controller() {
+    public Controller()
+    {
     }
 
-    private void cancel(int strength) {
-        if (rtuple != null && rtuple.ruleWriter != null) {
+    private void cancel(int strength)
+    {
+        if (rtuple != null && rtuple.ruleWriter != null)
+        {
             rtuple.shapeReader.finish(strength);
             rtuple.ruleWriter.finish();
         }
         stopStrength = strength;
     }
 
-    private synchronized void render(Integer width, Integer height, EditViewInterface ev, Long maxtime, RenderType renderType, SeqRecorder seqReq) {
+    private synchronized void render(Integer width, Integer height, EditViewInterface ev, Long maxtime, RenderType renderType, SeqRecorder seqReq)
+    {
         stopStrength = 0;
         String grammar = ev.getScriptText();
         RandomFeed rndFeed = ev.getRandomFeed();
@@ -110,11 +121,13 @@ public class Controller {
         iapi.setRenderType(renderType);
         try {
             rtuple = iapi.setImageSize(width,height).init(grammar, rndFeed);
-            if (maxtime != -1) {
+            if (maxtime != -1)
+            {
                 new Thread(new Stopper(rtuple.shapeReader, rtuple.ruleWriter, maxtime)).start();
             }
 
-        } catch (ParseException e) {
+        } catch (ParseException e)
+        {
             String userMsg = e.getMessage() + " AT LINE " + e.getLineNr();
             Runtime.sysoutln(userMsg);
             System.out.println(" - " + e.getStackTrace()[0]);
@@ -124,7 +137,8 @@ public class Controller {
                 ev.setCaretPosition(e.getCaretPos());
             } catch(Exception ex) { ex.printStackTrace(); }
             return;
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             Runtime.sysoutln(e.getMessage() + "");
             e.printStackTrace();
             return;
@@ -138,7 +152,8 @@ public class Controller {
                 rtuple.model.cameras.size()
                 ), 20);
         // start the generator
-        if (renderType == RenderType.SEQUENCE && seqReq != null) {
+        if (renderType == RenderType.SEQUENCE && seqReq != null)
+        {
             seqReq.setRenderTuple(rtuple);
             seqReq.start();
         }
@@ -147,17 +162,21 @@ public class Controller {
         lastShapeReader = rtuple.shapeReader;
         lastModel = rtuple.model;
 
-        while (rtuple.shapeReader.state() != 0) {
-            if (stopStrength >= 2) {
+        while (rtuple.shapeReader.state() != 0)
+        {
+            if (stopStrength >= 2)
+            {
                 ev.setDisplayImage(rtuple.canvas.getImage());
                 ev.updateRenderInfo(rtuple.ruleWriter.getRandomFeed());
                 return;
             }
             org.konte.misc.Func.sleep(10);
-            if (ind % 40 == 0) {
+            if (ind % 40 == 0)
+            {
                 rtuple.ruleWriter.printStats();
             }
-            if (ind++ % 10 == 0) {
+            if (ind++ % 10 == 0)
+            {
                 ev.setDisplayImage(rtuple.canvas.getImage());
             }
         }
@@ -180,27 +199,33 @@ public class Controller {
         RuleWriter rw;
         long maxtime;
 
-        private Stopper(ShapeReader bsr, RuleWriter rw, long maxtime) {
+        private Stopper(ShapeReader bsr, RuleWriter rw, long maxtime)
+        {
             this.bsr = bsr;
             this.rw = rw;
             this.maxtime = maxtime;
         }
 
-        public void run() {
+        public void run()
+        {
             long start = System.currentTimeMillis();
             while (System.currentTimeMillis() < start + maxtime / 10 
-                    || bsr.getAddedCount() < 1000) {
+                    || bsr.getAddedCount() < 1000)
+                    {
                 org.konte.misc.Func.sleep(20);
             }
-            if (bsr.state() != 0) {
+            if (bsr.state() != 0)
+            {
                 rw.finish();
                 bsr.finish(5);
             }
         }
     }
 
-    private void exportScene(ShapeReader lastShapeReader, Model lastModel, Type type) {
-        if (lastShapeReader == null) {
+    private void exportScene(ShapeReader lastShapeReader, Model lastModel, Type type)
+    {
+        if (lastShapeReader == null)
+        {
             Runtime.sysoutln("A scene must be rendered before export");
             return;
         }
@@ -220,20 +245,25 @@ public class Controller {
             Runtime.sysoutln("Exporting scene");
             ee.export(expF);
             Runtime.sysoutln("Written: " + expF);
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex)
+        {
             Runtime.sysoutln("Can't open for saving: " + expF);
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             Runtime.sysoutln("Can't write to: " + expF);
         }
         
     }    
     
-    private void export(EditViewInterface ev, String path) {
-        if (ev.getDisplayImage() == null) {
+    private void export(EditViewInterface ev, String path)
+    {
+        if (ev.getDisplayImage() == null)
+        {
             Runtime.sysoutln("No image");
             return;
         }
-        if (ev.suggestExportFileName() == null) {
+        if (ev.suggestExportFileName() == null)
+        {
             makeOpenExportDialog();
             Runtime.sysoutln("Still unmappable scene file - rerender required");
             return;
@@ -247,15 +277,18 @@ public class Controller {
             Runtime.sysoutln("Exporting");
             CommandLine.writeImage(expF, ev.getDisplayImage());
             Runtime.sysoutln("Written: " + expF);
-        } catch (FileNotFoundException ex) {
+        } catch (FileNotFoundException ex)
+        {
             Runtime.sysoutln("Can't open for saving: " + expF);
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             Runtime.sysoutln("Can't write to: " + expF);
         }
 
     }
 
-    public void makeOpenExportDialog() {
+    public void makeOpenExportDialog()
+    {
         System.out.println("not implemented");
     }
     

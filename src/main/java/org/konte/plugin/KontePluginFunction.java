@@ -9,7 +9,8 @@ import org.konte.lang.Tokens.Function;
  */
 public abstract class KontePluginFunction extends Function {
 
-    public KontePluginFunction() {
+    public KontePluginFunction()
+    {
         this.setName(this.getName());
     }
     public abstract String getName();

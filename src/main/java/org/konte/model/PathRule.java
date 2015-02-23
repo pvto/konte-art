@@ -28,7 +28,8 @@ public class PathRule extends Rule {
     public static class Placeholder {
         public int type;
         public Expression[] data;
-        public Placeholder(int type, Expression[] data) {
+        public Placeholder(int type, Expression[] data)
+        {
             this.type = type;
             this.data = data;
         }
@@ -46,15 +47,18 @@ public class PathRule extends Rule {
     }
 
 
-    public void checkBezierControls() {
+    public void checkBezierControls()
+    {
    /*     int lastType = -1;
-        if (steps.size() > 0) {
+        if (steps.size() > 0)
+        {
             lastType = steps.get(steps.size()-1).type;
         }
         while(steps.get(steps.size() - 1).type != CLOSE &&
                 (steps.size() < 2 ||
                 (steps.get(steps.size() - 1).type != PathRule.BEND
-                || steps.get(steps.size() - 2).type != PathRule.BEND))) {
+                || steps.get(steps.size() - 2).type != PathRule.BEND)))
+                {
             Placeholder ph = new Placeholder(PathRule.BEND,
                     new Expression[] { new Value(0f), new Value(0f), new Value(0f)} );
             if (lastType == PathRule.BEND)
@@ -74,17 +78,23 @@ public class PathRule extends Rule {
         ArrayList<Matrix4> points = new ArrayList<Matrix4>();
         ArrayList<Matrix4[]> cpoints = new ArrayList<Matrix4[]>();
         Matrix4[] lastCp = null;
-        for(int i = 0; i < steps.size(); i++) {
+        for(int i = 0; i < steps.size(); i++)
+        {
             Placeholder ph = steps.get(i);
-            if (ph.type == PathRule.BEND) {
+            if (ph.type == PathRule.BEND)
+            {
                 cpoints.add(lastCp = new Matrix4[] {
                    translation(ph.data),
                    translation(steps.get(++i).data) 
                 });
-            } else if (ph.type == PathRule.CLOSE){
-                if (i < steps.size() -1) {
-                    if ((flags & REMOVE_CLOSING) != 0) {
-                        if (cpoints.size() > 0 && cpoints.get(cpoints.size()-1) == null) {
+            } else if (ph.type == PathRule.CLOSE)
+            {
+                if (i < steps.size() -1)
+                {
+                    if ((flags & REMOVE_CLOSING) != 0)
+                    {
+                        if (cpoints.size() > 0 && cpoints.get(cpoints.size()-1) == null)
+                        {
                             while (points.size() >= cpoints.size())
                                 cpoints.add(null);
                         } else
@@ -98,10 +108,12 @@ public class PathRule extends Rule {
                     cpoints = new ArrayList<Matrix4[]>();
                 }
                 p.closed = 1;
-            } else if (ph.type == PathRule.LINE_TO){
+            } else if (ph.type == PathRule.LINE_TO)
+            {
                 points.add(translation(ph.data));
                 cpoints.add(null);
-            } else if (ph.type == PathRule.MOVE_TO){
+            } else if (ph.type == PathRule.MOVE_TO)
+            {
                 if (i > 0 && steps.get(i - 1).type == PathRule.MOVE_TO) {   // two relative movetos are consumed in the last
                     points.set(points.size() - 1, translation(ph.data));
                 } else {
@@ -148,12 +160,14 @@ public class PathRule extends Rule {
         int i = 0;
         pr.steps.add(new Placeholder(PathRule.MOVE_TO, new Expression[]
         { new Value(data[i++]), new Value(data[i++]), new Value(data[i++]) }));
-        while(i < data.length) {
+        while(i < data.length)
+        {
             pr.steps.add(new Placeholder(PathRule.BEND, new Expression[]
             { new Value(data[i++]), new Value(data[i++]), new Value(data[i++]) }));
             pr.steps.add(new Placeholder(PathRule.BEND, new Expression[]
             { new Value(data[i++]), new Value(data[i++]), new Value(data[i++]) }));
-            if ( i < data.length) {
+            if ( i < data.length)
+            {
                 pr.steps.add(new Placeholder(PathRule.CURVE_TO, new Expression[]
                 { new Value(data[i++]), new Value(data[i++]), new Value(data[i++]) }));
             }

@@ -64,27 +64,32 @@ public class RuleWriter {
         resetShapes();
     }
 
-    public void finish() {
+    public void finish()
+    {
         drained = true;
     }
 
     private static class OutQueueList extends ArrayList<LinkedList<Expansion>> {
         private int count = 0;
         @Override
-        public boolean add(LinkedList<Expansion> e) {
+        public boolean add(LinkedList<Expansion> e)
+        {
             count += e.size();
             return super.add(e);
         }
         
-        public int totalSize() {
+        public int totalSize()
+        {
             return count;
         }
         @Override
-        public void clear() {
+        public void clear()
+        {
             super.clear();
             count = 0;
         }
-        public Expansion remove() {
+        public Expansion remove()
+        {
             LinkedList<Expansion> l = get(0);
             Expansion e = l.removeFirst();
             if (l.size() == 0)
@@ -101,7 +106,8 @@ public class RuleWriter {
         expansionTmpFiles = new ArrayList<File>();
         zeroTransform.initialize(model);
         meshes = new MeshIndex(model);
-        if (rndFeed == null) {
+        if (rndFeed == null)
+        {
             setRandomFeed(new RandomFeed());
         }
         this.setShapeReader(sr);
@@ -113,7 +119,8 @@ public class RuleWriter {
     public void generate() throws ParseException {
         try {
             countdown.await(100, TimeUnit.MILLISECONDS);
-        } catch(InterruptedException ie) {
+        } catch(InterruptedException ie)
+        {
             throw new ParseException("countdown.await");
         }
         
@@ -130,32 +137,39 @@ public class RuleWriter {
         NonDeterministicRule ndr = model.rules.get(model.startshape);
         processRule(ndr.randomRule(this.rndFeed));
         
-        while (!drained && forwardedShapes < model.maxShapes) {
+        while (!drained && forwardedShapes < model.maxShapes)
+        {
 
-            if (expansions.size() > 0) {
+            if (expansions.size() > 0)
+            {
                 Expansion e = expansions.removeFirst();    //expansions.size()-1);
                 model.context = e.point;
                 Rule r = model.indexedNd[e.ndruleIndex].randomRule(rndFeed);
                 processRule(r);
-                if (expansions.size() > nToOut) {
-                    if (outoftheway.totalSize() > tmpFileSz) {
+                if (expansions.size() > nToOut)
+                {
+                    if (outoftheway.totalSize() > tmpFileSz)
+                    {
                         try {
                             Runtime.sysoutln(getStats());
                             ObjectOutputStream oos = nextOos(null);
                             int count = 0;
                             int fileShapes = tmpFileSz/2;
                             for(List<Expansion> l : outoftheway)
-                                for (Expansion exp : l) {
+                                for (Expansion exp : l)
+                                {
                                     oos.writeObject(exp);
                                     count++;
-                                    if (count >= fileShapes) {
+                                    if (count >= fileShapes)
+                                    {
                                         oos = nextOos(oos);
                                         count = 0;
                                     }
                                 }
                             outoftheway = new OutQueueList();
                             oos.close();
-                        } catch (IOException ex) {
+                        } catch (IOException ex)
+                        {
                             ex.printStackTrace();
                         }
                     } else {
@@ -164,15 +178,18 @@ public class RuleWriter {
                     }
                 }
             } else {
-                if (outoftheway.size() > 0) {
+                if (outoftheway.size() > 0)
+                {
                     Expansion e = outoftheway.remove(); 
                     model.context = e.point;
                     Rule r = model.indexedNd[e.ndruleIndex].randomRule(rndFeed);
                     processRule(r);
-                } else if (this.expansionTmpFiles.size() > 0 || ois != null) {
+                } else if (this.expansionTmpFiles.size() > 0 || ois != null)
+                {
                     boolean closeOis = false;
                     try {
-                        if (ois == null) {
+                        if (ois == null)
+                        {
 //                            Runtime.sysoutln(getStats() + ", loading " + expansionTmpFiles.get(0).getName(), 0);
                             File file = expansionTmpFiles.remove(0);
                             handledExpansionTmpFiles.add(file);
@@ -181,18 +198,22 @@ public class RuleWriter {
                                     new FileInputStream(file)));
                         }
                         int count = 0;
-                        for (;;) {
-                            if (count++ > 1000) {
+                        for (;;)
+                        {
+                            if (count++ > 1000)
+                            {
                                 break;
                             }
                             Expansion f = (Expansion) ois.readObject();
-                            if (f == null) {
+                            if (f == null)
+                            {
                                 closeOis = true;
                                 break;
                             }
                             expansions.add(f);
                         }
-                    } catch(Exception ex) {
+                    } catch(Exception ex)
+                    {
                         closeOis = true;
                     } finally {
                         if (closeOis)
@@ -215,9 +236,11 @@ public class RuleWriter {
         deleteTmpFiles();
         printStats();
 //        Runtime.sysoutln("Rulewriter finished", 1);
-        while(sr.state()==1 || sr.state()==2) {
+        while(sr.state()==1 || sr.state()==2)
+        {
             if (sr.state() < 2) sr.finish(2);
-            synchronized(lock1) {
+            synchronized(lock1)
+            {
                 lock1.notifyAll();
             }
         }
@@ -226,22 +249,27 @@ public class RuleWriter {
     }
     private int tmpfc = 0;
 
-    private void deleteTmpFiles() {
+    private void deleteTmpFiles()
+    {
         List<File> list = handledExpansionTmpFiles;
         list.addAll(expansionTmpFiles);
-        if (list.size() > 0) {
+        if (list.size() > 0)
+        {
             Runtime.sysoutln(String.format("Deleting %d temp files",list.size()), 10);
-            for (File f : list) {
+            for (File f : list)
+            {
                 f.delete();
             }
         }
     }
 
     private ObjectOutputStream nextOos(ObjectOutputStream oos) throws IOException {
-        if (oos != null) {
+        if (oos != null)
+        {
             try {
                 oos.close();
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 e.printStackTrace();
             }
         }
@@ -256,26 +284,34 @@ public class RuleWriter {
     }
 
     private void processRule(Rule r) throws ParseException {
-        for (BooleanExpression be : r.pre) {
-            if (!be.bevaluate()) {
+        for (BooleanExpression be : r.pre)
+        {
+            if (!be.bevaluate())
+            {
                 return;
             }
         }
-        for (Constant c: r.macros) {
+        for (Constant c: r.macros)
+        {
             model.setConstant(c.name, c.value);
         }
-        if (r.scripts != null) {
-            for(KontePluginScript script : r.scripts) {
+        if (r.scripts != null)
+        {
+            for(KontePluginScript script : r.scripts)
+            {
                 script.execute();
             }
         }
-        if (r instanceof PathRule) {
+        if (r instanceof PathRule)
+        {
             PathRule pr = (PathRule)r;
-            if (pr.closed > 0) {
+            if (pr.closed > 0)
+            {
                 processClosedPath(pr);
             }
         }
-        for (Transform st : r.transforms) {
+        for (Transform st : r.transforms)
+        {
             processShapeTransform(st, r.post);
         }
     }
@@ -284,24 +320,30 @@ public class RuleWriter {
     {
         try {
             Thread.sleep(ms);
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
     
-    private void addShape(OutputShape s) {
-        if (shapes.size() < 1000 || !(sr instanceof StreamingShapeReader) && shapes.size() < 100000) {
+    private void addShape(OutputShape s)
+    {
+        if (shapes.size() < 1000 || !(sr instanceof StreamingShapeReader) && shapes.size() < 100000)
+        {
             shapes.add(s);
         } else {
-            if (shapes.size() > 200000) {
+            if (shapes.size() > 200000)
+            {
                 //reader has trouble keeping up... wait
                 sleep(10);
             }
             addShapeAndSubmit(s);
         }
     }
-    private void addShapeAndSubmit(OutputShape s) {
-        synchronized(lock1) {
+    private void addShapeAndSubmit(OutputShape s)
+    {
+        synchronized(lock1)
+        {
             shapes.add(s);
             lock1.notifyAll();
         }
@@ -317,21 +359,28 @@ public class RuleWriter {
         }
         return ret;
     }
-    public void resetShapes() {
-        synchronized(lock1) {
+    public void resetShapes()
+    {
+        synchronized(lock1)
+        {
             shapes = new LinkedList<OutputShape>();
         }
     }
     
     private void processShapeTransform(Transform st, List<BooleanExpression> post)
             throws ParseException {
-        if (model.context.d == 0) {
+        if (model.context.d == 0)
+        {
             return;
         }
-        if (st.terminatingShape) {
-            if (post != null) {
-                for (BooleanExpression be : post) {
-                    if (!be.bevaluate()) {
+        if (st.terminatingShape)
+        {
+            if (post != null)
+            {
+                for (BooleanExpression be : post)
+                {
+                    if (!be.bevaluate())
+                    {
                         return;
                     }
                 }
@@ -342,40 +391,50 @@ public class RuleWriter {
             p.applyShading(model);
             model.lighting.lightObject(p);
             model.context = tmp;
-            if (p.shape==Language.MESH) {
+            if (p.shape==Language.MESH)
+            {
                 meshes.add(p);
             }
             p.isDrawPhase = 1;
             addShape(p.toOutputShape());
             forwardedShapes++;
-        } else if (st.repeatStructure) {
+        } else if (st.repeatStructure)
+        {
             RepeatStructure rr = (RepeatStructure) st;
             DrawingContext repPoint = model.context;
             int repeats = (int) Math.floor(rr.repeats.evaluate());
-            for (int i = 0; i < repeats; i++) {
-                if (post != null) {
-                    for (BooleanExpression be : post) {
-                        if (!be.bevaluate()) {
+            for (int i = 0; i < repeats; i++)
+            {
+                if (post != null)
+                {
+                    for (BooleanExpression be : post)
+                    {
+                        if (!be.bevaluate())
+                        {
                             continue;
                         }
                     }
                 }
                 processShapeTransform(rr.repeatedTransform, null);
                 model.context = rr.repeatTransform.transform(model.context);
-                if (model.context.d > -1) {
+                if (model.context.d > -1)
+                {
                     model.context.d ++;
                 }
-                if (drained) {
+                if (drained)
+                {
                     break;
                 }
             }
             model.context = repPoint;
-        } else if (st.conditionalStructure) {
+        } else if (st.conditionalStructure)
+        {
             ConditionalStructure c = (ConditionalStructure)st;
             if (!c.conditional.bevaluate())
                 return;
             DrawingContext repPoint = model.context;
-            for(Transform t : c.onCondition) {
+            for(Transform t : c.onCondition)
+            {
                 processShapeTransform(t, post);
                 model.context = repPoint;
             }
@@ -383,18 +442,23 @@ public class RuleWriter {
             Expansion e = null;
             if (st.indexedNd < 0) { // PEEK,POP
                 DrawingContext p = st.transform(model.context);
-                if (st.poppedContinuation < 0) {
-                    if (st.poppedContinuation == Integer.MIN_VALUE) {
+                if (st.poppedContinuation < 0)
+                {
+                    if (st.poppedContinuation == Integer.MIN_VALUE)
+                    {
                         return;
                     } // continuation stack had been empty
-                    for (Untransformable u : Language.untransformables()) {
-                        if (u.getId() == st.poppedContinuation) {
+                    for (Untransformable u : Language.untransformables())
+                    {
+                        if (u.getId() == st.poppedContinuation)
+                        {
                             p.shape = u;
                             DrawingContext tmp = model.context;
                             p.applyShading(model);
                             model.lighting.lightObject(p);
                             model.context = tmp;
-                            if (u==Language.MESH) {
+                            if (u==Language.MESH)
+                            {
                                 meshes.add(p);
                             }
                             p.isDrawPhase = 1;
@@ -409,10 +473,14 @@ public class RuleWriter {
             } else {
                 e = new Expansion(st.transform(model.context), st.indexedNd);
             }
-            if (e.point.getMinWidth() >= model.minfeaturesize) {
-                if (post != null) {
-                    for (BooleanExpression be : post) {
-                        if (!be.bevaluate()) {
+            if (e.point.getMinWidth() >= model.minfeaturesize)
+            {
+                if (post != null)
+                {
+                    for (BooleanExpression be : post)
+                    {
+                        if (!be.bevaluate())
+                        {
                             return;
                         }
                     }
@@ -426,7 +494,8 @@ public class RuleWriter {
     private void processClosedPath(PathRule pr) throws ParseException {
         DrawingContext cur = model.context;
         Untransformable ut;
-        if (pr.closed == 2) {
+        if (pr.closed == 2)
+        {
             ut = Language.getUntransformable(pr.id);
         } else {
             ut = pr.createUntransformable();
@@ -439,29 +508,35 @@ public class RuleWriter {
         forwardedShapes++;
     }
     
-    public void printStats() {
+    public void printStats()
+    {
         Runtime.sysoutln(getStats(), 0);
     }
 
-    public String getStats() {
+    public String getStats()
+    {
         return String.format("%d shapes, %d expansions", forwardedShapes, generatedExpansions);
     }
     
     public boolean drained() { return drained; }
 
-    public void setAsLocalConstantSource() {
+    public void setAsLocalConstantSource()
+    {
         Name.gene = this;
     }
 
-    public void setShapeReader(ShapeReader sr) {
+    public void setShapeReader(ShapeReader sr)
+    {
         this.sr = sr;
     }
 
-    public RandomFeed getRandomFeed() {
+    public RandomFeed getRandomFeed()
+    {
         return rndFeed;
     }
 
-    public void setRandomFeed(RandomFeed randomFeed) {
+    public void setRandomFeed(RandomFeed randomFeed)
+    {
         this.rndFeed = randomFeed;
     }
 
@@ -472,14 +547,17 @@ public class RuleWriter {
 
         RuleWriter rw;
 
-        public Tmper(RuleWriter rw) {
+        public Tmper(RuleWriter rw)
+        {
             this.rw = rw;
         }
 
-        public void run() {
+        public void run()
+        {
             try {
                 rw.generate();
-            } catch (Exception ex) {
+            } catch (Exception ex)
+            {
                 Runtime.sysoutln(ex.getMessage() + "", 10);
                 ex.printStackTrace();
             }

@@ -22,7 +22,8 @@ public class BitmapCache {
 
     public Image[] imageArr;
 
-    public String getKey(File fl) {
+    public String getKey(File fl)
+    {
         return fl.getAbsolutePath() + "_" + fl.lastModified();
     }
 
@@ -35,15 +36,18 @@ public class BitmapCache {
         else
             throw new IllegalArgumentException("Expecting File of URL, found: " + src.getClass());
         Image img = cache.get(key);
-        if (img == null) {
+        if (img == null)
+        {
             if (src instanceof File)
                 img = loadImage((File)src);
             else if (src instanceof URL)
                 img = loadImage((URL)src);
-            if (img == null) {
+            if (img == null)
+            {
                 throw new Exception("Image not found");
             }
-            if (img instanceof ToolkitImage) {
+            if (img instanceof ToolkitImage)
+            {
                 ((ToolkitImage)img).preload(null);
                 BufferedImage bim = null;
                 while(bim == null)
@@ -56,52 +60,63 @@ public class BitmapCache {
         return img;
     }
 
-    private Image loadImage(File fl) {
+    private Image loadImage(File fl)
+    {
         Image img = null;
-        while (img == null || img.getWidth(null) <= 0) {
+        while (img == null || img.getWidth(null) <= 0)
+        {
             img = Toolkit.getDefaultToolkit().getImage(fl.getAbsolutePath());
         }
         return img;
     }
 
-    private Image loadImage(URL url) {
+    private Image loadImage(URL url)
+    {
         Image img = null;
-        while (img == null || img.getWidth(null) <= 0) {
+        while (img == null || img.getWidth(null) <= 0)
+        {
             img = Toolkit.getDefaultToolkit().getImage(url);
         }
         return img;
     }
 
-    public Image getImage(String reference) {
+    public Image getImage(String reference)
+    {
         return references.get(reference);
     }
 
-    public int getIndex(String reference) {
+    public int getIndex(String reference)
+    {
         Image img = references.get(reference);
         if (img == null)
             return -1;
-        for(int i = 0; i < imageArr.length; i++) {
+        for(int i = 0; i < imageArr.length; i++)
+        {
             if (imageArr[i] == img)
                 return i;
         }
         return -1;
     }
     
-    public void init() {
+    public void init()
+    {
         imageArr = new Image[references.size()];
         int i = 0;
-        for(Image img : references.values()) {
+        for(Image img : references.values())
+        {
             imageArr[i++] = img;
         }
     }
 
-    public void clearReferences() {
+    public void clearReferences()
+    {
         for(String s : references.keySet())
             references.get(s).flush();
         references = new HashMap<String, Image>();
     }
 
-    public static void clearCache() {
+    public static void clearCache()
+    {
         cache.clear();
     }
 }

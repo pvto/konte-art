@@ -10,18 +10,21 @@ import org.konte.model.Model;
 public class ZOrderShapeReader extends ShapeReaderImpl {
 
     
-    public ZOrderShapeReader(Model model) {
+    public ZOrderShapeReader(Model model)
+    {
         super(model);
     }    
     
     @Override
-    protected float getMetric(OutputShape p) {
+    protected float getMetric(OutputShape p)
+    {
         return model.cameras.get(p.fov).distMetric(p.matrix);
     }
     
     
     @Override
-    protected void drawRemainingShapes() {
+    protected void drawRemainingShapes()
+    {
         drawLastToFirst();
     }
 

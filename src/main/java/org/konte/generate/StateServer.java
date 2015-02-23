@@ -14,7 +14,8 @@ public class StateServer {
     
     public StateServer()
     {
-        states = new ArrayList<String>() {
+        states = new ArrayList<String>()
+        {
             public boolean add(String str)
             {
                 if (size() > 2)

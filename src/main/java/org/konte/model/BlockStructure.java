@@ -6,7 +6,8 @@ import org.konte.expression.BooleanExpression;
 public class BlockStructure extends ConditionalStructure {
 
 
-    public BlockStructure() {
+    public BlockStructure()
+    {
         super();
         conditionalStructure = true;
         conditional = new BooleanExpression.Dummy(true);
@@ -14,7 +15,8 @@ public class BlockStructure extends ConditionalStructure {
 
 
 
-    public String toString() {
+    public String toString()
+    {
         StringBuilder bd = new StringBuilder();
         bd.append("Block ").append(onCondition);
         return bd.toString();

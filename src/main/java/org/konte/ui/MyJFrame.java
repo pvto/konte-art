@@ -24,21 +24,26 @@ public class MyJFrame extends JFrame {
     private FileNameExtensionFilter fname;
     protected Properties props;
 
-    public void setPath(File f) {
+    public void setPath(File f)
+    {
         this.setPath(f.getAbsolutePath().replaceFirst(f.getName() + "$", ""));
     }
-    public void setPath(String path) { 
+    public void setPath(String path)
+    {
         props.setProperty("dir", path);
         System.setProperty("konte.workdir", path);
     }
 
-    public String getPath() {
+    public String getPath()
+    {
         return props.getProperty("dir", "./");
     }
     
     private JFileChooser fc;    
-    public void setFileChooser() {
-        if (fc == null) {
+    public void setFileChooser()
+    {
+        if (fc == null)
+        {
             File file = new File(getPath().replaceFirst("/$", ""));
             if (file == null)
                 file = new File(".");
@@ -49,30 +54,37 @@ public class MyJFrame extends JFrame {
     }    
     public JFileChooser getFc() { return fc; }
     
-    public MyJFrame(FileNameExtensionFilter fname) {
+    public MyJFrame(FileNameExtensionFilter fname)
+    {
         this.fname = fname;
 
         
-        this.addWindowStateListener(new WindowStateListener() {
-            public void windowStateChanged(WindowEvent e) {
+        this.addWindowStateListener(new WindowStateListener()
+        {
+            public void windowStateChanged(WindowEvent e)
+            {
                 //System.out.println(e);
             }
         });
-        this.addWindowListener(new WindowAdapter() {
+        this.addWindowListener(new WindowAdapter()
+        {
 
-            public void windowOpened(WindowEvent e) {
+            public void windowOpened(WindowEvent e)
+            {
                 props = new Properties();
                 String pname = getPropertiesName();
                 try {
                     BufferedReader br = new BufferedReader(new FileReader(new File(pname)));
                     props.load(br);
                     br.close();
-                } catch(Exception ex) {
+                } catch(Exception ex)
+                {
                     System.out.println("Properties not found: " + pname);
 //                    ex.printStackTrace();
                 }
                 String w = props.getProperty("w-width");
-                if (w == null) {
+                if (w == null)
+                {
                     Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
                     props.put("w-width", d.width+"");
                     props.put("w-height", d.height+"");
@@ -85,24 +97,29 @@ public class MyJFrame extends JFrame {
                 finalizeProps();
             }
 
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(WindowEvent e)
+            {
                 saveProps();
             }
 
         });
     }
-    protected void finalizeProps() {
+    protected void finalizeProps()
+    {
     }
     
-    public String getPropertiesName() {
+    public String getPropertiesName()
+    {
         return this.getClass().getName()+".properties";
     }
 
-    public void setProps(Properties props) {
+    public void setProps(Properties props)
+    {
         this.props = props;
     }
     
-    public void saveProps() {
+    public void saveProps()
+    {
         String pname = getPropertiesName();
         FileWriter wr = null;
         Rectangle r = this.getBounds();
@@ -114,7 +131,8 @@ public class MyJFrame extends JFrame {
             wr = new FileWriter(new File(getPropertiesName()));
             props.store(wr,"konte ui properties file");
             wr.close();
-        } catch(Exception ex) {
+        } catch(Exception ex)
+        {
             System.out.println("Properties not written: " + pname);
             ex.printStackTrace();
         }

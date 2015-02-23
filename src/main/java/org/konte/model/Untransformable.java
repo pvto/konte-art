@@ -29,16 +29,19 @@ public abstract class Untransformable extends Token implements Serializable {
 
 
 
-    public Untransformable() {
+    public Untransformable()
+    {
     }
 
-    public Untransformable(String name, int id) {
+    public Untransformable(String name, int id)
+    {
         this(name, id, null, null);
 
     }
 
     public Untransformable(String name, int id, List<? extends List<Matrix4>> shapes,
-            List<? extends List<Matrix4[]>> controlPoints) {
+            List<? extends List<Matrix4[]>> controlPoints)
+            {
         super(name);
         this.id = id;
         this.shapes = shapes;
@@ -50,15 +53,20 @@ public abstract class Untransformable extends Token implements Serializable {
 
 
 
-    public int getId() {        
+    public int getId()
+    {
         return id;                  }
-    public List<? extends List<Matrix4>> getShapes() {
+    public List<? extends List<Matrix4>> getShapes()
+    {
         return shapes;              }
-    public void setShapes(List<? extends List<Matrix4>> shapes) {
+    public void setShapes(List<? extends List<Matrix4>> shapes)
+    {
         this.shapes = shapes;       }
-    public List<? extends List<Matrix4[]>> getControlPoints() {
+    public List<? extends List<Matrix4[]>> getControlPoints()
+    {
         return controlPoints;       }
-    public void setControlPoints(List<? extends List<Matrix4[]>> cpl) {
+    public void setControlPoints(List<? extends List<Matrix4[]>> cpl)
+    {
         this.controlPoints = cpl;   }
     
     private void writeObject(java.io.ObjectOutputStream out)
@@ -70,7 +78,8 @@ public abstract class Untransformable extends Token implements Serializable {
             throws IOException, ClassNotFoundException {
         id = in.readInt();
         Untransformable u = Language.getUntransformable(id);
-        if (u == null) {
+        if (u == null)
+        {
             return;
         }
         isCurved = u.isCurved;
@@ -87,11 +96,13 @@ public abstract class Untransformable extends Token implements Serializable {
     public static class Polygon extends Untransformable implements Serializable {
 
         public Polygon(String name, int id, List<? extends List<Matrix4>> shapes,
-                List<? extends List<Matrix4[]>> controlPoints) {
+                List<? extends List<Matrix4[]>> controlPoints)
+                {
             super(name, id, shapes, controlPoints);
         }
         @Override
-        public void draw(Camera camera, Canvas canvas, OutputShape shape) {
+        public void draw(Camera camera, Canvas canvas, OutputShape shape)
+        {
             canvas.drawPolygon(camera, shape);
         }
     }
@@ -100,11 +111,13 @@ public abstract class Untransformable extends Token implements Serializable {
     public static class Sphere extends Untransformable implements Serializable {
 
         public Sphere(String name, int id, List<? extends List<Matrix4>> shapes,
-                List<? extends List<Matrix4[]>> controlPoints) {
+                List<? extends List<Matrix4[]>> controlPoints)
+                {
             super(name, id, shapes, controlPoints);
         }
         @Override
-        public void draw(Camera camera, Canvas canvas, OutputShape shape) {
+        public void draw(Camera camera, Canvas canvas, OutputShape shape)
+        {
             canvas.drawSphere(camera, shape);
         }
     }
@@ -113,11 +126,13 @@ public abstract class Untransformable extends Token implements Serializable {
     public static class Curve extends Untransformable implements Serializable {
 
         public Curve(String name, int id, List<? extends List<Matrix4>> shapes,
-                List<? extends List<Matrix4[]>> controlPoints) {
+                List<? extends List<Matrix4[]>> controlPoints)
+                {
             super(name, id, shapes, controlPoints);
         }
         @Override
-        public void draw(Camera camera, Canvas canvas, OutputShape shape) {
+        public void draw(Camera camera, Canvas canvas, OutputShape shape)
+        {
             canvas.drawCurve(camera, shape);
         }
     }
@@ -125,12 +140,14 @@ public abstract class Untransformable extends Token implements Serializable {
 
     public static class Dummy extends Untransformable implements Serializable {
         
-        public Dummy(String name) {
+        public Dummy(String name)
+        {
             this.name = name;
             id = Integer.MIN_VALUE;
         }
         @Override
-        public void draw(Camera camera, Canvas canvas, OutputShape shape) {
+        public void draw(Camera camera, Canvas canvas, OutputShape shape)
+        {
         }
     }    
 }

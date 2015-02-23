@@ -22,7 +22,8 @@ public class PanningCamera extends SimpleCamera {
     private float panningBase = -0.9f + 2.1f;
     Vector3 tmp2 = new Vector3();
 
-    public PanningCamera() {
+    public PanningCamera()
+    {
         super();
     }
 
@@ -30,14 +31,16 @@ public class PanningCamera extends SimpleCamera {
         super(position);
     }
 
-    public void setBoundaryThreshold(float threshold) {
+    public void setBoundaryThreshold(float threshold)
+    {
         this.threshold = Math.abs(threshold);
         panningBase = 2.1f - 2f*threshold;
 
     }
 
     @Override
-    public void setCanvas(Canvas canvas) {
+    public void setCanvas(Canvas canvas)
+    {
         super.setCanvas(canvas);
         h = canvas.getHeight() / 2;
         w = canvas.getWidth() / 2;
@@ -54,15 +57,18 @@ public class PanningCamera extends SimpleCamera {
 
     float prevest = 0f;
     @Override
-    public Point2 mapTo2D(Vector3 v) {
+    public Point2 mapTo2D(Vector3 v)
+    {
         Point2 p = super.mapTo2D(v);
         if (p.x >= -threshold && p.x <= threshold && p.y >= -threshold && p.y <= threshold)
             return p;
         // if tmp out of bounds, move backward 
         int i = 0;
-        while (i++ < 100) {
+        while (i++ < 100)
+        {
             float estimate = Math.abs(p.x) + Math.abs(p.y) + panningBase;
-            if (Float.isNaN(estimate) || Float.isInfinite(estimate)) {
+            if (Float.isNaN(estimate) || Float.isInfinite(estimate))
+            {
                 return p;
             }
             tmpv = moveDirection.mul(estimate);
@@ -80,7 +86,8 @@ public class PanningCamera extends SimpleCamera {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return super.toString() + " +PANNING-THR-" + threshold;
     }
 

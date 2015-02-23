@@ -19,8 +19,10 @@ public class PathEditFrame extends EditFrame {
         ppane = new PathEditPane();
         ppane.getPathPanel().setCamera(new SimpleCamera());
         this.add(ppane);
-        ppane.getSaveButton().addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+        ppane.getSaveButton().addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mousePressed(java.awt.event.MouseEvent evt)
+            {
                 save();
             }
         });
@@ -29,13 +31,16 @@ public class PathEditFrame extends EditFrame {
     }
 
     @Override
-    public String getText0() {
+    public String getText0()
+    {
         return ppane.getText();
     }
 
-    public void setVisible(boolean b) {
+    public void setVisible(boolean b)
+    {
         super.setVisible(b);
-        if (b) {
+        if (b)
+        {
             ppane.getPathPanel().init();
             ppane.repaint();
         }

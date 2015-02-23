@@ -17,7 +17,8 @@ public class ColSpaceEditFrame extends EditFrame {
                 "c3dg shading files", "c3dg"));
         cspane = new ColSpaceEditPane();
         this.add(cspane);
-        cspane.getSaveShadingButton().addMouseListener(new java.awt.event.MouseAdapter() {
+        cspane.getSaveShadingButton().addMouseListener(new java.awt.event.MouseAdapter()
+        {
             public void mousePressed(java.awt.event.MouseEvent evt)
             {
                 save();

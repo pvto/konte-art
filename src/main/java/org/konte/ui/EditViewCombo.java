@@ -44,28 +44,35 @@ public abstract class EditViewCombo extends JSplitPane implements EditViewInterf
     String lastRenderKey;
     private RandomFeed randomFeed;
 
-    public BufferedImage getImage() {
+    public BufferedImage getImage()
+    {
         return image;
     }
 
-    public String suggestExportFileName() {
+    public String suggestExportFileName()
+    {
         return exportFile.getPath();
     }
 
-    public void setExportFile(File exportFile) {
+    public void setExportFile(File exportFile)
+    {
         this.exportFile = exportFile;
     }
 
     abstract void finishRender();
 
-    void setText(String text) {
+    void setText(String text)
+    {
         edit.setText(text);
     }
 
-    void updateExportFile(RandomFeed rnd) {
-        if (getFile() != null) {
+    void updateExportFile(RandomFeed rnd)
+    {
+        if (getFile() != null)
+        {
             String destfile = getFile().getName().replaceAll("(\\.\\w+)$", ".png").replaceAll("\\\\", "/");
-            if (!destfile.endsWith(".png")) {
+            if (!destfile.endsWith(".png"))
+            {
                 destfile += ".png";
             }
             destfile = CommandLine.makeExportFileName(rnd.getKey(), destfile);
@@ -74,46 +81,58 @@ public abstract class EditViewCombo extends JSplitPane implements EditViewInterf
 
     }
     UndoManager undo;
-    public void undo() {
+    public void undo()
+    {
         try {
-            if (undo.canUndo()) {
+            if (undo.canUndo())
+            {
                 undo.undo();
             }
-        } catch (CannotUndoException e) {
+        } catch (CannotUndoException e)
+        {
         }
     }
-    public void redo() {
+    public void redo()
+    {
         try {
-            if (undo.canRedo()) {
+            if (undo.canRedo())
+            {
                 undo.redo();
             }
-        } catch (CannotRedoException e) {
+        } catch (CannotRedoException e)
+        {
         }        
     }
 
-    public void updateRenderInfo(RandomFeed randomFeed) {
+    public void updateRenderInfo(RandomFeed randomFeed)
+    {
         lastRenderKey = randomFeed.getKey();
         updateExportFile(randomFeed);
     }
 
-    private void setUndo(JTextArea edit) {
+    private void setUndo(JTextArea edit)
+    {
         JTextComponent textcomp = (JTextComponent) edit;
         Document doc = textcomp.getDocument();
         
         undo = new UndoManager();
         // Listen for undo and redo events
-        doc.addUndoableEditListener(new UndoableEditListener() {
+        doc.addUndoableEditListener(new UndoableEditListener()
+        {
 
-            public void undoableEditHappened(UndoableEditEvent evt) {
+            public void undoableEditHappened(UndoableEditEvent evt)
+            {
                 undo.addEdit(evt.getEdit());
             }
         });
 
         // Create an undo action and add it to the text component
         textcomp.getActionMap().put("Undo",
-                new AbstractAction("Undo") {
+                new AbstractAction("Undo")
+                {
 
-                    public void actionPerformed(ActionEvent evt) {
+                    public void actionPerformed(ActionEvent evt)
+                    {
                         undo();
                     }
                 });
@@ -123,9 +142,11 @@ public abstract class EditViewCombo extends JSplitPane implements EditViewInterf
 
         // Create a redo action and add it to the text component
         textcomp.getActionMap().put("Redo",
-                new AbstractAction("Redo") {
+                new AbstractAction("Redo")
+                {
 
-                    public void actionPerformed(ActionEvent evt) {
+                    public void actionPerformed(ActionEvent evt)
+                    {
                         redo();
                     }
                 });
@@ -138,22 +159,27 @@ public abstract class EditViewCombo extends JSplitPane implements EditViewInterf
     private class Edit extends JTextArea {
 
         @Override
-        public void setText(String t) {
+        public void setText(String t)
+        {
             t = t.replaceAll("(^\r)\n", "\r\n");
             int ind = -1;
             int cto = getCaretPosition();
-            while ((ind = t.indexOf("\t")) >= 0) {
+            while ((ind = t.indexOf("\t")) >= 0)
+            {
                 int i0 = ind;
-                while (i0 > 0 && t.charAt(i0-1) != '\n') {
+                while (i0 > 0 && t.charAt(i0-1) != '\n')
+                {
                     i0--;
                 }
                 int add = 4 - (ind-i0+4) % 4;
                 StringBuilder bd = new StringBuilder();
-                for (int i = 0; i < add; i++) {
+                for (int i = 0; i < add; i++)
+                {
                     bd.append(" ");
                 }
                 t = t.replaceFirst("\t", bd.toString());
-                if (getCaretPosition() == ind+1) {
+                if (getCaretPosition() == ind+1)
+                {
                     cto = getCaretPosition()+add-1;
                 }
             }
@@ -162,15 +188,18 @@ public abstract class EditViewCombo extends JSplitPane implements EditViewInterf
         }
     }
 
-    private String replicate(String s, int n) {
+    private String replicate(String s, int n)
+    {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++)
+        {
             sb.append(s);
         }
         return sb.toString();
     }
 
-    public EditViewCombo(String name, Dimension d) {
+    public EditViewCombo(String name, Dimension d)
+    {
         super();
         this.setName(name);
         this.setDividerLocation((int) (d.getWidth() / 2.7));
@@ -198,21 +227,27 @@ public abstract class EditViewCombo extends JSplitPane implements EditViewInterf
         setHandlers();
     }
 
-    private void setHandlers() {
-        KeyListener listo = new KeyListener() {
+    private void setHandlers()
+    {
+        KeyListener listo = new KeyListener()
+        {
 
-            public void keyTyped(KeyEvent e) {
-                if (!e.isActionKey() && e.getKeyChar() == '\t') {
+            public void keyTyped(KeyEvent e)
+            {
+                if (!e.isActionKey() && e.getKeyChar() == '\t')
+                {
                     edit.setText(edit.getText());
                     e.consume();
                 }
             }
 
-            public void keyPressed(KeyEvent e) {
+            public void keyPressed(KeyEvent e)
+            {
 
             }
 
-            public void keyReleased(KeyEvent e) {
+            public void keyReleased(KeyEvent e)
+            {
 
             }
         };
@@ -221,45 +256,55 @@ public abstract class EditViewCombo extends JSplitPane implements EditViewInterf
     }
 
 
-    public void setFile(File file) {
+    public void setFile(File file)
+    {
         this.file = file;
     }
 
-    public File getFile() {
+    public File getFile()
+    {
         return file;
     }
 
-    public JLabel getView() {
+    public JLabel getView()
+    {
         return view;
     }
 
-    public Component getEditor() {
+    public Component getEditor()
+    {
         return edit;
     }
     
-    public String getScriptText() {
+    public String getScriptText()
+    {
         return edit.getText();
     }
 
-    public void setCaretPosition(int pos) {
+    public void setCaretPosition(int pos)
+    {
         edit.setCaretPosition(pos);
     }
 
-    public void setDisplayImage(BufferedImage image) {
+    public void setDisplayImage(BufferedImage image)
+    {
         this.image = image;
         view.setIcon(new ImageIcon(image));
         view.repaint();
     }
 
-    public BufferedImage getDisplayImage() {
+    public BufferedImage getDisplayImage()
+    {
         return image;
     }
 
-    public RandomFeed getRandomFeed() {
+    public RandomFeed getRandomFeed()
+    {
         return this.randomFeed;
     }
 
-    public void setRandomFeed(RandomFeed randomFeed) {
+    public void setRandomFeed(RandomFeed randomFeed)
+    {
         this.randomFeed = randomFeed;
     }
 

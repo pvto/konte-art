@@ -114,7 +114,8 @@ public class RandomFeed {
         /**
          * Constructor using the default seed.
          */
-        public MersenneTwisterFast() {
+        public MersenneTwisterFast()
+        {
             setSeed(GOOD_SEED);
         }
 
@@ -124,7 +125,8 @@ public class RandomFeed {
          *
          * @param seed generator starting number, often the time of day.
          */
-        public MersenneTwisterFast(long seed) {
+        public MersenneTwisterFast(long seed)
+        {
             setSeed(seed);
         }
 
@@ -137,7 +139,8 @@ public class RandomFeed {
          * @param seed from constructor
          *
          */
-        public final void setSeed(long seed) {
+        public final void setSeed(long seed)
+        {
             haveNextNextGaussian = false;
 
             mt = new int[N];
@@ -152,7 +155,8 @@ public class RandomFeed {
 
             mt[0] = ((int) seed); // & 0xffffffff;
 
-            for (mti = 1; mti < N; mti++) {
+            for (mti = 1; mti < N; mti++)
+            {
                 mt[mti] = (69069 * mt[mti - 1]);
             } //& 0xffffffff;
 
@@ -162,18 +166,21 @@ public class RandomFeed {
             mag01[1] = MATRIX_A;
         }
 
-        public final int nextInt() {
+        public final int nextInt()
+        {
             int y;
 
             if (mti >= N) // generate N words at one time
             {
                 int kk;
 
-                for (kk = 0; kk < N - M; kk++) {
+                for (kk = 0; kk < N - M; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
-                for (; kk < N - 1; kk++) {
+                for (; kk < N - 1; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
@@ -193,18 +200,21 @@ public class RandomFeed {
             return y;
         }
 
-        public final short nextShort() {
+        public final short nextShort()
+        {
             int y;
 
             if (mti >= N) // generate N words at one time
             {
                 int kk;
 
-                for (kk = 0; kk < N - M; kk++) {
+                for (kk = 0; kk < N - M; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
-                for (; kk < N - 1; kk++) {
+                for (; kk < N - 1; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
@@ -224,18 +234,21 @@ public class RandomFeed {
             return (short) (y >>> 16);
         }
 
-        public final char nextChar() {
+        public final char nextChar()
+        {
             int y;
 
             if (mti >= N) // generate N words at one time
             {
                 int kk;
 
-                for (kk = 0; kk < N - M; kk++) {
+                for (kk = 0; kk < N - M; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
-                for (; kk < N - 1; kk++) {
+                for (; kk < N - 1; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
@@ -254,19 +267,22 @@ public class RandomFeed {
             return (char) (y >>> 16);
         }
 
-        public final boolean nextBoolean() {
+        public final boolean nextBoolean()
+        {
             int y;
 
             if (mti >= N) // generate N words at one time
             {
                 int kk;
 
-                for (kk = 0; kk < N - M; kk++) {
+                for (kk = 0; kk < N - M; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
 
-                for (; kk < N - 1; kk++) {
+                for (; kk < N - 1; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
 
                     mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
@@ -286,18 +302,21 @@ public class RandomFeed {
             return (boolean) ((y >>> 31) != 0);
         }
 
-        public final byte nextByte() {
+        public final byte nextByte()
+        {
             int y;
 
             if (mti >= N) // generate N words at one time
             {
                 int kk;
 
-                for (kk = 0; kk < N - M; kk++) {
+                for (kk = 0; kk < N - M; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
-                for (; kk < N - 1; kk++) {
+                for (; kk < N - 1; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
@@ -316,19 +335,23 @@ public class RandomFeed {
             return (byte) (y >>> 24);
         }
 
-        public final void nextBytes(byte[] bytes) {
+        public final void nextBytes(byte[] bytes)
+        {
             int y;
 
-            for (int x = 0; x < bytes.length; x++) {
+            for (int x = 0; x < bytes.length; x++)
+            {
                 if (mti >= N) // generate N words at one time
                 {
                     int kk;
 
-                    for (kk = 0; kk < N - M; kk++) {
+                    for (kk = 0; kk < N - M; kk++)
+                    {
                         y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                         mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
                     }
-                    for (; kk < N - 1; kk++) {
+                    for (; kk < N - 1; kk++)
+                    {
                         y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                         mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
                     }
@@ -348,7 +371,8 @@ public class RandomFeed {
             }
         }
 
-        public final long nextLong() {
+        public final long nextLong()
+        {
             int y;
             int z;
 
@@ -356,11 +380,13 @@ public class RandomFeed {
             {
                 int kk;
 
-                for (kk = 0; kk < N - M; kk++) {
+                for (kk = 0; kk < N - M; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
-                for (; kk < N - 1; kk++) {
+                for (; kk < N - 1; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
@@ -381,11 +407,13 @@ public class RandomFeed {
             {
                 int kk;
 
-                for (kk = 0; kk < N - M; kk++) {
+                for (kk = 0; kk < N - M; kk++)
+                {
                     z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + M] ^ (z >>> 1) ^ mag01[z & 0x1];
                 }
-                for (; kk < N - 1; kk++) {
+                for (; kk < N - 1; kk++)
+                {
                     z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + (M - N)] ^ (z >>> 1) ^ mag01[z & 0x1];
                 }
@@ -404,7 +432,8 @@ public class RandomFeed {
             return (((long) y) << 32) + (long) z;
         }
 
-        public final double nextDouble() {
+        public final double nextDouble()
+        {
             int y;
             int z;
 
@@ -412,12 +441,14 @@ public class RandomFeed {
             {
                 int kk;
 
-                for (kk = 0; kk < N - M; kk++) {
+                for (kk = 0; kk < N - M; kk++)
+                {
 
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
-                for (; kk < N - 1; kk++) {
+                for (; kk < N - 1; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
@@ -437,11 +468,13 @@ public class RandomFeed {
             {
                 int kk;
 
-                for (kk = 0; kk < N - M; kk++) {
+                for (kk = 0; kk < N - M; kk++)
+                {
                     z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + M] ^ (z >>> 1) ^ mag01[z & 0x1];
                 }
-                for (; kk < N - 1; kk++) {
+                for (; kk < N - 1; kk++)
+                {
                     z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + (M - N)] ^ (z >>> 1) ^ mag01[z & 0x1];
                 }
@@ -462,8 +495,10 @@ public class RandomFeed {
             return ((((long) (y >>> 6)) << 27) + (z >>> 5)) / (double) (1L << 53);
         }
 
-        public final double nextGaussian() {
-            if (haveNextNextGaussian) {
+        public final double nextGaussian()
+        {
+            if (haveNextNextGaussian)
+            {
                 haveNextNextGaussian = false;
                 return nextNextGaussian;
             } else {
@@ -478,11 +513,13 @@ public class RandomFeed {
                     {
                         int kk;
 
-                        for (kk = 0; kk < N - M; kk++) {
+                        for (kk = 0; kk < N - M; kk++)
+                        {
                             y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                             mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
                         }
-                        for (; kk < N - 1; kk++) {
+                        for (; kk < N - 1; kk++)
+                        {
                             y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                             mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
                         }
@@ -503,11 +540,13 @@ public class RandomFeed {
                     {
                         int kk;
 
-                        for (kk = 0; kk < N - M; kk++) {
+                        for (kk = 0; kk < N - M; kk++)
+                        {
                             z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                             mt[kk] = mt[kk + M] ^ (z >>> 1) ^ mag01[z & 0x1];
                         }
-                        for (; kk < N - 1; kk++) {
+                        for (; kk < N - 1; kk++)
+                        {
                             z = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                             mt[kk] = mt[kk + (M - N)] ^ (z >>> 1) ^ mag01[z & 0x1];
                         }
@@ -527,11 +566,13 @@ public class RandomFeed {
                     {
                         int kk;
 
-                        for (kk = 0; kk < N - M; kk++) {
+                        for (kk = 0; kk < N - M; kk++)
+                        {
                             a = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                             mt[kk] = mt[kk + M] ^ (a >>> 1) ^ mag01[a & 0x1];
                         }
-                        for (; kk < N - 1; kk++) {
+                        for (; kk < N - 1; kk++)
+                        {
 
                             a = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                             mt[kk] = mt[kk + (M - N)] ^ (a >>> 1) ^ mag01[a & 0x1];
@@ -552,11 +593,13 @@ public class RandomFeed {
                     {
                         int kk;
 
-                        for (kk = 0; kk < N - M; kk++) {
+                        for (kk = 0; kk < N - M; kk++)
+                        {
                             b = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                             mt[kk] = mt[kk + M] ^ (b >>> 1) ^ mag01[b & 0x1];
                         }
-                        for (; kk < N - 1; kk++) {
+                        for (; kk < N - 1; kk++)
+                        {
                             b = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                             mt[kk] = mt[kk + (M - N)] ^ (b >>> 1) ^ mag01[b & 0x1];
                         }
@@ -585,18 +628,21 @@ public class RandomFeed {
             }
         }
 
-        public final float nextFloat() {
+        public final float nextFloat()
+        {
             int y;
 
             if (mti >= N) // generate N words at one time
             {
                 int kk;
 
-                for (kk = 0; kk < N - M; kk++) {
+                for (kk = 0; kk < N - M; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
-                for (; kk < N - 1; kk++) {
+                for (; kk < N - 1; kk++)
+                {
                     y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                     mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
                 }
@@ -618,8 +664,10 @@ public class RandomFeed {
 
         /** Returns an integer drawn uniformly from 0 to n-1.  Suffice it to say,
         n must be > 0, or an IllegalArgumentException is raised. */
-        public int nextInt(int n) {
-            if (n <= 0) {
+        public int nextInt(int n)
+        {
+            if (n <= 0)
+            {
                 throw new IllegalArgumentException("n must be positive");
             }
 
@@ -631,11 +679,13 @@ public class RandomFeed {
                 {
                     int kk;
 
-                    for (kk = 0; kk < N - M; kk++) {
+                    for (kk = 0; kk < N - M; kk++)
+                    {
                         y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                         mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
                     }
-                    for (; kk < N - 1; kk++) {
+                    for (; kk < N - 1; kk++)
+                    {
                         y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                         mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
                     }
@@ -662,11 +712,13 @@ public class RandomFeed {
                 {
                     int kk;
 
-                    for (kk = 0; kk < N - M; kk++) {
+                    for (kk = 0; kk < N - M; kk++)
+                    {
                         y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                         mt[kk] = mt[kk + M] ^ (y >>> 1) ^ mag01[y & 0x1];
                     }
-                    for (; kk < N - 1; kk++) {
+                    for (; kk < N - 1; kk++)
+                    {
                         y = (mt[kk] & UPPER_MASK) | (mt[kk + 1] & LOWER_MASK);
                         mt[kk] = mt[kk + (M - N)] ^ (y >>> 1) ^ mag01[y & 0x1];
                     }
@@ -691,32 +743,39 @@ public class RandomFeed {
     private String key = null;
     public MersenneTwisterFast rand;
 
-    public RandomFeed() {
+    public RandomFeed()
+    {
         char[] cc = new char[3];
-        for (int i = 0; i < cc.length; i++) {
+        for (int i = 0; i < cc.length; i++)
+        {
             cc[i] = (char) ('A' + Math.floor(Math.random() * 25));
         }
         this.key = String.valueOf(cc);
         rand = new MersenneTwisterFast(convertKey());
     }
 
-    private long convertKey() {
+    private long convertKey()
+    {
         return convertKey(key);
     }
-    public static long convertKey(String key) {
+    public static long convertKey(String key)
+    {
         long base = 1;
         long res = 0;
-        for (int i = key.length()-1; i >= 0; i--) {
+        for (int i = key.length()-1; i >= 0; i--)
+        {
             res += ((int)(key.charAt(i)-'A')+1)*base;
             base <<= 5;
         }
         return res;        
     }
-    public static String toConvertKey(long l) {
+    public static String toConvertKey(long l)
+    {
         StringBuilder bd = new StringBuilder();
         long top = 1;
 
-        while (top < 60 && l >= (1 << (top -1))) {
+        while (top < 60 && l >= (1 << (top -1)))
+        {
             long matchrange = 31 << (top-1);
             long match = l & matchrange;
             int val = (int)(match >> (top-1));
@@ -727,15 +786,19 @@ public class RandomFeed {
         }
         return bd.toString();
     }
-    public RandomFeed(String key) {
+    public RandomFeed(String key)
+    {
         setKey(key);
     }
 
-    public void incrementKey() {
+    public void incrementKey()
+    {
         char[] cc = key.toCharArray();
-        for (int i = cc.length - 1; i > 0; i--) {
+        for (int i = cc.length - 1; i > 0; i--)
+        {
             cc[i] = (char) (cc[i] + 1);
-            if (cc[i] > (char) ('A' + 25)) {
+            if (cc[i] > (char) ('A' + 25))
+            {
                 cc[i] = 'A';
             } else {
                 return;
@@ -743,20 +806,24 @@ public class RandomFeed {
         }
     }
 
-    public void setKey(String key) {
+    public void setKey(String key)
+    {
         this.key = key.toUpperCase().substring(0, Math.min(12,key.length()));
         rand = new MersenneTwisterFast(convertKey());        
     }
 
-    public String getKey() {
+    public String getKey()
+    {
         return key;
     }
 
-    public double get() {
+    public double get()
+    {
         return rand.nextDouble();
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         System.out.println(toConvertKey(1)+convertKey("A"));
         System.out.println(toConvertKey(25)+convertKey("Y"));
         System.out.println(toConvertKey(33)+convertKey("AA"));

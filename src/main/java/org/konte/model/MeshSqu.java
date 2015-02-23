@@ -16,7 +16,8 @@ public class MeshSqu extends Untransformable implements Serializable {
 
     public float[][] coords;
 
-    public MeshSqu(DrawingContext p1, DrawingContext p2, DrawingContext p3, DrawingContext p4) {
+    public MeshSqu(DrawingContext p1, DrawingContext p2, DrawingContext p3, DrawingContext p4)
+    {
         coords = new float[][] {
             {p1.matrix.m03,p1.matrix.m13,p1.matrix.m23},
             {p2.matrix.m03,p2.matrix.m13,p2.matrix.m23},
@@ -47,7 +48,8 @@ public class MeshSqu extends Untransformable implements Serializable {
 
     
     @Override
-    public void draw(Camera camera, Canvas canvas, OutputShape shape) {
+    public void draw(Camera camera, Canvas canvas, OutputShape shape)
+    {
             canvas.drawMeshPiece(camera,shape);
     }
     

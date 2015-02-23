@@ -25,14 +25,16 @@ public class RepeatStructure extends Transform {
     public Transform repeatedTransform = null;
     public Expression repeats;
 
-    public RepeatStructure() {
+    public RepeatStructure()
+    {
         super();
         repeatStructure = true;
     }
 
 
 
-    public String toString() {
+    public String toString()
+    {
         StringBuilder bd = new StringBuilder();
         bd.append("Repeat ").append(repeats).append("*");
         String hp = repeatTransform.toString();

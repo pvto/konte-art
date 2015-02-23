@@ -58,7 +58,8 @@ public class SvgImport {
         1f,pt_px,pc_px,mm_px,cm_px,in_px
     };
 
-    public SvgImport() {
+    public SvgImport()
+    {
     }
 
     public Document initDocument(File f) throws ParserConfigurationException, SAXException, IOException, XPathExpressionException
@@ -71,7 +72,8 @@ public class SvgImport {
             if (in != null)
                 try {
                     in.close();
-                } catch (Exception e) {
+                } catch (Exception e)
+                {
                     e.printStackTrace();
                 }
         }
@@ -95,11 +97,14 @@ public class SvgImport {
             s_h = wlist.item(0).getAttributes().getNamedItem("height").getTextContent();
             w = Float.parseFloat(s_w.replaceAll("[a-zA-Z]+", ""));
             h = Float.parseFloat(s_h.replaceAll("[a-zA-Z]+", ""));
-            for(int i = 0; i < unit_tbl.length; i++) {
-                if (s_w.matches("\\d+"+unit_name_tbl[i])) {
+            for(int i = 0; i < unit_tbl.length; i++)
+            {
+                if (s_w.matches("\\d+"+unit_name_tbl[i]))
+                {
                     w = w*unit_tbl[i];
                 }
-                if (s_h.matches("\\d+"+unit_name_tbl[i])) {
+                if (s_h.matches("\\d+"+unit_name_tbl[i]))
+                {
                     h = h*unit_tbl[i];
                 }
             }
@@ -116,7 +121,8 @@ public class SvgImport {
     public NodeList getPaths() throws XPathExpressionException {
         XPathExpression expr = xpath.compile("//path");
         NodeList paths = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-        if (paths.getLength() == 0) {
+        if (paths.getLength() == 0)
+        {
             System.out.println("No paths");
         }
         return paths;
@@ -158,7 +164,8 @@ public class SvgImport {
             }
         }
         String d = path.getAttributes().getNamedItem("d").getTextContent();
-        if (d.matches(".*[aAqQ].*")) {
+        if (d.matches(".*[aAqQ].*"))
+        {
             System.out.println(sel + ": unsupported directive(s) in " + d);
             return null;
         }
@@ -169,7 +176,8 @@ public class SvgImport {
         char lastDig = 'M';
         Expression[] data = new Expression[3];
         Expression[] lastData = new Expression[3];
-        for (int i = 0; i < data.length; i++) {
+        for (int i = 0; i < data.length; i++)
+        {
             data[i] = new Value(0f);
             lastData[i] = new Value(0f);
         }
@@ -177,37 +185,45 @@ public class SvgImport {
         int it = 0;
         char digBefore = 'x';
         int flags = PathRule.REMOVE_CLOSING;
-        while (tok.hasMoreTokens()) {
+        while (tok.hasMoreTokens())
+        {
             String token = tok.nextToken();
             if (!Character.isDigit(token.charAt(0)) 
-                    && token.charAt(0) != '-') {
+                    && token.charAt(0) != '-')
+                    {
                 lastDig = token.charAt(0);
-                if ((lastDig == 'm' || lastDig == 'M') && (digBefore != 'z' && digBefore != 'x')) {
+                if ((lastDig == 'm' || lastDig == 'M') && (digBefore != 'z' && digBefore != 'x'))
+                {
                     pr.steps.add(new Placeholder(PathRule.CLOSE, null));
                     //flags ^= PathRule.REMOVE_CLOSING;
                 }
                 digBefore = lastDig;
                 it = 0;
-                if (lastDig == 'z' && pr.steps.size() > 0) {
+                if (lastDig == 'z' && pr.steps.size() > 0)
+                {
                     pr.steps.add(new Placeholder(PathRule.CLOSE, null));
                 }
             } else {
                 float val = Float.parseFloat(token);
-                if (!Character.isLowerCase(lastDig) || pr.steps.size() == 0) {
+                if (!Character.isLowerCase(lastDig) || pr.steps.size() == 0)
+                {
                     val -= 0.5f * (pl == 0 ? 1f*w/group.m00 : hperw*w/group.m11);
                 }
-                if (pl == 1) {
+                if (pl == 1)
+                {
                     val = -val; // y axis is downward in svg (is it regularly)
                 }
 
                 data[pl] = new Value(val);
-                if (pl == 1) {
+                if (pl == 1)
+                {
                     Placeholder e = null;
                     if (Character.isLowerCase(lastDig)) { // lower case are relative
                         data[0] = new Value(data[0].evaluate() + lastData[0].evaluate());
                         data[1] = new Value(data[1].evaluate() + lastData[1].evaluate());
                     }
-                    if (lastDig == 'm' && it > 0) {
+                    if (lastDig == 'm' && it > 0)
+                    {
                         lastDig = 'l';
                     }
                     Expression[] fdata = new Expression[] { 
@@ -215,7 +231,8 @@ public class SvgImport {
                         new Value((data[1].evaluate()*group.m11 - group.m12) / w),
                         new Value(0f) };
 
-                    switch(lastDig) {
+                    switch(lastDig)
+                    {
                         case 'm':
                         case 'M': e = new Placeholder(PathRule.MOVE_TO, fdata);
                             break;
@@ -246,7 +263,8 @@ public class SvgImport {
     }
 
 
-    public String allPathsToScript(String prefix, HashMap<String, String> props) {
+    public String allPathsToScript(String prefix, HashMap<String, String> props)
+    {
         StringBuilder bd = new StringBuilder();
         try {
             StringBuilder all = new StringBuilder();
@@ -254,25 +272,31 @@ public class SvgImport {
 
             NodeList paths = getPaths();
             Object[] objs = new Object[paths.getLength()];
-            for (int i = 0; i < paths.getLength(); i++) {
+            for (int i = 0; i < paths.getLength(); i++)
+            {
                 Path p0 = toKontePath(i);
-                if (p0 != null) {
+                if (p0 != null)
+                {
                     Node styleNode = paths.item(i).getAttributes().getNamedItem("style");
                     String style = styleNode == null ? "" : styleNode.getTextContent();
                     p0.name = prefix + paths.item(i).getAttributes().getNamedItem("id").getTextContent();
                     String name = p0.name;
                     String fill = props.get("fill");
-                    if (fill != null) {
+                    if (fill != null)
+                    {
                         name = p0.name+"_";
                         Color col = null;
                         String trfm = "rule %s{ %s{RGB %.3f %.3f %.3f A %.3f} }\n";
-                        if (fill.equals("R G B A")) {
+                        if (fill.equals("R G B A"))
+                        {
                             trfm = "rule %s{ %s{R %.3f G %.3f B %.3f A %.3f} }\n";
-                        } else if (fill.equals("R G B")) {
+                        } else if (fill.equals("R G B"))
+                        {
                             trfm = "rule %s{ %s{R %.3f G %.3f B %.3f} }\n";
                         }
                         int ind = style.indexOf("fill:#");
-                        if (ind >= 0) {
+                        if (ind >= 0)
+                        {
                             int rgb = Integer.parseInt(style.substring(ind+6,ind+12), 16);
                             col = new Color(rgb);
                         } else {
@@ -297,7 +321,8 @@ public class SvgImport {
             all.append("}\n\n");
             bd.insert(0, all.toString());
             return bd.toString();
-        } catch(Exception ex) {
+        } catch(Exception ex)
+        {
             ex.printStackTrace();
             System.out.println(bd);
         }

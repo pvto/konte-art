@@ -249,7 +249,8 @@ public class Model {
         }
         else
         {
-//            if (c.isMacro) {
+//            if (c.isMacro)
+//            {
             c.constVal = value.evaluate();
             c.value = value;
             c.isMacro = false;
@@ -291,7 +292,8 @@ public class Model {
             d.setNameId(ipos);
 //            Runtime.sysoutln(d + " " + d.definition, 0);
         }
-        Collections.sort(st.defs, new Comparator<Definition>() {
+        Collections.sort(st.defs, new Comparator<Definition>()
+        {
 
             public int compare(Definition o1, Definition o2)
             {
@@ -443,7 +445,8 @@ public class Model {
         }
         if (lighting == null)
         {
-            lighting = new GlobalLighting() {
+            lighting = new GlobalLighting()
+            {
 
                 @Override
                 public void lightObject(DrawingContext shape)

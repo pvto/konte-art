@@ -34,7 +34,8 @@ public class SeqRecorder {
     
     private void schedTask(final Timer timer, final long frequency)
     {
-        TimerTask task = new TimerTask() {
+        TimerTask task = new TimerTask()
+        {
             @Override
             public void run()
             {
@@ -71,7 +72,8 @@ public class SeqRecorder {
                         }
                         if (maxState == 0 || state != 0 || finishFlag++<1)
                             schedTask(timer, Math.max(1,frequency - (System.currentTimeMillis() - start)));
-                    } catch (IOException ex) {
+                    } catch (IOException ex)
+                    {
                         ex.printStackTrace();
                     }
                     index++;
