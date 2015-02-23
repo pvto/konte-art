@@ -11,12 +11,14 @@ public class CabinetCamera extends SimpleCamera {
     public final float alpha;
     private final float cosAlpha;
     private final float sinAlpha;
+    private final float zContraction;
     
-    public CabinetCamera(float alpha)
+    public CabinetCamera(float alpha, float zContraction)
     {
         this.alpha = alpha;
         this.cosAlpha = (float)Math.cos(alpha);
         this.sinAlpha = -(float)Math.sin(alpha);
+        this.zContraction = zContraction;
     }
 
     
@@ -27,8 +29,8 @@ public class CabinetCamera extends SimpleCamera {
         d = cameraRotationMatrix.multiply(d);
         
         return new Point2(
-                d.x + 0.5f * d.z * cosAlpha, 
-                d.y + 0.5f * d.z * sinAlpha
+                d.x + zContraction * d.z * cosAlpha, 
+                d.y + zContraction * d.z * sinAlpha
         );
     }
 }

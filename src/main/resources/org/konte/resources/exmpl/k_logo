@@ -13,18 +13,6 @@ fx 1{0077 7700 7700 0077}
 
 k_logo {
 
-
-    38000*{} star {
-        y -1.25
-        z 1
-        x (-.75 + (x) + rnd() * 1.5)
-        y (y + rnd() * 2.5)
-        scale .018
-        lightness 1
-        alpha -.52
-        green (-rnd()*.25+x)
-        }
-
    tilp{layer 1}
 }
 
@@ -94,27 +82,6 @@ K {
         }
 }
 
-
-
-
-star 2 { star { blue -.01 } }
-star 2 { star { sat (.1 + saw(x + .25) / 5) } }
-star 5 { star { hue -.1 } }
-star {
-    dstar {
-        scale (1 + sin(y * x*x*x * 200) * 1.5)
-        scale (abs(x*x + y*y)*.5+1)
-        z (-sin(x*x + y*y)*27)
-        rotz (rnd()*360 + x)
-        sat .5
-        hue (-120 + 180 * x*x * y)}
-}
-dstar {
-    3*{rz 60 } 3*{ s .92 }
-            CIRCLE { scaley .1 }
-}
-dstar { konte_kb3 { alpha 1 } }
-star { dstar { scaley 2 scalex .1 skewy 100 } }
 
 
 path konte_kb3 {

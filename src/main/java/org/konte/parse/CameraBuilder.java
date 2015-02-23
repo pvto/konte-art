@@ -72,6 +72,11 @@ public class CameraBuilder {
         int flag = 0;
         for (CameraProperties p : properties)
         {
+            if (flag >= 16)
+            {
+                throw new ParseException("Inconsistent camera properties: " + properties);
+            }
+            
             switch (p)
             {
                 case PANNING:
@@ -89,17 +94,27 @@ public class CameraBuilder {
                    
             }
         }
-
+        
         if ((flag & 128) != 0)
         {
             float angle = (float)Math.PI / 6f;
+            float zContraction = 0.5f;
+            int step = 0;
             for(Object o : extra)
             {
                 if (o instanceof Expression)
                 {
                     try
                     {
-                        angle = ((Expression)o).evaluate() / 180f * (float)Math.PI;
+                        float tmp = ((Expression)o).evaluate() / 180f * (float)Math.PI;
+                        if (step == 0)
+                        {
+                            angle = tmp;
+                        }
+                        else if (step == 1) 
+                        {
+                            zContraction = tmp;
+                        }
                     }
                     catch (Exception e)
                     {
@@ -107,7 +122,7 @@ public class CameraBuilder {
                     }
                 }
             }
-            c = new CabinetCamera(angle);
+            c = new CabinetCamera(angle, zContraction);
         }
         else if ((flag & 64) != 0)
         {
