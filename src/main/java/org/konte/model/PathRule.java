@@ -106,6 +106,8 @@ public class PathRule extends Rule {
                         
                     }
                     sl.add(points);
+                    while (points.size() >= cpoints.size())
+                        cpoints.add(null);
                     cpl.add(cpoints);
                     points = new ArrayList<Matrix4>();
                     cpoints = new ArrayList<Matrix4[]>();

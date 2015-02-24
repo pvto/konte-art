@@ -1223,6 +1223,10 @@ public class Parser {
                     } else if (t == Language.close && lastRule instanceof PathRule)
                     {
                         PathRule pr = (PathRule)lastRule;
+                        if (pr.steps.get(pr.steps.size() - 1).type == PathRule.CLOSE)
+                        {
+                            throw new ParseException("Duplicat close in path", lineNr, caretPos);
+                        }
                         pr.steps.add(new Placeholder(PathRule.CLOSE, null));
                         pr.closed = 1;
                     } else if (t instanceof LanguageFunctor)
