@@ -25,7 +25,7 @@ import static org.konte.lang.Tokens.*;
  */
 public class Language {
     
-    public static final double version = 0.855;
+    public static final double version = 0.9;
     /** output log level*/
     public static int output_verbose_filter = 0;
 

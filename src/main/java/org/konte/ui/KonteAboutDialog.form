@@ -9,11 +9,12 @@
       <Color blue="d1" green="cb" red="bb" type="rgb"/>
     </Property>
     <Property name="locationByPlatform" type="boolean" value="true"/>
-    <Property name="resizable" type="boolean" value="false"/>
     <Property name="undecorated" type="boolean" value="true"/>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
@@ -90,12 +91,12 @@
           <SubComponents>
             <Component class="javax.swing.JTextPane" name="jTextPane1">
               <Properties>
+                <Property name="editable" type="boolean" value="false"/>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="d1" green="cb" red="bb" type="rgb"/>
                 </Property>
-                <Property name="contentType" type="java.lang.String" value="text/html"/>
-                <Property name="editable" type="boolean" value="false"/>
-                <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xd;&#xa;  &lt;head&gt;&#xd;&#xa;&#xd;&#xa;  &lt;/head&gt;&#xd;&#xa;  &lt;body&gt;&#xd;&#xa;    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;&#xa;&lt;p&gt;Some Rights reserved (c) 2009&lt;br&gt;&#xa; Paavo Toivanen.&#xa;    &lt;/p&gt;&#xa;&lt;p&gt;Licensed under GNU LGPL&#xd;&lt;/p&gt;&#xa;&lt;p&gt;&lt;b&gt;Attributions&lt;/b&gt;&#xa;&lt;p&gt;MersenneTwisterFast (Java) is by Michael Lecuyer and distributed under GNU GPL.&#xa;&lt;p&gt;Mersenne Twister algorithm is due to M. Matsumoto and T. Nishimura.&#xa;&lt;p&gt;&apos;albook extended blue&apos; icon set is by (http://stopdreaming.deviantart.com).&#xa;&lt;p&gt;Albook concept is by Laurent Baumann (http://lbaumann.com/) and distributed under a Creative Common 2.5 license (http://creativecommons.org/licenses/by/2.5/).&#xa;  &lt;/body&gt;&#xd;&#xa;&lt;/html&gt;&#xd;&#xa;"/>
+                <Property name="contentType" type="java.lang.String" value="text/html" noResource="true"/>
+                <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xd;&#xa;  &lt;head&gt;&#xd;&#xa;&#xd;&#xa;  &lt;/head&gt;&#xd;&#xa;  &lt;body&gt;&#xd;&#xa;    &lt;p style=&quot;margin-top: 0&quot;&gt;&#xd;&#xa;&lt;p&gt;Some Rights reserved (c) 2015&lt;br&gt;&#xa; Paavo Toivanen.&#xa;    &lt;/p&gt;&#xa;&lt;p&gt;Licensed under GNU LGPL&#xd;&lt;/p&gt;&#xa;&lt;p&gt;&lt;b&gt;Attributions&lt;/b&gt;&#xa;&lt;p&gt;MersenneTwisterFast (Java) is by Michael Lecuyer and distributed under GNU GPL.&#xa;&lt;p&gt;Mersenne Twister algorithm is due to M. Matsumoto and T. Nishimura.&#xa;&lt;p&gt;&apos;albook extended blue&apos; icon set is by (http://stopdreaming.deviantart.com).&#xa;&lt;p&gt;Albook concept is by Laurent Baumann (http://lbaumann.com/) and distributed under a Creative Common 2.5 license (http://creativecommons.org/licenses/by/2.5/).&#xa;  &lt;/body&gt;&#xd;&#xa;&lt;/html&gt;&#xd;&#xa;"/>
                 <Property name="opaque" type="boolean" value="false"/>
               </Properties>
             </Component>
