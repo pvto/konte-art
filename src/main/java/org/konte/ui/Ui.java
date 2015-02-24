@@ -407,8 +407,20 @@ public class Ui extends MyJFrame {
     {
         if (tabs.getSelectedComponent() != null)
         {
-            tabs.remove(tabs.getSelectedComponent());
+            if (JOptionPane.showConfirmDialog(this, "Close file?", "", JOptionPane.YES_NO_OPTION)
+                    == JOptionPane.YES_OPTION)
+            {
+                tabs.remove(tabs.getSelectedComponent());
+            }
         }
+    }
+
+    private void switchToTab(int add) {
+        int ind = tabs.getSelectedIndex();
+        int newInd = (ind + add) % tabs.getComponentCount();
+        if (newInd < 0)
+            newInd += tabs.getComponentCount();
+        tabs.setSelectedIndex(newInd);
     }
 
     public void save()
@@ -617,6 +629,9 @@ public class Ui extends MyJFrame {
         jMenuItem12 = new javax.swing.JMenuItem();
         exitMenuItem = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JSeparator();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem15 = new javax.swing.JMenuItem();
+        jMenuItem16 = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         undoItem = new javax.swing.JMenuItem();
         redoItem = new javax.swing.JMenuItem();
@@ -858,6 +873,29 @@ public class Ui extends MyJFrame {
         fileMenu.add(jSeparator1);
 
         menuBar.add(fileMenu);
+
+        jMenu3.setMnemonic('W');
+        jMenu3.setText("Window");
+
+        jMenuItem15.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_UP, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem15.setText("Previous window");
+        jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem15ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem15);
+
+        jMenuItem16.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_DOWN, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem16.setText("Next window");
+        jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem16ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem16);
+
+        menuBar.add(jMenu3);
 
         editMenu.setBackground(new java.awt.Color(187, 203, 209));
         editMenu.setMnemonic('E');
@@ -1225,6 +1263,14 @@ public class Ui extends MyJFrame {
         generateSequence();
     }//GEN-LAST:event_jMenuItem14ActionPerformed
 
+    private void jMenuItem15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem15ActionPerformed
+        switchToTab(-1);
+    }//GEN-LAST:event_jMenuItem15ActionPerformed
+
+    private void jMenuItem16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem16ActionPerformed
+        switchToTab(+1);
+    }//GEN-LAST:event_jMenuItem16ActionPerformed
+
     private void showAbout()
     {
         new KonteAboutDialog().setVisible(true);
@@ -1372,12 +1418,15 @@ public class Ui extends MyJFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem12;
     private javax.swing.JMenuItem jMenuItem13;
     private javax.swing.JMenuItem jMenuItem14;
+    private javax.swing.JMenuItem jMenuItem15;
+    private javax.swing.JMenuItem jMenuItem16;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -1403,4 +1452,5 @@ public class Ui extends MyJFrame {
     private javax.swing.JMenu tutMenu;
     private javax.swing.JMenuItem undoItem;
     // End of variables declaration//GEN-END:variables
+
 }
