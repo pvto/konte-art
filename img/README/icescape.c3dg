@@ -1,0 +1,28 @@
+include IMG_5495.JPG kuva
+DEF UN imgwidth(kuva)
+DEF VN imgheight(kuva)
+DEF ua (1/UN)
+
+bg {RGB 1 1 1}
+
+now {
+  do { x -.5 y .35 ry 5 DEF {img=kuva}}
+}
+
+do {
+
+  3*{rx 10 x .001 y .0005 
+     DEF{mesh=mesh+1}}
+
+    (UN)*{DEF{u=u+1} x ua }
+
+      (VN)*{DEF{v=v+1;row=row+1} y -ua }
+
+        MESH { 
+          z (-imgg*.35) 
+          y (imgg*.1) 
+          R (imgr) G (imgg) B (imgb)
+        }
+}
+
+light nn {point(0,0.1,-1){RGB 1 .7 .7} s .5}

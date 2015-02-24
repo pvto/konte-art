@@ -1,13 +1,20 @@
 # konte-art
-*This is an art project for generative graphics. Its code is old and crappy, but there are one or two nice things here. I'll be cleaning up the code, but you are warned.*
+
+![meshm2.png](img/README/2015-02-24-02-09-meshm2.png)
+[meshm2.c3dg](img/README/meshm2.c3dg)
+
+*This is an art project for generative graphics. Java code is old and crappy, but there are one or two nice things here. I'll be cleaning up the code, and you are warned.*
 
 Konte is a small formal language and an execution environment for generating png images. It projects arbitrary z-ordered and linearly transformed 3D bezier paths on a Java2D canvas.
 
- - Bezier paths have the convenient property of translating to higher dimensions
- - a Java2D bezier routine is used here to draw 3D shapes
  - there is no edge clipping, so 3D is "semi" in this way
  - you should avoid excessively large shapes that could create strange overlap effects
  - there is a layering property in the language, so you can draw on multiple layers like in Photoshop
+ - there is an ad hoc support for meshes
+ - ortographic and cabinet (oblique) perspectives are supported
+
+![mcs6_9.png](img/README/2015-02-24-02-26-mcs6_9.png)
+[mcs6_9.c3dg](img/README/mcs6_9.c3dg)
 
 ##Building and running
 
@@ -185,6 +192,15 @@ shading eyeshades {
 ```
 ##More examples
 
+![logo_new-c-rec.png](img/README/AAS-logo_new_c_rec.png)
+<!--![binbu.png](img/README/binbu.png)
+![icescape.png](img/README/2015-02-24-01-17-icescape.png)
+[icescape.c3dg](img/README/icescape.c3dg)-->
+![AER-BUILD2_4.png](img/README/AER-BUILD2_4.png)
+[AER-BUILD2_4.c3dg](img/README/AER-BUILD2_4.c3dg)
+
+
+
 ![monet-grey](img/README/monet-grey.png)
 
 I created a hairy version of Claude Monet's [painting](http://TODO).
@@ -218,3 +234,4 @@ rule draw_img {
 rule i_pxl { SQUARE { s 40 .05 1 }}
 ```
 
+![logo_new.png](img/README/ABM-logo_new.png)

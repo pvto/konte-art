@@ -1,0 +1,11 @@
+rule do {
+  do {x .001 
+      rz (sin(DD*2*DD)*8+4.388)
+      rx -.73
+      DEF {row=row+1; DD=DD+.03}}
+
+  2*{x .006 z .006}
+      MESH { }
+}
+
+model { maxshapes 80000}

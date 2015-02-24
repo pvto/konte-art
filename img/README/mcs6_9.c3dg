@@ -1,0 +1,38 @@
+/*This is a c3dg reworking of cfdg <a href="http://www.contextfreeart.org/gallery/view.php?id=1005">M.C.'s Office</a>,
+ *demonstrating the usage of an ortographic camera.
+ *
+ */
+
+
+camera {OR ORTOGRAPHIC}
+camera {THREE}
+
+rule all {
+    200*{y -.005}
+    20*{x .05}
+      SQUARE{L 1 camera THREE A (y+.3)
+          layer 1 - ((x-.5)*x+(y+.5)*y)*3
+          rz (x*y*30)
+          y .5 x -.5 s .05 .005 .01}
+    do{s .35}
+}
+rule do {
+    3* {s 1.5 ry 180} 3* { rz 120 } 
+    tower_top { camera OR s .333 y .525 R .3 H 200 S -.7 d 7}
+}
+ 
+
+
+rule CUBE {
+    SQUARE { x -.5 L .3 ry 90 }
+    SQUARE { z -.5 }
+    SQUARE { y .5 rx 90 L .5 hue -10 }
+}
+ 
+ 
+rule tower_top {
+    CUBE { rx 30 ry 45}
+    tower_top { s .35 x 1.65 y -.48  L .04 layer .01}
+    tower_top { x .55 y -.16 s .75 L -.03 rz 180 layer .008}
+
+}
