@@ -312,7 +312,8 @@ public class PathPanel extends JPanel {
                 }
             }
             while (!g.drawImage(canvas.getImage(), 0, 0, null));
-        } catch(Exception ex)
+        }
+        catch(Exception ex)
         {
             ex.printStackTrace();
         }
@@ -401,7 +402,8 @@ public class PathPanel extends JPanel {
                             ret = rsp;
                         }
                     }
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                 }
             }

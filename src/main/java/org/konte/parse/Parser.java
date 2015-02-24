@@ -305,7 +305,8 @@ public class Parser {
                                     lastRule.addScript(script);
                                     break;
                             }
-                        } catch(Exception ex)
+                        }
+                        catch(Exception ex)
                         {
                             throw new ParseException("plugin script failure: " + ex.getMessage(), lineNr, caretPos);
                         }
@@ -392,7 +393,8 @@ public class Parser {
                             i = getExpressionList(tokenStrings, i, exprL);
                             Expression streamRate = exprParser.parse(exprL, 0, m);
                             ((StreamingShapeReader)m.shapeReader).streamRate = streamRate;
-                        } catch(Exception ex)
+                        }
+                        catch(Exception ex)
                         {
                             throw new ParseException("Can not parse streamrate expression near ", lineNr, caretPos);
                         }
@@ -578,7 +580,8 @@ public class Parser {
                                         img.getHeight(null), refName), 5);
                                 Model.bitmapCache.init();
                                 i--;
-                            } catch(Exception ex)
+                            }
+                            catch(Exception ex)
                             {
                                 throw new ParseException(String.format(
                                         "bitmap %s not loaded: %s", matcher.group(1), ex.getMessage()),
@@ -629,7 +632,8 @@ public class Parser {
                             try
                             {
                                 val = Float.parseFloat(s);
-                            } catch (Exception e)
+                            }
+                            catch (Exception e)
                             {
                                 throw new ParseException("fx *  must be followed by <rep-count> { . . . }", lineNr, caretPos);
                             }
@@ -713,7 +717,8 @@ public class Parser {
                         try {
                             lightBd.point(tmpexps, lrstfm);
                             m.addLight(lightBd.build());
-                        } catch(Exception ex)
+                        }
+                        catch(Exception ex)
                         {
                             throw new ParseException(ex.getMessage(), lineNr, caretPos);
                         }
@@ -727,7 +732,8 @@ public class Parser {
                         {
                             try {
                                 lightBd.point(tmpexps, lrstfm);
-                            } catch(Exception ex)
+                            }
+                            catch(Exception ex)
                             {
                                 throw new ParseException(ex.getMessage(), lineNr, caretPos);
                             }
@@ -736,7 +742,8 @@ public class Parser {
                         i = getExpressionList(tokenStrings, i, exprL);
                         try {
                             lexpr = exprParser.parse(exprL, 0, m);
-                        } catch(ParseException pex)
+                        }
+                        catch(ParseException pex)
                         {
                             throw new ParseException(
                                 pex.getMessage(), lineNr, caretPos);
@@ -808,7 +815,8 @@ public class Parser {
                         try {
                             colBd.point(tmpexps, lrstfm);
                             m.addColorSpace(colBd.build());
-                        } catch(Exception ex)
+                        }
+                        catch(Exception ex)
                         {
                             throw new ParseException(ex.getMessage(), lineNr, caretPos);
                         }
@@ -822,7 +830,8 @@ public class Parser {
                         {
                             try {
                                 colBd.point(tmpexps, lrstfm);
-                            } catch(Exception ex)
+                            }
+                            catch(Exception ex)
                             {
                                 throw new ParseException(ex.getMessage(), lineNr, caretPos);
                             }
@@ -831,7 +840,8 @@ public class Parser {
                         i = getExpressionList(tokenStrings, i, exprL);
                         try {
                             lexpr = exprParser.parse(exprL, 0, m);
-                        } catch(ParseException pex)
+                        }
+                        catch(ParseException pex)
                         {
                             throw new ParseException(
                                 pex.getMessage(), lineNr, caretPos);
@@ -1143,7 +1153,8 @@ public class Parser {
                         i = getExpressionList(tokenStrings, i, exprL);
                         try {
                             lexpr = exprParser.parse(exprL, 0, m);
-                        } catch(ParseException pex)
+                        }
+                        catch(ParseException pex)
                         {
                             throw new ParseException(
                                 pex.getMessage(), lineNr, caretPos);
@@ -1164,7 +1175,8 @@ public class Parser {
                         i = getExpressionList(tokenStrings, i, exprL);
                         try {
                             lexpr = exprParser.parse(exprL, 0, m);
-                        } catch(ParseException pex)
+                        }
+                        catch(ParseException pex)
                         {
                             throw new ParseException(
                                 pex.getMessage(), lineNr, caretPos);
@@ -1184,7 +1196,8 @@ public class Parser {
                         i = getExpressionList(tokenStrings, i, exprL);
                         try {
                             lexpr = exprParser.parse(exprL, 0, m);
-                        } catch(ParseException pex)
+                        }
+                        catch(ParseException pex)
                         {
                             throw new ParseException(
                                 pex.getMessage(), lineNr, caretPos);
@@ -1199,7 +1212,8 @@ public class Parser {
                         i = getExpressionList(tokenStrings, i, exprL);
                         try {
                             lexpr = exprParser.parse(exprL, 0, m);
-                        } catch(ParseException pex)
+                        }
+                        catch(ParseException pex)
                         {
                             throw new ParseException(
                                 pex.getMessage(), lineNr, caretPos);
@@ -1629,11 +1643,13 @@ public class Parser {
                 default:
                     throw new ParseException("Parsing broken", lineNr, caretPos);
             }
-            } catch(ParseException ex )
+            }
+            catch(ParseException ex )
             {
                 ex.printStackTrace();
                 throw ex; //new ParseException(ex.getMessage(),lineNr,caretPos);
-            } catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 ex.printStackTrace();
                 throw new ParseException(ex.getMessage(), lineNr, caretPos);

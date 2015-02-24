@@ -300,7 +300,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                 catch(EOFException ex)
                 {
                     ex.printStackTrace();
-                } catch(Exception ex)
+                }
+                catch(Exception ex)
                 {
                     ex.printStackTrace();
                 } 
@@ -413,10 +414,12 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                         if (state != 3)
                             break;
                     }
-                } catch(EOFException ex)
+                }
+                catch(EOFException ex)
                 {
                     Runtime.sysoutln("EOF " + curTmp.file + "=" + l, 0);
-                } catch(Exception ex)
+                }
+                catch(Exception ex)
                 {
                     ex.printStackTrace();
                 } finally
@@ -559,7 +562,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         }
         try {
             rulew.exchangeShapes();
-        } catch(InterruptedException ie)
+        }
+        catch(InterruptedException ie)
         {
             throw new RuntimeException("ShapeReader:run:draw remaining");
         } 
@@ -575,7 +579,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
             try
             {
                 drawer.awaitTermination(10L, TimeUnit.MILLISECONDS);
-            } catch(InterruptedException ex)
+            }
+            catch(InterruptedException ex)
             {
                 ex.printStackTrace();
             }
@@ -791,7 +796,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                 {
                     try{
                     f.oos.writeObject(new Order(ll.layerIndex,e.getKey()));
-                    }catch(Exception ex)
+                    }
+                    catch(Exception ex)
                     {
                             System.out.println("foo");
                     }
@@ -954,7 +960,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                         new ObjectInputStream(
                         new BufferedInputStream(
                         new FileInputStream(file)));
-            } catch(Exception e)
+            }
+            catch(Exception e)
             {
                 e.printStackTrace();
                 return null;

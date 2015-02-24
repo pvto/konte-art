@@ -179,7 +179,8 @@ public class Transform {
                                 aq.exprs.set(i,tmpe);
                             }
                         }
-                    } catch(NullPointerException npe)
+                    }
+                    catch(NullPointerException npe)
                     {
                         // definitions are not defined yet - 
                         isEvaluated = false;
@@ -245,7 +246,8 @@ public class Transform {
                     }
                 }
             if (tmp == null) tmp = Matrix4.IDENTITY;
-        } catch(NullPointerException e)
+        }
+        catch(NullPointerException e)
         {
             e.printStackTrace();
             throw new ParseException("Null Transform " + this.ruleName);
@@ -348,15 +350,18 @@ public class Transform {
                 {
                     Runtime.sysoutln("Could not initialize " +t);
                     e.printStackTrace();
-                } catch(NoSuchMethodException e)
+                }
+                catch(NoSuchMethodException e)
                 {
                     Runtime.sysoutln("No constructor for " +t);
                     e.printStackTrace();
-                } catch(IllegalAccessException e)
+                }
+                catch(IllegalAccessException e)
                 {
                     Runtime.sysoutln("Illegal access near " +t);
                     e.printStackTrace();
-                } catch(InvocationTargetException e)
+                }
+                catch(InvocationTargetException e)
                 {
                     Runtime.sysoutln("Target not clear: " +t);
                     e.printStackTrace();

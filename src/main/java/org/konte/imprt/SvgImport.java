@@ -72,7 +72,8 @@ public class SvgImport {
             if (in != null)
                 try {
                     in.close();
-                } catch (Exception e)
+                }
+                catch (Exception e)
                 {
                     e.printStackTrace();
                 }
@@ -332,7 +333,8 @@ public class SvgImport {
             all.append("}\n\n");
             bd.insert(0, all.toString());
             return bd.toString();
-        } catch(Exception ex)
+        }
+        catch(Exception ex)
         {
             ex.printStackTrace();
             System.out.println(bd);

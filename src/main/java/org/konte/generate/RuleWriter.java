@@ -122,7 +122,8 @@ public class RuleWriter {
     {
         try {
             countdown.await(100, TimeUnit.MILLISECONDS);
-        } catch(InterruptedException ie)
+        }
+        catch(InterruptedException ie)
         {
             throw new ParseException("countdown.await");
         }
@@ -171,7 +172,8 @@ public class RuleWriter {
                                 }
                             outoftheway = new OutQueueList();
                             oos.close();
-                        } catch (IOException ex)
+                        }
+                        catch (IOException ex)
                         {
                             ex.printStackTrace();
                         }
@@ -219,7 +221,8 @@ public class RuleWriter {
                             }
                             expansions.add(f);
                         }
-                    } catch(Exception ex)
+                    }
+                    catch(Exception ex)
                     {
                         closeOis = true;
                     } finally {
@@ -278,7 +281,8 @@ public class RuleWriter {
         {
             try {
                 oos.close();
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 e.printStackTrace();
             }
@@ -331,7 +335,8 @@ public class RuleWriter {
     {
         try {
             Thread.sleep(ms);
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             e.printStackTrace();
         }
@@ -578,7 +583,8 @@ public class RuleWriter {
         {
             try {
                 rw.generate();
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 Runtime.sysoutln(ex.getMessage() + "", 10);
                 ex.printStackTrace();

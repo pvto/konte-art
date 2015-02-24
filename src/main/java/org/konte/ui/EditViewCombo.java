@@ -88,7 +88,8 @@ public abstract class EditViewCombo extends JSplitPane implements EditViewInterf
             {
                 undo.undo();
             }
-        } catch (CannotUndoException e)
+        }
+        catch (CannotUndoException e)
         {
         }
     }
@@ -99,7 +100,8 @@ public abstract class EditViewCombo extends JSplitPane implements EditViewInterf
             {
                 undo.redo();
             }
-        } catch (CannotRedoException e)
+        }
+        catch (CannotRedoException e)
         {
         }        
     }

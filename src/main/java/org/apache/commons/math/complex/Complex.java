@@ -272,7 +272,9 @@ public class Complex implements Serializable  {
                     (Double.doubleToRawLongBits(imaginary) ==
                         Double.doubleToRawLongBits(rhs.getImaginary())); 
                 }
-            } catch (ClassCastException ex) {
+            }
+            catch (ClassCastException ex) 
+            {
                 // ignore exception
                 ret = false;
             }

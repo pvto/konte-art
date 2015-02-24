@@ -341,7 +341,8 @@ public class ExpressionParser {
                             try {
                                 t = coto.getClass().getConstructor(String.class, Model.class).newInstance(name, model);
                                 model.globalvar.put(name, t);
-                            } catch(Exception ex)
+                            }
+                            catch(Exception ex)
                             {
                                 ex.printStackTrace();
                             }

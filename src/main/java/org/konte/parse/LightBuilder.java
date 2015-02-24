@@ -42,7 +42,8 @@ public class LightBuilder {
                     strength = strgth.evaluate()*dirMult;
                     if (strength < 0f)
                         strength = 0f;                    
-                } catch(Exception e)
+                }
+                catch(Exception e)
                 {
                     e.printStackTrace();
                 }
@@ -57,7 +58,8 @@ public class LightBuilder {
                     red = red*rgba.R.evaluate()*factor;
                     green = green*rgba.G.evaluate()*factor;
                     blue = blue*rgba.B.evaluate()*factor;
-                } catch(Exception e)
+                }
+                catch(Exception e)
                 {
                     e.printStackTrace();
                 }                
@@ -92,7 +94,8 @@ public class LightBuilder {
                     dist = (float)Math.sqrt(xs*xs+ys*ys+zs*zs);
                     strength = strgth.evaluate()*dirMult;
                 
-                } catch(Exception e)
+                }
+                catch(Exception e)
                 {
                     e.printStackTrace();
                 }
@@ -107,7 +110,8 @@ public class LightBuilder {
                     red = red*rgba.R.evaluate()*factor;
                     green = green*rgba.G.evaluate()*factor;
                     blue = blue*rgba.B.evaluate()*factor;
-                } catch(Exception e)
+                }
+                catch(Exception e)
                 {
                     e.printStackTrace();
                 }                
@@ -137,7 +141,8 @@ public class LightBuilder {
                     dist = (float)Math.sqrt(xs*xs+ys*ys+zs*zs);
                     strength = strgth.evaluate()*dirMult;
                 
-                } catch(Exception e)
+                }
+                catch(Exception e)
                 {
                     e.printStackTrace();
                 }
@@ -152,7 +157,8 @@ public class LightBuilder {
                     red = rgba.R.evaluate()*factor;
                     green = rgba.G.evaluate()*factor;
                     blue = rgba.B.evaluate()*factor;
-                } catch(Exception e)
+                }
+                catch(Exception e)
                 {
                     e.printStackTrace();
                     //throw new ParseException("Can't evaluate light expression: " + e.getMessage());

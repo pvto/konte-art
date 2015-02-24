@@ -57,7 +57,9 @@ public class Language {
         try {
             constant = new Constant(name, new Value(val), true);
             addToken(constant);
-        } catch(Exception ex) {
+        }
+        catch(Exception ex) 
+        {
 
         }
         return constant;

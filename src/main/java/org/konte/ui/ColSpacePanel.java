@@ -54,7 +54,8 @@ public class ColSpacePanel extends JPanel {
             rw = new RuleWriter(null);
             rw.model = new Model();
             rw.model.context = cpoint;
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             ex.printStackTrace();
         }
@@ -198,7 +199,8 @@ public class ColSpacePanel extends JPanel {
                 g.drawRect((int)x - bwidth/2, (int)y1 - bwidth/2, bwidth, (int)(y2-y1+bwidth));
                 it++;
             }
-        } catch (ParseException ex)
+        }
+        catch (ParseException ex)
         {
 
         }
@@ -222,7 +224,8 @@ public class ColSpacePanel extends JPanel {
             float[][] bounds = cspace.getBounds();
             float res = (x - 2f) / (getWidth() - 4f) * (bounds[1][0] - bounds[0][0]);
             return res;
-        } catch (ParseException ex)
+        }
+        catch (ParseException ex)
         {
             return Float.MIN_VALUE;
         }
@@ -233,7 +236,8 @@ public class ColSpacePanel extends JPanel {
             float[][] bounds = cspace.getBounds();
             float res = (y - 4f) / (getHeight() - 8f) * (bounds[1][1] - bounds[0][1]);
             return res;
-        } catch (ParseException ex)
+        }
+        catch (ParseException ex)
         {
             return Float.MIN_VALUE;
         }
@@ -264,7 +268,8 @@ public class ColSpacePanel extends JPanel {
                     }
                 }
                 it++;
-            } catch (Exception ex)
+            }
+            catch (Exception ex)
             {
             }
         }

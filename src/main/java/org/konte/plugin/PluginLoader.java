@@ -72,7 +72,8 @@ public class PluginLoader {
                                     Runtime.sysoutln("Function added to Language as \"" + func.getName() + "\"", 10);
                                     loadedCount++;
                                     continue;
-                                } catch (ClassCastException ee)
+                                }
+                                catch (ClassCastException ee)
                                 {
                                     
                                 }
@@ -81,7 +82,8 @@ public class PluginLoader {
                                     KontePluginShape func = funcClass.newInstance();
                                     Runtime.sysoutln("Shape added to Language as \"" + func.getName() + "\"", 10);
                                     loadedCount++;
-                                } catch (ClassCastException ff)
+                                }
+                                catch (ClassCastException ff)
                                 {
                                 }
                                 try {
@@ -90,11 +92,13 @@ public class PluginLoader {
                                     Language.scriptExtensions.add(scriptExt);
                                     Runtime.sysoutln("Script framework " + scriptExt + " initiated", 10);
                                     loadedCount++;
-                                } catch (ClassCastException ff)
+                                }
+                                catch (ClassCastException ff)
                                 {
 
                                 }
-                            } catch (Throwable e)
+                            }
+                            catch (Throwable e)
                             {
                                 Runtime.sysoutln("\t- not loaded", 10);
                                 Runtime.sysoutln("\t " + e.getClass().getName() + ": " + e.getMessage(), 10);
@@ -110,7 +114,8 @@ public class PluginLoader {
             Runtime.sysoutln("\tWielded:\t" + loadedCount, 10);
             Runtime.sysoutln("\tUnknown:\t" + (totalCount - loadedCount), 10);
             Runtime.sysoutln("\tTotal:\t" + totalCount, 10);
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             e.printStackTrace();
         }

@@ -77,7 +77,8 @@ public class DiskBackedShapeReader implements ShapeReader {
     {
         try {
             runInternal();
-        } catch(IOException e)
+        }
+        catch(IOException e)
         {
             e.printStackTrace();
             state = 5;

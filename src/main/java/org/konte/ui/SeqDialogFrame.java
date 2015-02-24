@@ -64,7 +64,8 @@ public class SeqDialogFrame extends javax.swing.JFrame {
         if (f instanceof JFormattedTextField)
             try {
             ((JFormattedTextField) f).commitEdit();
-        } catch (ParseException ex)
+        }
+        catch (ParseException ex)
         {
             return;
         }

@@ -237,7 +237,8 @@ public class Ui extends MyJFrame {
                         ev.setText(text);
                     }
 
-                } catch(Exception ex)
+                }
+                catch(Exception ex)
                 {
                     ex.printStackTrace();
                     addMessage(ex.getMessage());
@@ -264,7 +265,8 @@ public class Ui extends MyJFrame {
         {
             try {
                 pathEditFrame = new PathEditFrame();
-            } catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 ex.printStackTrace();
             }
@@ -379,7 +381,8 @@ public class Ui extends MyJFrame {
             addLatest("  " + f.getAbsolutePath());
             updateLatestMenu();
             saveProps();
-        } catch(Exception e)
+        }
+        catch(Exception e)
         {
             this.addMessage(e.getMessage());
         }
@@ -416,13 +419,15 @@ public class Ui extends MyJFrame {
             try {
                 fw = new FileWriter(ev.getFile());
                 fw.write(ev.getScriptText());
-            } catch (IOException e)
+            }
+            catch (IOException e)
             {
                 e.printStackTrace();
             } finally {
                 try {
                     fw.close();
-                } catch (IOException e)
+                }
+                catch (IOException e)
                 {
                     e.printStackTrace();
                 }
@@ -514,13 +519,15 @@ public class Ui extends MyJFrame {
                 });
                 this.tutMenu.add(item);
             }
-        } catch (IOException ex)
+        }
+        catch (IOException ex)
         {
             Runtime.sysoutln("Can't find resource " + res, 5);
         } finally {
             try {
                 br.close();
-            } catch (IOException ex)
+            }
+            catch (IOException ex)
             {
 
             }
@@ -550,13 +557,15 @@ public class Ui extends MyJFrame {
                     generatePic();
                 }
             }).start();
-        } catch (IOException ex)
+        }
+        catch (IOException ex)
         {
             Runtime.sysoutln("Can't find resource " + res, 5);
         } finally {
             try {
                 br.close();
-            } catch (IOException ex)
+            }
+            catch (IOException ex)
             {
 
             }

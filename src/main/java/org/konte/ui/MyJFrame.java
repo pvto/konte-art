@@ -77,7 +77,8 @@ public class MyJFrame extends JFrame {
                     BufferedReader br = new BufferedReader(new FileReader(new File(pname)));
                     props.load(br);
                     br.close();
-                } catch(Exception ex)
+                }
+                catch(Exception ex)
                 {
                     System.out.println("Properties not found: " + pname);
 //                    ex.printStackTrace();
@@ -131,7 +132,8 @@ public class MyJFrame extends JFrame {
             wr = new FileWriter(new File(getPropertiesName()));
             props.store(wr,"konte ui properties file");
             wr.close();
-        } catch(Exception ex)
+        }
+        catch(Exception ex)
         {
             System.out.println("Properties not written: " + pname);
             ex.printStackTrace();

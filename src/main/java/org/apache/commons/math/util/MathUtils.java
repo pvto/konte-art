@@ -802,7 +802,9 @@ public final class MathUtils {
                    (Double.toString(x))
                    .setScale(scale, roundingMethod))
                    .doubleValue();
-        } catch (NumberFormatException ex) {
+        }
+        catch (NumberFormatException ex) 
+        {
             if (Double.isInfinite(x)) {
                 return x;          
             }

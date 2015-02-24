@@ -71,7 +71,8 @@ public class Controller {
                                 render((Integer) task.args[0], (Integer) task.args[1],
                                     (EditViewInterface) task.args[2], (Long) task.args[3], (RenderType)task.args[4],
                                     (task.args.length>5?(SeqRecorder)task.args[5]:null));
-                            } catch(Exception ex)
+                            }
+                            catch(Exception ex)
                             {
                                 Runtime.sysoutln("[render] " + ex.getMessage());
                                 ex.printStackTrace();
@@ -126,7 +127,8 @@ public class Controller {
                 new Thread(new Stopper(rtuple.shapeReader, rtuple.ruleWriter, maxtime)).start();
             }
 
-        } catch (ParseException e)
+        }
+        catch (ParseException e)
         {
             String userMsg = e.getMessage() + " AT LINE " + e.getLineNr();
             Runtime.sysoutln(userMsg);
@@ -137,7 +139,8 @@ public class Controller {
                 ev.setCaretPosition(e.getCaretPos());
             } catch(Exception ex) { ex.printStackTrace(); }
             return;
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             Runtime.sysoutln(e.getMessage() + "");
             e.printStackTrace();
@@ -245,10 +248,12 @@ public class Controller {
             Runtime.sysoutln("Exporting scene");
             ee.export(expF);
             Runtime.sysoutln("Written: " + expF);
-        } catch (FileNotFoundException ex)
+        }
+        catch (FileNotFoundException ex)
         {
             Runtime.sysoutln("Can't open for saving: " + expF);
-        } catch (IOException ex)
+        }
+        catch (IOException ex)
         {
             Runtime.sysoutln("Can't write to: " + expF);
         }
@@ -277,10 +282,12 @@ public class Controller {
             Runtime.sysoutln("Exporting");
             CommandLine.writeImage(expF, ev.getDisplayImage());
             Runtime.sysoutln("Written: " + expF);
-        } catch (FileNotFoundException ex)
+        }
+        catch (FileNotFoundException ex)
         {
             Runtime.sysoutln("Can't open for saving: " + expF);
-        } catch (IOException ex)
+        }
+        catch (IOException ex)
         {
             Runtime.sysoutln("Can't write to: " + expF);
         }

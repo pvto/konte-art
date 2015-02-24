@@ -38,7 +38,9 @@ public class ExpressionFunction extends Operator {
         }
         try {
             return f.value(resolvedArgs);
-        } catch (Exception e) {
+        }
+        catch (Exception e) 
+        {
             return null;
         }
     }

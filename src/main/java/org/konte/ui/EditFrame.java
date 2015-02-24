@@ -49,13 +49,15 @@ public abstract class EditFrame extends MyJFrame {
                 try {
                     fw = new FileWriter(getFile());
                     fw.write(getText0());
-                } catch (IOException e)
+                }
+                catch (IOException e)
                 {
                     e.printStackTrace();
                 } finally {
                     try {
                         fw.close();
-                    } catch (IOException e)
+                    }
+                    catch (IOException e)
                     {
                         e.printStackTrace();
                     }

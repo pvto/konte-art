@@ -77,7 +77,8 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
                         colSpacePanel1.repaint();
 
                     }
-                } catch(Exception ex)
+                }
+                catch(Exception ex)
                 {
                     ex.printStackTrace();
                 }
@@ -118,7 +119,8 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
                             colSpacePanel1.setLastActive(pivot);
                             changePivotColor();
                         }
-                    } catch(Exception ex)
+                    }
+                    catch(Exception ex)
                     {
                         ex.printStackTrace();
                     }
@@ -291,7 +293,8 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
                     updateColorFromModel(colSpacePanel1.getLastActive(), cols);
                     colSpacePanel1.repaint();
                 }
-            } catch (ParseException ex)
+            }
+            catch (ParseException ex)
             {
             }
 
@@ -308,7 +311,8 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
             String text = jTextArea1.getText();
             colSpacePanel1.setColorSpace(text);
             jTextField1.setText("");
-        } catch(Exception ex)
+        }
+        catch(Exception ex)
         {
             jTextField1.setText(ex instanceof NullPointerException ?
                 "NullPointerException at " + ex.getStackTrace()[0].toString() :
@@ -477,7 +481,8 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
     private void jButton1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MousePressed
         try {
             insertPivot();
-        } catch (ParseException ex)
+        }
+        catch (ParseException ex)
         {
             ex.printStackTrace();
         }

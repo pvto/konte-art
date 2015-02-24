@@ -347,7 +347,8 @@ public class PathEditPane extends javax.swing.JPanel {
             pathPanel1.repaint();
             updateTextFromModel();
             jComboBox1.setSelectedIndex(0);
-        } catch (ParseException ex)
+        }
+        catch (ParseException ex)
         {
             ex.printStackTrace();
         }
@@ -392,7 +393,8 @@ public class PathEditPane extends javax.swing.JPanel {
                     pathPanel1.setPath(p0);
                     pathPanel1.repaint();
                     updateTextFromModel();
-                } catch(Exception ex)
+                }
+                catch(Exception ex)
                 {
                     ex.printStackTrace();
                 }
@@ -411,7 +413,8 @@ public class PathEditPane extends javax.swing.JPanel {
             pathPanel1.setGrid(fl);
             pathPanel1.repaint();
             return fl;
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
         }
         return null;
@@ -434,7 +437,8 @@ public class PathEditPane extends javax.swing.JPanel {
             pathPanel1.setZoomFactor(fl);
             pathPanel1.repaint();
             return fl;
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
         }
         return null;
@@ -453,7 +457,8 @@ public class PathEditPane extends javax.swing.JPanel {
             ArrayList<TokenizerString> tokens = null;
             try {
                 tokens = Tokenizer.retrieveTokenStrings(new StringBuilder(grammar));
-            } catch(ParseException pe)
+            }
+            catch(ParseException pe)
             {
                 pe.printStackTrace();
             }
@@ -472,13 +477,16 @@ public class PathEditPane extends javax.swing.JPanel {
                     break;
                 }
             }
-        } catch (IllegalArgumentException ex)
+        }
+        catch (IllegalArgumentException ex)
         {
             ex.printStackTrace();
-        } catch (IllegalAccessException ex)
+        }
+        catch (IllegalAccessException ex)
         {
             ex.printStackTrace();
-        } catch (ParseException ex)
+        }
+        catch (ParseException ex)
         {
             ex.printStackTrace();
         }

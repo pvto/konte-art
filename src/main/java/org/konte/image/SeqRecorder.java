@@ -72,7 +72,8 @@ public class SeqRecorder {
                         }
                         if (maxState == 0 || state != 0 || finishFlag++<1)
                             schedTask(timer, Math.max(1,frequency - (System.currentTimeMillis() - start)));
-                    } catch (IOException ex)
+                    }
+                    catch (IOException ex)
                     {
                         ex.printStackTrace();
                     }

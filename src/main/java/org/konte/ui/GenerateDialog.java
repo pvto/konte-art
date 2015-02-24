@@ -222,7 +222,8 @@ public class GenerateDialog extends javax.swing.JFrame {
             int height = Integer.parseInt(this.heightLabel.getText());
             if (width <= 0 || height <= 0)
                 return;
-        } catch(Exception ex)
+        }
+        catch(Exception ex)
         {
             return;
         }
