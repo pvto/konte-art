@@ -465,7 +465,9 @@ public class Language {
             curIdName[i]++;
             if (curIdName[i] > 'Z') {
                 curIdName[i] = 'A';
-            } else {
+            }
+            else
+            {
                 break;
             }
         }

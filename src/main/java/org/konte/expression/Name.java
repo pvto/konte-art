@@ -56,7 +56,9 @@ public class Name implements ExpressionFinal {
             InnerExpressiveToken matchingToken = (InnerExpressiveToken) token;
             Name backRefExpression = BackReferenceFactory.newBackReference(matchingToken, name, model);
             return backRefExpression;
-        } else {
+        }
+        else
+        {
             if (token != null) {
                 Name n = BackReferenceFactory.newBackReference(token, model);
                 if (n != null) {
@@ -84,10 +86,14 @@ public class Name implements ExpressionFinal {
                 if (constant.isMacro) {
                     d = constant.value.evaluate();
                     return d;
-                } else {
+                }
+                else
+                {
                     return constant.constVal;
                 }
-            } else {
+            }
+            else
+            {
                 return (d = this.gene.model.context.getDef(id)) == null ? 0f : d;
             }
         }
@@ -96,14 +102,18 @@ public class Name implements ExpressionFinal {
         constancyEvaluated = true;
         if (constant == null) {
             return (d = this.gene.model.context.getDef(id)) == null ? 0f : d;
-        } else {
+        }
+        else
+        {
 
             Expression val;
             if (constant.isMacro) {
                 d = constant.value.evaluate();
 
                 return d;
-            } else {
+            }
+            else
+            {
                 return constant.constVal;
             }
         }

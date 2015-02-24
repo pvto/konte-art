@@ -140,7 +140,9 @@ public class Tokens {
             if (allowedParameterCounts != null && allowedParameterCounts.length > 0) {
                 Arrays.sort(allowedParameterCounts);
                 paramcnts = allowedParameterCounts;
-            } else {
+            }
+            else
+            {
                 paramcnts = new Integer[]{1};
             }
         }
@@ -334,7 +336,9 @@ public class Tokens {
             if (value instanceof Value || isDef) {
                 isMacro = false;
                 constVal = value.evaluate();
-            } else {
+            }
+            else
+            {
                 isMacro = true;
             }
         }

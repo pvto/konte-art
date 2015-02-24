@@ -63,7 +63,9 @@ public class LinearColorSpace extends ColorSpaceImpl {
             rgbas[1] = bounds1(lwr.G.evaluate());
             rgbas[2] = bounds1(lwr.B.evaluate());
             rgbas[3] = bounds1(lwr.A.evaluate());
-        } else {
+        }
+        else
+        {
             float xsize = tmpmax - tmpmin;
             if (xsize == 0)
             {
@@ -71,7 +73,9 @@ public class LinearColorSpace extends ColorSpaceImpl {
                 rgbas[1] = bounds1(lwr.G.evaluate());
                 rgbas[2] = bounds1(lwr.B.evaluate());
                 rgbas[3] = bounds1(lwr.A.evaluate());
-            } else {
+            }
+            else
+            {
                 xsize = (x-tmpmin)/xsize;
                 tmp = lwr.R.evaluate();
                 rgbas[0] = bounds1(tmp + (hgr.R.evaluate() - tmp)*xsize);

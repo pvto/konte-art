@@ -294,7 +294,9 @@ public class Ui extends MyJFrame {
             };
             StringSelection contents = new StringSelection(rgb);
             cb.setContents(contents, owner);
-        } else {
+        }
+        else
+        {
 
         }
     }
@@ -425,7 +427,9 @@ public class Ui extends MyJFrame {
                     e.printStackTrace();
                 }
             }
-        } else {
+        }
+        else
+        {
             saveWithName();
         }
     }
@@ -1320,7 +1324,9 @@ public class Ui extends MyJFrame {
                 incrementVariationKey();
             if (width == -1) width = ev.getView().getIcon().getIconWidth();
             if (height == -1) height = ev.getView().getIcon().getIconHeight();
-        } else {
+        }
+        else
+        {
             while(ev.getView().getWidth() <= 0)
             {
                 org.konte.misc.Func.sleep(10);

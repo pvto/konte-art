@@ -321,7 +321,9 @@ public class BackReferenceFactory {
                     return modl.context.getBitmap();
                 }
             };*/
-        } else {
+        }
+        else
+        {
             throw new ParseException("Unconstruable inner token " + name + " in expression.");
         }
 

@@ -72,7 +72,9 @@ public class ExpressionParser {
                         min = priority[j];
                         place = j;
                     }
-                } else {
+                }
+                else
+                {
                     if (priority[j] < curPrio)
                     {
                         break;
@@ -112,7 +114,9 @@ public class ExpressionParser {
                         min = priority[j];
                         place = j;
                     }
-                } else {
+                }
+                else
+                {
                     if (priority[j] < curPrio)
                     {
                         break;
@@ -202,7 +206,9 @@ public class ExpressionParser {
                     if (place != -1)
                     {
                         ((ExpressionFunction) exps[funcStack.pop()]).setArg(curAN, exps[place]);
-                    } else {
+                    }
+                    else
+                    {
                         funcStack.pop();
                     }
 
@@ -212,10 +218,14 @@ public class ExpressionParser {
                     if (exps[ref[i]] == null)
                     {
 
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException("Unknown content at left bracket");
                     }
-                } else {
+                }
+                else
+                {
                     throw new ParseException("missing left bracket ");
                 }
 
@@ -251,7 +261,9 @@ public class ExpressionParser {
                             {
                         exps[i] = new Negation(null);
                         priority[i] = cur + Language.NEGATION_PRIORITY;
-                    } else {
+                    }
+                    else
+                    {
                         exps[i] = new Subtraction(null, null);
                     }
                 }
@@ -314,7 +326,9 @@ public class ExpressionParser {
                         if (tt.get(i+2)==Language.right_bracket)
                         {
                             name += "%FOO%"+(oneToOneContextualF++);
-                        } else {
+                        }
+                        else
+                        {
                             if (tt.get(i+3)!=Language.right_bracket)
                             {
                                 throw new ParseException("after " + t + " (<name>) or () expected");
@@ -339,7 +353,9 @@ public class ExpressionParser {
                 funcStack.push(i);
                 argStack.push(i + 1);
                 curargStack.push(0);
-            } else {
+            }
+            else
+            {
                 if (!(i==0 || u instanceof Comparator || u instanceof org.konte.lang.Tokens.Operator
                     || u==Language.left_bracket || 
                     (funcStack.size()>0 && u == Language.comma)))
@@ -348,12 +364,16 @@ public class ExpressionParser {
                 if (t instanceof Constant)
                 {
                     exps[i] = ((Constant)t).value;
-                } else {
+                }
+                else
+                {
                     Float tmp = Language.returnAsValue(t.name);
                     if (tmp != null)
                     {
                         exps[i] = new Value(tmp);
-                    } else {
+                    }
+                    else
+                    {
                         exps[i] = Name.createExpressionFinalName(t.name);
                     }
                 }

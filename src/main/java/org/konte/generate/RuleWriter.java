@@ -175,12 +175,16 @@ public class RuleWriter {
                         {
                             ex.printStackTrace();
                         }
-                    } else {
+                    }
+                    else
+                    {
                         outoftheway.add(expansions);
                         expansions = new LinkedList<Expansion>();
                     }
                 }
-            } else {
+            }
+            else
+            {
                 if (outoftheway.size() > 0)
                 {
                     Expansion e = outoftheway.remove(); 
@@ -228,7 +232,9 @@ public class RuleWriter {
                             ois = null;
                         }
                     }                
-                } else { 
+                }
+                else
+                {
                     drained = true;
                 }
             } 
@@ -336,7 +342,9 @@ public class RuleWriter {
         if (shapes.size() < 1000 || !(sr instanceof StreamingShapeReader) && shapes.size() < 100000)
         {
             shapes.add(s);
-        } else {
+        }
+        else
+        {
             if (shapes.size() > 200000)
             {
                 //reader has trouble keeping up... wait
@@ -445,7 +453,9 @@ public class RuleWriter {
                 processShapeTransform(t, post);
                 model.context = repPoint;
             }
-        } else {
+        }
+        else
+        {
             Expansion e = null;
             if (st.indexedNd < 0) { // PEEK,POP
                 DrawingContext p = st.transform(model.context);
@@ -477,7 +487,9 @@ public class RuleWriter {
                     throw new ParseException("Untransformable id not found: " + st.poppedContinuation);
                 }
                 e = new Expansion(p, st.poppedContinuation);
-            } else {
+            }
+            else
+            {
                 e = new Expansion(st.transform(model.context), st.indexedNd);
             }
             if (e.point.getMinWidth() >= model.minfeaturesize)
@@ -505,7 +517,9 @@ public class RuleWriter {
         if (pr.closed == 2)
         {
             ut = Language.getUntransformable(pr.id);
-        } else {
+        }
+        else
+        {
             ut = pr.createUntransformable();
         }
         cur.shape = ut;

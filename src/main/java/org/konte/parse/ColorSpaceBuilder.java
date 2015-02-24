@@ -49,7 +49,9 @@ public class ColorSpaceBuilder {
                     for (int i = 0; i < coords.size() - dimension; i++)
                         point.point.add(Value.ZERO);
                 }
-            } else {
+            }
+            else
+            {
                 int tmp = dimension - coords.size();
                 for (int i = 0; i < tmp; i++)
                     coords.add(Value.ZERO);

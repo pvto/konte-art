@@ -105,7 +105,9 @@ public class Complex implements Serializable  {
             }
             double q = real / imaginary;
             return (Math.abs(imaginary) * Math.sqrt(1 + q*q));
-        } else {
+        }
+        else
+        {
             if (real == 0.0) {
                 return Math.abs(imaginary);
             }
@@ -215,7 +217,9 @@ public class Complex implements Serializable  {
             double denominator = c * q + d;
             return createComplex((real * q + imaginary) / denominator,
                 (imaginary * q - real) / denominator);
-        } else {
+        }
+        else
+        {
             if (c == 0.0) {
                 return createComplex(imaginary/d, -real/c);
             }
@@ -249,14 +253,20 @@ public class Complex implements Serializable  {
         
         if (this == other) { 
             ret = true;
-        } else if (other == null) {
+        }
+        else if (other == null) 
+        {
             ret = false;
-        } else  {
+        }
+        else
+        {
             try {
                 Complex rhs = (Complex)other;
                 if (rhs.isNaN()) {
                     ret = this.isNaN();
-                } else {
+                }
+                else
+                {
                 ret = (Double.doubleToRawLongBits(real) ==
                         Double.doubleToRawLongBits(rhs.getReal())) &&
                     (Double.doubleToRawLongBits(imaginary) ==
@@ -761,7 +771,9 @@ public class Complex implements Serializable  {
         double t = Math.sqrt((Math.abs(real) + abs()) / 2.0);
         if (real >= 0.0) {
             return createComplex(t, imaginary / (2.0 * t));
-        } else {
+        }
+        else
+        {
             return createComplex(Math.abs(imaginary) / (2.0 * t),
                 MathUtils.indicator(imaginary) * t);
         }

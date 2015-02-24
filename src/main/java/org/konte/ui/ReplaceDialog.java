@@ -78,7 +78,9 @@ public class ReplaceDialog extends javax.swing.JFrame {
             this.findF.requestFocus();
             KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventPostProcessor(pp);
             KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventPostProcessor(pp);
-        } else {
+        }
+        else
+        {
             KeyboardFocusManager.getCurrentKeyboardFocusManager().removeKeyEventPostProcessor(pp);
         }
     }
@@ -126,7 +128,9 @@ public class ReplaceDialog extends javax.swing.JFrame {
                         orig.substring(pos2 + text.length())
                     );
                 end = pos2 + replaceF.getText().length();
-            } else {
+            }
+            else
+            {
                 end = pos2 + text.length();
             }
             return pos2;
@@ -288,7 +292,9 @@ public class ReplaceDialog extends javax.swing.JFrame {
             target.setCaretPosition(ind);
             target.setSelectionStart(ind);
             target.setSelectionEnd(end == ind ? ind + findF.getText().length()+1 : end);
-        } else {
+        }
+        else
+        {
             target.setCaretPosition(0);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -300,7 +306,9 @@ public class ReplaceDialog extends javax.swing.JFrame {
             target.setCaretPosition(ind);
             target.setSelectionStart(ind);
             target.setSelectionEnd(end);
-        } else {
+        }
+        else
+        {
             target.setCaretPosition(0);
         }
     }//GEN-LAST:event_jButton2ActionPerformed

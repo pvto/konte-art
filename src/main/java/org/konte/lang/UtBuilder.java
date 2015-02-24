@@ -29,9 +29,13 @@ public class UtBuilder implements
         }
         else if (name.equals("MESH") ) {
             u = new Untransformable.Dummy(name);
-        } else if (controlPoints != null) {
+        }
+        else if (controlPoints != null) 
+        {
             u = new Untransformable.Curve(name, nextId--, shapes, controlPoints);
-        } else {
+        }
+        else
+        {
             u = new Untransformable.Polygon(name, nextId--, shapes, controlPoints);
         }
         instances.add(u);
@@ -50,7 +54,9 @@ public class UtBuilder implements
     public static UtBuilder getUtBuilder() {
         if (instance == null) {
             instance = new UtBuilder();
-        } else {
+        }
+        else
+        {
             instance.clearShapes();
         }
         return instance;
@@ -86,7 +92,9 @@ public class UtBuilder implements
             Matrix4[] cp2 = Arrays.copyOf(mm, 2);
             if (mm.length == 1) {
                 cp2[1] = cp2[0];
-            } else if (mm.length == 0) {
+            }
+            else if (mm.length == 0) 
+            {
                 cp2[0] = cp2[1] = Matrix4.ZERO;
             }
             cps.add(cp2);

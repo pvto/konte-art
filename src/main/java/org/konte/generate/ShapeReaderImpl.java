@@ -654,7 +654,9 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         if (ind >= 0)
         {
             
-        } else {
+        }
+        else
+        {
             this.layers.put(l.layerIndex, l);            
             layerInd.add(-(ind+1),l);
         }

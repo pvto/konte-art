@@ -274,7 +274,9 @@ class SunflowExporter extends AbstractExporterBase {
                 bd.append("  triangles 2\n");
                 bd.append(String.format("\t%s\t%s\t%s\n",0,1,2));
                 bd.append(String.format("\t%s\t%s\t%s\n",0,3,2));
-            } else {
+            }
+            else
+            {
                 bd.append(cnt).append("\n");
                 for (List<Matrix4> l : shape.getShapes())
                 {

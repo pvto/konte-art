@@ -119,10 +119,14 @@ public class PathRule extends Rule {
             {
                 if (i > 0 && steps.get(i - 1).type == PathRule.MOVE_TO) {   // two relative movetos are consumed in the last
                     points.set(points.size() - 1, translation(ph.data));
-                } else {
+                }
+                else
+                {
                     points.add(translation(ph.data));
                 }
-            } else {
+            }
+            else
+            {
                 points.add(translation(ph.data));
             }
 

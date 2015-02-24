@@ -138,7 +138,9 @@ public class PathEditPane extends javax.swing.JPanel {
                         grabbedNode = sel[0];
                         if (sel[1] != -1)
                             grabbedNode += (sel[1]+1) * 0x1000;
-                    } else {
+                    }
+                    else
+                    {
                         if (x0 != null)
                         {
                             pathPanel1.setP0(
@@ -176,7 +178,9 @@ public class PathEditPane extends javax.swing.JPanel {
                             Matrix4[] bends2 = pathPanel1.getPath().getControlPoints().get(sel[2]).get(node2);
                             bends2[1-bend] = Matrix4.translation(mx, my, bends2[1-bend].m23);
                         }
-                    } else {
+                    }
+                    else
+                    {
                         List<Matrix4> list = pathPanel1.getPath().getShapes().get(sel[2]);
                         list.set(grabbedNode, Matrix4.translation(mx, my, list.get(grabbedNode).m23));
                         if (e.isAltDown())

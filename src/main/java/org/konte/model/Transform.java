@@ -75,7 +75,9 @@ public class Transform {
             defs.get(i).definition = lexpr; // forsake existing definition
             defs.get(i).isUndef = isUndef;
             return defs.get(i);
-        } else {
+        }
+        else
+        {
             defs.add(def);
             return def;
         }
@@ -162,7 +164,9 @@ public class Transform {
                         throw new ParseException("bitmap referent not found: " +
                                 aq.exprs.get(i).toString());
                     aq.exprs.set(i, new Value((float)ind));*/
-                } else {
+                }
+                else
+                {
                     try {
                         if ((res[i] = aq.exprs.get(i).evaluate()) == null)
                         {
@@ -234,7 +238,9 @@ public class Transform {
                     {
                         tmp = aq.getTransform(f);
                         if (tmp == null) throw new NullPointerException();
-                    } else {
+                    }
+                    else
+                    {
                         tmp = tmp.multiply(aq.getTransform(f));
                     }
                 }
@@ -319,7 +325,9 @@ public class Transform {
                     continuationNames.add(((Name)lexpr).toString());
                     continuationStack.add(-1);  // will be replaced by Model.initialize() 
                 }
-            } else {
+            }
+            else
+            {
                 
                 
                 
@@ -388,13 +396,17 @@ public class Transform {
             if (old.pushstack == null || old.pushstack.length == 0)
             {
                 poppedContinuation = Integer.MIN_VALUE;
-            } else {
+            }
+            else
+            {
                 poppedContinuation = old.pushstack[old.pushstack.length-1]; // will be picked up by rulewriter
                 if (indexedNd == -3) { // POP
                     if (old.pushstack.length > 1)
                     {
                         old.pushstack = Arrays.copyOf(old.pushstack, old.pushstack.length-1);
-                    } else {
+                    }
+                    else
+                    {
                         old.pushstack = null;
                     }
                 }
@@ -416,7 +428,9 @@ public class Transform {
             oldpos = Math.max(0, this.continuationStack.size() - size);
             while(i < newt.pushstack.length)
                 newt.pushstack[i++] = this.continuationStack.get(oldpos++);
-        } else {
+        }
+        else
+        {
              newt.pushstack = old.pushstack;
         }
 
@@ -462,7 +476,9 @@ public class Transform {
             newt.defs = old.defs;
         // if there are changes to parent,    
         // first add all definitions from old object for the transform            
-        } else {
+        }
+        else
+        {
             int thisind = 0;            
             tmpdef.clear();
             if (old.defs != null) 
@@ -486,11 +502,15 @@ public class Transform {
                     {
                         if (dd!=null) tmpdef.remove(thisind);
                         stind++;
-                    } else {
+                    }
+                    else
+                    {
                         if (dd!=null)
                         {
                             dd.defval = sd.definition.evaluate();
-                        } else {
+                        }
+                        else
+                        {
                             tmpdef.add(thisind,new Def(sd.nameId,sd.definition.evaluate()));
                         }
                         thisind++;                    

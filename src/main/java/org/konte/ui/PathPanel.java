@@ -284,7 +284,9 @@ public class PathPanel extends JPanel {
                     if (i == lastActiveNode)
                     {
                         point.R = point.G = point.B = 0.3f;
-                    } else {
+                    }
+                    else
+                    {
                         point.R = point.G = point.B = 0f;
                     }
                     canvas.drawPolygon(camera, point.toOutputShape());
@@ -300,7 +302,9 @@ public class PathPanel extends JPanel {
                         if (i == lastActiveNode)
                         {
                             point.R = point.G = point.B = 1f;
-                        } else {
+                        }
+                        else
+                        {
                             point.R = point.G = point.B = 0.5f;
                         }
                         canvas.drawPolygon(camera, point.toOutputShape());

@@ -42,7 +42,9 @@ public class Path extends Untransformable implements Serializable {
         if (closed == 2)
         {
             out.writeInt(id);
-        } else {
+        }
+        else
+        {
             out.writeObject(shapes);
             out.writeObject(controlPoints);
         }
@@ -66,7 +68,9 @@ public class Path extends Untransformable implements Serializable {
             isCurved = u.isCurved;
             shapes = u.shapes;
             controlPoints = u.controlPoints;
-        } else {
+        }
+        else
+        {
             isCurved = true;
             shapes = (ArrayList<ArrayList<Matrix4>>)in.readObject();
             controlPoints = (ArrayList<ArrayList<Matrix4[]>>)in.readObject();

@@ -154,7 +154,9 @@ public final class Matrix4 implements Serializable {
             m31 = m[13];
             m32 = m[14];
             m33 = m[15];
-        } else {
+        }
+        else
+        {
             m00 = m[0];
             m01 = m[4];
             m02 = m[8];

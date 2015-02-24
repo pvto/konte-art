@@ -109,7 +109,9 @@ public class SvgImport {
                     h = h*unit_tbl[i];
                 }
             }
-        } else {
+        }
+        else
+        {
             w = 1.0f;
             h = 1.0f;
         }
@@ -206,7 +208,9 @@ public class SvgImport {
                 {
                     pr.steps.add(new Placeholder(PathRule.CLOSE, null));
                 }
-            } else {
+            }
+            else
+            {
                 float val = Float.parseFloat(token);
                 if (!Character.isLowerCase(lastDig) || pr.steps.size() == 0)
                 {
@@ -255,7 +259,9 @@ public class SvgImport {
                         lastData = data;
                     data = new Expression[3];
                     data[2] = new Value(0f);
-                } else {
+                }
+                else
+                {
                     pl++;
                 }
             }
@@ -302,7 +308,9 @@ public class SvgImport {
                         {
                             int rgb = Integer.parseInt(style.substring(ind+6,ind+12), 16);
                             col = new Color(rgb);
-                        } else {
+                        }
+                        else
+                        {
                             col = Color.BLACK;
                         }
                         bd.append(String.format(Locale.ENGLISH,

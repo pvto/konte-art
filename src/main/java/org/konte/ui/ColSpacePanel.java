@@ -124,7 +124,9 @@ public class ColSpacePanel extends JPanel {
                     g.fillRect(i, 0, 1, (int)height);
                 }
 
-            } else {
+            }
+            else
+            {
                 long startTime = System.currentTimeMillis();
                 int it0 = 0, it = 0;
                 int step = curStep;

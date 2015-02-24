@@ -141,7 +141,9 @@ public class Parser {
                     ret.add(first);
                     return startpos;
                 }
-            } else {
+            }
+            else
+            {
                 throw new ParseException("Expression starts: expecting ( or - or function declaration, found " + t, lineNr, caretPos);
             }
         }
@@ -220,7 +222,9 @@ public class Parser {
         {
             throw new ParseException("Unexpected  ) \n " +
                     ret.toString(), lineNr, caretPos);
-        } else {
+        }
+        else
+        {
             if (t==Language.right_bracket && 
                     last instanceof org.konte.lang.Tokens.Operator)
                 throw new ParseException("Expression terminates with " + last,
@@ -353,7 +357,9 @@ public class Parser {
                     } else if (t == Language.fx)
                     {
                         curCtx = ParsingContext.FX;
-                    } else {
+                    }
+                    else
+                    {
                         if (t != null)
                             throw new ParseException(
                                 "Misplaced token at root level: " + s, lineNr, caretPos);
@@ -366,7 +372,9 @@ public class Parser {
                     {
                         curCtx = Parser.ParsingContext.MODEL;
                         pos = 0;
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException(
                                 "Misplaced token after 'model': " + s, lineNr, caretPos);
                     }
@@ -420,7 +428,9 @@ public class Parser {
                                 m.shapeReader = ShapeReaders.getReader(s, m);
                             }
                             pos = 0;
-                        } else {
+                        }
+                        else
+                        {
                             Float v = Language.returnAsValue(s);
                             if (v == null)
                                 throw new ParseException("Expecting plain value in model settings near " + s, lineNr, caretPos);
@@ -438,7 +448,9 @@ public class Parser {
                             }
                             pos = 0;
                         }
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException(
                                 "model - not expecting " + s +
                                 "", lineNr, caretPos);
@@ -450,7 +462,9 @@ public class Parser {
                         ltfm = new Transform("background");
                         m.backgroundTransform = ltfm;
                         curCtx = Parser.ParsingContext.BACKGROUND;
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException(
                                 "Misplaced token after 'background': " + s, lineNr, caretPos);
                     }
@@ -467,7 +481,9 @@ public class Parser {
                             isSpecialContext = true;
                             lexprs.clear();  
                             pos = 0;
-                        } else {
+                        }
+                        else
+                        {
                             throw new ParseException("background - not expecting " + s +
                                     ". Valid tokens are R G B A H S L RGB", lineNr, caretPos);
                         }
@@ -476,7 +492,9 @@ public class Parser {
                         lastInnerToken = null;
                         curCtx = contextStack.pop();
                         isSpecialContext = false;
-                    } else {
+                    }
+                    else
+                    {
                         if (!isSpecialContext)
                         {
                             throw new ParseException("background - expecting R G B A H S or L before " + s, lineNr, caretPos);
@@ -488,7 +506,9 @@ public class Parser {
                             lexprs = decodeHtmlRgb(s);
                             ltfm.setShapeTransform(lastInnerToken, lexprs);
                             lastInnerToken = null;
-                        } else {
+                        }
+                        else
+                        {
                             i = getExpressionList(tokenStrings, i, exprL);
                             lexprs.add(lexpr = exprParser.parse(exprL, 0, m));
                             if (!((InnerToken)lastInnerToken).higherParamCountAllowed(++pos))
@@ -545,7 +565,9 @@ public class Parser {
                                 if (fl.exists())
                                 {
                                     img = Model.bitmapCache.add(fl, refName);
-                                } else {
+                                }
+                                else
+                                {
                                     img = Model.bitmapCache.add(new URL(matcher.group(1)), refName);
                                 }
                                 if (img == null)
@@ -562,7 +584,9 @@ public class Parser {
                                         "bitmap %s not loaded: %s", matcher.group(1), ex.getMessage()),
                                         lineNr, caretPos);
                             }
-                        } else {
+                        }
+                        else
+                        {
                             File fl = getFile(workdir, lastName);
                             StringBuilder tmp = Readers.fillStringBuilder(fl);
                             if (tmp == null || tmp.length() < 1)
@@ -677,7 +701,9 @@ public class Parser {
                             lightBd.name(s);
                         } else 
                             throw new ParseException("'light' must be followed by a name or a  '{' - found " + s, lineNr, caretPos);
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException("Repeated name definition for light: " + lastName + "," + s, lineNr, caretPos);
                     }
                     break;   
@@ -732,7 +758,9 @@ public class Parser {
                         contextStack.push(curCtx);
                         lrstfm = new Transform();
                         curCtx = ParsingContext.LIGHT_ADJUSTMENTS;
-                    } else {
+                    }
+                    else
+                    {
                         for (LightModifier mod: LightModifier.values())
                         {
                             if (s.compareTo(mod.name())==0)
@@ -768,7 +796,9 @@ public class Parser {
                     } else if (t==Language.left_curl)
                     {
                         curCtx = Parser.ParsingContext.SHADING;
-                    }else {
+                    }
+                    else
+                    {
                         throw new ParseException("Repeated name definition for shading: " + lastName + "," + s, lineNr, caretPos);
                     }
                     break;
@@ -830,7 +860,9 @@ public class Parser {
                     {
                         throw new ParseException(
                                 "Misplaced token after startshape: " + s, lineNr, caretPos);
-                    } else {
+                    }
+                    else
+                    {
                         if (Language.returnAsValue(s) != null)
                         {
                             throw new ParseException(
@@ -847,7 +879,9 @@ public class Parser {
                         ltfm = new Transform("fov");
                         camBd = new CameraBuilder(ltfm);
 
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException(
                                 "Misplaced token after camera: " + s, lineNr, caretPos);
                     }
@@ -861,7 +895,9 @@ public class Parser {
                                 (t == Language.s))
                                 {
                             lastInnerToken = t;
-                        } else {
+                        }
+                        else
+                        {
                             throw new ParseException("Not expecting " + s +
                                     " in camera declaration. Valid tokens are: x y z rx ry rz s", lineNr, caretPos);
                         }
@@ -872,7 +908,9 @@ public class Parser {
                         curCtx = contextStack.pop();
                         m.cameras.add(camBd.build());
                         camBd = null;
-                    } else {
+                    }
+                    else
+                    {
                         boolean used = false;
                         for (CameraProperties prop : CameraProperties.values())
                             if (s.equalsIgnoreCase(prop.toString()))
@@ -893,10 +931,14 @@ public class Parser {
                                     if (camBd.getName() != null)
                                         throw new ParseException("Duplicate camera name " + s, lineNr, caretPos);
                                     camBd.setName(s);
-                                } else {
+                                }
+                                else
+                                {
                                     camBd.addExtra(lexpr);
                                 }
-                            } else {
+                            }
+                            else
+                            {
                                 lexprs.clear();
                                 lexprs.add(lexpr);
                                 ltfm.setShapeTransform(lastInnerToken, lexprs);
@@ -916,11 +958,15 @@ public class Parser {
                         {
                             lastName = s;
                             curCtx = ParsingContext.MACRO_VALUE;
-                        } else {
+                        }
+                        else
+                        {
                             throw new ParseException(
                                     "Missing MACRO/DEF name near " + s, lineNr, caretPos);
                         }
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException(
                                 "Invalid token after MACRO/DEF: " + s, lineNr, caretPos);
                     }
@@ -964,12 +1010,16 @@ public class Parser {
                                             "Rule/path name reserved to a constant: " + s, lineNr, caretPos);
                                 }
                                 wasNamed = true;
-                            } else {
+                            }
+                            else
+                            {
                                 throw new ParseException(
                                         "Invalid syntax: 'rule' or 'path' must be followed by name and weight or '{' " +
                                         "(near " + s + ")", lineNr, caretPos);
                             }
-                        } else {
+                        }
+                        else
+                        {
                             if (!wasNamed)
                             {
                                 throw new ParseException("Missing rule name near " + s, lineNr, caretPos);
@@ -1000,11 +1050,15 @@ public class Parser {
                         {
                             curCtx = Parser.ParsingContext.PATH;
                             isSpecialContext = false;
-                        } else {
+                        }
+                        else
+                        {
                             curCtx = Parser.ParsingContext.RULE;
                         }
                         lastValue = null;
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException(
                                 "Misplaced token after 'rule' or 'path': " + s, lineNr, caretPos);
                     }
@@ -1046,26 +1100,34 @@ public class Parser {
                             {
                                 ltfm = new TerminatingShape(s);
                                 ((TerminatingShape)ltfm).shape = (Untransformable)t;
-                            } else {
+                            }
+                            else
+                            {
                                 ltfm = new Transform(s);
                             }
                             if (lrepeat != null)
                             {
                                 lrepeat.repeatedTransform = ltfm;
                                 lrepeat = null;
-                            } else {
+                            }
+                            else
+                            {
                                 lastRule.addTransform(ltfm);
                             }
                             lastValue = null;
                             contextStack.push(curCtx);
                             curCtx = Parser.ParsingContext.RULE_TRANSFORM_CREATE;
 
-                        } else {
+                        }
+                        else
+                        {
                             lastValue = Language.returnAsValue(s);
                             if (lastValue != null)
                             {
                                 lexpr = new Value(lastValue);
-                            } else {
+                            }
+                            else
+                            {
                                 lexpr = Name.createExpressionFinalName(s);
                             }
                             contextStack.push(curCtx);
@@ -1195,7 +1257,9 @@ public class Parser {
                         lastName = null;
                         lastRule = null;
                         curCtx = contextStack.pop();
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException(
                                 "Misplaced token within " + lastRule + ": " + s, lineNr, caretPos);
                     }
@@ -1205,7 +1269,9 @@ public class Parser {
                     {
                         curCtx = Parser.ParsingContext.TRANSFORM_ADJUSTMENTS;
                         lastValue = null;
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException(
                                 "Misplaced token within " + lastRule + ": " + s, lineNr, caretPos);
                     }
@@ -1253,7 +1319,9 @@ public class Parser {
                                 lrepeat = null;
                             curCtx = contextStack.pop();
                         }
-                    } else {
+                    }
+                    else
+                    {
                         if (lastInnerToken == null)
                         {
                             if (t==Language.left_bracket && i > 0 &&
@@ -1341,7 +1409,9 @@ public class Parser {
                             wasNamed = true;
                         } else
                             throw new ParseException("Missing = in DEFinition block near " + s, lineNr, caretPos);
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException(
                                 "Misplaced token within DEF block: " + s, lineNr, caretPos);
                     }
@@ -1356,7 +1426,9 @@ public class Parser {
                             case RULE_POST_CREATE: curCtx = Parser.ParsingContext.RULE_POST; break;
                         }
                         lastValue = null;
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException(
                                 "Misplaced token after pre or post condition: " + s, lineNr, caretPos);
                     }
@@ -1373,7 +1445,9 @@ public class Parser {
                     } else if (t == Language.right_curl)
                     {
                         curCtx = contextStack.pop();
-                    } else {
+                    }
+                    else
+                    {
                         i = getExpressionList(tokenStrings, i, exprL, Language.IS_SEMICOLON_SEPARATORS?1:0);
                         lexpr = exprParser.parse(exprL, 0, m);
                         switch (curCtx)
@@ -1402,7 +1476,9 @@ public class Parser {
                         } else if (conditionalStack.size() > 0)
                         {
                             conditionalStack.peek().onCondition.add(r);
-                        } else {
+                        }
+                        else
+                        {
                             lastRule.addTransform(r);
                         }
                         lrepeat = r;    // ready for transform iteration
@@ -1414,7 +1490,9 @@ public class Parser {
                         if (isSpecialContext)
                             throw new ParseException("Duplicate *", lineNr, caretPos);
                         isSpecialContext = true;
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException(
                                 "Misplaced token within repeat block: " + s, lineNr, caretPos);
                     }
@@ -1464,7 +1542,9 @@ public class Parser {
                             lastRule.addTransform(cond);
                         lrepeat = null; // repeats always inside if, not the other way round
                         curCtx = Parser.ParsingContext.IF;
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException(
                                 "Misplaced token within block definition: " + s, lineNr, caretPos);
                     }
@@ -1479,7 +1559,9 @@ public class Parser {
                             {
                                 ltfm = new TerminatingShape(s);
                                 ((TerminatingShape)ltfm).shape = (Untransformable)t;
-                            } else {
+                            }
+                            else
+                            {
                                 ltfm = new Transform(s);
                             }
                             if (lrepeat != null)
@@ -1490,12 +1572,16 @@ public class Parser {
                             contextStack.push(curCtx);
                             curCtx = Parser.ParsingContext.RULE_TRANSFORM_CREATE;
 
-                        } else {
+                        }
+                        else
+                        {
                             lastValue = Language.returnAsValue(s);
                             if (lastValue != null)
                             {
                                 lexpr = new Value(lastValue);
-                            } else {
+                            }
+                            else
+                            {
                                 lexpr = Name.createExpressionFinalName(s);
                             }
                             contextStack.push(curCtx);
@@ -1533,7 +1619,9 @@ public class Parser {
                         conditionalStack.pop();
                         lrepeat = null;
                         curCtx = contextStack.pop();
-                    } else {
+                    }
+                    else
+                    {
                         throw new ParseException(
                                 "Misplaced token within  " + lastRule + ": " + s, lineNr, caretPos);
                     }

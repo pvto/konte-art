@@ -90,7 +90,9 @@ public class SvgExporter extends AbstractExporterBase {
                     if (cpt == null)
                     {
                         appLineTo(bd, p.matrix.multiply(pt), cam);
-                    } else {
+                    }
+                    else
+                    {
                         appCurveTo(bd, p.matrix.multiply(cpt[0]),
                                 p.matrix.multiply(cpt[1]),
                                 p.matrix.multiply(pt), cam);

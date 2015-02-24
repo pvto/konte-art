@@ -101,7 +101,9 @@ public final class MathUtils {
         if (a > b) {
             // use symmetry to reduce boundry cases
             ret = addAndCheck(b, a, msg);
-        } else {
+        }
+        else
+        {
             // assert a <= b
             
             if (a < 0) {
@@ -109,21 +111,29 @@ public final class MathUtils {
                     // check for negative overflow
                     if (Long.MIN_VALUE - b <= a) {
                         ret = a + b;
-                    } else {
+                    }
+                    else
+                    {
                         throw new ArithmeticException(msg);
                     }
-                } else {
+                }
+                else
+                {
                     // oppisite sign addition is always safe
                     ret = a + b;
                 }
-            } else {
+            }
+            else
+            {
                 // assert a >= 0
                 // assert b >= 0
 
                 // check for positive overflow
                 if (a <= Long.MAX_VALUE - b) {
                     ret = a + b;
-                } else {
+                }
+                else
+                {
                     throw new ArithmeticException(msg);
                 }
             }
@@ -438,7 +448,9 @@ public final class MathUtils {
             // B5 [reset max(u,v)]
             if (t > 0) {
                 u = -t;
-            } else {
+            }
+            else
+            {
                 v = t;
             }
             // B6/B3. at this point both u and v should be odd.
@@ -616,38 +628,54 @@ public final class MathUtils {
         if (a > b) {
             // use symmetry to reduce boundry cases
             ret = mulAndCheck(b, a);
-        } else {
+        }
+        else
+        {
             if (a < 0) {
                 if (b < 0) {
                     // check for positive overflow with negative a, negative b
                     if (a >= Long.MAX_VALUE / b) {
                         ret = a * b;
-                    } else {
+                    }
+                    else
+                    {
                         throw new ArithmeticException(msg);
                     }
-                } else if (b > 0) {
+                }
+                else if (b > 0) 
+                {
                     // check for negative overflow with negative a, positive b
                     if (Long.MIN_VALUE / b <= a) {
                         ret = a * b;
-                    } else {
+                    }
+                    else
+                    {
                         throw new ArithmeticException(msg);
                         
                     }
-                } else {
+                }
+                else
+                {
                     // assert b == 0
                     ret = 0;
                 }
-            } else if (a > 0) {
+            }
+            else if (a > 0) 
+            {
                 // assert a > 0
                 // assert b > 0
                 
                 // check for positive overflow with positive a, positive b
                 if (a <= Long.MAX_VALUE / b) {
                     ret = a * b;
-                } else {
+                }
+                else
+                {
                     throw new ArithmeticException(msg);
                 }
-            } else {
+            }
+            else
+            {
                 // assert a == 0
                 ret = 0;
             }
@@ -677,7 +705,9 @@ public final class MathUtils {
         // handling of some important special cases
         if (Double.isNaN(d) || Double.isInfinite(d)) {
                 return d;
-        } else if (d == 0) {
+        }
+        else if (d == 0) 
+        {
                 return (direction < 0) ? -Double.MIN_VALUE : Double.MIN_VALUE;
         }
         // special cases MAX_VALUE to infinity and  MIN_VALUE to 0
@@ -694,17 +724,23 @@ public final class MathUtils {
                 if (mantissa == 0x000fffffffffffffL) {
                         return Double.longBitsToDouble(sign |
                                         (exponent + 0x0010000000000000L));
-                } else {
+                }
+                else
+                {
                         return Double.longBitsToDouble(sign |
                                         exponent | (mantissa + 1));
                 }
-        } else {
+        }
+        else
+        {
                 // we should decrease the mantissa
                 if (mantissa == 0L) {
                         return Double.longBitsToDouble(sign |
                                         (exponent - 0x0010000000000000L) |
                                         0x000fffffffffffffL);
-                } else {
+                }
+                else
+                {
                         return Double.longBitsToDouble(sign |
                                         exponent | (mantissa - 1));
                 }
@@ -769,7 +805,9 @@ public final class MathUtils {
         } catch (NumberFormatException ex) {
             if (Double.isInfinite(x)) {
                 return x;          
-            } else {
+            }
+            else
+            {
                 return Double.NaN;
             }
         }
@@ -824,7 +862,9 @@ public final class MathUtils {
         case BigDecimal.ROUND_CEILING :
             if (sign == -1) {
                 unscaled = Math.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
-            } else {
+            }
+            else
+            {
                 unscaled = Math.ceil(nextAfter(unscaled, Double.POSITIVE_INFINITY));
             }
             break;
@@ -834,7 +874,9 @@ public final class MathUtils {
         case BigDecimal.ROUND_FLOOR :
             if (sign == -1) {
                 unscaled = Math.ceil(nextAfter(unscaled, Double.POSITIVE_INFINITY));
-            } else {
+            }
+            else
+            {
                 unscaled = Math.floor(nextAfter(unscaled, Double.NEGATIVE_INFINITY));
             }
             break;
@@ -843,7 +885,9 @@ public final class MathUtils {
             double fraction = unscaled - Math.floor(unscaled);
             if (fraction > 0.5) {
                 unscaled = Math.ceil(unscaled);
-            } else {
+            }
+            else
+            {
                 unscaled = Math.floor(unscaled);
             }
             break;
@@ -852,9 +896,13 @@ public final class MathUtils {
             double fraction = unscaled - Math.floor(unscaled);
             if (fraction > 0.5) {
                 unscaled = Math.ceil(unscaled);
-            } else if (fraction < 0.5) {
+            }
+            else if (fraction < 0.5) 
+            {
                 unscaled = Math.floor(unscaled);
-            } else {
+            }
+            else
+            {
                 // The following equality test is intentional and needed for rounding purposes
                 if (Math.floor(unscaled) / 2.0 == Math.floor(Math
                     .floor(unscaled) / 2.0)) { // even
@@ -870,7 +918,9 @@ public final class MathUtils {
             double fraction = unscaled - Math.floor(unscaled);
             if (fraction >= 0.5) {
                 unscaled = Math.ceil(unscaled);
-            } else {
+            }
+            else
+            {
                 unscaled = Math.floor(unscaled);
             }
             break;
@@ -1028,10 +1078,14 @@ public final class MathUtils {
         if (b == Long.MIN_VALUE) {
             if (a < 0) {
                 ret = a - b;
-            } else {
+            }
+            else
+            {
                 throw new ArithmeticException(msg);
             }
-        } else {
+        }
+        else
+        {
             // use additive inverse
             ret = addAndCheck(a, -b, msg);
         }

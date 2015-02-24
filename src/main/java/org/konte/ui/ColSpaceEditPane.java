@@ -61,7 +61,9 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
                             grabbedPoint = pivot;
                             System.out.println("drag at " + pivot);
                         }
-                    } else {
+                    }
+                    else
+                    {
                         ColorSpace cspace = colSpacePanel1.getColorSpace();
                         RGBA rgba = cspace.getPivots().get(grabbedPoint);
                         float x = colSpacePanel1.getColSpaceX(e.getX());
@@ -110,7 +112,9 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
                                 colSpacePanel1.getColSpaceY(e.getY())
                             };
                             insertPivot(coords);
-                        } else {
+                        }
+                        else
+                        {
                             colSpacePanel1.setLastActive(pivot);
                             changePivotColor();
                         }
@@ -166,7 +170,9 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
         {
             dim = JOptionPane.showOptionDialog(null, "Select dimension", "Insert shading control point", 0, JOptionPane.PLAIN_MESSAGE,
                 null, new Object[] { " 1", " 2" }, null);
-        } else {
+        }
+        else
+        {
             dim = colSpacePanel1.getColorSpace().getDimension() - 1;
         }
 
@@ -289,7 +295,9 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
             {
             }
 
-        } else {
+        }
+        else
+        {
             jTextField1.setText("Select a pivot first");
         }
     }

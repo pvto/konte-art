@@ -606,7 +606,9 @@ public abstract class TransformModifier {
                 st.R = bounds1(st.R + delta[0]);
                 st.G = bounds1(st.G + delta[0]);
                 st.B = bounds1(st.B + delta[0]);
-            } else {
+            }
+            else
+            {
                 st.R = bounds1(delta[0]);
                 st.G = bounds1(delta[1]);
                 st.B = bounds1(delta[2]);

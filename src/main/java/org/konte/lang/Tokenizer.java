@@ -34,7 +34,9 @@ public class Tokenizer {
             {
                 offset++;
                 break;
-            } else {
+            }
+            else
+            {
                 checkEndline();
             }
             if (b.length() <= ++offset) {
@@ -64,7 +66,9 @@ public class Tokenizer {
             {
                 token = b.substring(orig, offset - 1);
                 return;
-            } else if (c == 'n') {
+            }
+            else if (c == 'n') 
+            {
                 lineNr++;
             } else if (offset == b.length() - 1)
                 throw new ParseException("Unterminated character literal \"" + b.substring(orig) + "\"", 0, orig);
@@ -83,7 +87,9 @@ public class Tokenizer {
                     offset += 2;
                     parseCommentLine();
                     return true;
-                } else if (b.charAt(offset + 1) == '*') {
+                }
+                else if (b.charAt(offset + 1) == '*') 
+                {
                     parseMultilineComment();
                     return true;
                 }
@@ -110,7 +116,9 @@ public class Tokenizer {
             offset++;
             parseStringLiteral();
             return;
-        } else if (isCommentChars()) {
+        }
+        else if (isCommentChars()) 
+        {
             return;
         }
 
@@ -134,7 +142,9 @@ public class Tokenizer {
                 {
                     token = b.substring(orig, offset);
                     return;
-                } else if (Language.isControlChar(curchar)) {
+                }
+                else if (Language.isControlChar(curchar)) 
+                {
                     String oper = b.substring(orig, offset + 1);
                     if (Language.tokenByName(oper) != null) {
                        offset++;
@@ -182,7 +192,9 @@ public class Tokenizer {
             String retrievedToken = position.token;
             if (retrievedToken == null || retrievedToken.length() == 0) {
                 // skip
-            } else {
+            }
+            else
+            {
                 tokenStrings.add(new TokenizerString(retrievedToken,tokenLineNr,caret));
             }
         }

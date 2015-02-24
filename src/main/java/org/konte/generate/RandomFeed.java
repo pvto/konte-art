@@ -501,7 +501,9 @@ public class RandomFeed {
             {
                 haveNextNextGaussian = false;
                 return nextNextGaussian;
-            } else {
+            }
+            else
+            {
                 double v1, v2, s;
                 do {
                     int y;
@@ -800,7 +802,9 @@ public class RandomFeed {
             if (cc[i] > (char) ('A' + 25))
             {
                 cc[i] = 'A';
-            } else {
+            }
+            else
+            {
                 return;
             }
         }
