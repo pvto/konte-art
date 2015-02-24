@@ -3,15 +3,16 @@
 ![meshm2.png](img/README/2015-02-24-02-09-meshm2.png)
 [meshm2.c3dg](img/README/meshm2.c3dg)
 
-*This is an art project for generative graphics. Java code is old and crappy, but there are one or two nice things here. I'll be cleaning up the code, and you are warned.*
+Konte is a small formal language and an execution environment for generating png images, "drawing by coding".
 
-Konte is a small formal language and an execution environment for generating png images. It projects arbitrary z-ordered and linearly transformed 3D bezier paths on a Java2D canvas.
+*This is an art project for generative graphics. Its code is old and partly crappy, but there are one or two nice things there. I'll be cleaning up the code, but you are warned.*
 
+ - konte projects arbitrary z-ordered and linearly transformed 3D bezier paths on a Java2D canvas
  - there is no edge clipping, so 3D is "semi" in this way
  - you should avoid excessively large shapes that could create strange overlap effects
  - there is a layering property in the language, so you can draw on multiple layers like in Photoshop
  - there is an ad hoc support for meshes
- - ortographic and cabinet (oblique) perspectives are supported
+ - ordinary, ortographic and cabinet (oblique) perspectives are supported
 
 ![mcs6_9.png](img/README/2015-02-24-02-26-mcs6_9.png)
 [mcs6_9.c3dg](img/README/mcs6_9.c3dg)
@@ -61,7 +62,7 @@ I find flat shapes like squares and circles most useful in the pack.
 ![hearts.png](img/README/2015-02-24-00-36-hearts.png)
 [hearts.c3dg](img/README/hearts.c3dg)
 
-There is a crappy svg path import functionality in konte ui, so you could draw your paths in a vector app or use some clipart paths and import them.  Keep in mind that konte draws in the {0..1,0..1} xy space by default, and it will try to scale an imported bitmap into that space.
+There is a basic svg path import functionality in konte ui, so you could draw your paths in a vector app or use some clipart paths and import them.  Keep in mind that konte draws in the {0..1,0..1} xy space by default, and it will try to scale an imported bitmap into that space.
 
 You can also write a path by hand if you like the excercise.
 
@@ -203,9 +204,9 @@ shading eyeshades {
 
 ![monet-grey](img/README/monet-grey.png)
 
-I created a hairy version of Claude Monet's [painting](http://TODO).
+I created a hairy version of Claude Monet's [Three Trees in Grey Weather](http://www.wikiart.org/en/claude-monet#supersized-featured-212779).
 
-Some constants are defined there using ```DEF```, and also some variables are used within rules (those ```DEF```'s within loops).  Finally, colors are retrieved from a bitmap on the local disk.
+Some constants are defined here using ```DEF```, and also some variables are used within rules (those ```DEF```'s within loops).  Finally, pixel values are retrieved from a bitmap on the local disk.
 ```
 bg {RGB 0.980 0.969 0.914}
 include "~/Pictures/monet-grey.png" img0
