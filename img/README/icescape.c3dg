@@ -4,6 +4,9 @@ DEF VN imgheight(kuva)
 DEF ua (1/UN)
 
 bg {RGB 1 1 1}
+light {point(0,0.1,-1){RGB 1 .9 .9} s 1}
+//light {DARKNESS point(x+rnd(),0.1,-1){RGB 1 1 1} s .5}
+//light {COMPLEMENTARY point(.5,.1,.1){RGB 1 0 0} s .1}
 
 now {
   do { x -.5 y .35 ry 5 DEF {img=kuva}}
@@ -25,4 +28,3 @@ do {
         }
 }
 
-light nn {point(0,0.1,-1){RGB 1 .7 .7} s .5}

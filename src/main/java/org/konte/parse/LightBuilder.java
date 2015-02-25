@@ -16,10 +16,7 @@ import org.konte.model.TransformModifier;
  */
 public class LightBuilder {
 
-    void type(int i)
-    {
-        type = i;
-    }
+    
 
     private Light createDefault(final Expression x, 
                 final Expression y, final Expression z, final Expression strgth, 
@@ -175,8 +172,17 @@ public class LightBuilder {
     private Expression strength;
     private ArrayList<RGBA> points = null;
     private RGBA current = null;    
-    private int type =0;
+    private int type = -1;
 
+    void type(int i)
+    {
+        type = i;
+    }
+    
+    public int getType()
+    {
+        return type;
+    }
     
     public Light build() throws Exception 
     {
@@ -190,7 +196,7 @@ public class LightBuilder {
         
         //final Color c = new Color(pos.getR(),pos.getG(),pos.getB(),pos.getA());
         
-        if (type==0)
+        if (type<=0)
         {
             light = createDefault(x,y,z,strength,rgba);
         } else if (type==1)
@@ -208,7 +214,7 @@ public class LightBuilder {
 
     void clearPointData()
     {
-        type = 0;
+        type = -1;
         if (points == null)
             points = new ArrayList<RGBA>();
         else points.clear();

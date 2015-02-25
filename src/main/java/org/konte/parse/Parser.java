@@ -8,6 +8,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.regex.Matcher;
@@ -768,6 +769,11 @@ public class Parser {
                     }
                     else
                     {
+                        if (lightBd.getType() >= 0)
+                        {
+                            throw new ParseException("Light type was already declared, then received " + s + "", lineNr, caretPos);
+                        }
+                        boolean matched = false;
                         for (LightModifier mod: LightModifier.values())
                         {
                             if (s.compareTo(mod.name())==0)
@@ -776,16 +782,24 @@ public class Parser {
                                 {
                                     case DEFAULT:
                                         lightBd.type(0);
+                                        matched = true;
                                         break;
-                                    case OPPOSITE:
+                                    case COMPLEMENTARY:
                                         lightBd.type(1);
+                                        matched = true;
                                         break;
                                     case DARKNESS:
                                         lightBd.type(2);
+                                        matched = true;
                                         break;
                                         
                                 }
                             }
+                        }
+                        if (!matched)
+                        {
+                            throw new ParseException("Unknown light type: " + s + " – known types are " 
+                                    + Arrays.toString(LightModifier.values()), lineNr, caretPos);
                         }
                     }
                     break;                    

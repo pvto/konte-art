@@ -259,6 +259,31 @@ shading eyeshades {
 
 ##Lighting
 
+Konte allows placing lights in the space.  Rather than lights though they can be thought of as spatial expressions that modify object color.
+
+A light consists of a spatial expression for a point light, a color expression for the light color, a scale expression giving the spherical radius, and an optional type that states if a light should be of complementary color or if it should create darkness instead of light.
+
+```
+light {point(0,0.1,-1){RGB 1 .9 .9} s 1}
+```
+![icescape.png](img/README/2015-02-25-21-49-icescape.png)
+[icescape.c3dg](img/README/icescape.c3dg)
+
+We can mix lights and darkness to create ambient effects.  The spatial expression for a light can backreference shape properties.  In effect this means that, while drawing an object on the screen, all light expressions are evaluated on that object, and object color is modified using this dynamic outcome.
+
+```
+light {point(0,0.1,-1){RGB 1 .9 .9} s 1}
+light {DARKNESS point(x+rnd(),0.1,-1){RGB 1 1 1} s .5}
+```
+![icescape.png](img/README/2015-02-25-22-09-icescape.png)
+
+
+```
+light {point(0,0.1,-1){RGB 1 .9 .9} s 1}
+light {COMPLEMENTARY point(.5,.1,.1){RGB 1 0 0} s .1}
+```
+![icescape.png](img/README/2015-02-25-22-15-icescape.png)
+
 
 ##Drawing meshes
 
@@ -266,9 +291,7 @@ shading eyeshades {
 ##More examples
 
 ![logo_new-c-rec.png](img/README/AAS-logo_new_c_rec.png)
-<!--![binbu.png](img/README/binbu.png)
-![icescape.png](img/README/2015-02-24-01-17-icescape.png)
-[icescape.c3dg](img/README/icescape.c3dg)-->
+<!--![binbu.png](img/README/binbu.png)-->
 
 
 ![monet-grey](img/README/monet-grey.png)
