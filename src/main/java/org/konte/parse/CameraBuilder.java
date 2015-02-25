@@ -98,6 +98,10 @@ public class CameraBuilder {
         
         if ((flag & 128) != 0)
         {
+            if (extra.size() > 2)
+            {
+                throw new ParseException("too many arguments to CABINET camera: " + extra.size());
+            }
             float angle = (float)Math.PI / 6f;
             float zContraction = 0.5f;
             int step = 0;
@@ -124,12 +128,20 @@ public class CameraBuilder {
                     }
                 }
             }
-            System.out.println(angle + " " + zContraction);
             c = new CabinetCamera(angle, zContraction);
         }
         else if ((flag & 64) != 0)
         {
-            c = new CircularCamera();
+            float exp = 1f;
+            if (extra.size() > 1)
+            {
+                throw new ParseException("too many arguments to CIRCULAR camera: " + extra.size());
+            }
+            if (extra.size() > 0)
+            {
+                exp = ((Expression)extra.get(0)).evaluate();
+            }
+            c = new CircularCamera(exp);
         }
         else if ((flag & 32) != 0)
         {

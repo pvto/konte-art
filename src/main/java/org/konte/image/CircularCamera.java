@@ -10,6 +10,13 @@ import org.konte.misc.Vector3;
  */
 public class CircularCamera extends SimpleCamera {
 
+    private final float exp;
+    
+    public CircularCamera(float exp)
+    {
+        this.exp = exp;
+    }
+    
     @Override
     public Point2 mapTo2D(Vector3 v)
     {
@@ -20,7 +27,7 @@ public class CircularCamera extends SimpleCamera {
         {
             return new Point2(0f,0f);
         }
-        float dist = 1f / d.z;
+        float dist = (float)Math.pow(1f / d.z, exp);
         return new Point2((float)Math.cos(alfa) * dist, (float)Math.sin(alfa) * dist);
     }
 }

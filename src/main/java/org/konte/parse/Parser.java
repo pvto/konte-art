@@ -1357,8 +1357,14 @@ public class Parser {
                             lastInnerToken = null;
                             break;
                         }
-                        i = getExpressionList(tokenStrings, i, exprL);
-                        lexpr = exprParser.parse(exprL, 0, m);
+                        try {
+                            i = getExpressionList(tokenStrings, i, exprL);
+                            lexpr = exprParser.parse(exprL, 0, m);
+                        } 
+                        catch(ParseException pe)
+                        {
+                            throw new ParseException(pe.getMessage(), lineNr, caretPos);
+                        }
                         
                         switch (pos)
                         {
