@@ -1,0 +1,11 @@
+scene { myrule {ry 30} }
+myrule 1   { myrule{x .01}  draw{PUSH SQUARE   scale .01 blue .2} }
+myrule .1  { myrule{y .1}   draw{PUSH CIRCLE   scale .01 red .4} }
+myrule .05 { myrule{x -.2}  draw{PUSH TRIANGLE scale .01 green .3} }
+myrule .5  { myrule{y -.02} draw{PUSH RSQU s .01} }
+draw {
+    PEEK{}
+    30*{ z .5 y .01 s .99 A -.01 }
+      PEEK { A -.7 }
+}
+model {maxshapes 100000}

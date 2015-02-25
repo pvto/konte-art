@@ -1,0 +1,17 @@
+init {
+
+    HSBgrid { blue 1  s .4 x -1.2 }
+    HSBgrid { blue .5 s .4 }
+    HSBgrid { blue .2 s .4 x 1.2 }
+
+}
+
+rule HSBgrid {
+    10* { x .1 sat -.1}
+    10* { y .1 hue 36}
+        BOX { x -.45 y -.45 s .1 }
+}
+
+camera { z -1.7 }
+
+

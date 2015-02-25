@@ -1,0 +1,20 @@
+DEF N 9
+DEF CU (1/N/2)
+DEF HALF (CU*N/2)
+
+scene {
+  cube{roty -40 rotx 30}
+}
+cube {
+  (N)*{x CU}
+    (N)*{y CU}
+      (N)*{z CU}
+        featurez{x -HALF y -HALF z -HALF s CU}
+}
+featurez {
+  50*{z .01} 
+    RSQU{}
+  RSQU{scale .8 red 1 sat -.7 hue 360*rnd()+x}
+}
+
+camera{ORTOGRAPHIC}

@@ -3,16 +3,19 @@
 ![meshm2.png](img/README/2015-02-24-02-09-meshm2.png)
 [meshm2.c3dg](img/README/meshm2.c3dg)
 
-Konte is a small formal language and an execution environment for generating png images, "drawing by coding".
+Konte is a small language for generating images, "drawing by coding".  All images on this page were written in it, strict mode.
 
-*This is an art project for generative graphics. Its code is old and partly crappy, but there are one or two nice things there. I'll be cleaning up the code, but you are warned.*
+*Konte is an art project. Its code is old and a bit edgy. I'll be cleaning it up, but you were warned.*
 
- - konte projects arbitrary z-ordered and linearly transformed 3D bezier paths on a Java2D canvas
- - there is no edge clipping, so 3D is "semi" in this way
- - you should avoid excessively large shapes that could create strange overlap effects
+Some technical notes about what the app does:
+
+ - it projects arbitrary z-ordered and linearly transformed 3D bezier paths on a Java2D canvas
+ - there is no edge clipping, so 3D is "semi" in this way; you should avoid excessively large shapes that could create strange overlap effects
  - there is a layering property in the language, so you can draw on multiple layers like in Photoshop
  - there is an ad hoc support for meshes
- - ordinary, ortographic and cabinet (oblique) perspectives are supported
+ - RGBA, HSLA and user defined color spaces are supported
+ - a simple "independent shapes" lighting model is supported, with lights controlled by arbitrary expressions
+ - 3D, ortographic and cabinet (oblique) perspectives are supported
 
 ![mcs6_9.png](img/README/2015-02-24-02-26-mcs6_9.png)
 [mcs6_9.c3dg](img/README/mcs6_9.c3dg)
@@ -24,7 +27,7 @@ Build the project from command line.
 ```
 $ mvn clean install
 ```
-Run the buggy UI from command line.
+Run the UI from command line.
 
 ```
 $ java -Xmx2048m -cp target/konte.jar org.konte.ui.Ui
@@ -32,9 +35,12 @@ $ java -Xmx2048m -cp target/konte.jar org.konte.ui.Ui
 
 There are online examples in the *Tutorials* menu, so you should be good from that on.  A short introduction to the language is given below.
 
-##Introduction to the language
+![do-w-meshes.png](img/README/2015-02-24-23-53-do-w-meshes.png)
+[do-w-meshes.c3dg](img/README/do-w-meshes.c3dg)
 
-Konte is a mutation of the [contextfreeart.org](http://contextfreeart.org/) language.  In konte, you draw in three dimensions, in contextfreeart.org in two.
+##Some notes on generating form
+
+Konte is a mutation of the [contextfreeart.org](http://contextfreeart.org/) language.  In konte, you draw in three dimensions.
 
 There are some predefined shapes like ```SQUARE``` and ```RSQU``` (a rounded square) that you can draw. Here is the list, and you can create your own shapes too.
 
@@ -58,6 +64,8 @@ SPHERE {...}
 I find flat shapes like squares and circles most useful in the pack.
 
 ###User paths
+
+Also user paths like the following are supported.
 
 ![hearts.png](img/README/2015-02-24-00-36-hearts.png)
 [hearts.c3dg](img/README/hearts.c3dg)
@@ -84,6 +92,29 @@ path heart {
 }
 ```
 
+###Determinism and two types of randomness
+
+Konte uses a seeded random feed to decide what it does next.  By multiply overriding a single rule like this,
+```
+do 1 {...}
+do .1 {...}
+do .05 {...}
+```
+you let konte decide which path it will take, relying on the "probabilities" ```1``` and ```.1``` and ```.05```.  I say "probabilities", because the weights do not have to add up to one.
+
+![do-w-meshes-col.png](img/README/2015-02-25-01-04-do-w-meshes-col.png)
+[do-w-meshes-col.c3dg](img/README/do-w-meshes-col.c3dg)
+
+There is also a non-deterministic random way, by using the ```rnd()``` function:
+```
+example2 {SQUARE {scale rnd()}}
+```
+This would take a single pass over and use a random value within [0..1] for an entire image.  I use a little trick of backreferencing a model property to enforce dynamic randomness:
+```
+example3 {SQUARE {scale rnd()+x*0}}
+```
+
+
 ###Rules and loops
 
 [cubes.c3dg](img/README/cubes.c3dg)
@@ -104,7 +135,7 @@ featurez {
 ```
 ![cubes](img/README/2015-02-23-21-57-cubes.png)
 
-As we read from top downwards, there are three rules defined above: ```scene```, ```cube```, and ```featurez```.  'Scene' is the first rule and it will be the starting point: ```cube{roty 40 rotz 20}``` tells the generator first to rotate over current y axis by 40 degrees and over current x axis by 20 degrees and then jump to rule 'cube'.
+As we read from top downwards, three rules are defined above: ```scene```, ```cube```, and ```featurez```.  'Scene' is the first rule and it will be the starting point: ```cube{roty 40 rotz 20}``` tells the generator first to rotate over current y axis by 40 degrees and over current x axis by 20 degrees and then jump to rule 'cube'.
 
 There are three nested loops in ```cube```, creating 27 branches in total:
 ```
@@ -124,13 +155,19 @@ featurez {
   RSQU{scale .8 red 1 sat -.7 hue 360*rnd()+x}
 }
 ```
-Firstly, ```50*{z .01} RSQU{}``` draws fifty black rounded squares, travelling slightly away from the screen plane.  There are 27 * 50 black shapes in the picture overall.
+```50*{z .01} RSQU{}``` draws fifty black rounded squares, traveling slightly away from the screen plane.  There are 27 * 50 black shapes in the picture overall.
 
-Then, ```RSQU{scale .8 red 1 sat -.7 hue 360*rnd()+x}``` adds a shape of random hue.  There are 27 colored shapes in the picture.  
+```RSQU{scale .8 red 1 sat -.7 hue 360*rnd()+x}``` adds a shape of a random hue.  There are 27 colored shapes in the picture.  
+
+![2015-02-25-01-14-cubes-big.png](img/README/2015-02-25-01-14-cubes-big.png)
+[cubes-big.c3dg](img/README/cubes-big.c3dg)
 
 ###Colors
 
-Konte handles RGBA and HSLA color spaces.  HSL support is based on RGB, so it is not complete.  Adjusting the hue of a uniform grey will not do anything.
+Konte handles RGBA and HSLA color spaces.  HSL support is based on RGB, so it is not complete.  Adjusting the hue of a uniform grey will not do anything. There is no return from a uniform grey back to a previously used hue.
+
+![HSL.png](img/README/2015-02-25-01-22-HSL.png)
+[HSL.c3dg](img/README/HSL.c3dg)
 
 ```
 R //  alias red   [0..1]
@@ -142,25 +179,12 @@ S //  sat(uration) [0..1]
 L //  alias lightness [0..1]
 ```
 
-Intricacies of the color model are explained here, referring to the previous example.
-```
-featurez {
-  50*{z .01} RSQU{}
-  RSQU{scale .8 red 1 sat -.7 hue 360*rnd()+x}
-}
-```
-
-```red 1``` turns from black to bright <span style="background-color:#FF0000">red</span>.
-
-```sat -.7``` decreases red saturation to something like <span style="background-color:#FFB3B3;">this</span> before anything got drawn.
-
-```hue 360*rnd()+x}``` changes hue along the HSL spectrum by a random degree (where 360 would be a complete cycle).  We get anything from pink to light yellow to lime to aqua to lilac to pink.
-
-```+x``` is a little trick that references a non constant value in the model so that pre-evaluation of ```rnd()```  wont take place.
+![RGB.png](img/README/2015-02-25-01-29-RGB.png)
+[RGB.c3dg](img/README/RGB.c3dg)
 
 ###User colorspaces
 
-A script can define its own colorspace and take it in use by setting ```shading``` and ```col0``` (and ```col1```).  Unlike to R,G,B and other properties, ```shading``` and ```col0``` are set as absolute values, and not incremented.
+A script can define its own colorspace and use it by setting ```shading``` and ```col0``` (and ```col1```).  Unlike to R,G,B and other properties, ```shading``` and ```col0``` are set as absolute values, and not incremented.
 
 ![eye-space](img/README/10-20-2009-18-55-ACH-eye.png)
 

@@ -1,0 +1,17 @@
+rule example {
+
+    100*{x .01 R .01 B -.01}
+      BOX {B 1
+              y .15 x -.5 s .01 .02 .02}
+
+    CIRCLE {red 1    s .1 x -3}
+    CIRCLE {green 1  s .1 x -1}
+    CIRCLE {blue 1   s .1 x  1}
+    CIRCLE {RGB 0 0.4 0.4
+                     s .1 x  3}
+    100*{x .01 R .01}
+      SQUARE {y -.15 x -.5 s .01 .1 .1}
+
+
+}
+

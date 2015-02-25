@@ -1,0 +1,40 @@
+scene{ do{ shading sh {W=0.003}} }
+model{maxshapes 100000}
+
+
+do{
+  do {
+    x .01 rx 5 rz 1+ROT
+  }
+  MESH{}
+  MESH{y .0001 {row=row+1}}
+  MESH{z W {row=row+2}}
+}
+
+do .1{do{{ROT=rnd()*15+x*0}}}
+do .002{do{flipx 90}}
+do .01{do{ry 15}}
+do .01{do{}do{rz 90 {mesh=mesh+rnd()*10000+x*0}}}
+do .01{SPHERE{s .02}do{}}
+do 1{do{{W=rnd()*.02+x*0}}}
+
+do 2{do{col0 rnd()+x*0}}
+
+
+
+shading sh {
+    point(0.0) { A 1
+        RGB 1.0 1.0 1.0 }
+    point(1.0) { A 1
+        RGB .2 0 .4 }
+    point(0.079) { A 1
+        RGB .3 0 0 }
+    point(0.409) { A 1
+        RGB 1.0 1.0 1.0 }
+    point(0.867) { A 1
+        RGB 0 0 1.0 }
+    point(0.181) { A 1
+        RGB 0.118 0.431 0.118 }
+    point(0.639) { A 1
+        RGB 1.0 1.0 1.0 }
+}
