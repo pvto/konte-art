@@ -135,6 +135,11 @@ featurez {
 ```
 ![cubes](img/README/2015-02-23-21-57-cubes.png)
 
+When the above fragment gets parsed into a model, the resulting tree structure looks something like this.
+```
+{ scene{ cube{ *{*{*{ featurez{ *{RSQU},RSQU } }}} } } }
+```
+
 As we read from top downwards, three rules are defined above: ```scene```, ```cube```, and ```featurez```.  'Scene' is the first rule and it will be the starting point: ```cube{roty 40 rotz 20}``` tells the generator first to rotate over current y axis by 40 degrees and over current x axis by 20 degrees and then jump to rule 'cube'.
 
 There are three nested loops in ```cube```, creating 27 branches in total:
@@ -144,7 +149,7 @@ There are three nested loops in ```cube```, creating 27 branches in total:
 [C]      3*{z 1/12}
         . . .
 ```
-By each iteration of [A], current x position is incremented by 1/12, by each iteration of [B] y by 1/12 likewise, and so for z of [C].
+By each iteration of [A], current x position is incremented by 1/12, by each iteration of [B], y by 1/12 likewise, and so for z of [C].
 
 When the generator first handles ```featurez``` rule, it is on loop zero and its x, y and z positions are *in pristine state*.  Now the transforms in ```featurez{x -1/12 y -1/12 z -1/12 scale -1/12}``` are applied.  It happens before any loop increments, and the group gets centered around its centermost element.  First, initial transforms, and on top of that, accumulating increments in loops.
 
@@ -161,6 +166,42 @@ featurez {
 
 ![2015-02-25-01-14-cubes-big.png](img/README/2015-02-25-01-14-cubes-big.png)
 [cubes-big.c3dg](img/README/cubes-big.c3dg)
+
+##Cameras
+
+There are different types of cameras in konte.
+```
+camera { SIMPLE }
+```
+![buildings.png](img/README/2015-02-25-20-45-buildings.png)
+[buildings.c3dg](img/README/buildings.c3dg)
+```
+camera { PANNING 2.0 }  /* with initial distance -2.0 from origo */
+
+camera { ORTOGRAPHIC }
+
+
+/*
+*  a cabinet perspective with a 30 degree tilt and a scale factor of 0.5:
+*/
+camera { CABINET 30 0.5 } 
+```
+![buildings-ortog.png](img/README/2015-02-25-20-45-buildings-ortog.png)
+[buildings-ortog.c3dg](img/README/buildings-ortog.c3dg)
+
+```
+/*
+* an experimental projection:
+*  [x,y] = [cos(alpha) / dist, sin(alpha) / dist]
+*    where alpha = atan( x / y )  (for a point relative to the camera)
+*    and dist = ( x^2 + y^2 + z^2 ) ^ 0.5 * pack  (distance of the point from the camera)
+*    where pack is user given packing exponent, default 1.0
+*/
+camera { CIRCULAR 2.0 }
+```
+![buildings-circular.png](img/README/2015-02-25-21-27-buildings-circular.png)
+[buildings-circular.c3dg](img/README/buildings-circular.c3dg)
+
 
 ###Colors
 
@@ -215,15 +256,19 @@ shading eyeshades {
     point(.6)  { RGB 1  1  1  A 0 }
 }
 ```
+
+##Lighting
+
+
+##Drawing meshes
+
+
 ##More examples
 
 ![logo_new-c-rec.png](img/README/AAS-logo_new_c_rec.png)
 <!--![binbu.png](img/README/binbu.png)
 ![icescape.png](img/README/2015-02-24-01-17-icescape.png)
 [icescape.c3dg](img/README/icescape.c3dg)-->
-![AER-BUILD2_4.png](img/README/AER-BUILD2_4.png)
-[AER-BUILD2_4.c3dg](img/README/AER-BUILD2_4.c3dg)
-
 
 
 ![monet-grey](img/README/monet-grey.png)
