@@ -70,7 +70,7 @@ Also user paths like the following are supported.
 ![hearts.png](img/README/2015-02-24-00-36-hearts.png)
 [hearts.c3dg](img/README/hearts.c3dg)
 
-There is a basic svg path import functionality in konte ui, so you could draw your paths in a vector app or use some clipart paths and import them.  Keep in mind that konte draws in the {0..1,0..1} xy space by default, and it will try to scale an imported bitmap into that space.
+There is a basic svg path import functionality in konte ui, so you could draw your paths in a vector app or use some clipart paths and import them.  Keep in mind that konte draws in the {0..1,0..1} xy space by default, and it will try to scale an imported svg into that space.
 
 You can also write a path by hand if you like the excercise.
 
@@ -117,7 +117,6 @@ example3 {SQUARE {scale rnd()+x*0}}
 
 ###Rules and loops
 
-[cubes.c3dg](img/README/cubes.c3dg)
 ```
 scene {
   cube{roty 40 rotx 20}
@@ -134,6 +133,7 @@ featurez {
 }
 ```
 ![cubes](img/README/2015-02-23-21-57-cubes.png)
+[cubes.c3dg](img/README/cubes.c3dg)
 
 When the above fragment gets parsed into a model, the resulting tree structure looks something like this.
 ```
@@ -194,8 +194,8 @@ camera { CABINET 30 0.5 }
 * an experimental projection:
 *  [x,y] = [cos(alpha) / dist, sin(alpha) / dist]
 *    where alpha = atan( x / y )  (for a point relative to the camera)
-*    and dist = ( x^2 + y^2 + z^2 ) ^ 0.5 * pack  (distance of the point from the camera)
-*    where pack is user given packing exponent, default 1.0
+*    and dist = ( x^2 + y^2 + z^2 ) ^ (0.5 * pack)  (distance of the point from the camera)
+*    where pack is a user given packing exponent, default 1.0
 */
 camera { CIRCULAR 2.0 }
 ```
@@ -286,6 +286,7 @@ light {COMPLEMENTARY point(.5,.1,.1){RGB 1 0 0} s .1}
 
 
 ##Drawing meshes
+
 
 
 ##More examples
