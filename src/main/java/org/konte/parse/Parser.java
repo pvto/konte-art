@@ -1574,7 +1574,8 @@ public class Parser {
                         } else
                         if (conditionalStack.size() > 1)
                         {
-                            Iterator it = conditionalStack.descendingIterator();
+                            Iterator it = conditionalStack.iterator();
+                            it.next();
                             ((ConditionalStructure)it.next()).onCondition.add(cond);
                         }  else
                             lastRule.addTransform(cond);

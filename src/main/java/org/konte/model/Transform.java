@@ -1,7 +1,6 @@
 package org.konte.model;
 
 import org.konte.parse.ParseException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import org.konte.lang.AffineTransform;

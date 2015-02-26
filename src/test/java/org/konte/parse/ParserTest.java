@@ -1,7 +1,9 @@
 package org.konte.parse;
 
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 import org.konte.lang.Tokenizer;
+import org.konte.model.ConditionalStructure;
 import org.konte.model.Model;
 
 public class ParserTest {
@@ -21,5 +23,45 @@ public class ParserTest {
         );
         m.initForGenerate();
     }
-    
+
+    @Test
+    public void testParseIfs() throws ParseException, IllegalArgumentException, IllegalAccessException {
+        String s =
+"cube {\n" +
+"  if (x > 1) {\n" +
+"  if (x > 2) {\n" +
+"  if (x > 3) {\n" +
+"    if (x > 4) {\n" +
+"      SQUARE{}\n" +
+"    }\n" +
+"    SQUARE{{foo=1}}\n" +
+"    if (x > 5) {\n" +
+"      SQUARE{}\n" +
+"    }\n" +
+"  }\n" +
+"  }\n" +
+"  }\n" +
+"}"
+;
+        Model m = new Parser().parse( 
+            Tokenizer.retrieveTokenStrings(new StringBuilder(s))
+        );
+        m.initForGenerate();
+        System.out.println(m.rules.toString());
+        ConditionalStructure cond0 = (ConditionalStructure)
+                (m.rules.get("cube").getRules().get(0).getRule().transforms.get(0));
+        assertEquals(true, cond0.conditionalStructure);
+        assertEquals(1, cond0.onCondition.size());
+        ConditionalStructure cond1 = (ConditionalStructure)
+                cond0.onCondition.get(0);
+        assertEquals(1, cond1.onCondition.size());
+        ConditionalStructure cond2 = (ConditionalStructure)
+                cond1.onCondition.get(0);
+        assertEquals(3, cond2.onCondition.size());
+        
+        assertEquals(1, ((ConditionalStructure)cond2.onCondition.get(0)).onCondition.size());
+        assertEquals(1, ((ConditionalStructure)cond2.onCondition.get(2)).onCondition.size());
+
+    }
+
 }

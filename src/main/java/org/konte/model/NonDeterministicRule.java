@@ -45,6 +45,8 @@ public class NonDeterministicRule {
             bd.append(rule);
             return bd.toString();        
         }
+        
+        public Rule getRule() { return rule; }
     }
 
     public void addRule(double weigh, Rule rule)
