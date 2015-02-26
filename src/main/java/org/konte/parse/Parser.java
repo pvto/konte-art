@@ -158,14 +158,15 @@ public class Parser {
             last = ii>startpos ? 
                 t : null;
             t = Language.tokenByName(s);
+            if (t == null)
+            {
+                t = new Token(s);
+            }
             if (t == Language.right_curl || t == Language.semicolon || 
                     (lbcount==0 && t == Language.comma))
                     {
                 moveToNext = false;
                 break;
-            }else if (t == null)
-            {
-                t = new Token(s);
             } else if (t == Language.left_bracket)
             {
                 if ( startpos < ii 
@@ -189,7 +190,7 @@ public class Parser {
                     }
                 }
             } else if ( startpos < ii 
-                    && (last.getClass() == Token.class || InnerExpressiveToken.class.isAssignableFrom(last.getClass()))
+                    && (last.getClass() == Constant.class || last.getClass() == Token.class || InnerExpressiveToken.class.isAssignableFrom(last.getClass()))
                     && ! (t instanceof Operator || t instanceof Comparator 
                         || lbctmp > 0 && t == Language.comma))
                         {

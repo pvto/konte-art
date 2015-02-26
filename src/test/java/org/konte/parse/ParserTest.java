@@ -64,4 +64,17 @@ public class ParserTest {
 
     }
 
+    @Test
+    public void testParseDef() throws ParseException, IllegalArgumentException, IllegalAccessException {
+        String s =
+"DEF foo 1\n" +
+"DEF bar (1+2)\n" +
+"DEF baz 1+2\n" +
+"cube { SQUARE{} }"
+;
+        Model m = new Parser().parse( 
+            Tokenizer.retrieveTokenStrings(new StringBuilder(s))
+        );
+        m.initForGenerate();
+    }
 }
