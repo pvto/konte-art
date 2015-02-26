@@ -1,0 +1,44 @@
+model {feature .001 maxshapes 1000000 order DB }
+
+tree {
+  5*{x .25 {mesh=mesh+1000000}}
+  tree_{x -.5 y -.35 s .015 {RZ=3;RY=45;BB=2;}}
+}
+
+tree_ {
+  seg{}
+  if (I > 20) {
+     20*{y -3 rz 17 y rnd()*7+x}
+        leaf{s 2 G .6 R .1 B .1}
+  }
+  tree__{s .96 y 2 rz RZ ry RY {I=I+1} }
+}
+tree_ { tree_ { ry -5 } }
+
+tree__ { tree_{} }
+tree__ 5 {
+  tree_{}
+  if (I % BB < 1) {
+  if (I > 6) {
+      tree_{y -.5 rz 45 s .8
+        DEF{mesh=mesh+rnd()*10000000+x*0; 
+            RZ=1; RY=1; BB=6;}}
+  }
+  }
+}
+
+seg {
+  10*{ry 36 {row=row+1}}
+    MESH{z 1}
+}
+
+leaf .1 { leaf { R .1 } }
+leaf {
+  CIRCLE{}
+}
+
+
+light {point(0,0,-1){RGB 1 1 1} s 1.5}
+light {point(x+rnd(),0.1,0){RGB 1 1 1} s .002}
+light {DARKNESS point(x+rnd(),0.1,0){RGB 1 1 1} s .02}
+

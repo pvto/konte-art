@@ -22,12 +22,12 @@ Some technical notes about what the app does:
 
 ##Building and running
 
-Build the project from command line.
+Build the project from a command line.
 
 ```
 $ mvn clean install
 ```
-Run the UI from command line.
+Run konte UI from the command line.
 
 ```
 $ java -Xmx2048m -cp target/konte.jar org.konte.ui.Ui
@@ -287,12 +287,20 @@ light {COMPLEMENTARY point(.5,.1,.1){RGB 1 0 0} s .1}
 
 ##Drawing meshes
 
+Each tree trunk or branch or branch of branch is a separate mesh in the following example.
+
+![tree-mesh.png](img/README/2015-02-26-11-44-tree-mesh.png)
+[tree-mesh.c3dg](img/README/tree-mesh.c3dg)
+
+A mesh is created by first defining which mesh we are piling to, by doing ```DEF{mesh=1}``` (or the shorthand version used in the example, ```{mesh=1}```), and then adding segments to the current mesh by calling on the predefined shape MESH.
+
+In order to the mesh be drawn, we need to add elements in rows, creating a tabulation of quadrilaterals.  In the example, each column is a tree branch segment that consists of ten quadrilaterals, taking the form of a pipe together: ```10*{ry 36 {row=row+1}} MESH{z 1}```.
 
 
 ##More examples
 
-![logo_new-c-rec.png](img/README/AAS-logo_new_c_rec.png)
-<!--![binbu.png](img/README/binbu.png)-->
+<!--![logo_new-c-rec.png](img/README/AAS-logo_new_c_rec.png)
+![binbu.png](img/README/binbu.png)-->
 
 
 ![monet-grey](img/README/monet-grey.png)
