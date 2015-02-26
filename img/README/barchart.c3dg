@@ -1,0 +1,33 @@
+DEF MIN 0
+DEF MAX 1
+MACRO Y ((VAL-MIN)/(MAX-MIN))
+DEF N 12
+DEF W (1/N*0.5)
+
+fov { z -1.5 x .5 y .5}
+chart {
+  ygrid{x .5}
+  (N) * { x (1/N) }
+      P {
+         {VAL = rnd()+x*0}}
+}
+
+path P
+{
+  moveto( 0, 0, 0)
+  bend( -W/4, Y/2, 0)
+  bend( -W/4, Y/2, 0)
+  curveto( 0, Y, 0)
+  lineto( W, Y, 0)
+  bend( W+W/4, Y/2, 0)
+  bend( W+W/4, Y/2, 0)
+  curveto( W, 0, 0)
+  close
+}
+
+DEF YGRID_STEP 0.1
+DEF YGRID ((MAX-MIN)/YGRID_STEP)
+ygrid {
+  (YGRID) * {y YGRID_STEP}
+      SQUARE{s 1.2 .001 .001}
+}

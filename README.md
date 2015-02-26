@@ -287,15 +287,58 @@ light {COMPLEMENTARY point(.5,.1,.1){RGB 1 0 0} s .1}
 
 ##Drawing meshes
 
-Each tree trunk or branch or branch of branch is a separate mesh in the following example.
+Each tree trunk or branch or branch of branch is a separate mesh in the following picture.
 
 ![tree-mesh.png](img/README/2015-02-26-11-44-tree-mesh.png)
 [tree-mesh.c3dg](img/README/tree-mesh.c3dg)
 
 A mesh is created by first defining which mesh we are piling to, by doing ```DEF{mesh=1}``` (or the shorthand version used in the example, ```{mesh=1}```), and then adding segments to the current mesh by calling on the predefined shape MESH.
 
-In order to the mesh be drawn, we need to add elements in rows, creating a tabulation of quadrilaterals.  In the example, each column is a tree branch segment that consists of ten quadrilaterals, taking the form of a pipe together: ```10*{ry 36 {row=row+1}} MESH{z 1}```.
+That the mesh be drawn, we need to add elements in rows, creating a tabulation of quadrilaterals.  In the example, each column is a tree branch segment that consists of ten quadrilaterals, taking the form of a pipe together: ```10*{ry 36 {row=row+1}} MESH{z 1}```.
 
+
+##Macros
+
+Macros in konte are multivalent lambda expressions that can shorten and clean up code when used prudently.  The following is a polar version of the [Devil's staircase](http://en.wikipedia.org/wiki/Cantor_function) fractal, where polar coordinate mappings are defined as macros like this: ```MACRO Xsc cos((X-SX/2)*WD)```.
+
+```X```, ```SX``` and ```WD``` here are lambda expressions that konte will evaluate, ```cos``` is a predefined function, and ```Xsc``` simply is the macro name.
+
+![devils-staircase.png](img/README/2015-02-26-12-13-devils-staircase.png)
+[devils-staircase.c3dg](img/README/devils-staircase.c3dg)
+
+##Dynamic paths
+
+If we look at the Devil's staircase example above, a polar cantor segment there is drawn with a dynamic path element.
+
+```
+path P
+{
+  moveto( Xsc*WDT, Xss*WDT, 0)
+  lineto( Xsc*LEV, Xss*LEV, 0)
+  lineto( Xac*LEV, Xas*LEV, 0)
+  lineto( Xac*WDT, Xas*WDT, 0)
+  close
+}
+```
+This technique could aid in problems like fancy charting.
+
+![barchart.png](img/README/2015-02-26-16-00-barchart.png)
+[barchart.c3dg](img/README/barchart.c3dg)
+
+```
+path P
+{
+  moveto( 0, 0, 0)
+  bend( -W/4, Y/2, 0)
+  bend( -W/4, Y/2, 0)
+  curveto( 0, Y, 0)
+  lineto( W, Y, 0)
+  bend( W+W/4, Y/2, 0)
+  bend( W+W, Y/4, 0)
+  curveto( W, 0, 0)
+  close
+}
+```
 
 ##More examples
 
