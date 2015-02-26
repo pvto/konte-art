@@ -226,11 +226,16 @@ public class Mathm {
 
         @Override
         public float value(float... val) {
-            float tmp = (val[0] < -0.5f ? -val[0] + 0.5f : val[0] + 0.5f) % 1f - 0.5f;
-            if (Math.abs(val[0] + 0.5f) % 2f >= 1f) {
-                tmp = -tmp;
+            float x = Math.abs(val[0]) % 1f;
+            if (val[0] < 0f)
+            {
+                x = 1f - x;
             }
-            return tmp;
+            if (x > 0.5f)
+            {
+                x = 1f - x;
+            }
+            return x * 2f;
         }
     }
 
@@ -242,10 +247,10 @@ public class Mathm {
 
         @Override
         public float value(float... val) {
-            if (val[0] % 2 < 1) {
-                return 0.5f;
+            if (val[0] % 1 < 0.5f) {
+                return 1f;
             }
-            return -0.5f;
+            return 0f;
         }
     }
 
