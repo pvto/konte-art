@@ -1,12 +1,12 @@
 include eye.c3dg
 
 DEF nn 200
-DEF minx 0
+DEF minx -2
 DEF maxx .6
 
 rule show {
   (nn)*{x (1/nn) 
         col0 (col0+(maxx-minx)/nn)}
-    SQUARE { shading eyeshades x -.5 sx (1.2/nn) col0 (minx+col0)}
+    SQUARE { shading eyeshades x -.5 sx (2/nn) col0 (minx+col0)}
 }
 

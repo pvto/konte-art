@@ -231,23 +231,8 @@ L //  alias lightness [0..1]
 
 A script can define its own colorspace and use it by setting ```shading``` and ```col0``` (and ```col1```).  Unlike to R,G,B and other properties, ```shading``` and ```col0``` are set as absolute values, and not incremented.
 
-![eye-space](img/README/10-20-2009-18-55-ACH-eye.png)
-
-[draw-shading.c3dg](img/README/draw-shading.c3dg):
-```
-include eye.c3dg
-
-DEF nn 200
-DEF minx 0
-DEF maxx .6
-
-rule show {
-  (nn)*{x (1/nn) 
-        col0 (col0+(maxx-minx)/nn)}
-    SQUARE { shading eyeshades x -.5 sx (1.2/nn) col0 (minx+col0)}
-}
-
-```
+![draw-shading.png](img/README/2015-02-26-23-06-draw-shading.png)
+[draw-shading.c3dg](img/README/draw-shading.c3dg)
 [eye.c3dg](img/README/eye.c3dg):
 ```
 shading eyeshades { 
@@ -312,7 +297,7 @@ Macros in konte are multivalent lambda expressions that can shorten and clean up
 
 ###Dynamic paths
 
-If we look at the Devil's staircase example above, it draws a polar cantor segment by using a lambda based dynamically adapting path.
+If we look at the Devil's staircase example above, it draws a polar cantor segment by using a lambda based path that dynamically adapts to its environment.
 
 ```
 path P
