@@ -1030,7 +1030,7 @@ public class Ui extends MyJFrame {
         menuBar.add(generateMenu);
 
         jMenu2.setBackground(new java.awt.Color(187, 203, 209));
-        jMenu2.setMnemonic('E');
+        jMenu2.setMnemonic('X');
         jMenu2.setText("Export");
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));

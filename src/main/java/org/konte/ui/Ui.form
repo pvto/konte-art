@@ -286,7 +286,7 @@
               <Color blue="d1" green="cb" red="bb" type="rgb"/>
             </Property>
             <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="&apos;E&apos;" type="code"/>
+              <Connection code="&apos;X&apos;" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Export"/>
           </Properties>
