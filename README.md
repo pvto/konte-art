@@ -102,14 +102,18 @@ do .05 {...}
 ```
 you let konte decide which path it will take, relying on the "probabilities" ```1``` and ```.1``` and ```.05```.  I say "probabilities", because the weights do not have to add up to one.
 
+With the same seed, say 'AAA', konte will always generate the same image.
+
 ![do-w-meshes-col.png](img/README/2015-02-25-01-04-do-w-meshes-col.png)
 [do-w-meshes-col.c3dg](img/README/do-w-meshes-col.c3dg)
 
-There is also a non-deterministic random way, by using the ```rnd()``` function:
+But there is also a non-seeded, non-deterministic random way, by using the ```rnd()``` function:
 ```
 example2 {SQUARE {scale rnd()}}
 ```
-This would take a single pass over and use a random value within [0..1] for an entire image.  I use a little trick of backreferencing a model property to enforce dynamic randomness:
+Even if the seed stays the same, the image will look different over different renders.
+
+```rnd()``` would take a single pass over and use a random value within [0..1] within that rule for an entire image.  I use a little trick of backreferencing a model property to enforce dynamic randomness:
 ```
 example3 {SQUARE {scale rnd()+x*0}}
 ```
@@ -167,7 +171,7 @@ featurez {
 ![2015-02-25-01-14-cubes-big.png](img/README/2015-02-25-01-14-cubes-big.png)
 [cubes-big.c3dg](img/README/cubes-big.c3dg)
 
-##Cameras
+###Cameras
 
 There are different types of cameras in konte.
 ```
@@ -223,7 +227,7 @@ L //  alias lightness [0..1]
 ![RGB.png](img/README/2015-02-25-01-29-RGB.png)
 [RGB.c3dg](img/README/RGB.c3dg)
 
-###User colorspaces
+####User colorspaces
 
 A script can define its own colorspace and use it by setting ```shading``` and ```col0``` (and ```col1```).  Unlike to R,G,B and other properties, ```shading``` and ```col0``` are set as absolute values, and not incremented.
 
@@ -257,7 +261,7 @@ shading eyeshades {
 }
 ```
 
-##Lighting
+###Lighting
 
 Konte allows placing lights in the space.  Rather than lights though they can be thought of as spatial expressions that modify object color.
 
@@ -285,7 +289,7 @@ light {COMPLEMENTARY point(.5,.1,.1){RGB 1 0 0} s .1}
 ![icescape.png](img/README/2015-02-25-22-15-icescape.png)
 
 
-##Drawing meshes
+###Drawing meshes
 
 Each tree trunk or branch or branch of branch is a separate mesh in the following picture.
 
@@ -297,7 +301,7 @@ A mesh is created by first defining which mesh we are piling to, by doing ```DEF
 That the mesh be drawn, we need to add elements in rows, creating a tabulation of quadrilaterals.  In the example, each column is a tree branch segment that consists of ten quadrilaterals, taking the form of a pipe together: ```10*{ry 36 {row=row+1}} MESH{z 1}```.
 
 
-##Macros
+###Macros
 
 Macros in konte are multivalent lambda expressions that can shorten and clean up code when used prudently.  The following is a polar version of the [Devil's staircase](http://en.wikipedia.org/wiki/Cantor_function) fractal, where polar coordinate mappings are defined as macros like this: ```MACRO Xsc cos((X-SX/2)*WD)```.
 
@@ -306,9 +310,9 @@ Macros in konte are multivalent lambda expressions that can shorten and clean up
 ![devils-staircase.png](img/README/2015-02-26-12-13-devils-staircase.png)
 [devils-staircase.c3dg](img/README/devils-staircase.c3dg)
 
-##Dynamic paths
+###Dynamic paths
 
-If we look at the Devil's staircase example above, a polar cantor segment there is drawn with a dynamic path element.
+If we look at the Devil's staircase example above, it draws a polar cantor segment by using a lambda based dynamically adapting path.
 
 ```
 path P
@@ -322,7 +326,7 @@ path P
 ```
 This technique could aid in problems like fancy charting.
 
-![barchart.png](img/README/2015-02-26-16-00-barchart.png)
+![barchart.png](img/README/2015-02-26-22-41-barchart.png)
 [barchart.c3dg](img/README/barchart.c3dg)
 
 ```
@@ -338,6 +342,84 @@ path P
   curveto( W, 0, 0)
   close
 }
+```
+
+##Predefined functions
+
+Here is a list of functions that can be called in konte.  Additional user defined functions must be installed via a script, through the scripting interface.
+
+###Algebraic and trigonometric functions
+```
+abs  // absolute value.      Example:  abs(-2.1)
+sqrt // square root.         Example:  sqrt(2)
+log  // 10-based logarithm.  Example:  log(100)
+pow  // power.               Example:  pow(2, 4) -> 16
+round // Rounds towards the nearest integral value.
+      //                     Example:  round(0.5) -> 1.0
+floor // Round downwards to nearest int.
+      //                     Example:  floor(0.9) -> 0
+max  // maximum.             Example:  max(2, 1) -> 2
+min  // minimum.             Example:  min(3, 1) -> 1
+mean // the mean of the given arguments. 
+     //                      Example: mean(0.1, 2, x)
+
+sin  // sine function.       Example:  sin(PI/2)
+cos  // cosine function.     Example:  cos(0)
+tan  // tangent function.    Example:  tan(2/3)
+asin // arcus sine.          Example:  asin(sin(PI/2))
+acos // arcus cosine.
+atan // arcus tangent. 
+
+```
+###Other functions
+```
+rnd  // random number [0,1]. Example:  rnd()
+
+     // rnd() does not draw from the variation random feed,
+     // but from system random number generator.
+     // This may change in the future.
+
+irnd // random int [0,n).    Example:  irnd(10) -> one of 0..9
+
+saw  // Saw wave function -> [0,1], period 1.
+
+     // Examples:
+     //    saw(0) -> 0
+     //    saw(0.25) -> 0.5
+     //    saw(0.5) -> 1
+     //    saw(0.75) -> 0.5
+     //    saw(1) -> 0,
+     //   . . .
+square // Square wave function -> {0,1}, period 1.
+
+       // Examples:
+       //  square(0) -> 0
+       //  square(0.25) -> 0
+       //  square(0.5) -> 1
+       //  square(0.75) -> 1
+       //  square(1) -> 0
+       // . . .
+hipas  // "high-pass" function.
+
+       // Examples:
+       //  hipas(0.25, 0.5) -> 0
+       //  hipas(0.61, 0.5) -> 0.61
+
+lopas  // "low-pass" function.
+
+       // Examples:
+       //  lopas(0.25, 0.5) -> 0.25
+       //  lopas(0.61, 0.5) -> 0
+
+mandelbrot  // fractal function [0,255].
+       // Examples:
+       //  mandelbrot(0.5, 1)
+
+julia       // fractal function [0,255].
+            // 3rd and 4th arguments are z0 on the complex plane
+       // Examples:
+       //  julia(0.5, 1,  0.25, 0.25)
+
 ```
 
 ##More examples

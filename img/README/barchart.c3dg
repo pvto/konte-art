@@ -4,13 +4,18 @@ MACRO Y ((VAL-MIN)/(MAX-MIN))
 DEF N 12
 DEF W (1/N*0.5)
 
-fov { z -1.5 x .5 y .5}
+fov { z -1.5 x .5 y .5 rx 2}
 chart {
   ygrid{x .5}
   (N) * { x (1/N) }
-      P {
-         {VAL = rnd()+x*0}}
+    bar {{VAL = rnd()+x*0}}
 }
+
+bar {
+  P {}
+  P { rx 90 layer 1 A -.3} //shadow
+}
+fx 1*5 { 777 777 777 } //gauss.blur, layer 1
 
 path P
 {
