@@ -78,15 +78,6 @@ public class PluginLoader {
                                     
                                 }
                                 try {
-                                    Class<KontePluginShape> funcClass = pluginClass.asSubclass(KontePluginShape.class);
-                                    KontePluginShape func = funcClass.newInstance();
-                                    Runtime.sysoutln("Shape added to Language as \"" + func.getName() + "\"", 10);
-                                    loadedCount++;
-                                }
-                                catch (ClassCastException ff)
-                                {
-                                }
-                                try {
                                     Class<KonteScriptExtension> scriptClass = pluginClass.asSubclass(KonteScriptExtension.class);
                                     KonteScriptExtension scriptExt = scriptClass.newInstance();
                                     Language.scriptExtensions.add(scriptExt);
