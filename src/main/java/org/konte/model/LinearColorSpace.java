@@ -28,9 +28,8 @@ public class LinearColorSpace extends ColorSpaceImpl {
         this.transformPoints = points;
     }
     private float[] rgbas = new float[5];
-    public float[] getValue(float... args) throws ParseException 
+    public float[] getValue(float x) throws ParseException 
     {
-        float x = args[0];
         RGBA lwr = null;
         RGBA hgr = null;
         float tmpmin = -10000000f;

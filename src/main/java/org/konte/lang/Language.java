@@ -318,12 +318,6 @@ public class Language {
     public static Token col0 = addToken(new InnerExpressiveToken("col0",TransformModifier.col0.class,1) {
         @Override public TransformModifier newInstance(Expression e, Token t) { return new TransformModifier.col0(e, t); }
     });
-    public static Token col1 = addToken(new InnerExpressiveToken("col1",TransformModifier.col1.class,1) {
-        @Override public TransformModifier newInstance(Expression e, Token t) { return new TransformModifier.col1(e, t); }
-    });
-    public static Token col2 = addToken(new InnerExpressiveToken("col2",TransformModifier.col2.class,1) {
-        @Override public TransformModifier newInstance(Expression e, Token t) { return new TransformModifier.col2(e, t); }
-    });
     public static Token layer = addToken(  new InnerExpressiveToken("layer",TransformModifier.layer.class,1) {
         @Override public TransformModifier newInstance(Expression e, Token t) { return new TransformModifier.layer(e, t); }
     });

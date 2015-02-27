@@ -35,8 +35,6 @@ public class DrawingContext implements Serializable {
 //    public short bitmap = -1;
     public short shading = -1;
     public float col0;
-    public float col1;
-    public float col2;
 
 
 
@@ -66,8 +64,6 @@ public class DrawingContext implements Serializable {
             if (shading != -1)
             {
                 out.writeFloat(col0);
-                out.writeFloat(col1);
-                out.writeFloat(col2);
             }
         }
     }
@@ -95,8 +91,6 @@ public class DrawingContext implements Serializable {
             if (shading != -1)
             {
                 col0 = in.readFloat();
-                col1 = in.readFloat();
-                col2 = in.readFloat();
             }
         }
     }
@@ -182,28 +176,16 @@ public class DrawingContext implements Serializable {
     {
         return col0;
     }
-    public float getcol1()
-    {
-        return col1;
-    }
-    public float getcol2()
-    {
-        return col2;
-    }
     float getBitmap()
     {
         return (float)getDef(Name.model.imgIndex);
     }
-    private static transient float[] cols = new float[3];
     public void applyShading(Model model) throws ParseException 
     {
         if (shading != -1)
         {
             ColorSpace sp = model.colorSpaces.get(shading);
-            cols[0] = col0;
-            cols[1] = col1;
-            cols[2] = col2;
-            float[] ret = sp.getValue(cols);
+            float[] ret = sp.getValue(col0);
             float nega = 1f-ret[4];
             R = bounds1(R*nega + ret[0]*ret[4]);
             G = bounds1(G*nega + ret[1]*ret[4]);
@@ -376,8 +358,8 @@ public class DrawingContext implements Serializable {
     {
         StringBuilder bd = new StringBuilder();
         bd.append(matrix).append("+\n");
-        bd.append(String.format("R %s G %s B %s A %s layer %s d %s shad %s sh-x %s sh-y %s sh-z %s",
-                R,G,B,A,layer,d,shading,col0,col1,col2));
+        bd.append(String.format("R %s G %s B %s A %s layer %s d %s shad %s sh-x %s",
+                R,G,B,A,layer,d,shading,col0));
         
         return bd.toString();
     }

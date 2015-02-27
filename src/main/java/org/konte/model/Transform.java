@@ -455,8 +455,6 @@ public class Transform {
         newt.shading = old.shading;
 //        newt.bitmap = old.bitmap;
         newt.col0 = old.col0;
-        newt.col1 = old.col1;
-        newt.col2 = old.col2;
         newt.layer = old.layer;
         newt.fov = old.fov;
         

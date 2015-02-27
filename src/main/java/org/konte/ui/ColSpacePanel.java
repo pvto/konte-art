@@ -117,10 +117,7 @@ public class ColSpacePanel extends JPanel {
             {
                 for (int i = 0; i < width; i++)
                 {
-                    float[] col = cspace.getValue(new float[] {
-                        i/xmul,
-                        0
-                    });
+                    float[] col = cspace.getValue(i/xmul);
                     g.setColor(new Color(col[0],col[1],col[2],col[3]));
                     g.fillRect(i, 0, 1, (int)height);
                 }
@@ -145,10 +142,7 @@ public class ColSpacePanel extends JPanel {
                 {
                     for (int i = 0; i < width-step+1; i+= step)
                     {
-                        float[] col = cspace.getValue(new float[] {
-                            i/xmul,
-                            j/ymul
-                        });
+                        float[] col = cspace.getValue(i/xmul);
 
                         int intval = (((int)(Math.min(1f,(col[3]))*255f)) << 24) +
                                 (((int)(Math.min(1f,col[0])*255f)) << 16) +

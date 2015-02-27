@@ -556,42 +556,6 @@ public abstract class TransformModifier {
 
         
     }
-    public static class col1 extends TransformModifier {
-        public col1(Expression expr, Token token)
-        {
-            super(expr, token);
-        }
-        @Override
-        public void updateSTVal(DrawingContext st, Float delta)
-        {
-            st.col1 = delta;
-        }
-        @Override
-        public void updateSTVal(DrawingContext st, Float[] delta)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        
-    }
-    public static class col2 extends TransformModifier {
-        public col2(Expression expr, Token token)
-        {
-            super(expr, token);
-        }
-        @Override
-        public void updateSTVal(DrawingContext st, Float delta)
-        {
-            st.col2 = delta;
-        }
-        @Override
-        public void updateSTVal(DrawingContext st, Float[] delta)
-        {
-            throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        
-    }    
 
     public static class RGB extends TransformModifier {
         public RGB(List<Expression> lexprs, Token t)

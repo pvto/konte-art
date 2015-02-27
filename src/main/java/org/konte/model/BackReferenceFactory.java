@@ -257,25 +257,6 @@ public class BackReferenceFactory {
                     return modl.context.getcol0();
                 }
             };
-        } else if (matchingToken == Language.col1)
-        {
-            return new Name()
-            {
-                @Override public Float evaluate() throws ParseException 
-                {
-                    return modl.context.getcol1();
-                }
-            };
-        } else if (matchingToken == Language.col2)
-        {
-            return new Name()
-            {
-                @Override public Float evaluate() throws ParseException 
-                {
-                    return modl.context.getcol2();
-                }
-            };
-
         } else if (matchingToken == Language.H)
         {
             return new Name()

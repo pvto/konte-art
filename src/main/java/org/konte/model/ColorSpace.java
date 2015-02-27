@@ -36,7 +36,7 @@ public interface ColorSpace {
      * RGBA with which this shading is applied.
      * @throws org.konte.parse.ParseException
      */
-    public float[] getValue(float... args) throws ParseException;
+    public float[] getValue(float col0) throws ParseException;
     
     public static class RGBA {
         public Expression R,G,B,A;

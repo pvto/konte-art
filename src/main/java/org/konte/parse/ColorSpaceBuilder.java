@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.konte.expression.Expression;
 import org.konte.expression.Value;
 import org.konte.model.ColorSpace;
-import org.konte.model.FieldStrength2DColorSpace;
 import org.konte.model.LinearColorSpace;
 import org.konte.model.Transform;
 import org.konte.model.TransformModifier;
@@ -108,10 +107,6 @@ public class ColorSpaceBuilder {
                 sp = new LinearColorSpace(name, idcounter++);
                 transformPoints = new ArrayList<RGBA>();
                 break;
-            case 2:
-                sp = new FieldStrength2DColorSpace(name, idcounter++);
-                transformPoints = new ArrayList<RGBA>();
-                break;
             default: 
                 throw new ParseException("Unsupported dimension for colorspace: " + dimension);
         }
@@ -130,9 +125,6 @@ public class ColorSpaceBuilder {
         switch(dimension)
         {
             case 1: ((LinearColorSpace)sp).setPoints(transformPoints); break;
-            case 2: ((FieldStrength2DColorSpace)sp).setPoints(transformPoints); break;
-            
-            
         }
         sp.setStrength(strength == null ? Value.ONE : strength);
         return sp;

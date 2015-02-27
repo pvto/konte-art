@@ -229,7 +229,7 @@ L //  alias lightness [0..1]
 
 ####User colorspaces
 
-A script can define its own colorspace and use it by setting ```shading``` and ```col0``` (and ```col1```).  Unlike to R,G,B and other properties, ```shading``` and ```col0``` are set as absolute values, and not incremented.
+A script can define its own colorspace and use it by setting ```shading``` and ```col0```.  Unlike to R,G,B and other properties, ```shading``` and ```col0``` are set as absolute values, and not incremented.
 
 ![draw-shading.png](img/README/2015-02-26-23-06-draw-shading.png)
 [draw-shading.c3dg](img/README/draw-shading.c3dg)

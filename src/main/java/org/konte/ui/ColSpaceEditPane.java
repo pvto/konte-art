@@ -170,8 +170,7 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
         int dim = 1;
         if (colSpacePanel1.getColorSpace() == null)
         {
-            dim = JOptionPane.showOptionDialog(null, "Select dimension", "Insert shading control point", 0, JOptionPane.PLAIN_MESSAGE,
-                null, new Object[] { " 1", " 2" }, null);
+            dim = 0;
         }
         else
         {

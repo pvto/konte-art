@@ -39,6 +39,6 @@ public abstract class ColorSpaceImpl implements ColorSpace {
     
     public abstract int getDimension();
 
-    public abstract float[] getValue(float... args) throws ParseException;
+    public abstract float[] getValue(float x) throws ParseException;
 
 }
