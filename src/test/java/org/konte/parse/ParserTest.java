@@ -12,10 +12,11 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseExpr() throws ParseException, IllegalArgumentException, IllegalAccessException {
+    public void testParseExpr() throws ParseException, IllegalArgumentException, IllegalAccessException
+    {
         String s =
 "cube {\n" +
-"    SQUARE{x 1/3 y -1/3 z -1+2+3}\n" +
+"    SQUARE{x 1/3 y -1/3 z -1+2+3 col0 (col0+1)}\n" +
 "}"
 ;
         Model m = new Parser().parse( 
@@ -24,8 +25,17 @@ public class ParserTest {
         m.initForGenerate();
     }
 
+    @Test(expected = ParseException.class)
+    public void testParseInnerExprArg() throws ParseException, IllegalArgumentException, IllegalAccessException
+    {
+        String s = "throws { SQUARE{col0 col0+1} }";
+        new Parser().parse(Tokenizer.retrieveTokenStrings(new StringBuilder(s)))
+                .initForGenerate();
+    }
+    
     @Test
-    public void testParseIfs() throws ParseException, IllegalArgumentException, IllegalAccessException {
+    public void testParseIfs() throws ParseException, IllegalArgumentException, IllegalAccessException
+    {
         String s =
 "cube {\n" +
 "  if (x > 1) {\n" +
@@ -65,7 +75,8 @@ public class ParserTest {
     }
 
     @Test
-    public void testParseDef() throws ParseException, IllegalArgumentException, IllegalAccessException {
+    public void testParseDef() throws ParseException, IllegalArgumentException, IllegalAccessException
+    {
         String s =
 "DEF foo 1\n" +
 "DEF bar (1+2)\n" +
@@ -80,7 +91,8 @@ public class ParserTest {
     
 
     @Test
-    public void testParseBooleanExpr() throws ParseException, IllegalArgumentException, IllegalAccessException {
+    public void testParseBooleanExpr() throws ParseException, IllegalArgumentException, IllegalAccessException
+    {
         String s =
 "eee { if (1<2 && 4<3) { if (x>0 || y>0 && x<1) { SQUARE{} } } }"
 ;

@@ -115,7 +115,7 @@ public class Parser {
 
         if (isSemicolons != 1)
         {
-            if (t == Language.left_bracket || t instanceof Function)
+            if (t == Language.left_bracket || t instanceof Function || t instanceof InnerExpressiveToken)
             {
             // skip to loop
             }
@@ -1313,8 +1313,9 @@ public class Parser {
                 case SHADING_ADJUSTMENTS:
                 case TRANSFORM_ADJUSTMENTS:
                 case REPEAT_ADJUSTMENTS:
-                    if (t instanceof InnerToken || t == Language.def || t == Language.undef || 
-                            t == Language.right_curl || t == Language.left_curl)
+                    if (t instanceof InnerToken
+                            || t == Language.def || t == Language.undef
+                            || t == Language.right_curl || t == Language.left_curl)
                             {
                         if (lastInnerToken == null && t instanceof InnerToken)
                         {
