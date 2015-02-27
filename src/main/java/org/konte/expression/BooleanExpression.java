@@ -4,8 +4,11 @@ import org.konte.parse.ParseException;
 
 public interface BooleanExpression {
 
+    
     public boolean bevaluate() throws ParseException;
 
+    
+    
     public static class Compare extends Subtraction
             implements BooleanExpression {
 
@@ -65,9 +68,6 @@ public interface BooleanExpression {
             return false;
         }
 
-        public String toString() {
-            return "?(" + leading + "=" + trailing + ")";
-        }
     }
 
     public static class Ne extends Compare {
@@ -90,9 +90,6 @@ public interface BooleanExpression {
             return false;
         }
 
-        public String toString() {
-            return "?(" + leading + "!=" + trailing + ")";
-        }
     }
     static Float ZERO = new Float(0f);
 
@@ -118,9 +115,6 @@ public interface BooleanExpression {
             return false;
         }
 
-        public String toString() {
-            return "?(" + leading + "<=" + trailing + ")";
-        }
     }
 
     public static class Gt extends Compare {
@@ -133,9 +127,6 @@ public interface BooleanExpression {
             return false;
         }
 
-        public String toString() {
-            return "?(" + leading + ">" + trailing + ")";
-        }
     }
 
     public static class Gte extends Compare {
@@ -148,9 +139,6 @@ public interface BooleanExpression {
             return false;
         }
 
-        public String toString() {
-            return "?(" + leading + ">=" + trailing + ")";
-        }
     }
 
     public static class Dummy extends Compare {
