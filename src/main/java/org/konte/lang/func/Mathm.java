@@ -118,6 +118,18 @@ public class Mathm {
         }
     }
 
+    public static class ELog10 extends Function1 {
+
+        public ELog10(String name) {
+            super(name);
+        }
+
+        @Override
+        public float value(float... val) {
+            return (float) Math.log10(val[0]);
+        }
+    }
+    
     public static class EPow extends Function2 {
 
         public EPow(String name) {
