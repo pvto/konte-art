@@ -6,7 +6,7 @@ import org.konte.parse.ParseException;
 
 public class ExpressionFunction extends Operator {
 
-    private Function f;
+    private final Function f;
     Expression[] args;
     private float[] resolvedArgs;
 

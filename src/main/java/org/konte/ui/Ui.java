@@ -972,15 +972,6 @@ public class Ui extends MyJFrame {
                 generateMM(evt);
             }
         });
-        jMenuItem1.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
-            public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
-                generateM(evt);
-            }
-            public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt) {
-            }
-            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
-            }
-        });
         generateMenu.add(jMenuItem1);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
@@ -1121,10 +1112,6 @@ public class Ui extends MyJFrame {
     private void generate(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generate
         generatePic();
     }//GEN-LAST:event_generate
-
-    private void generateM(javax.swing.event.MenuKeyEvent evt) {//GEN-FIRST:event_generateM
-        generatePic();
-    }//GEN-LAST:event_generateM
 
     private void generSM(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_generSM
         generateToSize();
