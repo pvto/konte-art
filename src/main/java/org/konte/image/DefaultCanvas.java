@@ -23,16 +23,17 @@ import org.konte.generate.Runtime;
  */
 public class DefaultCanvas implements Canvas {
 
-    private Model model;
-    protected int width, height;
-    private BufferedImage image;
+    private final Model model;
+    private final Background bg;
+    private final GlobalLighting lighting;
+    protected int width, 
+            height;
     protected Graphics2D draw;
+    private BufferedImage image;
     private BufferedImage layerimg;
     private GeneralPath path;
     private AffineTransform toScreen;
-    private Background bg;
-    private GlobalLighting lighting;
-    private HashMap renderHints = new HashMap<RenderingHints.Key, Object>();
+    private final HashMap<RenderingHints.Key, Object> renderHints = new HashMap<>();
 
     public DefaultCanvas(Model model, Background bg, GlobalLighting lighting)
     {
@@ -299,62 +300,29 @@ public class DefaultCanvas implements Canvas {
                         if (off < 0 || off >= len)
                             continue;
                         int v2 = ar.getElem(off);
-                        if (M[u] != 0)
-                            nadd++;
                         int a2 = v2 >> 24 & 0xFF;
-                        tota += a2;
-                        if ((M[u] & 8) == 8)
+                        if (M[u] != 0)
                         {
-                            type |= 1;
-                            if ((M[u] & 1) == 1)
-                            {
-                                b += (v2 & 0xFF) * a2;
-                            }
-                            if ((M[u] & 2) == 2)
-                            {
-                                g += (v2 >> 8 & 0xFF) * a2;
-                            }
-                            if ((M[u] & 4) == 4)
-                            {
-                                r += (v2 >> 16 & 0xFF) * a2;
-                            }
+                            nadd++;
+                            tota += a2;
                         }
-                        else
+                        if ((M[u] & 1) == 1)
                         {
-                            if ((M[u] & 1) == 1)
-                            {
-                                b += (v2 & 0xFF);
-                            }
-                            if ((M[u] & 2) == 2)
-                            {
-                                g += (v2 >> 8 & 0xFF);
-                            }
-                            if ((M[u] & 4) == 4)
-                            {
-                                r += (v2 >> 16 & 0xFF);
-                            }
+                            b += (v2 & 0xFF);
+                        }
+                        if ((M[u] & 2) == 2)
+                        {
+                            g += (v2 >> 8 & 0xFF);
+                        }
+                        if ((M[u] & 4) == 4)
+                        {
+                            r += (v2 >> 16 & 0xFF);
                         }
                     }
-                    if ((type & 1) == 1)
-                    {
-                        if (tota != 0)
-                        {
-                            r = r / tota;
-                            g = g / tota;
-                            b = b / tota;
-                        }
-                    }
-                    else
-                    {
-                        r = r / nadd;
-                        g = g / nadd;
-                        b = b / nadd;
-                    }
-                    tota = tota / nadd;
-                    if (tota > 255) tota = 255;
-                    if (r > 255) r = 255;
-                    if (g > 255) g = 255;
-                    if (b > 255) b = 255;
+                    tota = Math.min(255, tota / nadd);
+                    r = Math.min(255, r / nadd);
+                    g = Math.min(255, g / nadd);
+                    b = Math.min(255, b / nadd);
                     tmp[i] = tota << 24 | r << 16 | g << 8 | b;
                 }
                 for (int i = 0; i < tmp.length; i++)

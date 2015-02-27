@@ -1,14 +1,12 @@
 /*
    konte K-logo v1.3c
-   (c) pvtoi 2014
+   (c) pvtoi 2015
 */
 
 bg{ RGB #191919 }
 camera { z -1.8 }
 light { point(0, 0+FOO, .1)  { RGB 1 1 .8 } s 1 }
 light { point(0, 0, 5)   { RGB 1 1 1  } s 6 }
-fx 0*5{777 070 070}
-fx 1{0077 7700 7700 0077}
 
 
 k_logo {
@@ -18,7 +16,8 @@ k_logo {
 
 tilp {
 
-    200*{y -.005}SQUARE{y -.3 s 2 .003 .001 L 1}
+    200*{y -.005}
+      SQUARE{y -.3 s 2 .01 .001 L 1}
 
     write { PUSH E3 T3 N3 O3 K3
             layer .5

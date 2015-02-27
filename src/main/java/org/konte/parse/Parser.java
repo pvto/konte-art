@@ -657,7 +657,9 @@ public class Parser {
                             {
                                 for (int k = 0; k < mtrix[0].length; k++)
                                 {
-                                    mtrix[j][k] = ss[j].charAt(k) - '0';
+                                    int bits = (ss[j].charAt(k) - '0') & 0xFF;
+                                    if (bits > 15) bits = (bits - 7) & 0x0F;
+                                    mtrix[j][k] = bits;
                                 }
                             }
                             CanvasEffect e = new CanvasEffect(mtrix);
