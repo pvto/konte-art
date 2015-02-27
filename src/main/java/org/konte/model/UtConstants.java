@@ -15,29 +15,30 @@ public class UtConstants {
         this.utb = utb;
     }
 
-    private static final float cf_ = (float)Math.sqrt(2f)/5f;
-    // SQUARE CORNERS
-    private static final Matrix4 PATH_TOPL = Matrix4.translation(-0.5f, 0.5f, 0f);
-    private static final Matrix4 PATH_TOPR = Matrix4.translation(0.5f, 0.5f, 0f);
-    private static final Matrix4 PATH_BOTL = Matrix4.translation(-0.5f, -0.5f, 0f);
-    private static final Matrix4 PATH_BOTR = Matrix4.translation(0.5f, -0.5f, 0f);  
-    // + TRIANGLE TOP CORNER + CIRCLE
-    private static final Matrix4 PATH_TOPC = Matrix4.translation(0f, 0.5f, 0f); 
-    private static final Matrix4 PATH_BOTC = Matrix4.translation(0f, -0.5f, 0f); 
-    private static final Matrix4 PATH_LFTC = Matrix4.translation(-0.5f, 0f, 0f); 
-    private static final Matrix4 PATH_RGTC = Matrix4.translation(0.5f, 0f, 0f); 
-    // CIRCLE BEZIERS
-    private static final Matrix4[][] CIRC_BEZ = new Matrix4[4][2];
-    
-    // BOX CORNERS
-    private static final Matrix4 PATH_TLF = Matrix4.translation(-0.5f, 0.5f, -0.5f);
-    private static final Matrix4 PATH_TRF = Matrix4.translation(0.5f, 0.5f, -0.5f);
-    private static final Matrix4 PATH_BLF = Matrix4.translation(-0.5f, -0.5f, -0.5f);
-    private static final Matrix4 PATH_BRF = Matrix4.translation(0.5f, -0.5f, -0.5f);
-    private static final Matrix4 PATH_TLB = Matrix4.translation(-0.5f, 0.5f, 0.5f);
-    private static final Matrix4 PATH_TRB = Matrix4.translation(0.5f, 0.5f, 0.5f);
-    private static final Matrix4 PATH_BLB = Matrix4.translation(-0.5f, -0.5f, 0.5f);
-    private static final Matrix4 PATH_BRB = Matrix4.translation(0.5f, -0.5f, 0.5f);
+    private static final float 
+            cf_ = (float)Math.sqrt(2.0) / 5f;
+    private static final Matrix4 
+            PATH_TOPL = Matrix4.translation(-0.5f, 0.5f, 0f),
+            PATH_TOPR = Matrix4.translation(0.5f, 0.5f, 0f),
+            PATH_BOTL = Matrix4.translation(-0.5f, -0.5f, 0f),
+            PATH_BOTR = Matrix4.translation(0.5f, -0.5f, 0f),
+            PATH_TOPC = Matrix4.translation(0f, 0.5f, 0f),
+            PATH_BOTC = Matrix4.translation(0f, -0.5f, 0f),
+            PATH_LFTC = Matrix4.translation(-0.5f, 0f, 0f),
+            PATH_RGTC = Matrix4.translation(0.5f, 0f, 0f)
+            ;
+    private static final Matrix4[][] CIRC_BEZ = 
+            new Matrix4[4][2];
+    private static final Matrix4
+            PATH_TLF = Matrix4.translation(-0.5f, 0.5f, -0.5f),
+            PATH_TRF = Matrix4.translation(0.5f, 0.5f, -0.5f),
+            PATH_BLF = Matrix4.translation(-0.5f, -0.5f, -0.5f),
+            PATH_BRF = Matrix4.translation(0.5f, -0.5f, -0.5f),
+            PATH_TLB = Matrix4.translation(-0.5f, 0.5f, 0.5f),
+            PATH_TRB = Matrix4.translation(0.5f, 0.5f, 0.5f),
+            PATH_BLB = Matrix4.translation(-0.5f, -0.5f, 0.5f),
+            PATH_BRB = Matrix4.translation(0.5f, -0.5f, 0.5f)
+            ;
 
 
     private final UtBuilder utb;
