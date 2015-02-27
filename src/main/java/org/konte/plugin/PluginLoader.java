@@ -1,6 +1,5 @@
 package org.konte.plugin;
 
-/** @author pvto */
 import java.io.File;
 import java.io.FileInputStream;
 import java.net.URL;
@@ -10,6 +9,7 @@ import java.util.jar.JarInputStream;
 import org.konte.lang.Language;
 import org.konte.generate.Runtime;
 
+/** @author pvto */
 public class PluginLoader {
 
     static {

@@ -13,11 +13,7 @@ public class CanvasEffect {
         copy = new int[m.length * m[0].length];
         for (int i = 0; i < m.length; i++)
         {
-            for (int j = 0; j < m[0].length; j++)
-            {
-                copy[i*m[0].length + j] = m[i][j];
-            }
-
+            System.arraycopy(m[i], 0, copy, i*m[0].length, m[0].length);
         }
     }
 }

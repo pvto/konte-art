@@ -23,7 +23,6 @@ import org.konte.expression.Expression;
 import org.konte.expression.Value;
 import org.konte.misc.Matrix3;
 import org.konte.misc.ReverseParseTools;
-import org.konte.misc.Vector3;
 import org.konte.model.Path;
 import org.konte.model.PathRule;
 import org.konte.model.PathRule.Placeholder;
@@ -46,11 +45,13 @@ public class SvgImport {
     private float hperw;
 
     // see http://www.w3.org/TR/SVG/coords.html#Units
-    public static final float pt_px = 1.25f;
-    public static final float pc_px = 15f;
-    public static final float mm_px = 3.5433f;
-    public static final float cm_px = 35.433f;
-    public static final float in_px = 90f;
+    public static final float
+            pt_px = 1.25f,
+            pc_px = 15f,
+            mm_px = 3.5433f,
+            cm_px = 35.433f,
+            in_px = 90f
+            ;
     public static final String[] unit_name_tbl = new String[] {
         "px","pt","pc","mm","cm","in"
     };
