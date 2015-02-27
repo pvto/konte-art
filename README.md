@@ -7,6 +7,9 @@ Konte is a small language for generating images, "drawing by coding".  All image
 
 *Konte is an art project. Its code is old and a bit edgy. I'll be cleaning it up, but you were warned.*
 
+![objective.png](img/README/2015-02-27-23-59-objective.png)
+[objective.c3dg](img/README/objective.c3dg)
+
 Some technical notes about what the app does:
 
  - it projects arbitrary z-ordered and linearly transformed 3D bezier paths on a Java2D canvas
@@ -300,7 +303,7 @@ light {COMPLEMENTARY point(.5,.1,.1){RGB 1 0 0} s .1}
 
 ###Drawing meshes
 
-Each tree trunk or branch or branch of branch is a separate mesh in the following picture.
+Each tree trunk or branch or a branch of branch (exluding its leaves) is a separate mesh in the following picture.
 
 ![tree-mesh.png](img/README/2015-02-26-11-44-tree-mesh.png)
 [tree-mesh.c3dg](img/README/tree-mesh.c3dg)
