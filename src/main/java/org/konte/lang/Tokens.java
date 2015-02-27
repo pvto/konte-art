@@ -17,41 +17,51 @@ public class Tokens {
     public static class Token {
 
         public String name;
-        public ArrayList<String> aliases = new ArrayList<String>();
+        public ArrayList<String> aliases = new ArrayList<>();
 
-        public Token() {
-        }
+        public Token() {}
 
-        public Token(String name) {
+        public Token(String name)
+        {
             this.name = name;
         }
 
-        public void setName(String name) {
+        public void setName(String name)
+        {
             this.name = name;
         }
 
-        public void addAlias(String s) {
+        public void addAlias(String s)
+        {
             aliases.add(s);
         }
 
-        public int compareTo(String tokenName) {
-            if (name.equals(tokenName)) {
+        public int compareTo(String tokenName)
+        {
+            if (name.equals(tokenName))
+            {
                 return 0;
             }
-            for (String s : aliases) {
-                if (s.equals(tokenName)) {
+            for (String s : aliases)
+            {
+                if (s.equals(tokenName))
+                {
                     return 0;
                 }
             }
             return -1;
         }
 
-        public String toString() {
+        @Override
+        public String toString()
+        {
             StringBuilder bd = new StringBuilder();
             bd.append(name);
-            if (aliases.size() > 0) {
+            if (aliases.size() > 0)
+            {
                 bd.insert(0, "[");
-                for (String s : aliases) {
+                for (String s : aliases)
+                {
                     bd.append("/").append(s);
                 }
                 bd.append("]");
@@ -59,20 +69,24 @@ public class Tokens {
             return bd.toString();
         }
 
-        public String toHelpString() {
+        public String toHelpString()
+        {
             return toString();
         }
     }
 
     public static class ControlToken extends Token {
 
-        public ControlToken(String name) {
+        public ControlToken(String name)
+        {
             super(name);
             // add each character in token name to language's set of control characters
             Language.addControlCharacters(name);
         }
 
-        public void addAlias(String s) {
+        @Override
+        public void addAlias(String s)
+        {
             super.addAlias(s);
             Language.addControlCharacters(s);
         }
@@ -84,7 +98,8 @@ public class Tokens {
      */
     public static class Operator extends ControlToken {
 
-        public Operator(String name) {
+        public Operator(String name)
+        {
             super(name);
         }
     }
@@ -96,7 +111,8 @@ public class Tokens {
      */
     public static class Comparator extends ControlToken {
 
-        public Comparator(String name) {
+        public Comparator(String name)
+        {
             super(name);
         }
     }
@@ -106,7 +122,8 @@ public class Tokens {
      */
     public static class Context extends ControlToken {
 
-        public Context(String name) {
+        public Context(String name)
+        {
             super(name);
         }
     }
@@ -124,7 +141,8 @@ public class Tokens {
          * @param s name of new inner token
          * @param allowedParameterCounts integer list of what are the possible numbers of parameters
          */
-        public InnerToken(String s, Integer... allowedParameterCounts) {
+        public InnerToken(String s, Integer... allowedParameterCounts)
+        {
             this(s, null, allowedParameterCounts);
         }
 
@@ -134,10 +152,12 @@ public class Tokens {
          * @param referenceClass class that does the matching transform to a point in konte space (@link TransformExpression)
          * @param allowedParameterCounts integer list of what are the possible numbers of parameters
          */
-        public InnerToken(String s, Class referenceClass, Integer... allowedParameterCounts) {
+        public InnerToken(String s, Class referenceClass, Integer... allowedParameterCounts)
+        {
             super(s);
             this.referenceClass = referenceClass;
-            if (allowedParameterCounts != null && allowedParameterCounts.length > 0) {
+            if (allowedParameterCounts != null && allowedParameterCounts.length > 0)
+            {
                 Arrays.sort(allowedParameterCounts);
                 paramcnts = allowedParameterCounts;
             }
@@ -147,45 +167,58 @@ public class Tokens {
             }
         }
 
-        public boolean nParamsAllowed(int count) {
-            for (Integer i : paramcnts) {
-                if (i == -1) {
+        public boolean nParamsAllowed(int count)
+        {
+            for (Integer i : paramcnts)
+            {
+                if (i == -1)
+                {
                     return true;
                 }
-                if (i == count) {
+                if (i == count)
+                {
                     return true;
                 }
-                if (i > count) {
+                if (i > count)
+                {
                     return false;
                 }
             }
             return false;
         }
 
-        public boolean higherParamCountAllowed(int count) {
-            for (int i = paramcnts.length - 1; i >= 0; i--) {
-                if (paramcnts[i] == -1) {
+        public boolean higherParamCountAllowed(int count)
+        {
+            for (int i = paramcnts.length - 1; i >= 0; i--)
+            {
+                if (paramcnts[i] == -1)
+                {
                     return true;
                 }
-                if (paramcnts[i] > count) {
+                if (paramcnts[i] > count)
+                {
                     return true;
                 }
-                if (paramcnts[i] <= count) {
+                if (paramcnts[i] <= count)
+                {
                     return false;
                 }
             }
             return false;
         }
 
-        public Class getReferenceClass() {
+        public Class getReferenceClass()
+        {
             return referenceClass;
         }
 
-        public TransformModifier newInstance(Expression e, Token t) {
+        public TransformModifier newInstance(Expression e, Token t)
+        {
             return null;
         }
 
-        public TransformModifier newInstance(List<Expression> e, Token t) {
+        public TransformModifier newInstance(List<Expression> e, Token t)
+        {
             return null;
         }
 
@@ -197,10 +230,12 @@ public class Tokens {
      */
     public static class InnerExpressiveToken extends InnerToken {
 
-        public InnerExpressiveToken(String s, Integer... allowedParameterCounts) {
+        public InnerExpressiveToken(String s, Integer... allowedParameterCounts)
+        {
             super(s, null, allowedParameterCounts);
         }
-        public InnerExpressiveToken(String s, Class referenceClass, Integer... allowedParameterCounts) {
+        public InnerExpressiveToken(String s, Class referenceClass, Integer... allowedParameterCounts)
+        {
             super(s, referenceClass, allowedParameterCounts);
         }
     }
@@ -211,7 +246,8 @@ public class Tokens {
      */
     public static class InnerAffineToken extends InnerToken implements AffineTransform {
 
-        public InnerAffineToken(String s, Class referenceClass, Integer... allowedParameterCounts) {
+        public InnerAffineToken(String s, Class referenceClass, Integer... allowedParameterCounts)
+        {
             super(s, referenceClass, allowedParameterCounts);
         }
     }
@@ -222,7 +258,8 @@ public class Tokens {
      */
     public static class InnerAffineExpressiveToken extends InnerExpressiveToken implements AffineTransform {
 
-        public InnerAffineExpressiveToken(String s, Class referenceClass, Integer... allowedParameterCounts) {
+        public InnerAffineExpressiveToken(String s, Class referenceClass, Integer... allowedParameterCounts)
+        {
             super(s, referenceClass, allowedParameterCounts);
         }
     }
@@ -233,10 +270,10 @@ public class Tokens {
      */
     public static abstract class Function extends Token {
 
-        public Function() {
-        }
+        public Function() {}
 
-        public Function(String name) {
+        public Function(String name)
+        {
             this.name = name;
         }
 
@@ -244,11 +281,9 @@ public class Tokens {
 
         public abstract int getArgsCount();
 
-        public boolean nArgsAllowed(int n) {
-            if (getArgsCount() == -1 || getArgsCount() == n) {
-                return true;
-            }
-            return false;
+        public boolean nArgsAllowed(int n)
+        {
+            return getArgsCount() == -1 || getArgsCount() == n;
         }
     }
 
@@ -256,72 +291,76 @@ public class Tokens {
 
         protected Model model;
 
-        public ContextualFunction(String name, Model model) {
+        public ContextualFunction(String name, Model model)
+        {
             super(name);
             this.model = model;
         }
 
-        public void setModel(Model model) {
+        public void setModel(Model model)
+        {
             this.model = model;
         }
 
-        public Model getModel() {
+        public Model getModel()
+        {
             return model;
         }
     }
 
     public static abstract class ContextualOneToOneFunction extends ContextualFunction {
 
-        public ContextualOneToOneFunction(String name, Model model) {
+        public ContextualOneToOneFunction(String name, Model model)
+        {
             super(name, model);
         }
     }
 
     public static abstract class Function0 extends Function {
         public Function0(String name) { super(name); }
-        public int getArgsCount() { return 0; }
+        @Override public int getArgsCount() { return 0; }
         @Override
         public abstract float value(float... args) throws Exception;
     }
 
     public static abstract class Function1 extends Function {
         public Function1(String name) { super(name); }
-        public int getArgsCount() { return 1; }
+        @Override public int getArgsCount() { return 1; }
         @Override
         public abstract float value(float... args) throws Exception;
     }
 
     public static abstract class Function2 extends Function {
         public Function2(String name) { super(name); }
-        public int getArgsCount() { return 2; }
+        @Override public int getArgsCount() { return 2; }
         @Override
         public abstract float value(float... args) throws Exception;
     }
 
     public static abstract class Function3 extends Function {
         public Function3(String name) { super(name); }
-        public int getArgsCount() { return 3; }
+        @Override public int getArgsCount() { return 3; }
         @Override
         public abstract float value(float... args) throws Exception;
     }
 
     public static abstract class Function4 extends Function {
         public Function4(String name) { super(name); }
-        public int getArgsCount() { return 4; }
+        @Override public int getArgsCount() { return 4; }
         @Override
         public abstract float value(float... args) throws Exception;
     }
 
     public static abstract class Function5 extends Function {
         public Function5(String name) { super(name); }
-        public int getArgsCount() { return 5; }
+        @Override public int getArgsCount() { return 5; }
         @Override
         public abstract float value(float... args) throws Exception;
     }
     
     public static abstract class FunctionN_ extends Function {
         public FunctionN_(String name) { super(name); }
-        public int getArgsCount() { return -1; }
+        @Override public int getArgsCount() { return -1; }
         @Override
         public abstract float value(float... args) throws Exception;
     }
@@ -335,26 +374,25 @@ public class Tokens {
 
         public Constant(String name, Expression value, boolean isDef) throws ParseException 
         {
-//        try {
             this.name = name;
             this.value = value;
             preEval(isDef);
-//        } catch (ParseException ex) {
-
-//        }
         }
 
-        public void setId(int id) {
+        public void setId(int id)
+        {
             this.id = id;
         }
 
-        public void setValue(Expression value) {
+        public void setValue(Expression value)
+        {
             this.value = value;
         }
 
-        public void preEval(boolean isDef) throws ParseException 
+        public final void preEval(boolean isDef) throws ParseException 
         {
-            if (value instanceof Value || isDef) {
+            if (value instanceof Value || isDef)
+            {
                 isMacro = false;
                 constVal = value.evaluate();
             }
