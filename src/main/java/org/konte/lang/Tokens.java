@@ -298,6 +298,27 @@ public class Tokens {
         public abstract float value(float... args) throws Exception;
     }
 
+    public static abstract class Function3 extends Function {
+        public Function3(String name) { super(name); }
+        public int getArgsCount() { return 3; }
+        @Override
+        public abstract float value(float... args) throws Exception;
+    }
+
+    public static abstract class Function4 extends Function {
+        public Function4(String name) { super(name); }
+        public int getArgsCount() { return 4; }
+        @Override
+        public abstract float value(float... args) throws Exception;
+    }
+
+    public static abstract class Function5 extends Function {
+        public Function5(String name) { super(name); }
+        public int getArgsCount() { return 5; }
+        @Override
+        public abstract float value(float... args) throws Exception;
+    }
+    
     public static abstract class FunctionN_ extends Function {
         public FunctionN_(String name) { super(name); }
         public int getArgsCount() { return -1; }

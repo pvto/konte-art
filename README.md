@@ -246,6 +246,30 @@ shading eyeshades {
 }
 ```
 
+####Extending user colorspaces
+
+User colorspaces can be extended to arbitrary dimensions by making them dynamic.  Here's an extension to two dimensions, with the help of a ```lirp``` function (linear interpolation).
+
+![extending-user-1d-colorspace.png](img/README/2015-02-27-17-24-extending-user-1d-colorspace.png)
+[extending-user-1d-colorspace.c3dg](img/README/extending-user-1d-colorspace.c3dg)
+
+```
+shading extended {
+    point(0.0) { A 1
+        RGB lirp(0,1,.5,.3,SAT) lirp(0,1,.5,.1,SAT) lirp(0,1,.5,0,SAT)}
+    point(0.25) { A 1
+        RGB lirp(0,1,.5,.9,SAT) lirp(0,1,.5,0,SAT) lirp(0,1,.5,.6,SAT) }
+    point(.5) { A 1
+        RGB lirp(0,1,.5,.1,SAT) lirp(0,1,.25,1,SAT) lirp(0,1,.5,.8,SAT) }
+    point(.75) { A 1
+        RGB lirp(0,1,.5,1,SAT) lirp(0,1,.5,.7,SAT) lirp(0,1,.5,.7,SAT) }
+    point(1) { A 1
+        RGB lirp(0,1,.9,1,SAT) lirp(0,1,.9,.7,SAT) lirp(0,1,1,1,SAT) }
+}
+```
+
+This colorspace is composed of five successive points within [0,1] that you reference with setting ```col0 0.25``` etc.  To break a color towards black or towards white, set ```DEF{SAT=X}``` where X=0 would give black and X=1 would give white.
+
 ###Lighting
 
 Konte allows placing lights in the space.  Rather than lights though they can be thought of as spatial expressions that modify object color.
@@ -395,6 +419,16 @@ lopas  // "low-pass" function.
        // Examples:
        //  lopas(0.25, 0.5) -> 0.25
        //  lopas(0.61, 0.5) -> 0
+
+lirp   // Linear interpolation function with an adjustable middle
+
+       // Examples:
+       //  lirp(0, 1, 0.5, 0.3, 0.5) -> 0.3
+       //    (from range [0,1] with a middle point at 0.5 receiving value 0.3,
+       //     interpolate at x = 0.5)
+       //  lirp(0, 1, 0.5, 0.3, 0.25) -> 0.15
+       //    (from range [0,1] with a middle point at 0.5 receiving value 0.3,
+       //     interpolate at x = 0.25)
 
 mandelbrot  // fractal function [0,255].
        // Examples:

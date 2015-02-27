@@ -223,6 +223,7 @@ public class Language {
     public static Token round = addToken(new Mathm.ERound("round"));
     public static Token floor = addToken(new Mathm.EFloor("floor"));
     public static Token mean = addToken(new Mathm.EMean("mean"));
+    public static Token lininterp = addToken(new Mathm.ELin("lirp"));
     public static Token saw = addToken(new Mathm.ESawWave("saw"));
     public static Token squareWave = addToken(new Mathm.ESquareWave("square"));
     public static Token hipas = addToken(new Mathm.EHipass("hipas"));

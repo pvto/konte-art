@@ -142,30 +142,6 @@ public class Mathm {
         }
     }
 
-    public static class ERandom extends Function0 {
-
-        public ERandom(String name) {
-            super(name);
-        }
-
-        @Override
-        public float value(float... val) {
-            return (float) Math.random();
-        }
-    }
-
-    public static class EIRand extends Function1 {
-
-        public EIRand(String name) {
-            super(name);
-        }
-
-        @Override
-        public float value(float... val) {
-            return (float) Math.round(Math.random() * val[0]);
-        }
-    }
-
     public static class EFloor extends Function1 {
 
         public EFloor(String name) {
@@ -217,6 +193,26 @@ public class Mathm {
             return Math.min(args[0], args[1]);
         }
     }
+    
+    public static class ELin extends Function5 {
+
+        public ELin(String name) { super(name); }
+
+        @Override
+        public float value(float... args) {
+            float min = args[0],
+                    max = args[1],
+                    half = args[2],
+                    halfval = args[3],
+                    x = args[4];
+            if (half == 0f) return max;
+            if (x < min) return min;
+            else if (x > max && x > half) return max;
+            else if (x <= half) return min + (halfval - min) * (x - min) / (half - min);
+            else return halfval + (max - halfval) * (x - half) / (max - half);
+        }
+    }
+    
 
     public static class ERound extends Function1 {
 
@@ -227,6 +223,30 @@ public class Mathm {
         @Override
         public float value(float... val) {
             return (float) Math.round(val[0]);
+        }
+    }
+
+    public static class ERandom extends Function0 {
+
+        public ERandom(String name) {
+            super(name);
+        }
+
+        @Override
+        public float value(float... val) {
+            return (float) Math.random();
+        }
+    }
+
+    public static class EIRand extends Function1 {
+
+        public EIRand(String name) {
+            super(name);
+        }
+
+        @Override
+        public float value(float... val) {
+            return (float) Math.round(Math.random() * val[0]);
         }
     }
 
