@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.WeakHashMap;
 import sun.awt.image.ToolkitImage;
 
 /**
@@ -16,9 +15,9 @@ import sun.awt.image.ToolkitImage;
  */
 public class BitmapCache {
 
-    private static HashMap<String, Image> cache = new HashMap<String, Image>();
+    private static final HashMap<String, Image> cache = new HashMap<>();
     
-    private HashMap<String, Image> references = new HashMap<String, Image>();
+    private HashMap<String, Image> references = new HashMap<>();
 
     public Image[] imageArr;
 
@@ -113,7 +112,7 @@ public class BitmapCache {
     {
         for(String s : references.keySet())
             references.get(s).flush();
-        references = new HashMap<String, Image>();
+        references = new HashMap<>();
     }
 
     public static void clearCache()
