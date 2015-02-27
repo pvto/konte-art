@@ -18,12 +18,10 @@ tree_ { tree_ { ry -5 } }
 tree__ { tree_{} }
 tree__ 5 {
   tree_{}
-  if (I % BB < 1) {
-  if (I > 6) {
+  if (I > 6 && I % BB < 1) {
       tree_{y -.5 rz 45 s .8
         DEF{mesh=mesh+rnd()*10000000+x*0; 
             RZ=1; RY=1; BB=6;}}
-  }
   }
 }
 

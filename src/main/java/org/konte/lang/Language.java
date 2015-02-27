@@ -112,14 +112,16 @@ public class Language {
     
     
     // expression priorities
-    public static final int COMPARISON_PRIORITY = 1;
-    public static final int ADD_PRIORITY = 2;
-    public static final int MULTIPLY_PRIORITY = 3;
-    public static final int POWER_PRIORITY = 4;
-    public static final int NEGATION_PRIORITY = 5;
-    public static final int FUNCTION_PRIORITY = 6;
-    public static final int VALUE_PRIORITY = 7;
-    public static final int BRACKET_PRIORITY = 8;
+    public static final int OR_PRIORITY = 1;
+    public static final int AND_PRIORITY = 2;
+    public static final int COMPARISON_PRIORITY = 3;
+    public static final int ADD_PRIORITY = 4;
+    public static final int MULTIPLY_PRIORITY = 5;
+    public static final int POWER_PRIORITY = 6;
+    public static final int NEGATION_PRIORITY = 7;
+    public static final int FUNCTION_PRIORITY = 8;
+    public static final int VALUE_PRIORITY = 9;
+    public static final int BRACKET_PRIORITY = 10;
     
 
     // misc keywords: (type-index,[list])
@@ -189,6 +191,8 @@ public class Language {
     public static Token semicolon = addToken(new ControlToken(";"));
 
     
+    public static Token and = addToken(new Comparator("&&"));
+    public static Token or = addToken(new Comparator("||"));
     public static Token equals = addToken(new Comparator("="));
     public static Token ne = addToken(new Comparator("!="));
     public static Token lt = addToken(new Comparator("<"));
@@ -398,6 +402,9 @@ public class Language {
         S.addAlias("sat");
         L.addAlias("lightness");
         A.addAlias("alpha");
+        
+        and.addAlias("and");
+        or.addAlias("or");
 
         // load plugins
         PluginLoader.main(null);    // this will run the static block...        

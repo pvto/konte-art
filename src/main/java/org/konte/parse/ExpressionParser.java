@@ -6,6 +6,7 @@ import static org.konte.lang.Tokens.*;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import org.konte.expression.Operator;
 import org.konte.lang.Language;
 import org.konte.model.Model;
 
@@ -309,6 +310,14 @@ public class ExpressionParser {
                 } else if (t == Language.gte)
                 {
                     exps[i] = new BooleanExpression.Gte();                    
+                } else if (t == Language.and)
+                {
+                    exps[i] = new BooleanExpression.And();
+                    priority[i] = cur + Language.AND_PRIORITY;
+                } else if (t == Language.or)
+                {
+                    exps[i] = new BooleanExpression.Or();
+                    priority[i] = cur + Language.OR_PRIORITY;
                 }
             } else if (t instanceof org.konte.lang.Tokens.Function)
             {
@@ -451,19 +460,66 @@ public class ExpressionParser {
         Expression ret = null;
 
         i = min;
+        int exprInd = -1;
         while (i <= min || ( i > min && ret == null) )
         {
             for (int k = 0; k < tt.size(); k++)
             {
                 if (priority[k] == i && exps[k] != null)
                 {
-                    ret = exps[k];
+                    ret = exps[exprInd = k];
                 }
             }
             i++;
         }
-
+        
+        testReachability(exps, exps[exprInd]);
         return ret;
     }
 
+    public void testReachability(Expression[] exps, Expression root) throws ParseException
+    {
+        for(int i = exps.length - 1; i >= 0; i --)
+        {
+            if (exps[i] != null)
+            {
+                if (!reachable(exps[i], root))
+                {
+                    throw new ParseException("Internal expression parse error: " + exps[i] + " is not reachable from " + root);
+                }
+            }
+        }
+
+    }
+    public boolean reachable(Expression exp, Expression parent)
+    {
+        Expression ii = parent;
+        if (ii == null)
+            return false;
+        if (exp == parent)
+            return true;
+        if (Operator.class.isAssignableFrom(parent.getClass()))
+        {
+            Operator op = (Operator)parent;
+            if (op.getLeading() != null)
+            {
+                if (reachable(exp, op.getLeading()))
+                    return true;
+            }
+            if (op.getTrailing() != null)
+            {
+                if (reachable(exp, op.getTrailing()))
+                    return true;
+            }                
+        }
+        if (ExpressionFunction.class.isAssignableFrom(parent.getClass()))
+        {
+            ExpressionFunction ef = (ExpressionFunction)parent;
+            for(Expression efa : ef.getArgs())
+                if (reachable(exp, efa))
+                    return true;
+        }
+
+        return false;
+    }
 }

@@ -77,4 +77,20 @@ public class ParserTest {
         );
         m.initForGenerate();
     }
+    
+
+    @Test
+    public void testParseBooleanExpr() throws ParseException, IllegalArgumentException, IllegalAccessException {
+        String s =
+"eee { if (1<2 && 4<3) { if (x>0 || y>0 && x<1) { SQUARE{} } } }"
+;
+        Model m = new Parser().parse( 
+            Tokenizer.retrieveTokenStrings(new StringBuilder(s))
+        );
+        m.initForGenerate();
+        ConditionalStructure cond0 = (ConditionalStructure)
+                m.rules.get("eee").getRules().get(0).getRule().transforms.get(0);
+        System.out.println(cond0);
+    }
+
 }

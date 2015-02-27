@@ -24,7 +24,34 @@ public interface BooleanExpression {
         }
 
         public String toString() {
-            return "?(" + leading + "<compare>" + trailing + ")";
+            return "?(" + leading + " " + this.getClass().getSimpleName() + " " + trailing + ")";
+        }
+    }
+
+    public static class And extends Compare {
+        public boolean bevaluate() throws ParseException 
+        {
+            Expression leading = getLeading();
+            Expression trailing = getTrailing();
+            return (Compare.class.isAssignableFrom(leading.getClass())
+                    ? ((Compare)leading).bevaluate() : leading.evaluate() > 0f)
+                    &&
+                   (Compare.class.isAssignableFrom(trailing.getClass()) 
+                    ? ((Compare)trailing).bevaluate() : trailing.evaluate() > 0f);
+        }
+    }
+
+    public static class Or extends Compare {
+        public boolean bevaluate() throws ParseException 
+        {
+            Expression leading = getLeading();
+            Expression trailing = getTrailing();
+            return (Compare.class.isAssignableFrom(leading.getClass())
+                    ? ((Compare)leading).bevaluate() : leading.evaluate() > 0f)
+                    ||
+                    (Compare.class.isAssignableFrom(trailing.getClass())
+                    ? ((Compare)trailing).bevaluate() : trailing.evaluate() > 0f)
+                    ;
         }
     }
 
@@ -79,9 +106,6 @@ public interface BooleanExpression {
             return false;
         }
 
-        public String toString() {
-            return "?(" + leading + "<" + trailing + ")";
-        }
     }
 
     public static class Lte extends Compare {
@@ -141,4 +165,5 @@ public interface BooleanExpression {
             return retVal;
         }
     }
+
 }
