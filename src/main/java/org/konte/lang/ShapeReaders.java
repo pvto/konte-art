@@ -28,13 +28,12 @@ public enum ShapeReaders {
                     case WIDTH: return new DiskBackedShapeReader(m, new DiskBackedShapeReader.MinWidthMetric(m));
                     case SMALLNESS: return new DiskBackedShapeReader(m, new DiskBackedShapeReader.MaxWidthMetric(m));
                     case STREAM: return new StreamingShapeReader(m);
-                    case DB: return new DiskBackedShapeReader(m, new DiskBackedShapeReader.ZMetric(m));
-                    case Z:
+                    case Z: return new ZOrderShapeReader(m);
                     default:
-                        return new ZOrderShapeReader(m);
+                    case DB: return new DiskBackedShapeReader(m, new DiskBackedShapeReader.ZMetric(m));
                 }
             }
         }
-        return null;
+        return new DiskBackedShapeReader(m, new DiskBackedShapeReader.ZMetric(m));
     }
 }

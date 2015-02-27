@@ -24,6 +24,7 @@ import org.konte.generate.RuleWriter;
 import org.konte.generate.ZOrderShapeReader;
 import org.konte.generate.Runtime;
 import org.konte.image.CanvasEffect;
+import org.konte.lang.ShapeReaders;
 import org.konte.model.PathRule.Placeholder;
 
 /**
@@ -428,7 +429,7 @@ public class Model {
         }
         if (shapeReader == null)
         {
-            shapeReader = new ZOrderShapeReader(this);
+            shapeReader = ShapeReaders.getReader("foo", this);
         }
         if (bg == null)
         {
