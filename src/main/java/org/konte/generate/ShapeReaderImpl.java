@@ -47,6 +47,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
     private ExecutorService drawer = Executors.newSingleThreadExecutor();
     private RuleWriter rulew;
     private long shapeCount;
+    private boolean enableLaterIteration = false;
 
     
     public ShapeReaderImpl(Model model)
@@ -60,6 +61,11 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         this.rulew = rulew;
     }
 
+    public void setEnableLaterIteration(boolean enable)
+    {
+        this.enableLaterIteration = enable;
+    }
+    
     public long getShapeCount()
     {
         return shapeCount;
@@ -94,7 +100,10 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         else
         {
             final ArrayList<Layer> lls = layerInd;
-            layerInd = new ArrayList<Layer>();
+            if (!enableLaterIteration)
+            {
+                layerInd = new ArrayList<Layer>();
+            }
             layers = new HashMap<Float,Layer>();
             Runnable rble =
             new Runnable()
@@ -114,7 +123,10 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                             }
                             e = ll.points.lowerEntry(e.getKey());
                         }
-                        ll.points.clear();
+                        if (!enableLaterIteration)
+                        {
+                            ll.points.clear();
+                        }
                         canvas.applyEffects(model, ll.layerIndex);
                     }
                     Runtime.sysoutln("drawn: " + (shapeCount-then) + " state=" + state, 0);
@@ -147,7 +159,10 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         else
         {
             final ArrayList<Layer> lls = layerInd;
-            layerInd = new ArrayList<Layer>();
+            if (!enableLaterIteration)
+            {
+                layerInd = new ArrayList<Layer>();
+            }
             layers = new HashMap<Float,Layer>();
             Runnable rble = new Runnable()
             {
@@ -167,7 +182,10 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                             }
                             e = ll.points.higherEntry(e.getKey());
                         }
-                        ll.points.clear();
+                        if (!enableLaterIteration)
+                        {
+                            ll.points.clear();
+                        }
                         canvas.applyEffects(model, ll.layerIndex);
                     }
                     Runtime.sysoutln("drawn: " + (shapeCount-then) + " state=" + state, 0);
@@ -732,7 +750,10 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                     if (layer >= layerInd.size())
                         return null;
                     curEntry = layerInd.get(layer).points.lastEntry();
-
+                    if (curEntry == null)
+                    {
+                        return next();
+                    }
                 }
                 if (curI == null)
                 {

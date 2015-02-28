@@ -57,7 +57,7 @@ public class OutputShape implements Serializable {
     public float getR() { return ((col >> 16) & 0xFF) / 255f; }
     public float getG() { return ((col >> 8) & 0xFF) / 255f; }
     public float getB() { return (col & 0xFF) / 255f; }
-    public float getA() { return (col >> 24) / 255f; }
+    public float getA() { return ((col >> 24) & 0xFF) / 255f; }
     
     public float getMinWidth()
     {

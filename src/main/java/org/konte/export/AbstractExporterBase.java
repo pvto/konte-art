@@ -72,6 +72,17 @@ public abstract class AbstractExporterBase {
 
     public void export(File file) throws IOException 
     {
+        try {
+            exportInternal(file);
+        }
+        catch(Exception ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+    
+    private void exportInternal(File file) throws IOException
+    {
         init();
         bsr.rewind();
         BufferedWriter bw = new BufferedWriter(new FileWriter(file));

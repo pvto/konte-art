@@ -17,10 +17,15 @@ public class ImageAPI {
     private int imgWidth = 512,  imgHeight = 512;
     private MemoryWatch memoryWatch;
     private RenderType renderType = RenderType.IMAGE;
+    private boolean enableSvgSceneExport = false;
 
     public void setRenderType(RenderType renderType)
     {
         this.renderType = renderType;
+    }
+
+    public void setEnableSvgSceneExport(boolean enableSvgSceneExport) {
+        this.enableSvgSceneExport = enableSvgSceneExport;
     }
 
 
@@ -77,6 +82,11 @@ public class ImageAPI {
         rtuple.shapeReader = rtuple.model.shapeReader;
         rtuple.shapeReader.setCanvas(rtuple.canvas);
         rtuple.shapeReader.rewind();
+        
+        if (renderType == RenderType.SVG || enableSvgSceneExport)
+        {
+            rtuple.shapeReader.setEnableLaterIteration(true);
+        }
         
         rtuple.ruleWriter = new RuleWriter(rtuple.model);
         rtuple.ruleWriter.setAsLocalConstantSource();

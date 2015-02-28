@@ -23,4 +23,6 @@ public interface ShapeReader extends Runnable {
 
     public void setRuleWriter(RuleWriter aThis);
 
+    public void setEnableLaterIteration(boolean enable);
+
 }

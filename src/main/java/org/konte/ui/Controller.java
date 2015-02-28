@@ -70,7 +70,8 @@ public class Controller {
                             try {
                                 render((Integer) task.args[0], (Integer) task.args[1],
                                     (EditViewInterface) task.args[2], (Long) task.args[3], (RenderType)task.args[4],
-                                    (task.args.length>5?(SeqRecorder)task.args[5]:null));
+                                    (task.args.length>5?(SeqRecorder)task.args[5]:null),
+                                    (task.args.length>6?(boolean)task.args[6]:false));
                             }
                             catch(Exception ex)
                             {
@@ -110,7 +111,7 @@ public class Controller {
         stopStrength = strength;
     }
 
-    private synchronized void render(Integer width, Integer height, EditViewInterface ev, Long maxtime, RenderType renderType, SeqRecorder seqReq)
+    private synchronized void render(Integer width, Integer height, EditViewInterface ev, Long maxtime, RenderType renderType, SeqRecorder seqReq, boolean enableSvgSceneExport)
     {
         stopStrength = 0;
         String grammar = ev.getScriptText();
@@ -120,6 +121,8 @@ public class Controller {
         
         ImageAPI iapi = new ImageAPI();
         iapi.setRenderType(renderType);
+        iapi.setEnableSvgSceneExport(enableSvgSceneExport);
+        
         try {
             rtuple = iapi.setImageSize(width,height).init(grammar, rndFeed);
             if (maxtime != -1)

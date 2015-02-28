@@ -5,7 +5,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +31,7 @@ public class DiskBackedShapeReader implements ShapeReader {
     private Canvas canvas;
     
     private Model model;
+    private boolean enableLaterIteration;
     
     public DiskBackedShapeReader(Model model, PointMetric metric)
     {
@@ -35,6 +39,12 @@ public class DiskBackedShapeReader implements ShapeReader {
         this.metric = metric;
     }
     
+    @Override
+    public void setEnableLaterIteration(boolean enable)
+    {
+        this.enableLaterIteration = enable;
+    }
+
     private PointMetric metric;
 
 
@@ -195,20 +205,27 @@ public class DiskBackedShapeReader implements ShapeReader {
                         shapeCount++;
                         w = w.next;
                     }
-                    orig.val = null;  orig.next = orig.last = null; // cleanup to save memory
+                    if (!enableLaterIteration)
+                    {
+                        orig.val = null; 
+                        orig.next = orig.last = null; // cleanup to save memory
+                    }
                 }
             }
             if (state == 3)
             {
                 canvas.applyEffects(model, keyset[i]);
             }
-            layer.points.freeDiskCache();
-            layers.layers.put(keyset[i], null); //cleanup to save memory
+            if (!enableLaterIteration)
+            {
+                layer.points.freeDiskCache();
+                layers.layers.put(keyset[i], null); //cleanup to save memory
+            }
         }
         //Runtime.sysoutln("drawn: " + (shapeCount-then) + " state=" + state, 0);
     }
-    @Override public Iterator<OutputShape> iterator() { return layers.shapeIterator(); }
-    @Override public Iterator<OutputShape> descendingIterator() { throw new UnsupportedOperationException("Not supported"); }
+    @Override public Iterator<OutputShape> iterator() { return layers.shapeIterator(false); }
+    @Override public Iterator<OutputShape> descendingIterator() { return layers.shapeIterator(true); }
     @Override public Canvas getCanvas() { return canvas; }
     @Override public void setCanvas(Canvas canvas) { this.canvas = canvas; }
     @Override public void setRuleWriter(RuleWriter aThis) { this.rulew = aThis; }
@@ -283,59 +300,92 @@ public class DiskBackedShapeReader implements ShapeReader {
             }
             addedCount++;
         }
-        public Iterator<OutputShape> shapeIterator()
+        public Iterator<OutputShape> shapeIterator(final boolean desc)
         {
             final Float[] keyset = layers.keySet().toArray(new Float[0]);
             Arrays.sort(keyset);
             return new Iterator<OutputShape>()
             {
                 private int i = 0;
-                private Iterator<Object> lr = layers.get(keyset[i++]).points.values().iterator();
-                private Object li = lr.next();
+                private Iterator<Object> lr = lriter();
+                private Object li = null;
                 
                 @Override
                 public boolean hasNext()
                 {
-                    return li != null || lr.hasNext() || i < keyset.length - 1;
+                    return li != null || lr != null && lr.hasNext() || i < keyset.length - 1;
+                }
+                
+                private Object lrnext()
+                {
+                    try {
+                        return lr.next();
+                    }
+                    catch (Exception e) {
+                        return null;
+                    }
+                }
+                
+                private Iterator lriter()
+                {
+                    Collection vals = layers.get(keyset[i++]).points.values();
+                    
+                    if (desc)
+                    {
+                        if (!(vals instanceof List))
+                        {
+                            vals = new ArrayList(vals);
+                        }
+                        Collections.reverse((List)vals);
+                    }
+                    return vals.iterator();
                 }
 
                 @Override
                 public OutputShape next()
                 {
                     if (lr == null) return null;
-                    if (li == null)
+                    if (li instanceof BagWrapper)
                     {
-                        li = lr.next();
+                        li = ((BagWrapper)li).next;
                         if (li == null)
                         {
-                            if (i == keyset.length)
-                            {
-                                lr = null;
-                                return null;
-                            }
-                            lr = layers.get(keyset[i++]).points.values().iterator();
-                            if (lr == null) return null;
-                            li = lr.next();
+                            li = lrnext();
                         }
                     }
-                    OutputShape p;
+                    else if (li instanceof OutputShape)
+                    {
+                        li = lrnext();
+                    }
+                    else if (li == null)
+                    {
+                        li = lrnext();
+                    }
+                    if (li == null)
+                    {
+                        if (i >= keyset.length)
+                        {
+                            lr = null;
+                            return null;
+                        }
+                        lr = lriter();
+                        return next();
+                    }
                     if (li instanceof OutputShape)
                     {
-                        p = (OutputShape)li;
+                        return (OutputShape)li;
                     }
                     else
                     {
                         try
                         {
-                            p = (OutputShape)((BagWrapper)li).getValue();
+                            return (OutputShape)((BagWrapper)li).getValue();
                         }
                         catch(IOException e)
                         {
                             throw new RuntimeException(e);
                         }
                     }
-                    
-                    return p;
                 }
 
                 @Override public void remove() { throw new UnsupportedOperationException("Not supported."); }

@@ -1,6 +1,7 @@
 package org.konte.generate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.konte.expression.Expression;
@@ -21,104 +22,97 @@ public class StreamingShapeReader implements ShapeReader {
     private int state;
 
     public Expression streamRate = null;
-
-    public StreamingShapeReader(Model model)
-    {
+    private boolean enableLaterIteration = false;
+    private List<OutputShape> cache = new ArrayList<>();
+    
+    public StreamingShapeReader(Model model) {
         this.model = model;
     }
 
-    public int getAddedCount()
-    {
+    public int getAddedCount() {
         return addedCount;
     }
 
     private long lastUpdtCycle;
     private int shapesDrawnInCycle = 0;
-    /**This template method polls shapes from RuleWriter, and
-     * either draws some immediately on the canvas, or delays
-     * all drawing till RuleWriter is exhausted.
+
+    /**
+     * This template method polls shapes from RuleWriter, and either draws some
+     * immediately on the canvas, or delays all drawing till RuleWriter is
+     * exhausted.
      *
      */
     @Override
-    public void run()
-    {
+    public void run() {
         state = 1;
         canvas.init(canvas.getWidth(), canvas.getHeight());
         lastUpdtCycle = System.currentTimeMillis();
         Float rate = null;
         float prevlayer = 0f;
-        for(;;)
-        {
-            try
-            {
+        for (;;) {
+            try {
                 List<OutputShape> shapes;
-                synchronized(ruleWriter.lock1)
-                {
+                synchronized (ruleWriter.lock1) {
                     ruleWriter.lock1.wait();
                     shapes = ruleWriter.shapes;
                     ruleWriter.shapes = new ArrayList<OutputShape>();
                 }
-                try
-                {
+                try {
                     rate = streamRate.evaluate();
+                } catch (Exception e) {
                 }
-                catch (Exception e) { }
-                
+
                 prevlayer = shapes.get(0).layer;
-                for(OutputShape p : shapes)
-                {
-                    if (p.layer != prevlayer)
-                    {
+                for (OutputShape p : shapes) {
+                    if (p.layer != prevlayer) {
                         canvas.applyEffects(model, prevlayer);
                         prevlayer = p.layer;
                     }
-                    try
-                    {
+                    try {
                         p.shape.draw(model.cameras.get(p.fov), canvas, p);
+                        if (enableLaterIteration)
+                        {
+                            cache.add(p);
+                        }
                         addedCount++;
-                    } 
-                    catch(Exception e)
-                    {
-                        Runtime.sysoutln("Unable to draw shape " + p.shape.name + " ["+ p.shape.getClass() + "]", 20);
+                    } catch (Exception e) {
+                        Runtime.sysoutln("Unable to draw shape " + p.shape.name + " [" + p.shape.getClass() + "]", 20);
                         throw e;
                     }
-                    if (rate != null && rate > 0f)
-                    {
+                    if (rate != null && rate > 0f) {
                         delayByStreamRate(rate);
                     }
                 }
-            } 
-            catch(Exception e)
-            {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            if (state > 1)
-            {
+            if (state > 1) {
                 break;
             }
         }
-        if (state == 2)
-        {
+        if (state == 2) {
             List<OutputShape> rest = ruleWriter.shapes;
             state = 3;
-            try
-            {
+            try {
                 rate = streamRate.evaluate();
-            } catch (Exception e) { }
+            } catch (Exception e) {
+            }
 
-            for (OutputShape p : rest)
-            {
-                if (p.layer != prevlayer)
-                {
+            for (OutputShape p : rest) {
+                if (p.layer != prevlayer) {
                     canvas.applyEffects(model, prevlayer);
                     prevlayer = p.layer;
                 }
                 p.shape.draw(model.cameras.get(p.fov), canvas, p);
-                addedCount++;
-                if (state != 3)
-                    break;
-                if (rate != null && rate > 0f)
+                if (enableLaterIteration)
                 {
+                    cache.add(p);
+                }
+                addedCount++;
+                if (state != 3) {
+                    break;
+                }
+                if (rate != null && rate > 0f) {
                     delayByStreamRate(rate);
                 }
             }
@@ -127,71 +121,72 @@ public class StreamingShapeReader implements ShapeReader {
         state = 0;
     }
 
-    public void finish(int step)
-    {
-        if (state==1 || state == 3)
+    public void finish(int step) {
+        if (state == 1 || state == 3) {
             state = step;
+        }
     }
 
-
-    public void rewind()
-    {
+    public void rewind() {
         shapesDrawnInCycle = 0;
         addedCount = 0;
     }
 
-    public long getShapeCount()
-    {
+    public long getShapeCount() {
         return addedCount;
     }
 
-    public Iterator<OutputShape> iterator()
-    {
-        throw new UnsupportedOperationException("Not supported yet: " + this.getClass().getName());
+    public Iterator<OutputShape> iterator() {
+        if (reversed)
+        {
+            Collections.reverse(cache);
+            reversed = !reversed;
+        }
+        return cache.iterator();
     }
 
-    public Iterator<OutputShape> descendingIterator()
-    {
-        throw new UnsupportedOperationException("Not supported yet: " + this.getClass().getName());
+    private boolean reversed = false;
+    public Iterator<OutputShape> descendingIterator() {
+        if (!reversed)
+        {
+            Collections.reverse(cache);
+            reversed = !reversed;
+        }
+        return cache.iterator();
     }
 
-    public Canvas getCanvas()
-    {
+    public Canvas getCanvas() {
         return this.canvas;
     }
 
-    public void setCanvas(Canvas canvas)
-    {
+    public void setCanvas(Canvas canvas) {
         this.canvas = canvas;
     }
 
-    public void setRuleWriter(RuleWriter aThis)
-    {
+    public void setRuleWriter(RuleWriter aThis) {
         this.ruleWriter = aThis;
     }
 
-    public int state()
-    {
+    public int state() {
         return state;
     }
 
-
-    private void delayByStreamRate(Float rate)
-    {
+    private void delayByStreamRate(Float rate) {
         float estimate = ++shapesDrawnInCycle;
-        float req = rate * (System.currentTimeMillis()-lastUpdtCycle) / 1000f;
-        while(estimate > req)
-        {
+        float req = rate * (System.currentTimeMillis() - lastUpdtCycle) / 1000f;
+        while (estimate > req) {
             org.konte.misc.Func.sleep(1);
-            req = rate * (System.currentTimeMillis()-lastUpdtCycle) / 1000f;
+            req = rate * (System.currentTimeMillis() - lastUpdtCycle) / 1000f;
         }
-        if (shapesDrawnInCycle >= rate)
-        {
+        if (shapesDrawnInCycle >= rate) {
             lastUpdtCycle = System.currentTimeMillis();
             shapesDrawnInCycle = 0;
         }
     }
 
-
+    @Override
+    public void setEnableLaterIteration(boolean enable) {
+        this.enableLaterIteration = enable;
+    }
 
 }

@@ -33,6 +33,7 @@ import java.util.Observer;
 import java.util.Properties;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JColorChooser;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
@@ -116,6 +117,8 @@ public class Ui extends MyJFrame {
     };
     private Controller controller;
     private PathEditFrame pathEditFrame;
+    private boolean enableSvgSceneExport = false;
+    
 //    KeyComboHandler keyComboHandler = new KeyComboHandler(2);
     /** Creates new form Ui */
     public Ui()
@@ -648,6 +651,7 @@ public class Ui extends MyJFrame {
         jMenuItem14 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
+        jCheckBoxMenuItem1 = new javax.swing.JCheckBoxMenuItem();
         jMenuItem13 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
@@ -1033,6 +1037,14 @@ public class Ui extends MyJFrame {
         });
         jMenu2.add(jMenuItem3);
 
+        jCheckBoxMenuItem1.setText("Enable svg/scene export");
+        jCheckBoxMenuItem1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBoxMenuItem1ItemStateChanged(evt);
+            }
+        });
+        jMenu2.add(jCheckBoxMenuItem1);
+
         jMenuItem13.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem13.setText("Export svg");
         jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
@@ -1258,6 +1270,11 @@ public class Ui extends MyJFrame {
         switchToTab(+1);
     }//GEN-LAST:event_jMenuItem16ActionPerformed
 
+    private void jCheckBoxMenuItem1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem1ItemStateChanged
+        System.out.println("stateChange: " + evt.getStateChange());
+        enableSvgSceneExport(evt.getStateChange() == 1);
+    }//GEN-LAST:event_jCheckBoxMenuItem1ItemStateChanged
+
     private void showAbout()
     {
         new KonteAboutDialog().setVisible(true);
@@ -1318,7 +1335,7 @@ public class Ui extends MyJFrame {
         controller.addTask(new Controller.TaskInfo(
                 Controller.Task.RENDER,
                 new Object[]{width, height, tabs.getSelectedComponent(), maxtime,
-                imgTyp, seq}));
+                imgTyp, seq, enableSvgSceneExport}));
     }
 
     void generateSequence()
@@ -1403,6 +1420,7 @@ public class Ui extends MyJFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -1439,5 +1457,9 @@ public class Ui extends MyJFrame {
     private javax.swing.JMenu tutMenu;
     private javax.swing.JMenuItem undoItem;
     // End of variables declaration//GEN-END:variables
+
+    private void enableSvgSceneExport(boolean b) {
+        this.enableSvgSceneExport = b;
+    }
 
 }
