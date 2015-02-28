@@ -11,6 +11,7 @@ import org.konte.misc.Matrix4;
 import org.konte.misc.Point2;
 import org.konte.misc.Vector3;
 import org.konte.model.Background;
+import org.konte.model.MeshSqu;
 import org.konte.model.Model;
 import org.konte.model.Untransformable;
 
@@ -68,9 +69,20 @@ public class SvgExporter extends AbstractExporterBase {
                 whmax,0f,0f,whmax,w/2f,h/2f,p.layer));
 //).append(String.format("%.3f",).replaceAll("[\\.,]", "-"))
         }
-        Untransformable unt = p.shape;
-        if (unt.getShapes() != null)
+        if (p.shape.getShapes() != null)
         {
+            writeShape(bd, m, p);
+        }
+        else if (p.shape instanceof MeshSqu)
+        {
+            writeMeshSqu(bd, m, p);
+        }
+        return bd.toString();
+    }
+    
+    private void writeShape(StringBuilder bd, Model m, OutputShape p)
+    {
+            Untransformable unt = p.shape;
             bd.append(String.format(Locale.ENGLISH, 
 "   <g\n     id=\"g%d\"\n     style=\"opacity:%.5f\">\n",
                     pathCounter, p.getA()));
@@ -113,27 +125,59 @@ public class SvgExporter extends AbstractExporterBase {
                 appId(bd, p);
             }
             bd.append("   </g>\n");
-        } 
-        return bd.toString();
+    }
+    
+    private void writeMeshSqu(StringBuilder bd, Model m, OutputShape p)
+    {
+        MeshSqu msqu = (MeshSqu)p.shape;
+/*        draw.setColor(shape.getColor());
+        float[][] co = ((MeshSqu) shape.shape).coords;
+        Point2 p2 = camera.mapTo2D(v3d.set(co[0][0], -co[0][1], co[0][2]));
+        path.moveTo(p2.x, p2.y);
+        for (int i = 1; i < 4; i++)
+        {
+            p2 = camera.mapTo2D(v3d.set(co[i][0], -co[i][1], co[i][2]));
+            path.lineTo(p2.x, p2.y);
+        }
+        path.closePath();
+        path.transform(toScreen);
+*/        
+        bd.append(String.format(Locale.ENGLISH, 
+"   <g\n     id=\"g%d\"\n     style=\"opacity:%.5f\">\n",
+                pathCounter, p.getA()));
+        bd.append(
+"   <path\n      d=\"");
+        Camera cam = m.cameras.get(p.fov);
+        for(int i = 0; i < msqu.coords.length; i++)
+        {
+            float[] c = msqu.coords[i];
+            bd.append(i==0?"M ":"L ");
+            Point2 p2 = cam.mapTo2D(new Vector3(c[0], -c[1], c[2]));
+            bd.append(String.format(Locale.ENGLISH, "%.5f,%.5f ",
+                    mpx(p2.x), mpy(p2.y)));
+        }
+        bd.append("z\"\n");
+        appId(bd, p);
+        bd.append("   </g>\n");
     }
 
     private void appMoveTo(StringBuilder bd, Matrix4 get, Camera cam)
     {
-        Point2 p = cam.mapTo2D(new Vector3(get.m03, get.m13, get.m23));
+        Point2 p = cam.mapTo2D(new Vector3(get.m03, -get.m13, get.m23));
         bd.append(String.format(Locale.ENGLISH, "M %.5f,%.5f ",
                 mpx(p.x), mpy(p.y)));
     }
     private void appLineTo(StringBuilder bd, Matrix4 get, Camera cam)
     {
-        Point2 p = cam.mapTo2D(new Vector3(get.m03, get.m13, get.m23));
+        Point2 p = cam.mapTo2D(new Vector3(get.m03, -get.m13, get.m23));
         bd.append(String.format(Locale.ENGLISH, "L %.5f,%.5f ",
                 mpx(p.x), mpy(p.y)));
     }
     private void appCurveTo(StringBuilder bd, Matrix4 cpt0, Matrix4 cpt1, Matrix4 get, Camera cam)
     {
-        Point2 p = cam.mapTo2D(new Vector3(get.m03, get.m13, get.m23));
-        Point2 c0 = cam.mapTo2D(new Vector3(cpt0.m03, cpt0.m13, cpt0.m23));
-        Point2 c1 = cam.mapTo2D(new Vector3(cpt1.m03, cpt1.m13, cpt1.m23));
+        Point2 p = cam.mapTo2D(new Vector3(get.m03, -get.m13, get.m23));
+        Point2 c0 = cam.mapTo2D(new Vector3(cpt0.m03, -cpt0.m13, cpt0.m23));
+        Point2 c1 = cam.mapTo2D(new Vector3(cpt1.m03, -cpt1.m13, cpt1.m23));
         bd.append(String.format(Locale.ENGLISH, "C %.5f,%.5f %.5f,%.5f %.5f,%.5f ",
                 mpx(c0.x), mpy(c0.y),
                 mpx(c1.x), mpy(c1.y),
@@ -156,7 +200,7 @@ public class SvgExporter extends AbstractExporterBase {
     }
     private float mpy(float y)
     {
-        return -y;
+        return y;
     }
     @Override
     protected String transform(Background bg)

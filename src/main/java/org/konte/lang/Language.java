@@ -213,7 +213,7 @@ public class Language {
     public static final Token abs = addToken(new Mathm.EAbs("abs"));
     public static final Token sqrt = addToken(new Mathm.ESqrt("sqrt"));
     public static final Token log = addToken(new Mathm.ELog("log"));
-    public static final Token log10 = addToken(new Mathm.ELog10("log"));
+    public static final Token log10 = addToken(new Mathm.ELog10("log10"));
     public static final Token pow = addToken(new Mathm.EPow("pow"));
     public static final Token rnd = addToken(new Mathm.ERandom("rnd"));
     public static final Token irnd = addToken(new Mathm.EIRand("irnd"));

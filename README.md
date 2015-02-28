@@ -444,6 +444,19 @@ julia       // fractal function [0,255].
 
 ```
 
+##Working with SVG
+
+You can use konte to create svg graphics.  This requires checking a box in the *Generate* submenu, due to svg export currently requiring objects stay longer in the memory than bitmap export.
+
+The workflow is like this: first choose canvas dimensions (Ctrl+Shift+R) and generate to desired size, then export to svg (Ctrl+G).  You should get a new svg file with your objects on an empty background.
+
+Here's an example with bitmap and svg versions.  If you zoom in, there are clear-cut figures standing on svg roofs.
+
+![export-svg-example.png](img/README/2015-02-28-22-22-export-svg-example.png) ![export-svg-example.svg](img/README/export-svg-example.svg)
+[export-svg-example.c3dg](img/README/export-svg-example.c3dg)
+
+The png is 113 times smaller (!) than the svg that soars up to 3.6M with 14.000 paths.  (I find big svg images with more than 20K paths intolerable, but your situation may be different.)
+
 ##More examples
 
 <!--![logo_new-c-rec.png](img/README/AAS-logo_new_c_rec.png)
