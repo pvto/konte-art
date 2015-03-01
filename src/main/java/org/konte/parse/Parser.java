@@ -1330,7 +1330,8 @@ public class Parser {
                                 lrstfm.setShapeTransform(lastInnerToken, lexprs);
                             lastInnerToken = (t instanceof InnerToken ? t : null);
                             pos = 0;
-                        } else if (t instanceof InnerToken)
+                        }
+                        else if (t instanceof InnerToken)
                         {
                             throw new ParseException("Wrong number of arguments to " + lastInnerToken + 
                                     " or missing () in " + lastRule, lineNr, caretPos);
@@ -1351,6 +1352,11 @@ public class Parser {
                             wasSet = wasNamed = false;
                         } else if (t == Language.right_curl)
                         {
+                            if (lastInnerToken != null)
+                            {
+                                throw new ParseException("Missing argument(s) to " + lastInnerToken 
+                                        + " in " + lastRule, lineNr, caretPos);
+                            }
                             if (curCtx != ParsingContext.REPEAT_ADJUSTMENTS)
                                 lrepeat = null;
                             curCtx = contextStack.pop();
