@@ -14,19 +14,29 @@ k_logo {
    tilp{layer 1}
 }
 
+MACRO RND (rndf()-.5)*4+x
 tilp {
 
     200*{y -.005}
-      SQUARE{y -.3 s 2 .01 .001 L 1}
+      SQUARE{y -.2 s 2 .01 .001 L 1}
 
+    300*{y .005}
+      SQUARE{y -.2 s 2 .01 .001 B .2 G .1 R .1}
+    rain{layer .5 ry 40}
     write { PUSH E3 T3 N3 O3 K3
             layer .5
-            y -.42 x -.45 sy .8
+            y -.5 x -.45 sy .8
             scale .27 lightness 1 red -.1}
 
-    K { x .3 y .3 rx 20 ry -40 s  1.7 layer 1 {FOO=1.1}}
+    K { x .3 y .4 rx 10 ry -10 s  1.7 layer 1 {FOO=1.1}}
 }
 
+rain {
+    1000*{}
+      SQUARE{x RND y RND rz 20+rndf()*5  s .003 .2 .01 
+        A -rndf() L 1}
+
+}
 write { POP{s .3 PUSH lblock }
         if(n<5){write{x 1 DEF{n=n+1;}} } }
 lblock {
@@ -67,7 +77,7 @@ K {
   // luminous K
 
     
-    47 *
+    1 *
     {
         //scale .996
         rx .5
@@ -76,7 +86,7 @@ K {
         {
             layer 1
             scale .96
-            alpha -.95
+            alpha -.5
             R 0.698 G 1.000 B 0.973
         }
 }

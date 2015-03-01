@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
 import org.konte.image.OutputShape;
+import org.konte.misc.Mathc3;
 import org.konte.misc.Matrix4;
 import org.konte.parse.ParseException;
 import static org.konte.misc.Mathc3.bounds1;
@@ -198,8 +199,8 @@ public class DrawingContext implements Serializable {
     private static transient float[] tmpvals = new float[3];
     private void changeHSL()
     {
-        if (tmpvals[1]>1f) tmpvals[1] = 1f;
-        if (tmpvals[2]>1f) tmpvals[2] = 1f;
+        tmpvals[1] = Mathc3.bounds1(tmpvals[1]);
+        tmpvals[2] = Mathc3.bounds1(tmpvals[2]);
         int col = Color.HSBtoRGB(tmpvals[0],tmpvals[1],tmpvals[2]);
         R = (col >> 16 & 0xFF)/256f;
         G = (col >> 8 & 0xFF)/256f;

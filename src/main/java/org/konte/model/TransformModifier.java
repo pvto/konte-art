@@ -582,7 +582,9 @@ public abstract class TransformModifier {
         @Override
         public void updateSTVal(DrawingContext st, Float delta)
         {
-            throw new UnsupportedOperationException("Not supported yet.");
+            st.R = bounds1(st.R + delta);
+            st.G = bounds1(st.G + delta);
+            st.B = bounds1(st.B + delta);
         }
 
         

@@ -5,8 +5,6 @@
 
 Konte is a small language for generating images, "drawing by coding".  All images on this page were written in it, strict mode.
 
-*Konte is an art project. Its code is old and a bit edgy. I'll be cleaning it up, but you were warned.*
-
 ![objective.png](img/README/2015-02-27-23-59-objective.png)
 [objective.c3dg](img/README/objective.c3dg)
 
@@ -19,6 +17,8 @@ Some technical notes about what the app does:
  - RGBA, HSLA and user defined color spaces are supported
  - a simple "independent shapes" lighting model is supported, with lights controlled by arbitrary expressions
  - 3D, ortographic and cabinet (oblique) perspectives are supported
+
+*Konte is an art project. Its code is old and a bit edgy. I'll be cleaning it up, but you were warned.*
 
 ![mcs6_9.png](img/README/2015-02-24-02-26-mcs6_9.png)
 [mcs6_9.c3dg](img/README/mcs6_9.c3dg)
@@ -40,6 +40,7 @@ There are online examples in the *Tutorials* menu, so you should be good from th
 
 ![do-w-meshes.png](img/README/2015-03-01-21-46-do-w-meshes.png)
 [do-w-meshes.c3dg](img/README/do-w-meshes.c3dg) (variation AHL)
+*Other nice variations: ACI ACN ADN AEB AEN AEU AFC AFE AFU AGX AHL.*
 
 ##Some notes on generating form
 
@@ -108,12 +109,12 @@ you let konte decide which path it will take, relying on the "probabilities" ```
 With the same seed, say 'AAF', konte will always generate the same image.
 
 ![do-w-meshes-col.png](img/README/2015-03-01-21-26-do-w-meshes-col.png)
-[do-w-meshes-col.c3dg](img/README/do-w-meshes-col.c3dg)
+[do-w-meshes-col.c3dg](img/README/do-w-meshes-col.c3dg) (variation AAF)
 
-The ```rndf()``` function then provides a random value from a uniform distribution.  This will always be the same image when rendered from 'AAA':
+The ```rndf()``` function then provides a random value from a uniform distribution.
 
 ![rndf.png](img/README/2015-03-01-21-55-rndf.png)
-[rndf.c3dg](img/README/rndf.c3dg)
+[rndf.c3dg](img/README/rndf.c3dg) (variation AAA)
 
 
 There is also a non-seeded, non-deterministic random way, by using the ```rnd()``` function:
@@ -220,7 +221,7 @@ camera { CIRCULAR 2.0 }
 
 Konte handles RGBA and HSLA color spaces.  HSL support is based on RGB, so it is not complete.  Adjusting the hue of a uniform grey will not do anything. There is no return from a uniform grey back to a previously used hue.
 
-![HSL.png](img/README/2015-02-25-01-22-HSL.png)
+![HSL.png](img/README/2015-03-01-23-09-HSL.png)
 [HSL.c3dg](img/README/HSL.c3dg)
 
 ```
@@ -233,7 +234,7 @@ S //  sat(uration) [0..1]
 L //  alias lightness [0..1]
 ```
 
-![RGB.png](img/README/2015-02-25-01-29-RGB.png)
+![RGB.png](img/README/2015-03-01-23-31-RGB.png)
 [RGB.c3dg](img/README/RGB.c3dg)
 
 ####User colorspaces

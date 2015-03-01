@@ -1,17 +1,28 @@
 init {
 
-    HSBgrid { blue 1  s .4 x -1.2 }
-    HSBgrid { blue .5 s .4 }
-    HSBgrid { blue .2 s .4 x 1.2 }
-
+
+  huesathue{blue 1 s 1.4}
+
+  huelum{R 1 sat -.5 x -.5 s 1.4 ry 60}
+  huelum{R 1 x .3 s 1.4 ry 15}
 }
 
-rule HSBgrid {
-    10* { x .1 sat -.1}
-    10* { y .1 hue 36}
-        BOX { x -.45 y -.45 s .1 }
+huesathue {
+    20*{y -.05 sat -.2*(square(I)-.5) {I=I+.05} }
+        CONE { y .5 s .04 rz 180}
+
+    2*{rz 60} // X  
+        SQUARE{rz -30 s .01 .1 .02}
 }
 
-camera { z -1.7 }
+huelum {
+    100*{y -.01 hue 7.2}
+    30*{x .01 lightness -.03333}
+    30*{z .01 sat -.03333}
+        BOX{y .5 s .011}
+}
+
+
+camera { z -1.6 }
 
 
