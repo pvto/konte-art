@@ -6,8 +6,8 @@ do{
   MESH{y .0005 {row=row+1}}
   MESH{z .002 {row=row+2}}
 }
-do .01{do{{ROT=rnd()*60+x*0}}}
+do .01{do{{ROT=rndf()*60+x*0}}}
 do .2{do{flipx 90}}
 do .01{do{ry 15}}
-do .01{do{}do{rz 90 {mesh=mesh+rnd()*10000+x*0}}}
+do .01{do{}do{rz 90 {mesh=mesh+rndf()*10000+x*0}}}
 model{maxshapes 100000}

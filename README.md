@@ -38,8 +38,8 @@ $ java -Xmx2048m -cp target/konte.jar org.konte.ui.Ui
 
 There are online examples in the *Tutorials* menu, so you should be good from that on.  A short introduction to the language is given below.
 
-![do-w-meshes.png](img/README/2015-02-24-23-53-do-w-meshes.png)
-[do-w-meshes.c3dg](img/README/do-w-meshes.c3dg)
+![do-w-meshes.png](img/README/2015-03-01-21-46-do-w-meshes.png)
+[do-w-meshes.c3dg](img/README/do-w-meshes.c3dg) (variation AHL)
 
 ##Some notes on generating form
 
@@ -112,7 +112,7 @@ With the same seed, say 'AAF', konte will always generate the same image.
 
 The ```rndf()``` function then provides a random value from a uniform distribution.  This will always be the same image when rendered from 'AAA':
 
-![rndf.png](img/README/2015-03-01-21-17-rndf.png)
+![rndf.png](img/README/2015-03-01-21-55-rndf.png)
 [rndf.c3dg](img/README/rndf.c3dg)
 
 
