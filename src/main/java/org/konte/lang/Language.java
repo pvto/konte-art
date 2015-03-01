@@ -217,6 +217,8 @@ public class Language {
     public static final Token pow = addToken(new Mathm.EPow("pow"));
     public static final Token rnd = addToken(new Mathm.ERandom("rnd"));
     public static final Token irnd = addToken(new Mathm.EIRand("irnd"));
+    public static final Token rndf = addToken(new Func.ERndf("rndf", null));
+    public static final Token irndf = addToken(new Func.EIrndf("irndf", null));
     public static final Token round = addToken(new Mathm.ERound("round"));
     public static final Token floor = addToken(new Mathm.EFloor("floor"));
     public static final Token mean = addToken(new Mathm.EMean("mean"));
@@ -397,6 +399,8 @@ public class Language {
         
         and.addAlias("and");
         or.addAlias("or");
+        
+        rndf.addAlias("random");
 
         // load plugins
         PluginLoader.main(null);    // this will run the static block...        

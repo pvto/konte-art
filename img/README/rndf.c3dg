@@ -1,0 +1,1 @@
+do{10*{x .1}SQUARE{x -.5 s .1 y irndf(2) B rndf()}}

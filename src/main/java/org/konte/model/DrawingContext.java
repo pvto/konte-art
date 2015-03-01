@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.Arrays;
-import org.konte.expression.Name;
 import org.konte.image.OutputShape;
 import org.konte.misc.Matrix4;
 import org.konte.parse.ParseException;
@@ -175,10 +174,6 @@ public class DrawingContext implements Serializable {
     public float getcol0()
     {
         return col0;
-    }
-    float getBitmap()
-    {
-        return (float)getDef(Name.model.imgIndex);
     }
     public void applyShading(Model model) throws ParseException 
     {

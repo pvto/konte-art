@@ -105,18 +105,24 @@ do .05 {...}
 ```
 you let konte decide which path it will take, relying on the "probabilities" ```1``` and ```.1``` and ```.05```.  I say "probabilities", because the weights do not have to add up to one.
 
-With the same seed, say 'AAA', konte will always generate the same image.
+With the same seed, say 'AAF', konte will always generate the same image.
 
-![do-w-meshes-col.png](img/README/2015-02-25-01-04-do-w-meshes-col.png)
+![do-w-meshes-col.png](img/README/2015-03-01-21-26-do-w-meshes-col.png)
 [do-w-meshes-col.c3dg](img/README/do-w-meshes-col.c3dg)
 
-But there is also a non-seeded, non-deterministic random way, by using the ```rnd()``` function:
+The ```rndf()``` function then provides a random value from a uniform distribution.  This will always be the same image when rendered from 'AAA':
+
+![rndf.png](img/README/2015-03-01-21-17-rndf.png)
+[rndf.c3dg](img/README/rndf.c3dg)
+
+
+There is also a non-seeded, non-deterministic random way, by using the ```rnd()``` function:
 ```
 example2 {SQUARE {scale rnd()}}
 ```
 Even if the seed stays the same, the image will look different over different renders.
 
-```rnd()``` would take a single pass over and use a random value within [0..1] within that rule for an entire image.  I use a little trick of backreferencing a model property to enforce dynamic randomness:
+```rnd()``` and ```rndf()``` would take a single pass over and use a random value within [0..1] within their rule for an entire image.  I use a little trick of backreferencing a model property to enforce dynamic randomness:
 ```
 example3 {SQUARE {scale rnd()+x*0}}
 ```

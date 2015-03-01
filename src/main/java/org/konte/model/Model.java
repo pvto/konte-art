@@ -1,5 +1,6 @@
 package org.konte.model;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,10 +19,10 @@ import org.konte.expression.Expression;
 import org.konte.expression.ExpressionFunction;
 import org.konte.expression.Operator;
 import org.konte.expression.Value;
+import org.konte.generate.RandomFeed;
 import org.konte.generate.ShapeReader;
 import org.konte.image.Camera;
 import org.konte.generate.RuleWriter;
-import org.konte.generate.ZOrderShapeReader;
 import org.konte.generate.Runtime;
 import org.konte.image.CanvasEffect;
 import org.konte.lang.ShapeReaders;
@@ -33,20 +34,22 @@ import org.konte.model.PathRule.Placeholder;
  */
 public class Model {
 
-    public LinkedHashMap<String, NonDeterministicRule> rules =
-            new LinkedHashMap<String, NonDeterministicRule>(30);
-    public LinkedHashMap<String, Constant> constants =
-            new LinkedHashMap<String, Constant>(30);
-    public LinkedHashMap<Integer, Object> objects =
-            new LinkedHashMap<Integer, Object>();
-    public LinkedHashMap<String, Definition> definitions =
-            new LinkedHashMap<String, Definition>(30);
+    public static final Object RNDFEED_KEY = new Object();
+    public RandomFeed getRandomFeed()
+    {
+        return (RandomFeed)globalvar.get(RNDFEED_KEY);
+    }
+
+    public LinkedHashMap<String, NonDeterministicRule> rules = new LinkedHashMap<>(30);
+    public LinkedHashMap<String, Constant> constants = new LinkedHashMap<>(30);
+    public LinkedHashMap<Integer, Object> objects = new LinkedHashMap<>();
+    public LinkedHashMap<String, Definition> definitions = new LinkedHashMap<>(30);
     public String startshape = null;
     public Transform backgroundTransform = null;
     public Background bg = null;
-    public ArrayList<Camera> cameras = new ArrayList<Camera>();
+    public ArrayList<Camera> cameras = new ArrayList<>();
     public GlobalLighting lighting;
-    public ArrayList<ColorSpace> colorSpaces = new ArrayList<ColorSpace>();
+    public ArrayList<ColorSpace> colorSpaces = new ArrayList<>();
     public ShapeReader shapeReader;
     public Map globalvar = new HashMap();
     // following tables are for fast access in generate phase
@@ -55,8 +58,8 @@ public class Model {
     public Transform[] indexedSt;     //
     float[] indexedConstants;
     public Definition[] indexedDefinitions;
-    public ArrayList<Definition.NameMap> defMaps = new ArrayList<Definition.NameMap>();
-    private ArrayList<Name> nameExpressions = new ArrayList<Name>();
+    public ArrayList<Definition.NameMap> defMaps = new ArrayList<>();
+    private ArrayList<Name> nameExpressions = new ArrayList<>();
     private int nextid = 0;
     // is set true in  initForGenerate()
     // ; set false in parse
@@ -68,7 +71,7 @@ public class Model {
     public int imgIndex, imguIndex, imgvIndex, imgrIndex, imggIndex, imgbIndex, imgaIndex;
     public static BitmapCache bitmapCache = new BitmapCache();
     public DrawingContext context;
-    public Map<Float, List<CanvasEffect>> canvasEffects = new HashMap<Float, List<CanvasEffect>>();
+    public Map<Float, List<CanvasEffect>> canvasEffects = new HashMap<>();
 
     public Model()
     {
@@ -159,13 +162,13 @@ public class Model {
                 Operator op = (Operator) cur;
                 if (op.getLeading() != null)
                 {
-                    List<Name> tmp = new ArrayList<Name>(existing);
+                    List<Name> tmp = new ArrayList<>(existing);
                     res = res | cyclCheck0(op.getLeading(), existing);
                     existing = tmp;
                 }
                 if (op.getTrailing() != null)
                 {
-                    List<Name> tmp = new ArrayList<Name>(existing);
+                    List<Name> tmp = new ArrayList<>(existing);
                     res = res | cyclCheck0(op.getTrailing(), existing);
                     existing = tmp;
                 }
@@ -175,7 +178,7 @@ public class Model {
                 ExpressionFunction func = (ExpressionFunction) cur;
                 for (Expression e : func.getArgs())
                 {
-                    List<Name> tmp = new ArrayList<Name>(existing);
+                    List<Name> tmp = new ArrayList<>(existing);
                     res |= cyclCheck0(e, existing);
                     existing = tmp;
                 }
@@ -210,9 +213,6 @@ public class Model {
 
     /**Adds or updates a constant (global name-->value mapping)
      *
-     * @param name
-     * @param value
-     * @return
      */
     public Constant addConstant(String name, Expression value, boolean isDef) throws ParseException
     {
@@ -270,10 +270,7 @@ public class Model {
 
     private void preEvDefs(Transform st)
     {
-        for (int defind = 0; defind < st.defs.size(); defind++)
-        {
-            //if (())
-            Definition d = st.defs.get(defind);
+        for (Definition d : st.defs) {
             indexedDefinitions[d.id] = d;
             Definition.NameMap dmap = new Definition.NameMap(-1, d.name);
             int ipos = -1;
@@ -296,7 +293,7 @@ public class Model {
         Collections.sort(st.defs, new Comparator<Definition>()
         {
 
-            public int compare(Definition o1, Definition o2)
+            @Override public int compare(Definition o1, Definition o2)
             {
                 return o1.nameId - o2.nameId;
             }
@@ -336,10 +333,8 @@ public class Model {
             try
             {
                 Boolean constval = c.conditional.bevaluate();
-                if (constval != null)
-                { // exceptional that expression evaluates compile time
-                    c.conditional = new BooleanExpression.Dummy(constval);  // replace by dummy boolean
-                }
+                // exceptional that expression evaluates compile time
+                c.conditional = new BooleanExpression.Dummy(constval);  // replace by dummy boolean
             }
             catch (Exception ex)
             {
@@ -374,18 +369,16 @@ public class Model {
             BooleanExpression be = (i >= r.pre.size() ? r.post.get(i - r.pre.size()) : r.pre.get(i));
             try
             {
-                Boolean constval = be.bevaluate();
-                if (constval != null)
-                { // exceptional that expression evaluates compile time
-                    be = new BooleanExpression.Dummy(constval);  // replace by dummy boolean
-                    if (i >= r.pre.size())
-                    {
-                        r.post.set(i - r.pre.size(), be);
-                    }
-                    else
-                    {
-                        r.pre.set(i, be);
-                    }
+                boolean constval = be.bevaluate();
+                // exceptional that expression evaluates compile time
+                be = new BooleanExpression.Dummy(constval);  // replace by dummy boolean
+                if (i >= r.pre.size())
+                {
+                    r.post.set(i - r.pre.size(), be);
+                }
+                else
+                {
+                    r.pre.set(i, be);
                 }
             }
             catch (NullPointerException ex)
@@ -462,9 +455,9 @@ public class Model {
             tmpwr = new RuleWriter(this);
             tmpwr.setAsLocalConstantSource();
         }
-        catch (Exception e)
+        catch (IOException e)
         {
-            e.printStackTrace();
+            throw new ParseException("Model: init failed: " + e.getMessage());
         }
 
         //count rules
@@ -584,6 +577,7 @@ public class Model {
         return bd.toString();
     }
 
+    @Override
     public String toString()
     {
         StringBuilder bd = new StringBuilder();
