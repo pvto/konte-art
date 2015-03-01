@@ -1,6 +1,6 @@
 rule landscape_build_ {
   30*{ y -.2 layer 1} 
-    10*{x .2} col_build { x -1 y .5}
+    10*{x .2} col_build { x -1 y .5 ry 15}
 }
 
 rule col_build{ col_build { L .2 } }

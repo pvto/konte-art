@@ -84,10 +84,10 @@ public class SvgExporter extends AbstractExporterBase {
     {
             Untransformable unt = p.shape;
             bd.append(String.format(Locale.ENGLISH, 
-"   <g\n     id=\"g%d\"\n     style=\"opacity:%.5f\">\n",
-                    pathCounter, p.getA()));
+"   <g style=\"opacity:%.3f\">\n",
+                    p.getA()));
             bd.append(
-"   <path\n      d=\"");
+"   <path d=\"");
             Camera cam = m.cameras.get(p.fov);
             for (int i = 0; i < unt.getShapes().size(); i++)
             {
@@ -116,7 +116,7 @@ public class SvgExporter extends AbstractExporterBase {
                     appId(bd, p);
                     if (i < unt.getShapes().size() - 1)
                         bd.append(
-"   <path\n      d=\"");
+"   <path d=\"");
                 }
             }
             if (unt.isCurved)
@@ -143,10 +143,10 @@ public class SvgExporter extends AbstractExporterBase {
         path.transform(toScreen);
 */        
         bd.append(String.format(Locale.ENGLISH, 
-"   <g\n     id=\"g%d\"\n     style=\"opacity:%.5f\">\n",
-                pathCounter, p.getA()));
+"   <g style=\"opacity:%.5f\">\n",
+                p.getA()));
         bd.append(
-"   <path\n      d=\"");
+"   <path d=\"");
         Camera cam = m.cameras.get(p.fov);
         for(int i = 0; i < msqu.coords.length; i++)
         {
@@ -187,9 +187,7 @@ public class SvgExporter extends AbstractExporterBase {
     {
         int col = p.col & 0xFFFFFF;
         bd.append(String.format(
-"      style=\"fill:#%06x;fill-opacity:1;stroke:none\"\n", col));
-        bd.append(
-"      id=\"path").append(pathCounter).append("\" />\n");
+"      style=\"fill:#%06x;fill-opacity:1;stroke:none\" />\n", col));
         pathCounter++;
 
     }
