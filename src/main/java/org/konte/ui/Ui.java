@@ -156,8 +156,15 @@ public class Ui extends MyJFrame {
                     svgDir = new File(svgD);
             }
         });
-        openTut("/org/konte/resources/exmpl/k_logo");
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventPostProcessor(pp);
+
+        java.awt.EventQueue.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                openTut("/org/konte/resources/exmpl/k_logo");
+            }
+        });
     }
     
     protected void finalizeProps()
