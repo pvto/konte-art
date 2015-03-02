@@ -46,8 +46,7 @@ public class Parser {
     private ArrayList<Expression> decodeHtmlRgb(String s)
     {
         ArrayList<Expression> lexprs = new ArrayList<Expression>();
-        int intval = Integer.parseInt(s.substring(1), 16);
-        lexprs.clear();
+        int intval = Integer.parseInt(s.substring(1, 7), 16);
         lexprs.add(new Value(((float)(intval >> 16))/255));
         lexprs.add(new Value(((float)(intval >> 8 & 0xFF))/255));
         lexprs.add(new Value(((float)(intval & 0xFF))/255));
@@ -1371,13 +1370,31 @@ public class Parser {
                                 throw new ParseException("Unknown function: " + tokenStrings.get(i-1).getString(), lineNr, caretPos);
                             throw new ParseException("token missing or unknown expression near " + s + " in " + lastRule, lineNr, caretPos);
                         }
-                        if (lastInnerToken == Language.RGB && s.matches("#[0-9A-Fa-f]{6}"))
+                        String MM = "#[0-9A-Fa-f]";
+                        if (lastInnerToken == Language.RGB && s.startsWith("#"))
                         {
+                            boolean b8 = s.matches(MM + "{8}");
+                            ArrayList<Expression> aexpr = null;
+                            if (b8)
+                            {
+                                aexpr = new ArrayList<Expression>();
+                                aexpr.add(new Value( -1f + 1f / 255f * (float)Integer.parseInt(s.substring(7), 16)));
+                            }
+                            if (!b8 && !s.matches(MM + "{6}"))
+                            {
+                                throw new ParseException("Give RGB color in form #09AFFF or #09AFFF80", lineNr, caretPos);
+                            }
                             lexprs = decodeHtmlRgb(s);
                             if (curCtx==ParsingContext.TRANSFORM_ADJUSTMENTS)
+                            {
                                 ltfm.setShapeTransform(lastInnerToken, lexprs);
+                                if (b8) { ltfm.setShapeTransform(Language.A, aexpr); }
+                            }
                             else
+                            {
                                 lrstfm.setShapeTransform(lastInnerToken, lexprs);
+                                if (b8) { lrstfm.setShapeTransform(Language.A, aexpr); }
+                            }
                             lastInnerToken = null;
                             break;
                         }

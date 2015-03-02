@@ -1,16 +1,7 @@
-/*
-   konte K-logo v1.3c
-   (c) pvtoi 2015
-*/
-
 bg{ RGB #191919 }
-camera { z -1.8 }
-light { point(0, 0+FOO, .1)  { RGB 1 1 .8 } s 1 }
-light { point(0, 0, 5)   { RGB 1 1 1  } s 6 }
 
 
 k_logo {
-
    tilp{layer 1}
 }
 
@@ -135,3 +126,8 @@ path konte_kb3 {
     bend(-0.300, 0.000, 0.000)
     close
 }
+
+
+camera { z -1.8 }
+light { point(0, -.15+FOO, .1)  { RGB 1 1 .8 } s 1 }
+light { point(0, 0, 5)   { RGB 1 1 1  } s 6 }

@@ -395,7 +395,7 @@ public abstract class TransformModifier {
         @Override
         public void updateSTVal(DrawingContext st, Float[] delta)
         {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Not supported.");
         }
 
         
@@ -414,7 +414,7 @@ public abstract class TransformModifier {
         @Override
         public void updateSTVal(DrawingContext st, Float[] delta)
         {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Not supported.");
         }
 
         
@@ -433,7 +433,7 @@ public abstract class TransformModifier {
         @Override
         public void updateSTVal(DrawingContext st, Float[] delta)
         {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Not supported.");
         }
 
         
@@ -453,7 +453,7 @@ public abstract class TransformModifier {
         @Override
         public void updateSTVal(DrawingContext st, Float[] delta)
         {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Not supported.");
         }
 
         
@@ -473,7 +473,7 @@ public abstract class TransformModifier {
         @Override
         public void updateSTVal(DrawingContext st, Float[] delta)
         {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Not supported.");
         }
 
         
@@ -493,7 +493,7 @@ public abstract class TransformModifier {
         @Override
         public void updateSTVal(DrawingContext st, Float[] delta)
         {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Not supported.");
         }
 
         
@@ -513,7 +513,7 @@ public abstract class TransformModifier {
         @Override
         public void updateSTVal(DrawingContext st, Float[] delta)
         {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Not supported.");
         }
 
         
@@ -532,7 +532,7 @@ public abstract class TransformModifier {
         @Override
         public void updateSTVal(DrawingContext st, Float[] delta)
         {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Not supported.");
         }
 
         
@@ -551,7 +551,7 @@ public abstract class TransformModifier {
         @Override
         public void updateSTVal(DrawingContext st, Float[] delta)
         {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Not supported.");
         }
 
         
@@ -596,16 +596,16 @@ public abstract class TransformModifier {
         }
         public void updateSTVal(DrawingContext st, Float[] delta)
         {
-            st.changeHue(delta[0]);
-            st.changeSat(delta[1]);
             st.changeLighness(delta[2]);
+            st.changeSat(delta[1]);
+            st.changeHue(delta[0]);
             st.A = bounds1(st.A + delta[3]);
         }
 
         @Override
         public void updateSTVal(DrawingContext st, Float delta)
         {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Not supported.");
         }
 
         
@@ -624,7 +624,7 @@ public abstract class TransformModifier {
         @Override
         public void updateSTVal(DrawingContext st, Float[] delta)
         {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Not supported.");
         }
 
         
@@ -645,7 +645,7 @@ public abstract class TransformModifier {
         @Override
         public void updateSTVal(DrawingContext st, Float[] delta)
         {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Not supported.");
         }
     }
     
@@ -663,7 +663,7 @@ public abstract class TransformModifier {
         @Override
         public void updateSTVal(DrawingContext st, Float[] delta)
         {
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Not supported.");
         }
     }    
 
