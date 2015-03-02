@@ -33,7 +33,6 @@ import java.util.Observer;
 import java.util.Properties;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JColorChooser;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
@@ -54,7 +53,7 @@ import org.konte.image.SeqRecorder;
 import org.konte.imprt.SvgImport;
 import org.konte.lang.Language;
 
-/**<a>A swing-based interface to the rendering engine.
+/**A swing-based interface to the rendering engine.
  *
  * @author  pto
  */
@@ -520,19 +519,28 @@ public class Ui extends MyJFrame {
 
             br = new BufferedReader(new InputStreamReader(Ui.class.getResource(res).openStream()));
             String s;
+            char ch = '0';
             while ((s = br.readLine()) != null)
             {
                 final JMenuItem item = new JMenuItem();
-                item.setText(s.replaceAll("_", " "));
-                item.addActionListener(new java.awt.event.ActionListener()
+                if (s.startsWith("-"))
                 {
-
-                    public void actionPerformed(java.awt.event.ActionEvent evt)
+                    item.setText(s);
+                }
+                else
+                {
+                    item.setMnemonic(ch);
+                    item.setText(ch + " " + s.replaceAll("_", " "));
+                    if (++ch == ':') ch = 'A';
+                    item.addActionListener(new java.awt.event.ActionListener()
                     {
-                        if (!item.getText().matches("^-+$"))
-                            openTut(pth + item.getText().replaceAll(" ", "_"));
-                    }
-                });
+
+                        public void actionPerformed(java.awt.event.ActionEvent evt)
+                        {
+                            openTut(pth + item.getText().replaceAll(" ", "_").substring(2));
+                        }
+                    });
+                }
                 this.tutMenu.add(item);
             }
         }
@@ -813,6 +821,7 @@ public class Ui extends MyJFrame {
         fileMenu.setText("File");
 
         openMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        openMenuItem.setMnemonic('O');
         openMenuItem.setText("Open");
         openMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -822,6 +831,7 @@ public class Ui extends MyJFrame {
         fileMenu.add(openMenuItem);
 
         newMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
+        newMenuItem.setMnemonic('N');
         newMenuItem.setText("New");
         newMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -831,6 +841,7 @@ public class Ui extends MyJFrame {
         fileMenu.add(newMenuItem);
 
         saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        saveMenuItem.setMnemonic('S');
         saveMenuItem.setText("Save");
         saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -840,6 +851,7 @@ public class Ui extends MyJFrame {
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        saveAsMenuItem.setMnemonic('A');
         saveAsMenuItem.setText("Save As ...");
         saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -849,6 +861,7 @@ public class Ui extends MyJFrame {
         fileMenu.add(saveAsMenuItem);
 
         jMenuItem6.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_W, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem6.setMnemonic('C');
         jMenuItem6.setText("Close");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -857,6 +870,7 @@ public class Ui extends MyJFrame {
         });
         fileMenu.add(jMenuItem6);
 
+        jMenuItem12.setMnemonic('G');
         jMenuItem12.setText("Inkscape/svg path import");
         jMenuItem12.setToolTipText("Import available paths from a svg file");
         jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
@@ -867,6 +881,7 @@ public class Ui extends MyJFrame {
         fileMenu.add(jMenuItem12);
 
         exitMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        exitMenuItem.setMnemonic('Q');
         exitMenuItem.setText("Quit");
         exitMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -882,6 +897,7 @@ public class Ui extends MyJFrame {
         jMenu3.setText("Window");
 
         jMenuItem15.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_UP, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem15.setMnemonic('P');
         jMenuItem15.setText("Previous window");
         jMenuItem15.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -891,6 +907,7 @@ public class Ui extends MyJFrame {
         jMenu3.add(jMenuItem15);
 
         jMenuItem16.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PAGE_DOWN, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem16.setMnemonic('N');
         jMenuItem16.setText("Next window");
         jMenuItem16.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -905,6 +922,7 @@ public class Ui extends MyJFrame {
         editMenu.setMnemonic('E');
         editMenu.setText("Edit");
 
+        undoItem.setMnemonic('U');
         undoItem.setText("Undo");
         undoItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -913,6 +931,7 @@ public class Ui extends MyJFrame {
         });
         editMenu.add(undoItem);
 
+        redoItem.setMnemonic('R');
         redoItem.setText("Redo");
         redoItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -922,6 +941,7 @@ public class Ui extends MyJFrame {
         editMenu.add(redoItem);
 
         replaceItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
+        replaceItem.setMnemonic('F');
         replaceItem.setText("Find/Replace");
         replaceItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -932,6 +952,7 @@ public class Ui extends MyJFrame {
         editMenu.add(replaceItem);
 
         jMenuItem10.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_I, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem10.setMnemonic('S');
         jMenuItem10.setText("Shading editor");
         jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -941,6 +962,7 @@ public class Ui extends MyJFrame {
         editMenu.add(jMenuItem10);
 
         jMenuItem11.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem11.setMnemonic('P');
         jMenuItem11.setText("Path editor");
         jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -950,6 +972,7 @@ public class Ui extends MyJFrame {
         editMenu.add(jMenuItem11);
 
         jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem5.setMnemonic('C');
         jMenuItem5.setText("Pick Color");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -965,6 +988,7 @@ public class Ui extends MyJFrame {
         generateMenu.setText("Generate");
 
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem1.setMnemonic('G');
         jMenuItem1.setText("Generate");
         jMenuItem1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -979,6 +1003,7 @@ public class Ui extends MyJFrame {
         generateMenu.add(jMenuItem1);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem2.setMnemonic('T');
         jMenuItem2.setText("Generate to Size");
         jMenuItem2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -993,6 +1018,7 @@ public class Ui extends MyJFrame {
         generateMenu.add(jMenuItem2);
 
         jMenuItem8.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem8.setMnemonic('S');
         jMenuItem8.setText("Stop");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1014,6 +1040,7 @@ public class Ui extends MyJFrame {
         generateMenu.add(jMenuItem4);
 
         jMenuItem14.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem14.setMnemonic('Q');
         jMenuItem14.setText("Generate Sequence");
         jMenuItem14.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1029,6 +1056,7 @@ public class Ui extends MyJFrame {
         jMenu2.setText("Export");
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem3.setMnemonic('E');
         jMenuItem3.setText("Export image");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1037,6 +1065,7 @@ public class Ui extends MyJFrame {
         });
         jMenu2.add(jMenuItem3);
 
+        jCheckBoxMenuItem1.setMnemonic('N');
         jCheckBoxMenuItem1.setText("Enable svg/scene export");
         jCheckBoxMenuItem1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -1046,6 +1075,7 @@ public class Ui extends MyJFrame {
         jMenu2.add(jCheckBoxMenuItem1);
 
         jMenuItem13.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_G, java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem13.setMnemonic('G');
         jMenuItem13.setText("Export svg");
         jMenuItem13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1054,9 +1084,11 @@ public class Ui extends MyJFrame {
         });
         jMenu2.add(jMenuItem13);
 
+        jMenu1.setMnemonic('S');
         jMenu1.setText("Scene export");
 
         jMenuItem9.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        jMenuItem9.setMnemonic('S');
         jMenuItem9.setText("Sunflow");
         jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
