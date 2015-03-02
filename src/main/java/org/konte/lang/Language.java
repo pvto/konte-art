@@ -27,7 +27,7 @@ public class Language {
     
     public static final double version = 0.9;
     /** output log level*/
-    public static int output_verbose_filter = 0;
+    public static int output_verbose_filter = Integer.parseInt(System.getProperty("konte.verbosity", "8"));
 
     /** All named tokens in this language */
     public static final List<Token> tokens = new ArrayList<>();
