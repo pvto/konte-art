@@ -1367,8 +1367,8 @@ public class Ui extends MyJFrame {
             {
                 org.konte.misc.Func.sleep(10);
             }
-            if (width == -1) width = ev.getView().getWidth();
-            if (height == -1) height = ev.getView().getHeight();
+            if (width == -1) width = ev.getView().getWidth() - 2 ;
+            if (height == -1) height = ev.getView().getHeight() - 2;
         }
         ev.setRandomFeed(synchronizeVariationKey());
         controller.addTask(new Controller.TaskInfo(

@@ -19,7 +19,8 @@ tilp {
             y -.5 x -.45 sy .8
             scale .27 lightness 1 red -.1}
 
-    K { x .3 y .4 rx 10 ry -10 s  1.7 layer 1 {FOO=1.1}}
+    K { x .3 y .4 rx 10 ry -10 rz -irndf(10) 
+        s  1.7 layer 1 {FOO=1.1}}
 }
 
 rain {
