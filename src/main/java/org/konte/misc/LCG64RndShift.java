@@ -84,11 +84,9 @@ public class LCG64RndShift implements RndGenerator {
     
     public double nextFloat()
     {
-        int i = nextInt();
-        i ^= i >>> 11;
-        i ^= (i << 7) & TEMPERING_MASK_B;
-        i ^= (i << 15) & TEMPERING_MASK_C;
-        i ^= (i >>> 18);
+        rotate();
+        int i = (int)rndShift(state);
+        i = temper(i);
         return (i >>> 8) / ((float) (1 << 24));
     }
 

@@ -38,9 +38,9 @@ $ java -Xmx2048m -cp target/konte.jar org.konte.ui.Ui
 
 There are online examples in the *Tutorials* menu, so you should be good from that on.  A short introduction to the language is given below.
 
-![do-w-meshes.png](img/README/2015-03-01-21-46-do-w-meshes.png)
-[do-w-meshes.c3dg](img/README/do-w-meshes.c3dg) (variation AHL)
-*Other nice variations: ACI ACN ADN AEB AEN AEU AFC AFE AFU AGX AHL.*
+![do-w-meshes.png](img/README/2015-03-03-20-56-do-w-meshes.png)
+[do-w-meshes.c3dg](img/README/do-w-meshes.c3dg) (variation ABZ)
+*Other nice variations: AAG AAO AAQ AAY ABG ABJ ABK ABS ACB ACM.*
 
 ##Some notes on generating form
 
@@ -106,14 +106,14 @@ do .05 {...}
 ```
 you let konte decide which path it will take, relying on the "probabilities" ```1``` and ```.1``` and ```.05```.  I say "probabilities", because the weights do not have to add up to one.
 
-With the same seed, say 'AAF', konte will always generate the same image.
+With the same seed, say 'ADD', konte will always generate the same image.
 
-![do-w-meshes-col.png](img/README/2015-03-01-21-26-do-w-meshes-col.png)
-[do-w-meshes-col.c3dg](img/README/do-w-meshes-col.c3dg) (variation AAF)
+![do-w-meshes-col.png](img/README/2015-03-03-21-00-do-w-meshes-col.png)
+[do-w-meshes-col.c3dg](img/README/do-w-meshes-col.c3dg) (variation ADD)
 
 The ```rndf()``` function then provides a random value from a uniform distribution.
 
-![rndf.png](img/README/2015-03-01-21-55-rndf.png)
+![rndf.png](img/README/2015-03-03-20-49-rndf.png)
 [rndf.c3dg](img/README/rndf.c3dg) (variation AAA)
 
 
