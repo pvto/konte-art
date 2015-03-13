@@ -8,8 +8,6 @@ package org.konte.misc;
  * It uses the same LCG parameters as java's java.util.Random
  * (mult = 25214903917L and add = 11)
  * 
- * Tempering mask for float conversion adapted from Mersenne Twister
- * implementation by Michael Lecuyer, .
  * 
  * @author pvto https://github.com/pvto
  */
