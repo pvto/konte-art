@@ -2,7 +2,6 @@ package org.konte.ui;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import javax.swing.JPanel;
@@ -19,6 +18,7 @@ public class RndCharSliderBar extends JPanel {
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTextField jTextField1;
     private int rndCharN;
+    private RandomFeed randomFeed = new RandomFeed();
 
     public RndCharSliderBar()
     {
@@ -107,7 +107,7 @@ public class RndCharSliderBar extends JPanel {
         while (orig.equals(newst))
         {
             val += add;
-            newst = RandomFeed.toConvertKey(val);
+            newst = randomFeed.toConvertKey(val);
         }
         val -= add;
         if (val==jSlider1.getValue())
@@ -146,15 +146,15 @@ public class RndCharSliderBar extends JPanel {
 
     private void changeRndChars(int value)
     {
-        this.jTextField1.setText(RandomFeed.toConvertKey(value));
+        this.jTextField1.setText(randomFeed.toConvertKey(value));
     }
 
     private void setRndCharSlider(String s)
     {
         this.rndCharN = s.length();
-        this.jSlider1.setMinimum((int) RandomFeed.convertKey(Misc.replicate("A", rndCharN)));
-        this.jSlider1.setMaximum((int) RandomFeed.convertKey(Misc.replicate("Z", rndCharN)));
-        this.jSlider1.setValue((int) RandomFeed.convertKey(s));
+        this.jSlider1.setMinimum((int) randomFeed.convertKey(Misc.replicate("A", rndCharN)));
+        this.jSlider1.setMaximum((int) randomFeed.convertKey(Misc.replicate("Z", rndCharN)));
+        this.jSlider1.setValue((int) randomFeed.convertKey(s));
     }
 
     public String getKeyCode()

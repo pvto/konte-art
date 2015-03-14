@@ -31,7 +31,7 @@ public class RandomFeed {
     {
         return convertKey(key);
     }
-    public static long convertKey(String key)
+    public final long convertKey(String key)
     {
         long base = 1;
         long res = 0;
@@ -42,7 +42,7 @@ public class RandomFeed {
         }
         return res;        
     }
-    public static String toConvertKey(long l)
+    public final String toConvertKey(long l)
     {
         StringBuilder bd = new StringBuilder();
         long top = 1;
@@ -96,28 +96,6 @@ public class RandomFeed {
     public double get()
     {
         return rand.nextDouble();
-    }
-    
-    public static void main(String[] args)
-    {
-        System.out.println(toConvertKey(1)+convertKey("A"));
-        System.out.println(toConvertKey(25)+convertKey("Y"));
-        System.out.println(toConvertKey(33)+convertKey("AA"));
-        System.out.println(toConvertKey(34)+convertKey("AB"));
-        System.out.println(toConvertKey(58)+convertKey("AZ"));
-        System.out.println(toConvertKey(65)+convertKey("BA"));
-        System.out.println(toConvertKey(67)+convertKey("BC"));
-        System.out.println(toConvertKey(90)+convertKey("BZ"));
-        System.out.println(toConvertKey(858)+convertKey("ZZ"));
-        System.out.println(toConvertKey(1057)+convertKey("AAA"));
-        System.out.println(toConvertKey(1059)+convertKey("AAC"));
-        System.out.println(toConvertKey(1082)+convertKey("AAZ"));
-        System.out.println(toConvertKey(1089)+convertKey("ABA"));
-        System.out.println(toConvertKey(33825)+convertKey("AAAA"));
-        System.out.println(toConvertKey(1082401)+convertKey("AAAAA"));
-        System.out.println(toConvertKey(28142426)+convertKey("ZZZZZ"));
-        System.out.println(toConvertKey(34636833)+convertKey("AAAAAA"));
-        System.out.println(toConvertKey(900557658)+convertKey("ZZZZZZ"));
     }
 
 }
