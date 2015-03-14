@@ -9,9 +9,9 @@ import org.konte.generate.RandomFeed;
  */
 public class NonDeterministicRule {
 
-    private ArrayList<NonDeterministicRule.WeighedRule> rules = new ArrayList<WeighedRule>();
+    private final ArrayList<NonDeterministicRule.WeighedRule> rules = new ArrayList<>();
     private double total = 0;
-    private String name;
+    private final String name;
     public int id;
 
     public ArrayList<NonDeterministicRule.WeighedRule> getRules()
@@ -38,12 +38,13 @@ public class NonDeterministicRule {
             this.rule = rule;
         }
         
+        @Override
         public String toString()
         {
-            StringBuilder bd = new StringBuilder();
-            bd.append(String.format("%.2f", weigh)).append("=");
-            bd.append(rule);
-            return bd.toString();        
+            return new StringBuilder()
+                    .append(String.format("%.2f", weigh)).append("=")
+                    .append(rule)
+                    .toString();        
         }
         
         public Rule getRule() { return rule; }
@@ -76,7 +77,7 @@ public class NonDeterministicRule {
     {
         if (rules.size()==1)
             return rules.get(0).rule;
-        double d = f.get()*this.total;
+        double d = f.get() * this.total;
         double c = 0;
         WeighedRule w = null;
         for (int i = 0; c < d; c += w.weigh)
@@ -86,11 +87,14 @@ public class NonDeterministicRule {
         return w.rule;
     }
     
+    @Override
     public String toString()
     {
-        StringBuilder bd = new StringBuilder();
-        bd.append(name).append("[").append(String.format("%.2f",total)).append("]-").append(id).append(": ");
-        bd.append(rules);
-        return bd.toString();        
+        return new StringBuilder()
+                .append(name).append("[").append(String.format("%.2f",total)).append("]-")
+                .append(id).append(": ")
+                .append(rules)
+                .toString();
+
     }
 }
