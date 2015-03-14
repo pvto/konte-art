@@ -11,7 +11,7 @@ import org.konte.parse.ParseException;
  */
 public class PathEditFrame extends EditFrame {
 
-    private PathEditPane ppane;
+    private final PathEditPane ppane;
 
     public PathEditFrame() throws ParseException 
     {
@@ -20,8 +20,8 @@ public class PathEditFrame extends EditFrame {
         ppane = new PathEditPane();
         ppane.getPathPanel().setCamera(new SimpleCamera());
         this.add(ppane);
-        ppane.getSaveButton().addMouseListener(new java.awt.event.MouseAdapter()
-        {
+        ppane.getSaveButton().addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
             public void mousePressed(java.awt.event.MouseEvent evt)
             {
                 save();
@@ -37,6 +37,7 @@ public class PathEditFrame extends EditFrame {
         return ppane.getText();
     }
 
+    @Override
     public void setVisible(boolean b)
     {
         super.setVisible(b);
@@ -47,10 +48,4 @@ public class PathEditFrame extends EditFrame {
         }
     }
 
-    public static void main(String[] args) throws ParseException 
-    {
-        PathEditFrame fr = new PathEditFrame();
-        fr.setSize(700,600);
-        fr.setVisible(true);
-    }
 }

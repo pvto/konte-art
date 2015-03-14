@@ -362,9 +362,10 @@ public class Ui extends MyJFrame {
             props.setProperty("M" + count, s);            
             final JMenuItem item = new JMenuItem();
             item.setText(s);
+            item.setMnemonic('0' + count);
             item.addActionListener(new java.awt.event.ActionListener()
             {
-
+                @Override
                 public void actionPerformed(java.awt.event.ActionEvent evt)
                 {
                     open(new File(item.getText().substring(2)));
