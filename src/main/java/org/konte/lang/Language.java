@@ -397,6 +397,8 @@ public class Language {
         L.addAlias("lightness");
         A.addAlias("alpha");
         
+        layer.addAlias("lr");
+        
         and.addAlias("and");
         or.addAlias("or");
         
