@@ -272,6 +272,7 @@ public class Parser {
         Float val = null;
         int pos = 0;
         Token lastInnerToken = null;
+        Token tokenBefore = null;
         boolean wasNamed = false;
         boolean wasSet = false;
         boolean isSpecialContext = false;
@@ -612,14 +613,25 @@ public class Parser {
                 case FX:
                     if (lastValue == null)
                     {
-                        try
+                        if (t == Language.subtract)
                         {
-                            lastValue = Float.parseFloat(s);
-                            val = null;
+                            //ok
                         }
-                        catch (Exception e)
+                        else
                         {
-                            throw new ParseException("fx layer not specified, found: " + s, lineNr, caretPos);
+                            try
+                            {
+                                lastValue = Float.parseFloat(s);
+                                if (tokenBefore == Language.subtract)
+                                {
+                                    lastValue = -lastValue;
+                                }
+                                val = null;
+                            }
+                            catch (Exception e)
+                            {
+                                throw new ParseException("fx layer not specified, found: " + s, lineNr, caretPos);
+                            }
                         }
                     }
                     else
@@ -1716,7 +1728,7 @@ public class Parser {
                 ex.printStackTrace();
                 throw new ParseException(ex.getMessage(), lineNr, caretPos);
             }
-
+            tokenBefore = t;
 
         }
         if (curCtx != ParsingContext.GRAMMAR)
