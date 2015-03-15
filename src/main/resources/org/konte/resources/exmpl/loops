@@ -1,6 +1,10 @@
 camera {x .45 y .45}
 
-rule example {
+loopexs {
+    example { scale .5 }
+}
+
+example {
   10 * {y .1}
     (8 - y*8) * {x .1 scale .9 red .1}
       fuzicle {scale .1}
@@ -15,7 +19,7 @@ rule example {
 */
 
 
-rule fuzicle {
+fuzicle {
     30 *
     { scale .98 }
         CIRCLE

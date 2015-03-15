@@ -1,22 +1,27 @@
+/**
+* Layer 0 will be drawn before layer 1, etc.
+*
+* After all shapes have been drawn on a layer,
+* effects defined on it will be applied.
+* Then the next layer is drawn, etc.
+*
+* Increment current layer by one like this: { layer 1 }.
+*
+*/
+
 camera { z -4 }
 
-rule example {
-    SQUARE{layer -2 s 4 RGB #ffffff}
-    Path4101  {layer -1 blue 1 y .75}
-  3* {layer 1 red .5 y -.5 x .2 rz -20}
-    Path4101  {y .25}
+start { example { blue 1 } }
+example {
+
+  4* {layer 1 red .25 blue -.5 y -.25 x .2 rz -20}
+      Path4101  {y .25}
+
 }
 
-/* Usage:
- *   "layer [expression]"
- *     or
- *   "l [expression]"
- */
 
 rule Path4101 {
-    50 * { rz 19 }
-        Path4101_ { alpha -.3 }
-    Path4101_ { red -1 alpha -.3 }
+    4 * { rz 90 }  Path4101_ {}
 }
 path Path4101_ {
     moveto(-0.400, -0.400, 0.000)
@@ -37,7 +42,6 @@ path Path4101_ {
     close
 }
 
-//two blur effects, uncommentable
-//fx 1 { 770000000000000000000000000000000077777777777777700000000000000000000000000000000000000000000000000000000077777777777777777777777777777777777777777777777777777777777777 }
-//fx 2 { 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 }
+fx 1 { 770000000000000000000000000000000077777777777777700000000000000000000000000000000000000000000000000000000077777777777777777777777777777777777777777777777777777777777777 }
+fx 2 { 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 }
 

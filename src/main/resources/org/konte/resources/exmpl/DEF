@@ -1,0 +1,28 @@
+DEF W1 10
+DEF W2 (W1 - 1)
+
+fov { z -1.25 x .45}
+
+rule piles {
+
+    line { DEF { n = W1 }
+
+           y .4 red .4 }
+
+    line { DEF { n = W2 }
+
+        y .2 }
+
+    3*{    DEF { n = n + 2 }
+
+        y -0.1 blue 0.25 }
+
+      line { DEF { n = n + 1 } }
+}
+
+
+rule line {
+    (n) * { x 0.1 }
+      BOX {s 0.07}
+}
+

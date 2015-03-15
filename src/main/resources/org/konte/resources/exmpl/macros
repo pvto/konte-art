@@ -18,8 +18,8 @@
 DEF siz .02
 DEF cols (1/siz)
 
-MACRO TY (x*y)
-MACRO TT (TY%saw(z*5)*2)
+MACRO TY sin(x*5*y*5)
+MACRO TT (TY%saw(z*2)*2)
 
 rule scene { box { rx 30 ry 30 } }
 

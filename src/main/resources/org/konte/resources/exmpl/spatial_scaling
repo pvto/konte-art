@@ -9,12 +9,13 @@ rule example {
     SQUARE {size .1
             y 2 x 2
             red 1}
-    SQUARE {size .15 .05 .1
+    SQUARE {size .15 .05 .1 // changed order of transforms
             y 2 x 1.325
             red 1}
 
     SQUARE {size .1
             y -2 z 2
+ rz 45
             }
 
 }
@@ -28,5 +29,3 @@ rule example {
 * "scaley [exp]" or "sy [exp]"
 * "scalez [exp]" or "sz [exp]"
 */
-
-

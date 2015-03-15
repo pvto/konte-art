@@ -1,0 +1,27 @@
+bg { RGB 0 0 0 }
+
+
+scene {
+    scase { y -.4 x -.4 scale .03 roty 45 B .6 }
+}
+
+scase {
+    box { PUSH SQUARE}
+    if (step % 2 < 1 && step < 52) {
+        scase { x 1 DEF{ step = step + .5} }
+    }
+    if (step % 2 >= 1)  {
+        scase { y 1 DEF{ step = step + 1} }
+    }
+}
+
+
+box {  
+    4*{ry 90 L .3} PEEK{z -.5}
+    2*{rx 180 L .3 H -20} PEEK{rx 90 z -.5}
+}
+
+
+
+
+light { point(0,0,0) { RGB #ffff80 } s .3 }

@@ -1,9 +1,4 @@
-camera
-{
-    z -1
-    x -1
-    roty -45
-}
+camera { z -2 }
 
 rule shapes
 {
