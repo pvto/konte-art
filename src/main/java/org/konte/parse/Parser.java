@@ -904,7 +904,17 @@ public class Parser {
                         curCtx = Parser.ParsingContext.CAMERA;
                         ltfm = new Transform("fov");
                         camBd = new CameraBuilder(ltfm);
-
+                        if (lastName != null)
+                        {
+                            camBd.setName(lastName);
+                            lastName = null;
+                        }
+                    }
+                    else if (t == null)
+                    {
+                        if (lastName != null)
+                            throw new ParseException("Duplicate camera name: " + s, lineNr, caretPos);
+                        lastName = s;
                     }
                     else
                     {
