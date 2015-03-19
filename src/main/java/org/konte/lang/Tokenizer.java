@@ -61,6 +61,9 @@ public class Tokenizer {
     {
         int orig = offset;
         for(;;) {
+            if (offset >= b.length())
+                throw new ParseException("Unterminated character literal \"" 
+                    + b.substring(orig, Math.min(orig + 256, b.length())) + "\"", 0, orig);
             char c = b.charAt(offset++);
             if (c == '"')
             {
@@ -70,8 +73,7 @@ public class Tokenizer {
             else if (c == 'n') 
             {
                 lineNr++;
-            } else if (offset == b.length() - 1)
-                throw new ParseException("Unterminated character literal \"" + b.substring(orig) + "\"", 0, orig);
+            }
         }
     }
 
@@ -190,7 +192,7 @@ public class Tokenizer {
             int caret = position.offset;
             position.readNext();
             String retrievedToken = position.token;
-            if (retrievedToken == null || retrievedToken.length() == 0) {
+            if (retrievedToken == null /*|| retrievedToken.length() == 0*/) {
                 // skip
             }
             else

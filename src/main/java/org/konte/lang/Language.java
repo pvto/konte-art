@@ -444,6 +444,8 @@ public class Language {
 
     public static Float returnAsValue(String s)
     {
+        if (s.length() == 0)
+            return null;
         for(int i = 0; i < s.length(); i++) {
             char ch = s.charAt(i);
             if (ch != '.' && !Character.isDigit(ch))

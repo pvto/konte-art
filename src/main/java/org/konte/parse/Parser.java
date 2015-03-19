@@ -1062,7 +1062,7 @@ public class Parser {
                             else
                             {
                                 throw new ParseException(
-                                        "Invalid syntax: 'rule' or 'path' must be followed by name and weight or '{' " +
+                                        "Invalid syntax: 'rule' or 'path' name must be followed by a positive weight or '{' " +
                                         "(near " + s + ")", lineNr, caretPos);
                             }
                         }
@@ -1076,7 +1076,7 @@ public class Parser {
                             if (lastValue == null)
                             {
                                 throw new ParseException(
-                                        "Invalid syntax: 'rule' or 'path' must be followed by name and weight or '{' " +
+                                        "Invalid syntax: 'rule' or 'path' name must be followed by a positive weight or '{' " +
                                         "(near " + s + ")", lineNr, caretPos);
                             }
                         }
