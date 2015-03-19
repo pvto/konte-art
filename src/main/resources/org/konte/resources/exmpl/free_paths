@@ -1,17 +1,11 @@
 /*
-
    select "Edit" > "Path editor" [Ctrl+P]
    or     "File" > "Inkscape/SVG path import"
-
  */
 
 rule three_hearts {
     3 * { x .25 }
-        heart
-        {
-            x -.25 s .25
-            red .8
-        }
+      heart { x -.25 s .25 red .8 }
 }
 
 path heart {

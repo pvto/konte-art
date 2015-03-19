@@ -1,27 +1,8 @@
 # konte-art
 
-![meshm2.png](img/README/2015-02-24-02-09-meshm2.png)
-[meshm2.c3dg](img/README/meshm2.c3dg)
+Konte is a small language for generating images, "drawing by coding".  This page contains some showcase pictures, so browse on.
 
-Konte is a small language for generating images, "drawing by coding".  All images on this page were written in it, strict mode.
-
-![objective.png](img/README/2015-02-27-23-59-objective.png)
-[objective.c3dg](img/README/objective.c3dg)
-
-Some technical notes about what the app does:
-
- - it projects arbitrary z-ordered and linearly transformed 3D bezier paths on a Java2D canvas
- - there is no edge clipping, so 3D is "semi" in this way; you should avoid excessively large shapes that could create strange overlap effects
- - there is a layering property in the language, so you can draw on multiple layers like in Photoshop
- - there is an ad hoc support for meshes
- - RGBA, HSLA and user defined color spaces are supported
- - a simple "independent shapes" lighting model is supported, with lights controlled by arbitrary expressions
- - 3D, ortographic and cabinet (oblique) perspectives are supported
-
-*Konte is an art project. Its code is old and a bit edgy. I'll be cleaning it up, but you were warned.*
-
-![mcs6_9.png](img/README/2015-02-24-02-26-mcs6_9.png)
-[mcs6_9.c3dg](img/README/mcs6_9.c3dg)
+See [Development ideas](DEVELOPMENT_IDEAS.md) if you are looking for a feature or a bugfix, or you can file a bug report at github.
 
 ##Building and running
 
@@ -35,6 +16,26 @@ Run konte UI from the command line.
 ```
 $ java -Xmx2048m -cp target/konte.jar org.konte.ui.Ui
 ```
+
+##What the app does
+
+ - konte projects arbitrary z-ordered and linearly transformed 3D bezier paths on a Java2D canvas
+ - there is no edge clipping, so 3D is "semi" in this way; you should avoid excessively large shapes that could create strange overlap effects
+ - there is a layering property in the language, so you can draw on multiple layers like in Photoshop
+ - there is an ad hoc support for meshes
+ - RGBA, HSLA and user defined color spaces are supported
+ - a simple "independent shapes" lighting model is supported, with lights controlled by arbitrary expressions
+ - 3D, ortographic and cabinet (oblique) perspectives are supported
+
+![meshm2.png](img/README/2015-02-24-02-09-meshm2.png)
+[meshm2.c3dg](img/README/meshm2.c3dg)
+
+![objective.png](img/README/2015-02-27-23-59-objective.png)
+[objective.c3dg](img/README/objective.c3dg)
+
+![mcs6_9.png](img/README/2015-02-24-02-26-mcs6_9.png)
+[mcs6_9.c3dg](img/README/mcs6_9.c3dg)
+
 
 There are online examples in the *Tutorials* menu, so you should be good from that on.  A short introduction to the language is given below.
 
