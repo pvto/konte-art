@@ -308,6 +308,16 @@ light {COMPLEMENTARY point(.5,.1,.1){RGB 1 0 0} s .1}
 ```
 ![icescape.png](img/README/2015-02-25-22-15-icescape.png)
 
+###Phong lighting
+
+Phong lighting is introduced in Konte 1.0.
+
+![phong_possible.png](img/README/2015-03-25-00-09-phong_possible-A.png)
+[phong_possible-A.c3dg](img/README/phong_possible-A.c3dg)
+
+![phong_impossible-C.png](img/README/2015-03-25-00-08-phong_impossible-C.png)
+[phong_impossible-C.c3dg](img/README/phong_impossible-C.c3dg)
+
 
 ###Drawing meshes
 

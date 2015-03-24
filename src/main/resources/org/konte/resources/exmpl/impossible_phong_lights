@@ -1,0 +1,80 @@
+camera { z -2 }
+bg{RGB #202020}
+
+DEF MOD 6
+DEF CLUST 40
+
+light {AMBIENT s .5}
+light {PHONG specular 30 alpha 30 s 2 {RGB 1 1 1}
+  point(
+    round(x*MOD)/MOD*2+sin(y*CLUST)+XLI,
+    round(y*MOD)/MOD*2+sin(x*CLUST),
+    round(z*MOD)/MOD*2+sin(x*CLUST)
+  )
+}
+
+fx 0*1{777 777 777}
+
+startshape meshball
+DEF SCALE 300
+
+rule loop {
+    (SCALE) *  {  DEF { u = u + PI/SCALE} }
+        (SCALE) *
+        {
+            DEF
+            {
+                v = v + PI/SCALE/2;
+                row = row + 1
+            }
+        }
+            MESH
+            {
+
+                roty (u*360/PI) rotx (-v*360/PI)
+                z (-.6 + hipas((sin(u*u*3+v*v*7))*.15,0))
+                R .6
+            }
+}
+
+
+rule meshball {
+    loop
+    {
+        x -.3 y -.2 s .8
+        DEF {
+            mesh = 1;
+            u = 0;
+            v = -(PI/4);
+            ambient = .1;
+            diffuse = .6;
+        }
+    }
+    loop
+    {
+        x .6 y -.2 z 1
+        DEF {
+            mesh = 2;
+            u = PI/2;
+            v = (PI/4);
+            ambient = .1;
+            diffuse = .7;
+            XLI = 4;
+        }
+    }
+
+    loop
+    {
+        x 1 y 1 z 2
+        DEF {
+            mesh = 3;
+            u = PI/4;
+            v = (PI/4);
+            ambient = .4;
+            diffuse = .3;
+            XLI = -4;
+        }
+    }
+
+}
+
