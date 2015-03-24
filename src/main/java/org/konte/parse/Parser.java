@@ -735,6 +735,7 @@ public class Parser {
                         }
                         catch(Exception ex)
                         {
+                            ex.printStackTrace();
                             throw new ParseException(ex.getMessage(), lineNr, caretPos);
                         }
                         lrstfm = null;
@@ -772,9 +773,29 @@ public class Parser {
                         //colSp = ColorSpace.createColorSpace(lastName, lexprs);
                     } else if  (t == Language.s)
                     {
-                         i = getExpressionList(tokenStrings, i+1, exprL);
+                        i = getExpressionList(tokenStrings, i+1, exprL);
                         lexpr = exprParser.parse(exprL, 0, m);
                         lightBd.strength(lexpr);
+                    } else if  (t == Language.diffuse)
+                    {
+                        i = getExpressionList(tokenStrings, i+1, exprL);
+                        lexpr = exprParser.parse(exprL, 0, m);
+                        lightBd.strength(lexpr);
+                    } else if  (t == Language.specular)
+                    {
+                        i = getExpressionList(tokenStrings, i+1, exprL);
+                        lexpr = exprParser.parse(exprL, 0, m);
+                        lightBd.specular(lexpr);
+                    } else if  (t == Language.A)
+                    {
+                        i = getExpressionList(tokenStrings, i+1, exprL);
+                        lexpr = exprParser.parse(exprL, 0, m);
+                            lightBd.alpha(lexpr);
+                    } else if  (t == Language.specular)
+                    {
+                        i = getExpressionList(tokenStrings, i+1, exprL);
+                        lexpr = exprParser.parse(exprL, 0, m);
+                            lightBd.alpha(lexpr);
                     } else if (t == Language.left_curl)
                     {
                         contextStack.push(curCtx);
@@ -806,7 +827,14 @@ public class Parser {
                                         lightBd.type(2);
                                         matched = true;
                                         break;
-                                        
+                                    case PHONG:
+                                        lightBd.type(10);
+                                        matched = true;
+                                        break;
+                                    case AMBIENT:
+                                        lightBd.type(11);
+                                        matched = true;
+                                        break;
                                 }
                             }
                         }
@@ -1487,7 +1515,7 @@ public class Parser {
                     } else if (t == Language.equals)
                     {
                         wasSet = true;
-                    } else if (t == null)
+                    } else if (t == null || !(t instanceof InnerToken))
                     {
                         if (!wasNamed)
                         {

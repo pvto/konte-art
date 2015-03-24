@@ -562,6 +562,20 @@ public class Model {
                     "rule %s referenced by startshape directive not found", startshape));
         }
         updateNameExpressionIds();
+        for(Light li : this.lighting.getLights())
+        {
+            if (li instanceof PhongLight)
+            {
+                PhongLight pli = (PhongLight)li;
+                pli.ambientId = this.getNameExpressionId("ambient");
+                pli.diffuseId = this.getNameExpressionId("diffuse");
+                pli.specularId = this.getNameExpressionId("specular");
+            }
+            else if (li instanceof AmbientLight)
+            {
+                ((AmbientLight)li).ambientId = this.getNameExpressionId("ambient");
+            }
+        }
         Runtime.sysoutln(this.toShortString(), 5);
         isPreEvaluated = true;
     }

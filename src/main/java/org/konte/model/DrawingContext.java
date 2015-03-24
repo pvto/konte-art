@@ -151,6 +151,13 @@ public class DrawingContext implements Serializable {
         int i = Arrays.binarySearch(defs, search);
         return (i < 0 ? 0f : defs[i].defval);
     }
+    public float getDef(int id, float defaultVal)
+    {
+        if (defs == null) return defaultVal;
+        search.nameid = id;
+        int i = Arrays.binarySearch(defs, search);
+        return (i < 0 ? defaultVal : defs[i].defval);
+    }
     public float getR()
     {
         return R;

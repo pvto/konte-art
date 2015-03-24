@@ -11,16 +11,33 @@ import org.konte.misc.Mathc3;
  */
 public class GlobalLighting  {
 
-    private ArrayList<Light> lights;
+    private final ArrayList<Light> lights;
 
     public GlobalLighting()
     {
-        lights = new ArrayList<Light>();
+        lights = new ArrayList<>();
     }
     
     public void addLight(Light light)
     {
-        lights.add(light);
+        if (light instanceof AmbientLight)
+        {
+            if (lights.size() > 0 && lights.get(0) instanceof AmbientLight)
+                lights.set(0, light);
+            else
+                lights.add(0, light);
+        }
+        else
+        {
+            lights.add(light);
+        }
+        
+        if (light instanceof PhongLight && !(lights.get(0) instanceof AmbientLight))
+        {
+            light = new AmbientLight();
+            lights.add(0, light);
+        }
+        
     }
 
     public List<Light> getLights()

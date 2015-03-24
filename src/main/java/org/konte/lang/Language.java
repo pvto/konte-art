@@ -361,6 +361,9 @@ public class Language {
     public static final Token imgg = addToken(new Token("imgg"));
     public static final Token imgb = addToken(new Token("imgb"));
     public static final Token imga = addToken(new Token("imga"));
+    
+    public static final Token diffuse = addToken(new Token("diffuse"));
+    public static final Token specular = addToken(new Token("specular"));
 //    public static final Token imgu = addToken(new InnerToken("u",1));
 //    public static final Token imgv = addToken(new InnerToken("v",1));
 

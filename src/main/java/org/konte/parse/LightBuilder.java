@@ -4,9 +4,11 @@ package org.konte.parse;
 import java.util.ArrayList;
 import org.konte.expression.Expression;
 import org.konte.expression.Value;
+import org.konte.model.AmbientLight;
 import org.konte.model.Light;
 import org.konte.model.ColorSpace.RGBA;
 import org.konte.model.DrawingContext;
+import org.konte.model.PhongLight;
 import org.konte.model.Transform;
 import org.konte.model.TransformModifier;
 
@@ -170,6 +172,7 @@ public class LightBuilder {
     
     private String name;
     private Expression strength;
+    private Expression alpha, specular;
     private ArrayList<RGBA> points = null;
     private RGBA current = null;    
     private int type = -1;
@@ -187,6 +190,16 @@ public class LightBuilder {
     public Light build() throws Exception 
     {
         Light light = null;
+        
+        if (type==11)
+        {
+            Expression ambient = strength;
+            light = new AmbientLight();
+            if (ambient != null)
+                ((AmbientLight)light).ambient = ambient;
+            return light;
+        }
+        
         int i = 0;
         Expression x = points.get(i).point.get(0);
         Expression y = points.get(i).point.get(1);
@@ -205,9 +218,13 @@ public class LightBuilder {
         } else if (type==2)
         {
             light = createDarkness(x,y,z,strength,rgba);
+        } else if (type==10)
+        {
+            Expression diffuse = strength;
+            Expression specular = this.specular != null ? this.specular : new Value(3f);
+            Expression alpha = this.alpha != null ? this.alpha : new Value(300f);
+            light = new PhongLight(x,y,z, strength, diffuse, specular, alpha, rgba);
         }
-
-
 
         return light;
     }
@@ -228,6 +245,9 @@ public class LightBuilder {
     void point(ArrayList<Expression> coords, Transform colors) throws ParseException 
     {
 
+        if (type == 11)
+            return;
+        
         if (coords.size() != 3)
             throw new ParseException("Light position must have three coordinates");
         current = new RGBA();
@@ -265,6 +285,16 @@ public class LightBuilder {
     void strength(Expression lexpr)
     {
         strength = lexpr;
+    }
+    
+    void alpha(Expression lexpr)
+    {
+        alpha = lexpr;
+    }
+
+    void specular(Expression lexpr)
+    {
+        specular = lexpr;
     }
 
 }
