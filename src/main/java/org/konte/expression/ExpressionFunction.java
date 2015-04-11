@@ -39,9 +39,13 @@ public class ExpressionFunction extends Operator {
         try {
             return f.value(resolvedArgs);
         }
-        catch (Exception e) 
+        catch(java.util.MissingResourceException me)
         {
             return null;
+        }
+        catch (Exception e) 
+        {
+            throw new ParseException("error evaluating " + this + ":" + e.getMessage());
         }
     }
 

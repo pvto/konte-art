@@ -338,11 +338,11 @@ public class ExpressionParser {
                         }
                         else
                         {
-                            if (tt.get(i+3)!=Language.right_bracket)
-                            {
-                                throw new ParseException("after " + t + " (<name>) or () expected");
-                            }
-                            name += tt.get(i+2).toString();
+//                            if (tt.get(i+3)!=Language.right_bracket)
+//                            {
+//                                throw new ParseException("after " + t + " (<name>) or () expected");
+//                            }
+                            name += ":" + tt.get(i+2).toString();
                         }
                         t = (Token)model.globalvar.get(name);
                         if (t == null)
@@ -353,7 +353,7 @@ public class ExpressionParser {
                             }
                             catch(Exception ex)
                             {
-                                ex.printStackTrace();
+                                throw new ParseException("failed to create contextual function " + t + ": " + ex.getMessage());
                             }
                         }
                     }

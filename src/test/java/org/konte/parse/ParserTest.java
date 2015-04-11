@@ -105,4 +105,17 @@ public class ParserTest {
         System.out.println(cond0);
     }
 
+    @Test
+    public void testParseFunctions() throws ParseException, IllegalArgumentException, IllegalAccessException
+    {
+        String s = "FNS { SQUARE{ L brndf(10,ih-1-(32*(vP*(v+PI/4)%ih))) "
+                + "B imgred(img0,u*uP*32%iw, ih-1-(32*(vP*(v+PI/4)%ih)) ) "
+                + "} }";
+//(10.0000000 ((ih-1.0000000)-(32.0000000*((vP*(v+(3.1415927/4.0000000)))%ih))) )
+        Model m = new Parser().parse( 
+            Tokenizer.retrieveTokenStrings(new StringBuilder(s))
+        );
+        m.initForGenerate();
+        System.out.println(m.rules.get("FNS").getRules().get(0).getRule().transforms.get(0).acqExps.get(1).exprs);
+    }
 }

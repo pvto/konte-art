@@ -467,7 +467,12 @@ public class Transform {
                 aq.updateSTVal(newt, aq.evaluateAll());
             else {
                 aq.evaluateAll();
-                aq.updateSTVal(newt, aq.values[0]);
+                try {
+                    aq.updateSTVal(newt, aq.values[0]);
+                } catch(Exception ex) {
+                    aq.evaluateAll();
+                    throw ex;
+                }
             }
         }
         // apply shading - moved to ruleWriter (only for final shapes)
