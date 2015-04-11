@@ -1,6 +1,6 @@
 # konte-art
 
-Konte is a small language for generating images, "drawing by coding".  This page contains some showcase pictures, so browse on.
+Konte is a small language for generating images, "drawing by coding".
 
 See [Development ideas](DEVELOPMENT_IDEAS.md) if you are looking for a feature or a bugfix, or you can file a bug report at github.
 
@@ -11,15 +11,17 @@ Build the project from a command line.
 ```
 $ mvn clean install
 ```
-Run konte UI from the command line.
+Run konte GUI from the command line.
 
 ```
 $ java -Xmx2048m -cp target/konte.jar org.konte.ui.Ui
 ```
+Use the *Tutorial* menu to get a quick start into konte code.
+
 
 ##What the app does
 
- - konte projects arbitrary z-ordered and linearly transformed 3D bezier paths on a Java2D canvas
+ - projects arbitrary z-ordered and linearly transformed 3D bezier paths on a Java2D canvas
  - there is no edge clipping, so 3D is "semi" in this way; you should avoid excessively large shapes that could create strange overlap effects
  - there is a layering property in the language, so you can draw on multiple layers like in Photoshop
  - there is an ad hoc support for meshes
@@ -36,14 +38,17 @@ $ java -Xmx2048m -cp target/konte.jar org.konte.ui.Ui
 ![mcs6_9.png](img/README/2015-02-24-02-26-mcs6_9.png)
 [mcs6_9.c3dg](img/README/mcs6_9.c3dg)
 
+![fail_is_bB3.png](img/README/2015-04-10-23-47-fail_is_bB3.png)
+[fail_is_bB3.c3dg](img/README/fail_is_bB3.c3dg)
 
-There are online examples in the *Tutorials* menu, so you should be good from that on.  A short introduction to the language is given below.
+![fail_is_bB2.png](img/README/2015-04-10-23-13-fail_is_bB2.png)
+[fail_is_bB2.c3dg](img/README/fail_is_bB2.c3dg)
 
 ![do-w-meshes.png](img/README/2015-03-03-20-56-do-w-meshes.png)
 [do-w-meshes.c3dg](img/README/do-w-meshes.c3dg) (variation ABZ)
 *Other nice variations: AAG AAO AAQ AAY ABG ABJ ABK ABS ACB ACM.*
 
-##Some notes on generating form
+##Scripting with konte, an introduction
 
 Konte is a mutation of the [contextfreeart.org](http://contextfreeart.org/) language.  In konte, you draw in three dimensions.
 
@@ -75,7 +80,7 @@ Also user paths like the following are supported.
 ![hearts.png](img/README/2015-02-24-00-36-hearts.png)
 [hearts.c3dg](img/README/hearts.c3dg)
 
-There is a basic svg path import functionality in konte ui, so you could draw your paths in a vector app or use some clipart paths and import them.  Keep in mind that konte draws in the {0..1,0..1} xy space by default, and it will try to scale an imported svg into that space.
+There is a basic svg path import functionality in the supplied GUI, so you could draw your paths in a vector app or use some clipart paths and import them.  Keep in mind that konte draws in the {0..1,0..1} xy space by default, and it will try to scale an imported svg into that space.
 
 You can also write a path by hand if you like the excercise.
 
@@ -112,7 +117,7 @@ With the same seed, say 'ADD', konte will always generate the same image.
 ![do-w-meshes-col.png](img/README/2015-03-03-21-00-do-w-meshes-col.png)
 [do-w-meshes-col.c3dg](img/README/do-w-meshes-col.c3dg) (variation ADD)
 
-The ```rndf()``` function then provides a random value from a uniform distribution.
+The ```rndf()``` function then provides a random value from a uniform distribution. (For other distributions, see *Other functions* below.)
 
 ![rndf.png](img/README/2015-03-03-20-49-rndf.png)
 [rndf.c3dg](img/README/rndf.c3dg) (variation AAA)
@@ -403,13 +408,33 @@ atan // arcus tangent.
 ```
 ###Other functions
 ```
-rnd  // random number [0,1]. Example:  rnd()
+rndf // random number [0,1). Example:  rndf()
+     //  Uses a seeded random feed.
+rnd  // random number [0,1). Example:  rnd()
 
      // rnd() does not draw from the variation random feed,
      // but from system random number generator.
      // This may change in the future.
 
+irndf// random int [0,n).    Example:  irnd(10) -> one of 0..9
+     //  Uses a seeded random feed.
 irnd // random int [0,n).    Example:  irnd(10) -> one of 0..9
+
+binm  // binomial distribution, p.d.f.: binm(n, p, x)
+                             Example:  binm(10,0.5,1) -> 0.009765625
+binmc // cumulative binomial dist.
+                             Example:  binmc(10,0.5,9) -> 0.9990234
+brndf // seeded random number [0,1] from a binomial distribution
+                             Example:  brndf(10, 0.1) -> 0.153407
+                             (the mean of these would --> 0.1 as n --> Inf.)
+brnd  // random number [0,1] from a binomial distribution
+                             Example:  brnd(10, 0.1) -> 0.085133
+
+hypg  // hypergeometric distribution, p.d.f.: hypg(N1, N2, n, x) 
+hypgc // cumulative hypergeometric dist.
+hypgrndf // seeded random number [0,1] from a hypergeometric distribution
+hypgrnd  // random number [0,1] from a hypergeometric distribution
+
 
 saw  // Saw wave function -> [0,1], period 1.
 

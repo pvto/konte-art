@@ -1,0 +1,64 @@
+camera { z -2 }
+bg{RGB #202020}
+
+DEF MOD 6
+DEF CLUST 85
+
+light {AMBIENT s .5}
+light {PHONG specular 10 alpha 100 s 5 {RGB 1 1 1}
+  point(
+    -1+sin(v*CLUST)+sin(v*u*CLUST/1.5)*3,
+    sin(u*CLUST/30),
+    -2+sin(u*v*CLUST*.1)
+  )
+}
+
+fx 0*1{777 777 777}
+
+startshape meshball
+DEF SCALE 1000
+
+
+include "/home/paavoto/kauno/2015/aphor/svg/fail_is_bB.png" img0
+
+
+
+rule loop {
+    (SCALE) *  {  DEF { u = u + PI/SCALE} }
+        (SCALE) *
+        {
+            DEF
+            {
+                v = v + PI/SCALE/2;
+                row = row + 1
+            }
+        }
+            MESH
+            {
+
+                roty (u*360/PI) rotx (-v*360/PI)
+                z (-.6 - hipas(sin(u*15+sin(u*17))*sin(v*15),.25) * .07)
+                L .2 + imgred(img0,u*uP*8%iw,ih-1-(8*(v*vP+PI/4*vP)%ih))
+            }
+}
+
+
+rule meshball {
+    loop
+    {
+        s 1.2 ry -30 rx 30
+        DEF {
+            mesh = 1;
+            u = PI/4;
+            v = -(PI/4);
+            ambient = .5;
+            diffuse = .2;
+            iw = imgwidth(img0);
+            ih = imgheight(img0);
+            uP = imgwidth(img0)/PI/2;
+            vP = imgheight(img0)/PI/2;
+
+        }
+    }
+}
+
