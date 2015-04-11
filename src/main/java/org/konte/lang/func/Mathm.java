@@ -279,7 +279,10 @@ public class Mathm {
 
         @Override
         public float value(float... val) {
-            if (val[0] % 1 < 0.5f) {
+            float x = val[0] % 1;
+            if (x < 0f)
+                x = 1f + x;
+            if (x < 0.5f) {
                 return 1f;
             }
             return 0f;
