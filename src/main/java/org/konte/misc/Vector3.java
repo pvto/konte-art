@@ -186,11 +186,7 @@ public final class Vector3 {
     }
 
     public static final Vector3 sub(Vector3 v1, Vector3 v2) {
-        Vector3 dest = new Vector3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
-//        dest.x = v1.x - v2.x;
-//        dest.y = v1.y - v2.y;
-//        dest.z = v1.z - v2.z;
-        return dest;
+        return new Vector3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
     }
 
     @Override

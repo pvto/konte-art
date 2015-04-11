@@ -18,6 +18,7 @@ import org.konte.lang.func.Img;
 import org.konte.model.TransformModifier;
 import org.konte.plugin.PluginLoader;
 import static org.konte.lang.Tokens.*;
+import org.konte.lang.func.Prob;
 
 /**Many of the language features are defined here.
  *
@@ -25,7 +26,7 @@ import static org.konte.lang.Tokens.*;
  */
 public class Language {
     
-    public static final double version = 0.9;
+    public static final double version = 1.0;
     /** output log level*/
     public static int output_verbose_filter = Integer.parseInt(System.getProperty("konte.verbosity", "8"));
 
@@ -231,6 +232,16 @@ public class Language {
     public static final Token min = addToken(new Mathm.EMin("min"));
     public static final Token mandelb = addToken(new Fractal.EMandelbrot("mandelbrot"));
     public static final Token julia = addToken(new Fractal.EJulia("julia"));
+    public static final Token binm = addToken(new Prob.EBinm("binm"));
+    public static final Token binmcuml = addToken(new Prob.EBincuml("binmc"));
+    public static final Token binmRndf = addToken(new Func.ERndfbin("brndf", null));
+    public static final Token binmRnd = addToken(new Prob.ERndbin("brnd"));
+    public static final Token hypg = addToken(new Prob.EHypg("hypg"));
+    public static final Token hypgcuml = addToken(new Prob.EHypgcuml("hypgc"));
+    public static final Token hypgRndf = addToken(new Func.ERndfhypg("hypgrndf", null));
+    public static final Token hypgRnd = addToken(new Prob.ERndhypg("hypgrnd"));
+    public static final Token negbinm = addToken(new Prob.ENegbinm("negbinm"));
+
     public static final Token img_red = addToken(new Img.EImgRed("imgred", null));
     public static final Token img_green = addToken(new Img.EImgGreen("imggreen", null));
     public static final Token img_blue = addToken(new Img.EImgBlue("imgblue", null));
