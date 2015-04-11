@@ -8,6 +8,14 @@ import org.konte.model.Model;
 
 public class Img {
 
+    private static int getCol(Image image, float... val)
+    {
+        int u = (int)val[1] % image.getWidth(null);
+        if (u < 0) u = image.getWidth(null) + u;
+        int v = (int)val[2] % image.getHeight(null);
+        if (v < 0) v = image.getHeight(null) + v;
+        return ((BufferedImage)image).getRGB(u,v);
+    }
     public static class EImgRed extends ContextualFunction {
         @Override public int getArgsCount() { return 3; }
         public EImgRed(String name, Model model) { super(name, model); }
@@ -16,7 +24,7 @@ public class Img {
         {
             int img = (int)val[0];
             Image image = model.bitmapCache.imageArr[img];
-            int col = ((BufferedImage)image).getRGB((int)val[1], (int)val[2]);
+            int col = getCol(image, val);
             return (float)((col >> 16) & 0xFF)/255f;
         }
     }
@@ -28,7 +36,7 @@ public class Img {
         {
             int img = (int)val[0];
             Image image = model.bitmapCache.imageArr[img];
-            int col = ((BufferedImage)image).getRGB((int)val[1], (int)val[2]);
+            int col = getCol(image, val);
             return (float)((col >> 8) & 0xFF)/255f;
         }
     }
@@ -40,7 +48,7 @@ public class Img {
         {
             int img = (int)val[0];
             Image image = model.bitmapCache.imageArr[img];
-            int col = ((BufferedImage)image).getRGB((int)val[1], (int)val[2]);
+            int col = getCol(image, val);
             return (float)(col & 0xFF)/255f;
         }
     }
@@ -52,7 +60,7 @@ public class Img {
         {
             int img = (int)val[0];
             Image image = model.bitmapCache.imageArr[img];
-            int col = ((BufferedImage)image).getRGB((int)val[1], (int)val[2]);
+            int col = getCol(image, val);
             return (float)((col >> 24) & 0xFF)/255f;
         }
     }
