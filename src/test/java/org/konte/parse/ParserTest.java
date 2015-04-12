@@ -118,4 +118,13 @@ public class ParserTest {
         m.initForGenerate();
         System.out.println(m.rules.get("FNS").getRules().get(0).getRule().transforms.get(0).acqExps.get(1).exprs);
     }
+    
+    @Test(expected = ParseException.class)
+    public void testParseUnknownFunction() throws ParseException, IllegalArgumentException, IllegalAccessException
+    {
+        String s = "fov{llookat(1,0,0)} F{SPHERE{}}";
+        Model m = new Parser().parse( 
+            Tokenizer.retrieveTokenStrings(new StringBuilder(s))
+        );
+    }
 }

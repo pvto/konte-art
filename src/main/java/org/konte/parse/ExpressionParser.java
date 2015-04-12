@@ -232,6 +232,8 @@ public class ExpressionParser {
 
             } else if (t == Language.comma)
             {
+                if (funcStack.isEmpty())
+                    throw new ParseException("misplaced comma (misnamed function?)");
                 priority[i] = priority[funcStack.peek()];
                 ref[i] = funcStack.peek();
                 int place = getSmallestPriority(argStack.pop() + 1, i, priority, ttOrig);
