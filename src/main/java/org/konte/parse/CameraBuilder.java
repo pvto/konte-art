@@ -4,6 +4,7 @@ package org.konte.parse;
 import java.util.ArrayList;
 import java.util.List;
 import org.konte.expression.Expression;
+import org.konte.expression.ExpressionFunction;
 import org.konte.expression.Value;
 import org.konte.image.CabinetCamera;
 import org.konte.image.Camera;
@@ -15,6 +16,7 @@ import org.konte.lang.Language;
 import org.konte.model.Transform;
 import org.konte.model.TransformModifier;
 import org.konte.lang.CameraProperties;
+import org.konte.misc.Vector3;
 
 
 public class CameraBuilder {
@@ -186,8 +188,19 @@ public class CameraBuilder {
         
         position.getTransformMatrix();
 
-        c.setPosition(position);
         c.setName(name);
+        for(int i = 0; i < this.extra.size(); i++)
+        {
+            Object o = extra.get(i);
+            if (o instanceof ExpressionFunction && ((ExpressionFunction)o).getToken() == Language.lookat)
+            {
+                ExpressionFunction ef = (ExpressionFunction)o;
+                Expression[] A = ef.getArgs();
+                c.lookat(new Vector3(A[0].evaluate(), A[1].evaluate(), A[2].evaluate()));
+            }
+        }
+        
+        c.setPosition(position);
 
         return c;
     }

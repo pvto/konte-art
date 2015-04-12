@@ -151,6 +151,7 @@ public class Language {
             return new TransformModifier.fov(e, t);
         }
     });  // other InnerTokens are introduced below
+    public static final Token lookat = addToken(new LanguageFunctor("lookat", 3));
     public static final Token fx = addToken(new Token("fx"));
     public static final Token rule = addToken(new Token("rule"));
     public static final Token path = addToken(new Token("path"));

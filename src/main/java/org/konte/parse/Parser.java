@@ -977,6 +977,10 @@ public class Parser {
                             throw new ParseException("Not expecting " + s +
                                     " in camera declaration. Valid tokens are: x y z rx ry rz s", lineNr, caretPos);
                         }
+                    } else if (t == Language.lookat) {
+                        i = getExpressionList(tokenStrings, i, exprL);
+                        lexpr = exprParser.parse(exprL, 0, m);
+                        camBd.addExtra(lexpr);
                     } else if (t == Language.right_curl)
                     {
                         if (lastInnerToken != null)

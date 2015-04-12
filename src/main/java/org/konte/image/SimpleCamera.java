@@ -9,6 +9,7 @@ import org.konte.model.DrawingContext;
 import org.konte.model.Transform;
 import org.konte.model.TransformModifier;
 import org.konte.parse.ParseException;
+import org.konte.generate.Runtime;
 
 /**
  *
@@ -60,6 +61,15 @@ public class SimpleCamera implements Camera {
         float rx = 0f;
         float ry = 0f;
         float rz = 0f;
+        if (target != null)
+        {
+            Vector3 iniPos = this.initialRotation();
+            rx = iniPos.x;
+            ry = iniPos.y;
+            rz = iniPos.z;
+            Runtime.sysoutln("fov " + this.getName() + " initial dir: " + iniPos, 10);
+        }
+        
         for(TransformModifier tr : posT.acqTrs)
         {
             if (tr instanceof TransformModifier.rx)
@@ -72,7 +82,10 @@ public class SimpleCamera implements Camera {
                 rz += tr.evaluateAll()[0] * toRad;
                 
         }
-        cameraRotationMatrix = Matrix3.rotation(rx,ry,rz);
+        Matrix3 zrotm = Matrix3.rotation(0,0,rz);
+        Matrix3 xyrotm = Matrix3.rotation(rx,ry,0);
+        cameraRotationMatrix = new Matrix3();
+        Matrix3.multiply(zrotm, xyrotm, cameraRotationMatrix);
         target = cameraRotationMatrix.multiply(new Vector3(0f,0f,-1f));
     }
 
@@ -104,44 +117,47 @@ public class SimpleCamera implements Camera {
         return target;
     }
 
+    @Override
+    public void lookat(Vector3 target)
+    {
+        setTarget(target);
+    }
+    
     public void setTarget(Vector3 trgt)
     {
         target = trgt;
+    }
+    
+    protected Vector3 initialRotation() {
         Vector3 diff = Vector3.sub(target, position);
+        System.out.println("trg: " + target + " pos: " + position + " cam vec: " + diff);
         float rx = 0f;
-        if (diff.z == 0f)
+        if (diff.y == 0f)
         {
-            rx = (float)Math.PI / 2f;
-            if ( diff.y < 0f)
-                rx = -rx;
+            if ( diff.z < 0f)
+                rx = (float)Math.PI;
+            else
+                rx = 0;
         }
         else
         {
-            rx = (float)Math.atan2(diff.z, diff.z);
+            rx = -(float)( Math.atan2(-diff.y, diff.z) );
         }
         float ry = 0f;
         if (diff.x == 0f)
         {
-            ry = (float)Math.PI / 2f;
+            
             if ( diff.z < 0f)
-                ry = -ry;
+                ry = (float)Math.PI;
+            else 
+                ry = 0;
         }
         else
         {
-            ry = (float)Math.atan2(diff.z, diff.x);
+            ry = -(float)( Math.atan2(diff.x, diff.z) );
         }
         float rz = 0f;
-        if (diff.x == 0f)
-        {
-            rz = (float)Math.PI / 2f;
-            if ( diff.y < 0f)
-                rz = -rz;
-        }
-        else
-        {
-            rz = (float)Math.atan2(diff.y, diff.x);
-        }
-        cameraRotationMatrix = Matrix3.rotation(rx,ry,rz);
+        return new Vector3(rx, ry, rz);
     }
 
 

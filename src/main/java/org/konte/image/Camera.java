@@ -24,5 +24,7 @@ public interface Camera {
     public void setName(String name);
     
     public void setCanvas(Canvas canvas);
+
+    public void lookat(Vector3 vector3);
     
 }
