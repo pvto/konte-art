@@ -226,6 +226,7 @@ public class PathPanel extends JPanel {
             pos.setShapeTransform(Language.y, mexplist(centerY = (ymax+ymin)/2f+y0));
             pos.setShapeTransform(Language.z, mexplist(-dmax));
             camera.setPosition(pos);
+            camera.lookat(new Vector3(centerX,-centerY,0));
             // draw grid
             DrawingContext point = new DrawingContext();
 
