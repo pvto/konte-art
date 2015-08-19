@@ -20,12 +20,12 @@ import org.konte.misc.Vector3;
 import org.konte.model.Background;
 import org.konte.model.DrawingContext;
 import org.konte.model.GlobalLighting;
-import org.konte.model.Model;
 import org.konte.model.Path;
 import org.konte.model.Transform;
 import org.konte.model.Untransformable;
 
-/**This will draw a path and map mouse coordinates to path coordinates.
+/**This will draw an editable/draggable path with control points,
+ * mapping mouse coordinates to path coordinates.
  *
  * @author pvto
  */
@@ -36,15 +36,21 @@ public class PathPanel extends JPanel {
     private List<Path> paths;
     private Canvas canvas;
     private Camera camera;
-    private int lastActiveNode = -1;
-    private int lastActiveBend = -1;
-    private float centerX, centerY;
-    private float xmin, xmax, ymin, ymax;
-    private float dmax;
-    private float zoomFactor = 1.6f;
-    private float x0, y0;
-    private float grid = 0.1f;
-    private int stretchAlong;
+    private int 
+            lastActiveNode = -1,
+            lastActiveBend = -1
+            ;
+    private float 
+            centerX, centerY,
+            xmin, xmax, ymin, ymax,
+            dmax,
+            zoomFactor = 1.6f,
+            x0, y0,
+            grid = 0.1f
+            ;
+    private int 
+            stretchAlong
+            ;
 
     public Path getPath()
     {
