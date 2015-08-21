@@ -19,6 +19,7 @@ import org.konte.lang.Language;
 import org.konte.misc.DiskBackedTreeMapBag;
 import org.konte.misc.DiskBackedTreeMapBag.BagWrapper;
 import org.konte.misc.Matrix4;
+import org.konte.misc.Serializer;
 import org.konte.model.Model;
 
 /**
@@ -48,22 +49,7 @@ public class DiskBackedShapeReader implements ShapeReader {
     private PointMetric metric;
 
 
-    public interface PointMetric { float measure(OutputShape p); }
-    public static class ZMetric implements PointMetric {
-        private Model model;
-        public ZMetric(Model model) { this.model = model; }
-        public float measure(OutputShape p) { return model.cameras.get(p.fov).distMetric(p.matrix); }
-    }
-    public static class MinWidthMetric implements PointMetric {
-        private Model model;
-        public MinWidthMetric(Model model) { this.model = model; }
-        public float measure(OutputShape p) { return p.getMinWidth(); }
-    }
-    public static class MaxWidthMetric implements PointMetric {
-        private Model model;
-        public MaxWidthMetric(Model model) { this.model = model; }
-        public float measure(OutputShape p) { return - p.getMinWidth(); }
-    }
+
 
     @Override public int getAddedCount() { return layers.addedCount; }
     public transient int state = 0;
@@ -158,7 +144,7 @@ public class DiskBackedShapeReader implements ShapeReader {
         int i = 0;
         for(OutputShape p : shapes)
         {
-            if (i++ % 20 == 0)
+            if (i++ % 100 == 0)
                 try
                 {
                     p.shape.draw(model.cameras.get(p.fov), canvas, p);
@@ -231,7 +217,7 @@ public class DiskBackedShapeReader implements ShapeReader {
     @Override public void setRuleWriter(RuleWriter aThis) { this.rulew = aThis; }
 
     
-    private static class OutputShapeSerializer implements DiskBackedTreeMapBag.Serializer {
+    private static class OutputShapeSerializer implements Serializer {
 
         @Override
         public byte[] marshal(Object o) throws IOException

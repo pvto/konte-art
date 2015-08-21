@@ -487,7 +487,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         NavigableMap<Float, List<OutputShape>> points;
         float layerIndex;
 
-        public Layer(TreeMap<Float, List<OutputShape>> points, float layerIndex)
+        public Layer(NavigableMap<Float, List<OutputShape>> points, float layerIndex)
         {
             this.points = points;
             this.layerIndex = layerIndex;
