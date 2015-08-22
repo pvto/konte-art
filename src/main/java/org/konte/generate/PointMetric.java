@@ -5,6 +5,7 @@ import org.konte.model.Model;
 
 public interface PointMetric {
     
+    
     float measure(OutputShape p);
     
     

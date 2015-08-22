@@ -10,8 +10,8 @@ import java.util.List;
  */
 public class DiskBackedFlointTree extends FlointTree {
     
-    private final List<BackupFile> backupFiles = new ArrayList<>();
-    private final Serializer serializer;
+    public final List<BackupFile> backupFiles = new ArrayList<>();
+    public final Serializer serializer;
 
 
     public DiskBackedFlointTree(Serializer serializer)
@@ -19,18 +19,17 @@ public class DiskBackedFlointTree extends FlointTree {
         this.serializer = serializer;
     }
     
-    public class BagWrapper {
+    public class DiskWrapper {
         private int ref = -1;
         public Object val;
         public Object getValue() throws IOException
         {
             if (ref != -1)
             {
-                BackupFile backupFile = backupFiles.get(ref & 0x1FF);
-                backupFile.file.seek((ref >>> 10) * (long)backupFile.objectSizeInBytes);
+                BackupFile backupFile = backupFiles.get(ref);
                 byte[] bytes = new byte[backupFile.objectSizeInBytes];
+                backupFile.read(bytes);
                 backupFile.retrievedCount++;
-                backupFile.file.read(bytes);
                 val = serializer.unmarshal(bytes);
                 ref = -1;
             }
@@ -56,7 +55,7 @@ public class DiskBackedFlointTree extends FlointTree {
                                 FUPair fu = n6.firstChild;
                                 while(fu != null)
                                 {
-                                    if (fu.u instanceof BagWrapper)
+                                    if (fu.u instanceof DiskWrapper)
                                     {
                                         fu = fu.next;
                                         continue;
@@ -77,44 +76,50 @@ public class DiskBackedFlointTree extends FlointTree {
                                 FUPair fu = n6.firstChild;
                                 while(fu != null)
                                 {
-                                    if (!(fu.u instanceof BagWrapper))
+                                    if (!(fu.u instanceof DiskWrapper))
                                     {
-                                        BagWrapper w = new BagWrapper();
+                                        DiskWrapper w = new DiskWrapper();
                                         w.val = fu.u;
                                         fu.u = w;
                                     }
                                     fu = fu.next;
                                 }
                             }
-        //write all entries that hold content to disk
-        int 
-                positionRef = 0,
-                fileRef = backupFiles.size()
-                ;
-        for(Node1 n1 : root.children) if (n1 != null)
-            for(Node2 n2 : n1.children) if (n2 != null)
-                for(Node3 n3 : n2.children) if (n3 != null)
-                    for(Node4 n4 : n3.children) if (n4 != null)
-                        for(Node5 n5 : n4.children) if (n5 != null)
-                            for(Node6 n6 : n5.children) if (n6 != null)
-                            {
-                                FUPair fu = n6.firstChild;
-                                while(fu != null)
+        //write all entries that hold content to disk, from last to first 
+        //(furthermost items will be drawn first)
+        int fileRef = backupFiles.size();
+        backupFiles.add(backupFile);
+        
+        for(int i = root.children.length; i >= 0; i--) { Node1 n1 = root.children[i]; if (n1 != null)
+            for(int j = n1.children.length; j >= 0; j--) { Node2 n2 = n1.children[j]; if (n2 != null)
+                for(int k = n2.children.length; k >= 0; k--) { Node3 n3 = n2.children[k]; if (n3 != null)
+                    for(int L = n3.children.length; L >= 0; L--) { Node4 n4 = n3.children[L]; if (n4 != null)
+                        for(int m = n4.children.length; m >= 0; m--) { Node5 n5 = n4.children[m]; if (n5 != null)
+                            for(int n = n5.children.length; n >= 0; n--) { Node6 n6 = n5.children[n]; if (n6 != null)
                                 {
-                                    BagWrapper w = (BagWrapper)fu.u;
-                                    if (w.ref == -1)
+                                    FUPair fu = n6.firstChild;
+                                    while(fu != null)
                                     {
-                                        byte[] bytes = serializer.marshal(w.val);
-                                        backupFile.file.write(bytes);
-                                        backupFile.storedCount++;
+                                        DiskWrapper w = (DiskWrapper)fu.u;
+                                        if (w.ref == -1)
+                                        {
+                                            byte[] bytes = serializer.marshal(w.val);
+                                            backupFile.out.write(bytes);
+                                            backupFile.storedCount++;
 
-                                        w.ref = (positionRef++ << 10) | fileRef;
-                                        w.val = null;
+                                            w.ref = fileRef;
+                                            w.val = null;
+                                        }
+                                        fu = fu.next;
                                     }
-                                    fu = fu.next;
                                 }
                             }
-        backupFiles.add(backupFile);
+                        }
+                    }
+                }
+            }
+        }
+        backupFile.prepareForRead();
     }
     
     
@@ -122,8 +127,45 @@ public class DiskBackedFlointTree extends FlointTree {
     {
         for(BackupFile backupFile : backupFiles)
         {
-            backupFile.file.close();
+            backupFile.in.close();
             backupFile.filefile.delete();
+        }
+    }
+    
+    public interface Do {
+        public void Do(Object o);
+    }
+    
+    
+    public void iterate(final Do Do) throws IOException
+    {
+        out: for(int i = root.children.length; i >= 0; i--) { Node1 n1 = root.children[i]; if (n1 != null)
+            for(int j = n1.children.length; j >= 0; j--) { Node2 n2 = n1.children[j]; if (n2 != null)
+                for(int k = n2.children.length; k >= 0; k--) { Node3 n3 = n2.children[k]; if (n3 != null)
+                    for(int L = n3.children.length; L >= 0; L--) { Node4 n4 = n3.children[L]; if (n4 != null)
+                        for(int m = n4.children.length; m >= 0; m--) { Node5 n5 = n4.children[m]; if (n5 != null)
+                            for(int n = n5.children.length; n >= 0; n--) { Node6 n6 = n5.children[n]; if (n6 != null)
+                                {
+                                    FlointTree.FUPair fu = n6.firstChild;
+                                    while(fu != null)
+                                    {
+                                        if (fu.u instanceof DiskBackedFlointTree.DiskWrapper)
+                                        {
+                                            DiskBackedFlointTree.DiskWrapper w = (DiskBackedFlointTree.DiskWrapper)fu.u;
+                                            Do.Do(w.getValue());
+                                        }
+                                        else
+                                        {
+                                            Do.Do(fu.u);
+                                        }
+                                        fu = fu.next;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 

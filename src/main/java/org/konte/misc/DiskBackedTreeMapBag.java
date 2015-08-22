@@ -12,7 +12,7 @@ import java.util.TreeMap;
  */
 public class DiskBackedTreeMapBag extends TreeMap {
     
-    private final List<BackupFile> backupFiles = new ArrayList<>();
+    private final List<RABackupFile> backupFiles = new ArrayList<>();
     private final Serializer serializer;
 
 
@@ -30,7 +30,7 @@ public class DiskBackedTreeMapBag extends TreeMap {
         {
             if (ref != -1)
             {
-                BackupFile backupFile = backupFiles.get(ref & 0x1FF);
+                RABackupFile backupFile = backupFiles.get(ref & 0x1FF);
                 backupFile.file.seek((ref >>> 10) * (long)backupFile.objectSizeInBytes);
                 byte[] bytes = new byte[backupFile.objectSizeInBytes];
                 backupFile.retrievedCount++;
@@ -72,7 +72,7 @@ public class DiskBackedTreeMapBag extends TreeMap {
     {
         String prefix = "dbtmb" + "-" + System.currentTimeMillis() + Math.round(Math.random() * 10);
         File tmpFile = File.createTempFile(prefix, ".tmp");
-        BackupFile backupFile = new BackupFile(tmpFile);
+        RABackupFile backupFile = new RABackupFile(tmpFile);
         
         Entry e = firstEntry();
    out: while(e != null)
@@ -139,7 +139,7 @@ public class DiskBackedTreeMapBag extends TreeMap {
     
     public void freeDiskCache() throws IOException
     {
-        for(BackupFile backupFile : backupFiles)
+        for(RABackupFile backupFile : backupFiles)
         {
             backupFile.file.close();
             backupFile.filefile.delete();
