@@ -71,10 +71,10 @@ public class FlointTree {
         if (N3 + N4 > 12) throw new RuntimeException("must have N3 + N4 <= 12");
         if (N0 < 8) throw new RuntimeException("must have N0 >= 8");
         if (N1 < 2) throw new RuntimeException("must have N1 >= 2");
-        if (N2 < 2) throw new RuntimeException("must have N2 >= 2");
+        if (N0 + N1 > 30) throw new RuntimeException("must have N2 >= 2");
         if (N3 < 1) throw new RuntimeException("must have N3 >= 2");
         if (N4 < 1) throw new RuntimeException("must have N4 >= 2");
-        if (N5 < 1) throw new RuntimeException("must have N5 >= 2");
+        if (N3 + N4 > DECBITS - 1) throw new RuntimeException("must have N5 >= 2");
         if ((DECBITS < 3)
         || (DECBITS > 32)) throw new RuntimeException("can only map 3 <= x <= 32 decimal bits");
         FlointTree.N0 = N0;

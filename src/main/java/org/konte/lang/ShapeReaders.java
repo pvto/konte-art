@@ -1,6 +1,7 @@
 package org.konte.lang;
 
 import org.konte.generate.DiskBackedShapeReader;
+import org.konte.generate.DiskedFlointShapeReader;
 import org.konte.generate.PointMetric;
 import org.konte.generate.ShapeReader;
 import org.konte.generate.StreamingShapeReader;
@@ -30,11 +31,12 @@ public enum ShapeReaders {
                     case SMALLNESS: return new DiskBackedShapeReader(m, new PointMetric.MaxWidthMetric(m));
                     case STREAM: return new StreamingShapeReader(m);
                     case Z: return new ZOrderShapeReader(m);
-                    default:
+                    default: 
                     case DB: return new DiskBackedShapeReader(m, new PointMetric.ZMetric(m));
                 }
             }
         }
-        return new DiskBackedShapeReader(m, new PointMetric.ZMetric(m));
+        return new DiskedFlointShapeReader(m, new PointMetric.ZMetric(m));
+        //return new DiskBackedShapeReader(m, new PointMetric.ZMetric(m));
     }
 }

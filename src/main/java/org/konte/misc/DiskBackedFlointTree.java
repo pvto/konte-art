@@ -90,12 +90,12 @@ public class DiskBackedFlointTree extends FlointTree {
         int fileRef = backupFiles.size();
         backupFiles.add(backupFile);
         
-        for(int i = root.children.length; i >= 0; i--) { Node1 n1 = root.children[i]; if (n1 != null)
-            for(int j = n1.children.length; j >= 0; j--) { Node2 n2 = n1.children[j]; if (n2 != null)
-                for(int k = n2.children.length; k >= 0; k--) { Node3 n3 = n2.children[k]; if (n3 != null)
-                    for(int L = n3.children.length; L >= 0; L--) { Node4 n4 = n3.children[L]; if (n4 != null)
-                        for(int m = n4.children.length; m >= 0; m--) { Node5 n5 = n4.children[m]; if (n5 != null)
-                            for(int n = n5.children.length; n >= 0; n--) { Node6 n6 = n5.children[n]; if (n6 != null)
+        for(int i = root.children.length - 1; i >= 0; i--) { Node1 n1 = root.children[i]; if (n1 != null)
+            for(int j = n1.children.length - 1; j >= 0; j--) { Node2 n2 = n1.children[j]; if (n2 != null)
+                for(int k = n2.children.length - 1; k >= 0; k--) { Node3 n3 = n2.children[k]; if (n3 != null)
+                    for(int L = n3.children.length - 1; L >= 0; L--) { Node4 n4 = n3.children[L]; if (n4 != null)
+                        for(int m = n4.children.length - 1; m >= 0; m--) { Node5 n5 = n4.children[m]; if (n5 != null)
+                            for(int n = n5.children.length - 1; n >= 0; n--) { Node6 n6 = n5.children[n]; if (n6 != null)
                                 {
                                     FUPair fu = n6.firstChild;
                                     while(fu != null)
@@ -139,12 +139,12 @@ public class DiskBackedFlointTree extends FlointTree {
     
     public void iterate(final Do Do) throws IOException
     {
-        out: for(int i = root.children.length; i >= 0; i--) { Node1 n1 = root.children[i]; if (n1 != null)
-            for(int j = n1.children.length; j >= 0; j--) { Node2 n2 = n1.children[j]; if (n2 != null)
-                for(int k = n2.children.length; k >= 0; k--) { Node3 n3 = n2.children[k]; if (n3 != null)
-                    for(int L = n3.children.length; L >= 0; L--) { Node4 n4 = n3.children[L]; if (n4 != null)
-                        for(int m = n4.children.length; m >= 0; m--) { Node5 n5 = n4.children[m]; if (n5 != null)
-                            for(int n = n5.children.length; n >= 0; n--) { Node6 n6 = n5.children[n]; if (n6 != null)
+        out: for(int i = root.children.length - 1; i >= 0; i--) { Node1 n1 = root.children[i]; if (n1 != null)
+            for(int j = n1.children.length - 1; j >= 0; j--) { Node2 n2 = n1.children[j]; if (n2 != null)
+                for(int k = n2.children.length - 1; k >= 0; k--) { Node3 n3 = n2.children[k]; if (n3 != null)
+                    for(int L = n3.children.length - 1; L >= 0; L--) { Node4 n4 = n3.children[L]; if (n4 != null)
+                        for(int m = n4.children.length - 1; m >= 0; m--) { Node5 n5 = n4.children[m]; if (n5 != null)
+                            for(int n = n5.children.length - 1; n >= 0; n--) { Node6 n6 = n5.children[n]; if (n6 != null)
                                 {
                                     FlointTree.FUPair fu = n6.firstChild;
                                     while(fu != null)
