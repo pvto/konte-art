@@ -20,7 +20,7 @@ package org.konte.misc;
  * Statistics.
  * <to be inserted here>
  * 
- * "Floint" comes as a word-bag from float+int, meaning that integer arithmetic
+ * "Floint" comes as a word-pocket from float+int, meaning that integer arithmetic
  * is used when actual tree keys are floating point numbers.
  * (That is, a tree key is a float, but all branch nodes map by ints derived
  * from that float.)
@@ -31,8 +31,8 @@ package org.konte.misc;
  * branches nearer to the leaves.
  * 
  * Beyond the precision provided by the integral hierarchy, 
- * there is an ordered linked list in place that use the actual floating point
- * key for absolute ordering.
+ * there are an ordered linked list, for small sub-arrays, and custom a binary tree,
+ * for larger sub-arrays. They use a floating point key (not boxed! :).
  * 
  * @author Paavo Toivanen https://github.com/pvto
  */
@@ -214,7 +214,8 @@ public class FlointTree {
     /** An ordered linked list of key-values.
     * Preserves insertion order while storing equal-key items.
     * 
-    * If size grows over 50, uses a map to store/retrieve pointers to distinct-keyed items.
+    * If size grows, uses a binary tree instead of LList. (This helps HUGELY
+    * when you insert many values with nearly the same key).
     */ 
     public static class Node6 {
         
