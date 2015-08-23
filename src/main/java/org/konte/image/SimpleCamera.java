@@ -130,7 +130,6 @@ public class SimpleCamera implements Camera {
     
     protected Vector3 initialRotation() {
         Vector3 diff = Vector3.sub(target, position);
-        System.out.println("trg: " + target + " pos: " + position + " cam vec: " + diff);
         float rx = 0f;
         if (diff.y == 0f)
         {

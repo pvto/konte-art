@@ -820,7 +820,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                     }
                     catch(Exception ex)
                     {
-                            System.out.println("foo");
+                        throw new RuntimeException("disk write failed", ex);
                     }
                     f.oos.writeObject(p);
                     added++;

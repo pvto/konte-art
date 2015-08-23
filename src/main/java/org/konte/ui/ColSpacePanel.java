@@ -74,7 +74,6 @@ public class ColSpacePanel extends JPanel {
                     {
                         setLastActive(pivot);
                         repaint();
-                        System.out.println("push at " + pivot);
                     }
                 } catch(Exception ex) { }
             }

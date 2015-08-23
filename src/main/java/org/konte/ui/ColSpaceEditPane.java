@@ -59,7 +59,6 @@ public class ColSpaceEditPane extends javax.swing.JPanel {
                         if (pivot != -1)
                         {
                             grabbedPoint = pivot;
-                            System.out.println("drag at " + pivot);
                         }
                     }
                     else

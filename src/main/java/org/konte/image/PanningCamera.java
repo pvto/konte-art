@@ -54,7 +54,6 @@ public class PanningCamera extends SimpleCamera {
         float unitL = 1/(float)Math.sqrt(3);
         moveDirection = new Vector3();
         moveDirection = this.cameraRotationMatrix.multiply(new Vector3(0f,0f,-unitL));
-        System.out.println("PAN " + getName() + " moveDir: " + moveDirection);
     }
 
     float prevest = 0f;

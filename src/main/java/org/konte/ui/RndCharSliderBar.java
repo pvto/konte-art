@@ -50,7 +50,6 @@ public class RndCharSliderBar extends JPanel {
 
             public void mouseClicked(MouseEvent e)
             {
-                System.out.println(e);
                 if (e.getButton() == MouseEvent.BUTTON2 || e.getButton() == MouseEvent.BUTTON3)
                 {
                     JTextField f = (JTextField) e.getSource();

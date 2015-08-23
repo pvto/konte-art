@@ -1161,7 +1161,7 @@ public class Parser {
                             {
                                 tokenStrings.remove(i);
                                 tokenStrings.addAll(i--, included);
-                                System.out.println(s + " included");
+                                Runtime.sysoutln(s + " included", 0);
                             } else
                                 Runtime.sysoutln("Included svg script is empty: " + s, 5);
                             break;

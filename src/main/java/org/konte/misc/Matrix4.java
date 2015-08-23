@@ -670,23 +670,4 @@ public final class Matrix4 implements Serializable {
         return bd.toString();
     }
 
-    public static void main(String[] args) {
-        Matrix4 m = Matrix4.IDENTITY;
-        Matrix4 m2 = Matrix4.rotateZ((float) Math.PI / 3);
-        Matrix4 m5 = Matrix4.rotateY((float) Math.PI / 3);
-        Matrix4 m8 = Matrix4.rotateX((float) Math.PI / 3);
-        Matrix4 m3 = m.multiply(m2);
-        Matrix4 m4 = m.multiply(Matrix4.scale(2)).multiply(m2);
-        Matrix4 m6 = m.multiply(Matrix4.scale(2)).multiply(m5);
-        Matrix4 m7 = m4.multiply(m5);
-        Matrix4 m9 = m7.multiply(m8);
-        System.out.println(m);
-        System.out.println(m2);
-        System.out.println(m3);
-        System.out.println(m4);
-        System.out.println(m6);
-        System.out.println(m7);
-        System.out.println(m9);
-
-    }
 }
