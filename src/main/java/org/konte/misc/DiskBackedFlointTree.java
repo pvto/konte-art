@@ -11,6 +11,8 @@ import java.util.List;
 public class DiskBackedFlointTree extends FlointTree {
     
     public final List<BackupFile> backupFiles = new ArrayList<>();
+    private BackupFile backupFile;
+    int fileRef;
     public final Serializer serializer;
 
 
@@ -18,7 +20,8 @@ public class DiskBackedFlointTree extends FlointTree {
     {
         this.serializer = serializer;
     }
-    
+
+
     public class DiskWrapper {
         private int ref = -1;
         public Object val;
@@ -36,13 +39,67 @@ public class DiskBackedFlointTree extends FlointTree {
             return val;
         }
     }
-    
 
+    private void diskWrap(FUPair fu)
+    {
+        while(fu != null)
+        {
+            if (!(fu.u instanceof DiskBackedFlointTree.DiskWrapper))
+            {
+                DiskBackedFlointTree.DiskWrapper w = new DiskBackedFlointTree.DiskWrapper();
+                w.val = fu.u;
+                fu.u = w;
+            }
+            fu = fu.next;
+        }
+    }
+    
+    BinBranch.Do diskWrapDo = new BinBranch.Do() {
+        @Override
+        public void now(BinBranch bb)
+        {
+            diskWrap(bb.first);
+        }
+    };
+
+
+    private void diskWrite(FUPair fu, int fileRef, BackupFile backupFile) throws IOException
+    {
+        while(fu != null)
+        {
+            DiskWrapper w = (DiskWrapper)fu.u;
+            if (w.ref == -1)
+            {
+                byte[] bytes = serializer.marshal(w.val);
+                backupFile.out.write(bytes);
+                backupFile.storedCount++;
+
+                w.ref = fileRef;
+                w.val = null;
+            }
+            fu = fu.next;
+        }
+    }
+
+    BinBranch.Do diskWriteDo = new BinBranch.Do() {
+        @Override
+        public void now(BinBranch bb)
+        {
+            try {
+                diskWrite(bb.first, fileRef, backupFile);
+            }
+            catch(IOException iox)
+            {
+                throw new RuntimeException(iox);
+            }
+        }
+    };
+    
     public void flushToDiskAssumeConstantSizeObjects() throws IOException
     {
         String prefix = "dbtmb" + "-" + System.currentTimeMillis() + Math.round(Math.random() * 10);
         File tmpFile = File.createTempFile(prefix, ".tmp");
-        BackupFile backupFile = new BackupFile(tmpFile);
+        backupFile = new BackupFile(tmpFile);
         
         //fix object size
         out: for(Node1 n1 : root.children) if (n1 != null)
@@ -64,7 +121,7 @@ public class DiskBackedFlointTree extends FlointTree {
                                     break out;
                                 }
                             }
-        
+
         //transform what is left to wrapped entries
         for(Node1 n1 : root.children) if (n1 != null)
             for(Node2 n2 : n1.children) if (n2 != null)
@@ -73,21 +130,16 @@ public class DiskBackedFlointTree extends FlointTree {
                         for(Node5 n5 : n4.children) if (n5 != null)
                             for(Node6 n6 : n5.children) if (n6 != null)
                             {
-                                FUPair fu = n6.firstChild;
-                                while(fu != null)
+                                if (n6.optimization != null)
                                 {
-                                    if (!(fu.u instanceof DiskWrapper))
-                                    {
-                                        DiskWrapper w = new DiskWrapper();
-                                        w.val = fu.u;
-                                        fu.u = w;
-                                    }
-                                    fu = fu.next;
+                                    n6.optimization.traverse(diskWrapDo);
+                                    continue;
                                 }
+                                diskWrap(n6.firstChild);
                             }
         //write all entries that hold content to disk, from last to first 
         //(furthermost items will be drawn first)
-        int fileRef = backupFiles.size();
+        fileRef = backupFiles.size();
         backupFiles.add(backupFile);
         
         for(int i = root.children.length - 1; i >= 0; i--) { Node1 n1 = root.children[i]; if (n1 != null)
@@ -97,21 +149,12 @@ public class DiskBackedFlointTree extends FlointTree {
                         for(int m = n4.children.length - 1; m >= 0; m--) { Node5 n5 = n4.children[m]; if (n5 != null)
                             for(int n = n5.children.length - 1; n >= 0; n--) { Node6 n6 = n5.children[n]; if (n6 != null)
                                 {
-                                    FUPair fu = n6.firstChild;
-                                    while(fu != null)
+                                    if (n6.optimization != null)
                                     {
-                                        DiskWrapper w = (DiskWrapper)fu.u;
-                                        if (w.ref == -1)
-                                        {
-                                            byte[] bytes = serializer.marshal(w.val);
-                                            backupFile.out.write(bytes);
-                                            backupFile.storedCount++;
-
-                                            w.ref = fileRef;
-                                            w.val = null;
-                                        }
-                                        fu = fu.next;
+                                        n6.optimization.traverse(diskWriteDo);
+                                        continue;
                                     }
+                                    diskWrite(n6.firstChild, fileRef, backupFile);
                                 }
                             }
                         }
@@ -137,8 +180,43 @@ public class DiskBackedFlointTree extends FlointTree {
     }
     
     
-    public void iterate(final Do Do) throws IOException
+    public void iterate(final Do doTo) throws IOException
     {
+        final Do newDo = new Do() {
+           @Override
+            public void Do(Object o)
+            {
+                FlointTree.FUPair fu = (FlointTree.FUPair)o;
+                try
+                {
+                    while(fu != null)
+                    {
+                        if (fu.u instanceof DiskBackedFlointTree.DiskWrapper)
+                        {
+                            DiskBackedFlointTree.DiskWrapper w = (DiskBackedFlointTree.DiskWrapper)fu.u;
+                            doTo.Do(w.getValue());
+                        }
+                        else
+                        {
+                            doTo.Do(fu.u);
+                        }
+                        fu = fu.next;
+                    }
+                }
+                catch(IOException iox)
+                { 
+                    throw new RuntimeException(iox);
+                }
+            }
+        };
+        
+        BinBranch.Do bindo = new BinBranch.Do() {
+            @Override
+            public void now(BinBranch bb)
+            {
+                newDo.Do(bb.first);
+            }
+        };
         out: for(int i = root.children.length - 1; i >= 0; i--) { Node1 n1 = root.children[i]; if (n1 != null)
             for(int j = n1.children.length - 1; j >= 0; j--) { Node2 n2 = n1.children[j]; if (n2 != null)
                 for(int k = n2.children.length - 1; k >= 0; k--) { Node3 n3 = n2.children[k]; if (n3 != null)
@@ -146,20 +224,13 @@ public class DiskBackedFlointTree extends FlointTree {
                         for(int m = n4.children.length - 1; m >= 0; m--) { Node5 n5 = n4.children[m]; if (n5 != null)
                             for(int n = n5.children.length - 1; n >= 0; n--) { Node6 n6 = n5.children[n]; if (n6 != null)
                                 {
-                                    FlointTree.FUPair fu = n6.firstChild;
-                                    while(fu != null)
+                                    if (n6.optimization != null)
                                     {
-                                        if (fu.u instanceof DiskBackedFlointTree.DiskWrapper)
-                                        {
-                                            DiskBackedFlointTree.DiskWrapper w = (DiskBackedFlointTree.DiskWrapper)fu.u;
-                                            Do.Do(w.getValue());
-                                        }
-                                        else
-                                        {
-                                            Do.Do(fu.u);
-                                        }
-                                        fu = fu.next;
+                                        n6.optimization.traverse(bindo);
+                                        continue;
                                     }
+                                    FlointTree.FUPair fu = n6.firstChild;
+                                    newDo.Do(fu);
                                 }
                             }
                         }

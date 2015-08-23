@@ -171,31 +171,17 @@ public class DiskedFlointShapeReader implements ShapeReader {
                             for(int m = n4.children.length - 1; m >= 0; m--) { Node5 n5 = n4.children[m]; if (n5 != null)
                                 for(int n = n5.children.length - 1; n >= 0; n--) { Node6 n6 = n5.children[n]; if (n6 != null)
                                     {
-                                        FlointTree.FUPair fu = n6.firstChild;
-                                        while(fu != null)
+                                        if (state != 3)
                                         {
-                                            if (state != 3)
-                                            {
-                                                break out;
-                                            }
-                                            OutputShape p;
-                                            if (fu.u instanceof DiskBackedFlointTree.DiskWrapper)
-                                            {
-                                                DiskBackedFlointTree.DiskWrapper w = (DiskBackedFlointTree.DiskWrapper)fu.u;
-                                                p = (OutputShape)w.getValue();
-                                                if (!enableLaterIteration)
-                                                {
-                                                    w.val = null; 
-                                                }
-                                            }
-                                            else
-                                            {
-                                                p = (OutputShape)fu.u;
-                                            }
-                                            p.shape.draw(model.cameras.get(p.fov), canvas, p);
-                                            shapeCount++;
-                                            fu = fu.next;
+                                            break out;
                                         }
+                                        if (n6.optimization != null)
+                                        {
+                                            n6.optimization.traverse(drawShapesDo);
+                                            continue;
+                                        }
+                                        FlointTree.FUPair fu = n6.firstChild;
+                                        drawShapes(fu);
                                     }
                                 }
                             }
@@ -203,7 +189,7 @@ public class DiskedFlointShapeReader implements ShapeReader {
                     }
                 }
             }
-            
+            System.out.println(lr.fiuu);
             if (state == 3)
             {
                 canvas.applyEffects(model, keyset[x]);
@@ -216,6 +202,48 @@ public class DiskedFlointShapeReader implements ShapeReader {
         }
         //Runtime.sysoutln("drawn: " + (shapeCount-then) + " state=" + state, 0);
     }
+
+    
+    private void drawShapes(FUPair fu) throws IOException
+    {
+        while(fu != null)
+        {
+            OutputShape p;
+            if (fu.u instanceof DiskBackedFlointTree.DiskWrapper)
+            {
+                DiskBackedFlointTree.DiskWrapper w = (DiskBackedFlointTree.DiskWrapper)fu.u;
+                p = (OutputShape)w.getValue();
+                if (!enableLaterIteration)
+                {
+                    w.val = null; 
+                }
+            }
+            else
+            {
+                p = (OutputShape)fu.u;
+            }
+            p.shape.draw(model.cameras.get(p.fov), canvas, p);
+            shapeCount++;
+            fu = fu.next;
+        }
+
+    }
+    
+    BinBranch.Do drawShapesDo = new BinBranch.Do() {
+        @Override
+        public void now(BinBranch bb)
+        {
+            try
+            {
+                drawShapes(bb.first);
+            }
+            catch(IOException iox)
+            {
+                throw new RuntimeException(iox);
+            }
+        }
+    };
+    
     @Override public Iterator<OutputShape> iterator() { return layers.shapeIterator(false); }
     @Override public Iterator<OutputShape> descendingIterator() { return layers.shapeIterator(true); }
     @Override public Canvas getCanvas() { return canvas; }
@@ -224,7 +252,6 @@ public class DiskedFlointShapeReader implements ShapeReader {
 
     
     OutputShapeSerializer outputShapeSerializer = new OutputShapeSerializer();
-    
     
     protected class Layers
     {
@@ -239,7 +266,7 @@ public class DiskedFlointShapeReader implements ShapeReader {
                 layers.put(p.layer, layer = new Layer(map, p.layer));
             }
             layer.addPoint(p);
-            if (addedCount >= 2000000 && addedCount % 200000 == 0)
+            if (addedCount >= 2e7 && addedCount % 4e6 == 0)
             {
                 Runtime.sysoutln("DB-SR: flush " + addedCount, 10);
                 layer.points.flushToDiskAssumeConstantSizeObjects();
