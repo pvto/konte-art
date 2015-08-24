@@ -95,7 +95,7 @@ public class FlointTree {
         N4shr = N5;
 	N0Nbm = (1 << (N0 - 1)) - 1;
 	N0Padd = (1 << (N0 - 1));
-	N1bm = (1 << (INTBITS - N0 + 1)) - 1;
+	N1bm = (1 << (INTBITS - N0)) - 1;
 	N2bm = (1 << (INTBITS - N0 + 1 - N1)) - 1;
 	N4bm = (1 << N4) - 1;
         N5bm = (1 << N5) - 1;
@@ -263,7 +263,6 @@ public class FlointTree {
             {
                 y0 = y;
                 y = y.next;
-                fiuu++;
             }
             y0.next = x;
             x.next = y;
@@ -292,7 +291,6 @@ public class FlointTree {
         }
         
     }
-    public static int fiuu = 0;
 
     
     
@@ -419,6 +417,53 @@ public class FlointTree {
                     if (bb == this)
                         return;
                     bb = bb.parent;
+                }
+            }
+        }
+    }
+    
+    public interface Do {
+        void now(FUPair fu);
+    }
+    
+    public void traverse(final Do now)
+    {
+        BinBranch.Do binDo = new BinBranch.Do() {
+
+            @Override
+            public void now(BinBranch bb)
+            {
+                FUPair fu = bb.first;
+                while(fu != null)
+                {
+                    now.now(fu);
+                    fu = fu.next;
+                }
+            }
+        };
+        for (int i = 0; i < root.children.length; i++) { Node1 N1 = root.children[i]; if (N1 != null)
+            for (int j = 0; j < N1.children.length; j++) { Node2 N2 = N1.children[j]; if (N2 != null)
+                for (int k = 0; k < N2.children.length; k++) { Node3 N3 = N2.children[k]; if (N3 != null)
+                    for (int L = 0; L < N3.children.length; L++) { Node4 N4 = N3.children[L]; if (N4 != null)
+                        for (int m = 0; m < N4.children.length; m++) { Node5 N5 = N4.children[m]; if (N5 != null)
+                            for (int n = 0; n < N5.children.length; n++) { Node6 N6 = N5.children[n]; if (N6 != null)
+                                {
+                                    if (N6.optimization != null)
+                                    {
+                                        System.out.println("foo " + N6.optimization.first.t);
+                                        binDo.now(N6.optimization);
+                                        continue;
+                                    }
+                                    FUPair fu = N6.firstChild;
+                                    while(fu != null)
+                                    {
+                                        now.now(fu);
+                                        fu = fu.next;
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }

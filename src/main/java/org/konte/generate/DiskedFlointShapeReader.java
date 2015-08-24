@@ -189,7 +189,6 @@ public class DiskedFlointShapeReader implements ShapeReader {
                     }
                 }
             }
-            System.out.println(lr.fiuu);
             if (state == 3)
             {
                 canvas.applyEffects(model, keyset[x]);
