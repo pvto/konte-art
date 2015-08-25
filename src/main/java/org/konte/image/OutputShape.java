@@ -4,7 +4,6 @@ package org.konte.image;
 import java.awt.Color;
 import java.io.IOException;
 import java.io.Serializable;
-import org.konte.misc.Matrix4;
 import org.konte.misc.Matrix4Red;
 import org.konte.model.Untransformable;
 
