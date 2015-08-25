@@ -17,6 +17,7 @@ import org.konte.model.Background;
 import org.konte.model.GlobalLighting;
 import org.konte.model.Model;
 import org.konte.generate.Runtime;
+import org.konte.misc.Matrix4Red;
 /**
  *
  * @author pvto
@@ -146,7 +147,7 @@ public class DefaultCanvas implements Canvas {
 
     public void drawCurve(Camera camera, OutputShape shape)
     {
-        Matrix4 orig = shape.matrix;
+        Matrix4Red orig = shape.matrix;
         draw.setColor(shape.getColor());
         //draw.setColor(lighting.lightObject(shape));
         path.reset();
@@ -205,7 +206,7 @@ public class DefaultCanvas implements Canvas {
 
     public void drawPolygon(Camera camera, OutputShape shape)
     {
-        Matrix4 orig = shape.matrix;
+        Matrix4Red orig = shape.matrix;
 //        draw.setColor(lighting.lightObject(shape));
         draw.setColor(shape.getColor());
         for (List<Matrix4> m : shape.shape.getShapes())
@@ -230,7 +231,7 @@ public class DefaultCanvas implements Canvas {
 
     public void drawSphere(Camera camera, OutputShape shape)
     {
-        Matrix4 orig = shape.matrix;
+        Matrix4Red orig = shape.matrix;
 //        draw.setColor(lighting.lightObject(shape));
         draw.setColor(shape.getColor());
         Matrix4 b = HALF;

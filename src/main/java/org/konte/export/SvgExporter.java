@@ -94,20 +94,20 @@ public class SvgExporter extends AbstractExporterBase {
                 List<Matrix4> pts = unt.getShapes().get(i);
                 List<Matrix4[]> cpts = unt.getControlPoints() == null ? null :
                     unt.getControlPoints().get(i);
-                appMoveTo(bd, p.matrix.multiply(pts.get(0)), cam);
+//                appMoveTo(bd, p.matrix.multiply(pts.get(0)), cam);
                 for(int j = 1; j <= pts.size(); j++)
                 {
                     Matrix4 pt = pts.get(j%pts.size());
                     Matrix4[] cpt = cpts == null ? null : cpts.get(j-1);
                     if (cpt == null)
                     {
-                        appLineTo(bd, p.matrix.multiply(pt), cam);
+//                        appLineTo(bd, p.matrix.multiply(pt), cam);
                     }
                     else
                     {
-                        appCurveTo(bd, p.matrix.multiply(cpt[0]),
-                                p.matrix.multiply(cpt[1]),
-                                p.matrix.multiply(pt), cam);
+//                        appCurveTo(bd, p.matrix.multiply(cpt[0]),
+//                                p.matrix.multiply(cpt[1]),
+//                                p.matrix.multiply(pt), cam);
                     }
                 }
                 if (!unt.isCurved)

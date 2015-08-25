@@ -194,7 +194,16 @@ public final class Vector3 {
         return String.format("(%.2f, %.2f, %.2f)", x, y, z);
     }
 
-    public Vector3 setXyz(Matrix4 orig, Matrix4 b) {
+    public Vector3 setXyz(Matrix4 orig, Matrix4 b)
+    {
+        x = orig.m00 * b.m03 + orig.m01 * b.m13 + orig.m02 * b.m23 + orig.m03 * b.m33;
+        y = -(orig.m10 * b.m03 + orig.m11 * b.m13 + orig.m12 * b.m23 + orig.m13 * b.m33);
+        z = orig.m20 * b.m03 + orig.m21 * b.m13 + orig.m22 * b.m23 + orig.m23 * b.m33;
+        return this;
+    }
+    
+    public Vector3 setXyz(Matrix4Red orig, Matrix4 b)
+    {
         x = orig.m00 * b.m03 + orig.m01 * b.m13 + orig.m02 * b.m23 + orig.m03 * b.m33;
         y = -(orig.m10 * b.m03 + orig.m11 * b.m13 + orig.m12 * b.m23 + orig.m13 * b.m33);
         z = orig.m20 * b.m03 + orig.m21 * b.m13 + orig.m22 * b.m23 + orig.m23 * b.m33;

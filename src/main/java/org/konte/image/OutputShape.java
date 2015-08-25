@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.io.IOException;
 import java.io.Serializable;
 import org.konte.misc.Matrix4;
+import org.konte.misc.Matrix4Red;
 import org.konte.model.Untransformable;
 
 /**
@@ -12,7 +13,7 @@ import org.konte.model.Untransformable;
  * @author pvto
  */
 public class OutputShape implements Serializable {
-    public Matrix4 matrix;
+    public Matrix4Red matrix;
     public int col;
     public float layer;
     public short fov = 0;
@@ -25,7 +26,6 @@ public class OutputShape implements Serializable {
         out.writeFloat(matrix.m00);  out.writeFloat(matrix.m01);  out.writeFloat(matrix.m02);  out.writeFloat(matrix.m03);
         out.writeFloat(matrix.m10);  out.writeFloat(matrix.m11);  out.writeFloat(matrix.m12);  out.writeFloat(matrix.m13);
         out.writeFloat(matrix.m20);  out.writeFloat(matrix.m21);  out.writeFloat(matrix.m22);  out.writeFloat(matrix.m23);
-        out.writeFloat(matrix.m33);
         out.writeInt(col);
         out.writeFloat(layer);
         out.writeShort(fov);
@@ -35,11 +35,10 @@ public class OutputShape implements Serializable {
     private void readObject(java.io.ObjectInputStream in)
             throws IOException, ClassNotFoundException 
            {
-        matrix = new Matrix4();
+        matrix = new Matrix4Red();
         matrix.m00 = in.readFloat();  matrix.m01 = in.readFloat();  matrix.m02 = in.readFloat();  matrix.m03 = in.readFloat();
         matrix.m10 = in.readFloat();  matrix.m11 = in.readFloat();  matrix.m12 = in.readFloat();  matrix.m13 = in.readFloat();
         matrix.m20 = in.readFloat();  matrix.m21 = in.readFloat();  matrix.m22 = in.readFloat();  matrix.m23 = in.readFloat();
-        matrix.m33 = in.readFloat();
         col = in.readInt();
         layer = in.readFloat();
         fov = in.readShort();
