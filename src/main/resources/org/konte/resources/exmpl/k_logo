@@ -1,36 +1,34 @@
-bg{ RGB #191919 }
-
-
-k_logo {
-   tilp{layer 1}
-}
-
 MACRO RND (rndf()-.5)*4+x
+
 tilp {
 
-    200*{y -.005}
-      SQUARE{y -.2 s 2 .01 .001 L 1}
+    200*{y -.005} SQUARE{y -.2 s 2 .01 .001 L 1}
 
-    300*{y .005}
-      SQUARE{y -.2 s 2 .01 .001 B .2 G .1 R .1}
+    300*{y .005} SQUARE{y -.2 s 2 .01 .001 B .2 G .1 R .1}
+
     rain{layer .5 ry 40}
-    write { PUSH E3 T3 N3 O3 K3
-            layer .5
-            y -.5 x -.45 sy .8
-            scale .27 lightness 1 red -.1}
 
-    K { x .3 y .4 rx 10 ry -10 rz -irndf(10) 
-        s  1.7 layer 1 {FOO=1.1}}
+    write { PUSH E3 T3 N3 O3 K3
+            layer 1
+            y -0 sy .8
+            scale .17 x -1.75 lightness 1 red -.1}
+
+    write { PUSH C3 I3 C3 I3 C3
+            layer 1
+            y -.2 sy .8
+            scale .17 x -1.75 lightness 1 red -.1}
 }
 
 rain {
-    1000*{}
-      SQUARE{x RND y RND rz 20+rndf()*5  s .003 .2 .01 
+    1000*{} SQUARE{
+        x RND y RND rz 20+rndf()*5  
+        s .0001 .2 .01 
         A -rndf() L 1}
 
 }
 write { POP{s .3 PUSH lblock }
         if(n<5){write{x 1 DEF{n=n+1;}} } }
+
 lblock {
     10*{s .95 red -.1 green -.095 blue -.085}
     {
@@ -51,58 +49,5 @@ L3 { I3 { x -1 d (d)} PEEK { y -1 } PEEK { y -1 x 1 } }
 x_3 { 3* { x 1 } PEEK { x -1 y -1 } }
 
 
-K {
-  // drop shadow
 
-    10 *
-    {
-        scale .995 y .001
-    } konte_kb3
-        {
-            scale 1.01
-            x -.001
-            alpha -.9
-            lightness -1 red -.6 blue -.4
-        }
-
-
-  // luminous K
-
-    
-    1 *
-    {
-        //scale .996
-        rx .5
-        rx -2
-    } konte_kb3
-        {
-            layer 1
-            scale .96
-            alpha -.5
-            R 0.698 G 1.000 B 0.973
-        }
-}
-
-
-
-path konte_kb3 {
-    moveto(-0.300, 0.000, 0.000)
-    lineto(-0.100, 0.100, 0.000)
-    lineto(0.000, 0.100, 0.000)
-    lineto(0.000, 0.000, 0.000)
-    lineto(-0.200, -0.100, 0.000)
-    lineto(0.100, -0.400, 0.000)
-    lineto(0.100, -0.500, 0.000)
-    lineto(0.000, -0.500, 0.000)
-    lineto(-0.300, -0.200, 0.000)
-    lineto(-0.300, -0.500, 0.000)
-    lineto(-0.500, -0.500, 0.000)
-    lineto(-0.500, 0.100, 0.000)
-    lineto(-0.300, 0.100, 0.000)
-    close
-}
-
-
-camera { z -2.5 }
-light { point(0, -.15+FOO, .1)  { RGB 1 1 .8 } s 1 }
-light { point(0, 0, 5)   { RGB 1 1 1  } s 6 }
+camera { z -2 }
