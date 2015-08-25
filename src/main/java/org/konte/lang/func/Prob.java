@@ -22,7 +22,7 @@ public final class Prob {
         return res;
     }
 
-    static long ncr(int n, int r)
+    public static long ncr(int n, int r)
     {
         int m = Math.max(r, n-r);
         r = n - m;
@@ -39,15 +39,46 @@ public final class Prob {
         return res;
     }
 
-    static double binm(int n, double p, int x)
+    public static double binm(int n, double p, int x)
     {
         checkp(p);
         if (x < 0 || x > n)
             throw new IllegalArgumentException("binm("+n+","+p+") [0..+"+n+"] not defined for " + x);
-        return ncr(n,x) * Math.pow(p, x) * Math.pow(1.0 - p, n - x);
+        if (n < 60)
+        {
+            return ncr(n,x) * Math.pow(p, x) * Math.pow(1.0 - p, n - x);
+        }
+        double ret = 1.0;
+        int j = n - x, k = x;
+        for(int i = x + 1; i <= n; i++)
+        {
+            ret *= i;
+            while(k > 0 && ret > 1.0)
+            {
+                ret *= p;
+                k--;
+            }    
+            while (j > 0 && ret > 1.0)
+            {
+                ret /= j--;
+                ret *= (1.0 - p);
+            }
+        }
+        while(j > 0)
+        {
+            ret /= j--;
+            ret *= (1.0 - p);
+        }
+        while(k > 0)
+        {
+            ret *= p;
+            k--;
+        }
+
+        return ret;
     }
 
-    static double binmCuml(int n, double p, int x)
+    public static double binmCuml(int n, double p, int x)
     {
         checkp(p);
         double res = 0;
@@ -69,17 +100,23 @@ public final class Prob {
         return n * p * (1.0 - p);
     }
     
-    static int binmRnd(int n, double p, double rndFromU)
+    public static int binmRnd(int n, double p, double rndFromU)
     {
-        checkp(p);
-        double[] cached = getBinmCache(n, p);
-        double x = 0.0;
-        int i = 0;
-        while(x < rndFromU)
+        checkp(p); checkp(rndFromU);
+        double[] cached = getBinmCumulCache(n, p);
+        int 
+                i = cached.length / 2,
+                left = 1, right = cached.length - 1
+                ;
+        for(;;)
         {
-            x += cached[i++ - 1];
+            if (cached[i] < rndFromU) { left = i; }
+            else if (cached[i] > rndFromU) { right = i; }
+            i = (left + right) >> 1;
+            if (i == left || i == right) break;
         }
-        return i - 1;
+        while(i < cached.length && cached[i] < rndFromU) i++;
+        return (int)cached[0] + i - 1;
     }
     
     static double hypg(int N1, int N2, int n, int x)
@@ -266,7 +303,8 @@ public final class Prob {
     }
     
     static private final long[] prodCache = new long[40];
-    static {
+    static
+    {
         long x = prodCache[0] = 1L;
         for(int i = 1; i < prodCache.length; i++)
             prodCache[i] = prodCache[i - 1] * (long)i;
@@ -277,12 +315,45 @@ public final class Prob {
     {
         double key = n+p/2.0;
         double[] cached = (double[])binmcache.get(key);
-        if (cached == null)
-        {
-            binmcache.put(key, cached = new double[n+1]);
-            for(int i = 0; i <= n; i++)
-                cached[i] = binm(n, p, i);
+        if (cached != null)
+            return cached;
+        return binmCache(n, p);
+    }
+    private static double[] getBinmCumulCache(int n, double p)
+    {
+        double key = -(n+p/2.0);
+        double[] cached = (double[])binmcache.get(key);
+        if (cached != null)
+            return cached;
+        binmCache(n, p);
+        return (double[])binmcache.get(key);
+    }
+    private static double[] binmCache(int n, double p)
+    {
+        double key = n+p/2.0;
+        double[] cached = new double[n+1];
+        for(int i = 0; i <= (n >> 1); i++)
+            cached[i] = cached[cached.length - i - 1] = binm(n, p, i);
+        int i = 0;
+        while(cached[i] == 0) i++;
+        double[] tmp = new double[cached.length - i + 1];
+        tmp[0] = i;
+        for (int j = 0; j < tmp.length - 1; j++) {
+            tmp[j + 1] = cached[i + j];
         }
+        cached = tmp;
+        binmcache.put(key, cached);
+//        System.out.println(Arrays.toString(cached));
+        double[] cumul = new double[cached.length];
+        cumul[0] = cached[0];
+        double d = 0;
+        for(i = 1; i < cached.length; i++)
+        {
+            d += cached[i];
+            cumul[i] = d;
+        }
+//        System.out.println(Arrays.toString(cumul));
+        binmcache.put(-key, cumul);
         return cached;
     }
     

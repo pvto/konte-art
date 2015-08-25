@@ -10,6 +10,7 @@ import org.konte.model.Transform;
 import org.konte.model.TransformModifier;
 import org.konte.parse.ParseException;
 import org.konte.generate.Runtime;
+import org.konte.misc.Matrix4Red;
 
 /**
  *
@@ -110,6 +111,14 @@ public class SimpleCamera implements Camera {
         float ys = (position.y-matrix.m13);
         float zs = (position.z-matrix.m23);
         return xs*xs+ys*ys+zs*zs;
+    }
+    
+    public float distMetric(Matrix4Red matrix)
+    {
+        float xs = (position.x-matrix.m03);
+        float ys = (position.y-matrix.m13);
+        float zs = (position.z-matrix.m23);
+        return xs*xs+ys*ys+zs*zs;   
     }
 
     public Vector3 getTarget()

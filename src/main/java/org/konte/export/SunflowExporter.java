@@ -45,7 +45,7 @@ class SunflowExporter extends AbstractExporterBase {
                     p.matrix.m00, p.matrix.m01, p.matrix.m02, p.matrix.m03,
                     p.matrix.m10, p.matrix.m11, p.matrix.m12, p.matrix.m13,
                     p.matrix.m20, p.matrix.m21, p.matrix.m22, -p.matrix.m23,
-                    p.matrix.m30, p.matrix.m31, p.matrix.m32, p.matrix.m33));
+                    0,0,0,1));
             bd.append("\tshader \"").append(shader).append("\"\n");
             bd.append("}\n\n");
         }

@@ -343,7 +343,7 @@ public class RuleWriter {
     
     private void addShape(OutputShape s)
     {
-        if (shapes.size() < 1000 || !(sr instanceof StreamingShapeReader) && shapes.size() < 100000)
+        if (shapes.size() < 1030 || !(sr instanceof StreamingShapeReader) && shapes.size() < 131070)
         {
             shapes.add(s);
         }
@@ -381,7 +381,7 @@ public class RuleWriter {
     {
         synchronized(lock1)
         {
-            shapes = new LinkedList<OutputShape>();
+            shapes = new ArrayList<OutputShape>(1024);
         }
     }
     

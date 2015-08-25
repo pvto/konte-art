@@ -11,6 +11,7 @@ import org.konte.misc.Matrix4;
 import org.konte.parse.ParseException;
 import static org.konte.misc.Mathc3.bounds1;
 import static org.konte.misc.Mathc3.roll1;
+import org.konte.misc.Matrix4Red;
 
 /**
  *
@@ -102,7 +103,7 @@ public class DrawingContext implements Serializable {
     public OutputShape toOutputShape()
     {
         OutputShape s = new OutputShape();
-        s.matrix = matrix;
+        s.matrix = new Matrix4Red(matrix);
 //        s.R = R;
 //        s.G = G;
 //        s.B = B;

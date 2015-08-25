@@ -357,32 +357,39 @@ public class FlointTree {
 
         private void put(float rank, FUPair x)
         {
-            if (rank == last.t)
+            put(this, rank, x);
+        }
+        private static void put(BinBranch bb, float rank, FUPair x)
+        {
+            for(;;)
             {
-                last.next = x;
-                last = x;
-                return;
-            }
-            if (rank < last.t)
-            {
-                if (lt == null)
+                if (rank == bb.last.t)
                 {
-                    lt = new BinBranch();
-                    lt.parent = this;
-                    lt.first = lt.last = x;
+                    bb.last.next = x;
+                    bb.last = x;
                     return;
                 }
-                lt.put(rank, x);
-                return;
+                if (rank < bb.last.t)
+                {
+                    if (bb.lt == null)
+                    {
+                        bb.lt = new BinBranch();
+                        bb.lt.parent = bb;
+                        bb.lt.first = bb.lt.last = x;
+                        return;
+                    }
+                    bb = bb.lt;
+                    continue;
+                }
+                if (bb.gt == null)
+                {
+                    bb.gt = new BinBranch();
+                    bb.gt.parent = bb;
+                    bb.gt.first = bb.gt.last = x;
+                    return;
+                }
+                bb = bb.gt;
             }
-            if (gt == null)
-            {
-                gt = new BinBranch();
-                gt.parent = this;
-                gt.first = gt.last = x;
-                return;
-            }
-            gt.put(rank, x);
         }
         
         public interface Do {

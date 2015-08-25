@@ -17,6 +17,7 @@ import org.konte.model.Background;
 import org.konte.model.GlobalLighting;
 import org.konte.model.Model;
 import org.konte.generate.Runtime;
+import org.konte.misc.Matrix4Red;
 /**
  *
  * @author pvto
@@ -146,7 +147,7 @@ public class DefaultCanvas implements Canvas {
 
     public void drawCurve(Camera camera, OutputShape shape)
     {
-        Matrix4 orig = shape.matrix;
+        Matrix4Red orig = shape.matrix;
         draw.setColor(shape.getColor());
         //draw.setColor(lighting.lightObject(shape));
         path.reset();
@@ -155,16 +156,15 @@ public class DefaultCanvas implements Canvas {
         {
             List<Matrix4> m = shapes.get(j);
             List<Matrix4[]> pcs = shape.shape.getControlPoints().get(j);
-            Matrix4 tmp = orig.multiply(m.get(0));
-            Point2 p2 = camera.mapTo2D(v3d.set(tmp.m03, -tmp.m13, tmp.m23));
-            Matrix4 otmp = tmp;
+            Matrix4 b = m.get(0);
+            Point2 p2 = camera.mapTo2D(v3d.setXyz(orig, b));
             path.moveTo(p2.x, p2.y);
             Point2 p3;
             Point2 p4;
             for (int i = 1; i <= m.size(); i++)
             {
-                tmp = i == m.size() ? otmp : orig.multiply(m.get(i));
-                p2 = camera.mapTo2D(v3d.set(tmp.m03, -tmp.m13, tmp.m23));
+                b = i == m.size() ? m.get(0) : m.get(i);
+                p2 = camera.mapTo2D(v3d.setXyz(orig, b));
                 Matrix4[] bends = pcs.get((i - 1) % m.size());
                 if (bends == null)
                 {
@@ -172,10 +172,10 @@ public class DefaultCanvas implements Canvas {
                 }
                 else
                 {
-                    tmp = orig.multiply(bends[0]);
-                    p3 = camera.mapTo2D(v3d.set(tmp.m03, -tmp.m13, tmp.m23));
-                    tmp = orig.multiply(bends[1]);
-                    p4 = camera.mapTo2D(v3d.set(tmp.m03, -tmp.m13, tmp.m23));
+                    b = bends[0];
+                    p3 = camera.mapTo2D(v3d.setXyz(orig, b));
+                    b = bends[1];
+                    p4 = camera.mapTo2D(v3d.setXyz(orig, b));
                     path.curveTo(p3.x, p3.y, p4.x, p4.y, p2.x, p2.y);
                 }
             }
@@ -206,20 +206,20 @@ public class DefaultCanvas implements Canvas {
 
     public void drawPolygon(Camera camera, OutputShape shape)
     {
-        Matrix4 orig = shape.matrix;
+        Matrix4Red orig = shape.matrix;
 //        draw.setColor(lighting.lightObject(shape));
         draw.setColor(shape.getColor());
         for (List<Matrix4> m : shape.shape.getShapes())
         {
             path.reset();
 
-            Matrix4 tmp = orig.multiply(m.get(0));
-            Point2 p2 = camera.mapTo2D(v3d.set(tmp.m03, -tmp.m13, tmp.m23));
+            Matrix4 b = m.get(0);
+            Point2 p2 = camera.mapTo2D(v3d.setXyz(orig, b));
             path.moveTo(p2.x, p2.y);
             for (int i = 1; i < m.size(); i++)
             {
-                tmp = orig.multiply(m.get(i));
-                p2 = camera.mapTo2D(v3d.set(tmp.m03, -tmp.m13, tmp.m23));
+                b = m.get(i);
+                p2 = camera.mapTo2D(v3d.setXyz(orig, b));
                 path.lineTo(p2.x, p2.y);
             }
             path.closePath();
@@ -231,12 +231,12 @@ public class DefaultCanvas implements Canvas {
 
     public void drawSphere(Camera camera, OutputShape shape)
     {
-        Matrix4 orig = shape.matrix;
+        Matrix4Red orig = shape.matrix;
 //        draw.setColor(lighting.lightObject(shape));
         draw.setColor(shape.getColor());
-        Matrix4 m = orig.multiply(HALF);
+        Matrix4 b = HALF;
         Point2 p2 = camera.mapTo2D(v3d.set(orig.m03, -orig.m13, orig.m23));
-        Point2 p3 = camera.mapTo2D(v3d.set(m.m03, -m.m13, m.m23));
+        Point2 p3 = camera.mapTo2D(v3d.setXyz(orig, b));
         float dx = (p3.x - p2.x);
         float dy = (p3.y - p2.y);
         float r = (float) Math.sqrt(dx * dx + dy * dy);

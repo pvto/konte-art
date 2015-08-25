@@ -2,6 +2,7 @@
 package org.konte.image;
 
 import org.konte.misc.Matrix4;
+import org.konte.misc.Matrix4Red;
 import org.konte.misc.Point2;
 import org.konte.misc.Vector3;
 import org.konte.model.Transform;
@@ -18,6 +19,7 @@ public interface Camera {
     
     public Vector3 getTarget();
     public float distMetric(Matrix4 matrix);
+    public float distMetric(Matrix4Red matrix);
     public Vector3 getPosition();
     public void setPosition(Transform pos) throws ParseException;
     public String getName();
