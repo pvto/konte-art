@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.TreeMap;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.konte.misc.FlointTree.Do;
 import org.konte.misc.FlointTree.FUPair;
@@ -76,6 +77,7 @@ public class FlointTreeTest {
     }
     
     
+    @Ignore
     @Test
     public void benchmark() throws FileNotFoundException
     {
