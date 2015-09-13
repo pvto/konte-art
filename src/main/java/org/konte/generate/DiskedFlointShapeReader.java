@@ -3,10 +3,7 @@ package org.konte.generate;
 import static org.konte.misc.FlointTree.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -14,7 +11,6 @@ import java.util.Map;
 import org.konte.image.Canvas;
 import org.konte.image.OutputShape;
 import org.konte.misc.DiskBackedFlointTree;
-import org.konte.misc.DiskBackedTreeMapBag;
 import org.konte.misc.FlointTree;
 import org.konte.model.Model;
 

@@ -1,8 +1,11 @@
 package org.konte.misc;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 
 /**
- * This is a somewhat memory-hungry fast-put fast-get tree
+ * This is a somewhat memory-hungry fast-put fast-get treebag
  * implementation.
  * 
  * Put operations to java.util.TreeMap slow down somewhere near 2e6 items, 
@@ -289,7 +292,7 @@ public class FlointTree {
             }
             optimization.put(rank, x);
         }
-        
+
     }
 
     
@@ -315,8 +318,8 @@ public class FlointTree {
         }
 
     }
-    
-    
+   
+
     
     public static class BinBranch {
         public FUPair first, last;
@@ -355,11 +358,11 @@ public class FlointTree {
             }
         }
 
-        private void put(float rank, FUPair x)
+        public void put(float rank, FUPair x)
         {
             put(this, rank, x);
         }
-        private static void put(BinBranch bb, float rank, FUPair x)
+        public static void put(BinBranch bb, float rank, FUPair x)
         {
             for(;;)
             {
@@ -475,5 +478,8 @@ public class FlointTree {
             }
         }
     }
+
     
+    
+   
 }
