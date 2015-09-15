@@ -22,7 +22,7 @@ public abstract class Untransformable extends Token implements Serializable {
     public boolean isCurved = false;
     protected List<? extends List<Matrix4>> shapes;
     protected List<? extends List<Matrix4[]>> controlPoints;
-
+    protected EffectApply effect;
 
     
     public abstract void draw(Camera camera, Canvas canvas, OutputShape shape);
@@ -87,6 +87,7 @@ public abstract class Untransformable extends Token implements Serializable {
         isCurved = u.isCurved;
         shapes = u.shapes;
         controlPoints = u.controlPoints;
+        effect = u.effect;
     }
 
     private void readObjectNoData() throws ObjectStreamException 
@@ -140,7 +141,28 @@ public abstract class Untransformable extends Token implements Serializable {
         }
     }
 
+    public interface EffectApply {
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v);
+        public int xcontext();
+        public int ycontext();
+    }
+    
+    public static class Effect extends Untransformable implements Serializable {
 
+        public Effect(String name, int id, List<? extends List<Matrix4>> shapes,
+                List<? extends List<Matrix4[]>> controlPoints,
+                EffectApply ea)
+                {
+            super(name, id, shapes, controlPoints);
+            this.effect = ea;
+        }
+        @Override
+        public void draw(Camera camera, Canvas canvas, OutputShape shape)
+        {
+            canvas.drawEffect(camera, shape, effect);
+        }
+    }
+    
     public static class Dummy extends Untransformable implements Serializable {
         
         public Dummy(String name)

@@ -265,6 +265,8 @@ public class Language {
     public static Token RSQU;
     public static Token CSQU;
     public static Token MESH;
+    
+    public static Token BLUR;
    
 //    public static final Token period = addToken(new Operator("."));
     

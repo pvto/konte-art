@@ -1,8 +1,5 @@
 package org.konte.misc;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 
 /**
  * This is a somewhat memory-hungry fast-put fast-get treebag
@@ -368,8 +365,8 @@ public class FlointTree {
             {
                 if (rank == bb.last.t)
                 {
-                    bb.last.next = x;
-                    bb.last = x;
+                    //bb.last.next = x;  bb.last = x;
+                    x.next = bb.first;  bb.first = x;
                     return;
                 }
                 if (rank < bb.last.t)
@@ -394,6 +391,7 @@ public class FlointTree {
                 bb = bb.gt;
             }
         }
+
         
         public interface Do {
             void now(BinBranch bb);

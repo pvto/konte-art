@@ -18,7 +18,7 @@ public interface Camera {
     public Point2 mapTo2D(Vector3 v);
     
     public Vector3 getTarget();
-    public float distMetric(Matrix4 matrix);
+//    public float distMetric(Matrix4 matrix);
     public float distMetric(Matrix4Red matrix);
     public Vector3 getPosition();
     public void setPosition(Transform pos) throws ParseException;

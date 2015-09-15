@@ -1,8 +1,13 @@
 
 package org.konte.model;
 
+import java.util.Arrays;
+import org.konte.image.Camera;
+import org.konte.image.Canvas;
+import org.konte.image.OutputShape;
 import org.konte.lang.*;
 import org.konte.misc.Matrix4;
+import org.konte.model.Untransformable.EffectApply;
 
 /**
  *
@@ -70,9 +75,9 @@ public class UtConstants {
         float S2 = cf_;
 
         try {
-            Language.SQUARE      = Language.addUntransformable(utb.name("SQUARE").
-                    addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL).
-                    build());
+            Language.SQUARE      = Language.addUntransformable(utb.name("SQUARE").clearShapes()
+                    .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
+                    .build());
             Language.CIRCLE    = Language.addUntransformable(utb.name("CIRCLE").clearShapes().
                     addShape(PATH_TOPC,PATH_RGTC,PATH_BOTC,PATH_LFTC).
                     addControlPoints(CIRC_BEZ).
@@ -131,6 +136,53 @@ public class UtConstants {
                         {PATH_TOPR,PATH_TOPR},{PATH_BOTR,PATH_BOTR},{PATH_BOTL,PATH_BOTL},{PATH_TOPL,PATH_TOPL}
                     }).
                     build());
+            Language.BLUR      = Language.addUntransformable(utb.name("GBLUR").clearShapes()
+                    .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
+                    .effect(new EffectApply() {
+                        @Override public int xcontext() { return 1; }
+                        @Override public int ycontext() { return 1; }
+                        @Override
+                        public void apply(int[] data, int[] dest, int w, int h, int u, int v) {
+                            int r = 0, g = 0, b = 0, a = 0;
+                            int ew = 1; int eh = 1;
+                            if (u < ew)
+                            {
+                                
+                            }
+                            else if (u > w - 1 - ew)
+                            {
+                                
+                            }
+                            else
+                            {
+                                if (v < eh) {}
+                                else if (v > h - 1 - eh) {}
+                                else
+                                {
+                                    int u_jvw = u + (-eh + v) * w;
+                                    for (int i = -ew; i <= ew; i++)
+                                    {
+                                        for (int j = -eh; j <= eh; j++)
+                                        {
+                                            int ind = i + u_jvw;
+                                            b += data[ind] & 0xFF;
+                                            g += (data[ind] >> 8  & 0xFF);
+                                            r += (data[ind] >> 16  & 0xFF);
+                                            a += (data[ind] >>> 24);
+                                        }
+                                        u_jvw += w;
+                                    }
+                                    int nadd = ((ew << 1) | 1) * ((eh << 1) | 1);
+                                    a = Math.min(255, a / nadd);
+                                    r = Math.min(255, r / nadd);
+                                    g = Math.min(255, g / nadd);
+                                    b = Math.min(255, b / nadd);
+                                    dest[u + w * v] = a << 24 | r << 16 | g << 8 | b;
+                                }
+                            }
+                        }
+                    })
+                    .build());
         } catch(Exception e) { e.printStackTrace(); }
 
     }

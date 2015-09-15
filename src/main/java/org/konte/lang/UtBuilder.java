@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import org.konte.misc.Matrix4;
 import org.konte.misc.Vector3;
+import org.konte.model.Untransformable.EffectApply;
 
 /**Helper class to build output shape prototypes.
  *
@@ -17,6 +18,7 @@ public class UtBuilder implements
     private String name;
     private ArrayList<ArrayList<Matrix4>> shapes;
     private ArrayList<ArrayList<Matrix4[]>> controlPoints;
+    private EffectApply effect;
 
     private final Matrix4 HALF = Matrix4.translation(0.5f, 0f, 0f);
     private final Vector3 v3d = new Vector3();
@@ -24,7 +26,11 @@ public class UtBuilder implements
     public Untransformable build() throws Exception 
     {
         Untransformable u;
-        if (name.equals("SPHERE"))
+        if (effect != null)
+        {
+            u = new Untransformable.Effect(name, nextId--, shapes, controlPoints, effect);
+        }
+        else if (name.equals("SPHERE"))
         {
             u = new Untransformable.Sphere(name, nextId--, shapes, controlPoints);
         }
@@ -73,6 +79,11 @@ public class UtBuilder implements
         return this;
     }
 
+    public UtBuilder effect(Untransformable.EffectApply effectApply) {
+        this.effect = effectApply;
+        return this;
+    }
+    
     public UtBuilder addShape(Matrix4... points)
     {
         if (shapes == null)
@@ -134,6 +145,7 @@ public class UtBuilder implements
     {
         this.shapes = null;
         this.controlPoints = null;
+        this.effect = null;
         return this;
     }
     private static final ArrayList<Untransformable> instances = new ArrayList<>();
@@ -143,4 +155,6 @@ public class UtBuilder implements
     {
         return instances;
     }
+
+
 }

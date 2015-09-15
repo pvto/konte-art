@@ -3,6 +3,7 @@ package org.konte.image;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import org.konte.model.Model;
+import org.konte.model.Untransformable.EffectApply;
 
 /**
  *
@@ -17,6 +18,8 @@ public interface Canvas {
     public void drawPolygon(Camera camera, OutputShape shape);
 
     public void drawSphere(Camera camera, OutputShape shape);
+    
+    public void drawEffect(Camera camera, OutputShape shape, EffectApply how);
 
     public void applyEffects(Model model, float layer);
     

@@ -7,6 +7,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
+import java.awt.image.WritableRaster;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import org.konte.model.MeshSqu;
@@ -18,6 +21,7 @@ import org.konte.model.GlobalLighting;
 import org.konte.model.Model;
 import org.konte.generate.Runtime;
 import org.konte.misc.Matrix4Red;
+import org.konte.model.Untransformable.EffectApply;
 /**
  *
  * @author pvto
@@ -277,6 +281,7 @@ public class DefaultCanvas implements Canvas {
             int[][] m = effect.matrix;
             int[] M = effect.copy;
             DataBuffer ar = layerimg.getAlphaRaster().getDataBuffer();
+            
             int[] ref = new int[m.length * m[0].length];
             for(int i = 0; i < ref.length; i++)
             {
@@ -336,5 +341,128 @@ public class DefaultCanvas implements Canvas {
             image.getGraphics().drawImage(layerimg, 0, 0, null);
             setBackground(layerimg, new Color(0, 0, 0, 0));
         }
+    }
+
+    @Override
+    public void drawEffect(Camera camera, OutputShape shape, EffectApply how)
+    {
+        BufferedImage img = layerimg;
+        //layerimg.getRaster().getPixels(width, width, width, width, iArray);
+        Matrix4Red orig = shape.matrix;
+
+        List<Point2> lp = new ArrayList<>();
+        for (List<Matrix4> m : shape.shape.getShapes())
+        {
+            for (int i = 0; i < m.size(); i++)
+            {
+                Matrix4 b = m.get(i);
+                Point2 p2 = camera.mapTo2D(v3d.setXyz(orig, b));
+                p2.x = (int) (p2.x * toScreen.getScaleX() + toScreen.getTranslateX());
+                p2.y = (int) (p2.y * toScreen.getScaleY() + toScreen.getTranslateY());
+                lp.add(p2);           
+            }
+        }
+        int ind = 0, miny, maxy, minx, maxx;
+        miny = maxy = (int) lp.get(0).y;
+        minx = maxx = (int) lp.get(0).x;
+        for (int i = 1; i < lp.size(); i++)
+        {
+            Point2 p = lp.get(i);
+            if (p.y < miny) { ind = i;  miny = (int) p.y; }
+            else if (p.y > maxy) { maxy = (int) p.y; }
+            if (p.x < minx) { minx = (int)p.x; }
+            else if (p.x > maxx) { maxx = (int)p.x; }
+        }
+        while(--ind >= 0) { lp.add(lp.remove(0)); }
+        int leftU = 0, rightU = 0;
+        int leftD = lp.size() - 1;
+        int ldir = -1;
+        int rightD = 1;
+        int rdir = 1;
+        if (lp.get(leftD).x > lp.get(rightD).x)
+        {
+            int tmp = rightD; rightD = leftD; leftD = tmp;
+            ldir = - ldir; rdir = -rdir;
+        }
+        if (maxx < 0 || maxy < 0 || minx >= img.getWidth() || miny > img.getHeight())
+            return;
+        int u0 = Math.max(0, minx - how.xcontext());
+        int v0 = Math.max(0, miny - how.ycontext());
+        int u1 = Math.min(img.getWidth() - 1, maxx + how.xcontext()); 
+        int v1 = Math.min(img.getHeight() - 1, maxy + how.ycontext());
+        int w = u1 - u0;
+        int h = v1 - v0;
+        //int[] data = new int[w*h*4];
+        //img.getAlphaRaster()
+        //img.getData().getPixels( u0, v0, w, h, data );
+        int[] data = (int[]) img.getAlphaRaster().getDataElements(u0, v0, w, h, null);
+        //int[] data = img.getRGB(u0, v0, w, h, null, 0, w);
+        
+        int[] dest = Arrays.copyOf(data, data.length);
+        int y = (int)miny;
+        while (y <= maxy)
+        {
+            if (y < v0) { y++; continue; }
+            if (y >= v1) { break; }
+            Point2 LU = lp.get(leftU);
+            Point2 LD = lp.get(leftD);
+            Point2 RU = lp.get(rightU);
+            Point2 RD = lp.get(rightD);
+            while (y > LD.y || LU.y == LD.y && LU.x >= LD.x)
+            {
+                leftU = leftD;
+                leftD = leftD + ldir;
+                if (leftD == -1) leftD = lp.size() - 1;
+                else if (leftD == lp.size()) leftD = 0;
+                LU = LD;
+                LD = lp.get(leftD);
+            }
+            while (y > RD.y || RU.y == RD.y && RU.x <= RD.x)
+            {
+                rightU = rightD;
+                rightD = rightD + rdir;
+                if (rightD == -1) rightD = lp.size() - 1;
+                else if (rightD == lp.size()) rightD = 0;
+                RU = RD;
+                RD = lp.get(rightD);
+            }
+            int x0, x1;
+            if (LU.y == LD.y)
+            {
+                x0 = (int) ((LU.x + LD.x) / 2.0f);
+            }
+            else if (y == LU.y)
+            {
+                x0 = (int) LU.x;
+            }
+            else
+            {
+                x0 = (int) (LU.x + (LD.x-LU.x) / (LD.y-LU.y));
+            }
+            if (RU.y == RD.y)
+            {
+                x1 = (int) ((RU.x + RD.x) / 2.0f);
+            }
+            else if (y == RU.y)
+            {
+                x1 = (int) RU.x;
+            }
+            else
+            {
+                x1 = (int) (RU.x + (RD.x-RU.x) / (RD.y-RU.y));
+            }
+            if (x0 < u0) { x0 = u0; }
+            if (x1 >= u1) { x1 = u1 - 1; }
+            for(int i = x0 - u0; i <= x1 - u0; i++)
+            {
+                how.apply(data, dest, w, h, i, y - v0);
+            }
+            y++;
+        }
+        img.getAlphaRaster().setDataElements(u0, v0, w, h, dest);
+        //WritableRaster r = img.getAlphaRaster().getWritableParent();
+        //r.setPixels(u0, v0, w, h, dest);
+        //if (img != image)
+            //draw.drawImage(img, 0, 0, null);
     }
 }
