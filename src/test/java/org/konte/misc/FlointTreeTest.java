@@ -1,6 +1,12 @@
 package org.konte.misc;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.util.TreeMap;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.konte.misc.FlointTree.Do;
 import org.konte.misc.FlointTree.FUPair;
@@ -70,4 +76,115 @@ public class FlointTreeTest {
         assertEquals(111000000 + n, sum[0]);
     }
     
+    
+    @Ignore
+    @Test
+    public void benchmark() throws FileNotFoundException
+    {
+        int n = 1<<20;
+        int rounds = 1<<Math.max(0, 17-n);
+        for(int r = 5; r > 0; r--)
+        {
+            float range = 
+                    //(float) (1<<r); 
+                    (float)(1.0f / (1<<r))
+                    ;
+            for (int i = 0; i < 20; i++)
+            {
+                FlointTree f = new FlointTree();
+                benchmark(f, n, rounds, range);
+                f = null;
+                System.gc();
+
+                TreeMap t = new TreeMap();
+                benchmark(t, n, rounds, range);
+                t = null;
+                System.gc();
+            }
+        }
+        for(int r = 0; r <= 19; r++)
+        {
+            float range = 
+                    (float) (1<<r); 
+                    //(float)(1.0f / (1<<r))
+                    ;
+            for (int i = 0; i < 20; i++)
+            {
+                FlointTree f = new FlointTree();
+                benchmark(f, n, rounds, range);
+                f = null;
+                System.gc();
+
+                TreeMap t = new TreeMap();
+                benchmark(t, n, rounds, range);
+                t = null;
+                System.gc();
+            }
+        }
+    }
+    
+    private double benchmark(FlointTree f, int n, int rounds, float range) throws FileNotFoundException
+    {
+        long start = System.currentTimeMillis();
+        for (int j = 0; j < rounds; j++)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                float key = (float) Math.random() * range;
+                f.put(key, i);
+
+            }
+            if (j < rounds - 1)
+            {
+                f = new FlointTree();
+                long mid = System.currentTimeMillis();
+                System.gc();
+                start -= (System.currentTimeMillis() - mid);
+            }
+        }
+        long end = System.currentTimeMillis();
+        double time = (double)(end - start) / rounds;
+        PrintStream ps = new PrintStream(new FileOutputStream(
+                new File("flointtree-benchmark.txt"), true)
+        );
+        String x = String.format("FlointTree,%d,%.3f,%.2f\n", n, range, time);
+        ps.print(x);
+        System.out.print(x);
+        ps.close();
+
+        return time;
+    }
+
+    private double benchmark(TreeMap f, int n, int rounds, float range) throws FileNotFoundException
+    {
+        long start = System.currentTimeMillis();
+        for (int j = 0; j < rounds; j++)
+        {
+            for (int i = 0; i < n; i++)
+            {
+                float key = (float) Math.random() * range;
+                f.put(key, i);
+
+            }
+            if (j < rounds - 1)
+            {
+                f = new TreeMap();
+                long mid = System.currentTimeMillis();
+                System.gc();
+                start -= (System.currentTimeMillis() - mid);
+            }
+        }
+        long end = System.currentTimeMillis();
+        double time = (double)(end - start) / rounds;
+        PrintStream ps = new PrintStream(new FileOutputStream(
+                new File("flointtree-benchmark.txt"), true)
+        );
+        String x = String.format("TreeMap,%d,%.3f,%.2f\n", n, range, time);
+        ps.print(x);
+        System.out.print(x);
+        ps.close();
+
+        return time;
+
+    }
 }
