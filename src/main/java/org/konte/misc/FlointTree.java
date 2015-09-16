@@ -264,8 +264,8 @@ public class FlointTree {
                 y0 = y;
                 y = y.next;
             }
-            y0.next = x;
             x.next = y;
+            y0.next = x;
         }
         
         public void putOptimization(float rank, FUPair x)
@@ -366,7 +366,7 @@ public class FlointTree {
                 if (rank == bb.last.t)
                 {
                     //bb.last.next = x;  bb.last = x;
-                    x.next = bb.first;  bb.first = x;
+                    bb.last.next = x;  bb.last = x;
                     return;
                 }
                 if (rank < bb.last.t)
@@ -397,7 +397,7 @@ public class FlointTree {
             void now(BinBranch bb);
         }
         
-        public void traverse(Do Do)
+        public void traverse(Do now)
         {
             BinBranch bb = this;
             //while(bb.lt != null) bb = bb.lt;
@@ -409,7 +409,7 @@ public class FlointTree {
                 if ((bb.lt == null || bb.lt.first.t <= max)
                         && bb.first.t > max)
                 {
-                    Do.now(bb);
+                    now.now(bb);
                     max = bb.first.t;
                 }
                 if (bb.lt != null && bb.lt.first.t > max)
