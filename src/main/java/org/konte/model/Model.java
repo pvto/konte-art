@@ -27,6 +27,7 @@ import org.konte.generate.Runtime;
 import org.konte.image.CanvasEffect;
 import org.konte.lang.ShapeReaders;
 import org.konte.model.PathRule.Placeholder;
+import org.konte.model.Untransformable.Effect;
 
 /**
  *
@@ -73,12 +74,20 @@ public class Model {
     public DrawingContext context;
     public Map<Float, List<CanvasEffect>> canvasEffects = new HashMap<>();
 
+    private boolean drawLayerSeparately = false;
+    private boolean hasMultipleLayers = false;
+    
     public Model()
     {
         isGenerateContext = false;
         defCounter = 0;
     }
 
+    public boolean isDrawLayersSeparately() {
+        return drawLayerSeparately || canvasEffects.size() > 0;
+    }
+
+    
     public void addColorSpace(ColorSpace build)
     {
         this.colorSpaces.add(build);
@@ -308,9 +317,20 @@ public class Model {
             throw new ParseException("Missing (null) shape transform in " + r);
         }
         st.model = this;
+        for (TransformModifier tm : st.acqExps)
+        {
+            if (tm.token == Language.layer)
+            {
+                hasMultipleLayers = true;
+            }
+        }
         preEvDefs(st);
         if (st instanceof TerminatingShape)
         {
+            if (((TerminatingShape)st).shape instanceof Effect)
+            {
+                this.drawLayerSeparately = true;
+            }
             //
         }
         else if (st instanceof RepeatStructure)
@@ -601,4 +621,5 @@ public class Model {
         bd.append("Cameras: ").append(cameras).append("\n");
         return bd.toString();
     }
+
 }

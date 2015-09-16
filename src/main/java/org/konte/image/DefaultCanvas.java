@@ -65,7 +65,7 @@ public class DefaultCanvas implements Canvas {
         this.height = height;
         image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         setBackground(image, bg.getColor());
-        if (model != null && model.canvasEffects.size() > 0)
+        if (model != null && model.isDrawLayersSeparately())
         {
             layerimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             setBackground(layerimg, new Color(0, 0, 0, 0));
