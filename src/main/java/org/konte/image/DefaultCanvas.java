@@ -39,6 +39,7 @@ public class DefaultCanvas implements Canvas {
     private GeneralPath path;
     private AffineTransform toScreen;
     private final HashMap<RenderingHints.Key, Object> renderHints = new HashMap<>();
+    private int layerRenders = 0;
 
     public DefaultCanvas(Model model, Background bg, GlobalLighting lighting)
     {
@@ -114,6 +115,10 @@ public class DefaultCanvas implements Canvas {
 
     public synchronized BufferedImage getImage()
     {
+        if (model.isDrawLayersSeparately() && layerRenders == 0)
+        {
+            return layerimg;
+        }
         return image;
     }
 
@@ -273,6 +278,7 @@ public class DefaultCanvas implements Canvas {
             {
                 image.getGraphics().drawImage(layerimg, 0, 0, null);
                 setBackground(layerimg, new Color(0, 0, 0, 0));
+                layerRenders++;
             }
             return;
         }

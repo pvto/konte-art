@@ -282,6 +282,8 @@ public class Language {
     public static Token RUBBER_HEXAGON;
     public static Token RUBBER_32GON;
     
+    public static Token GAMEOFLIFE;
+    
 //    public static final Token period = addToken(new Operator("."));
     
     // following tokens are both parsed and recognized as local expressions at generate time

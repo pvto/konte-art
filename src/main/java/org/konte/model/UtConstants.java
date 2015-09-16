@@ -201,6 +201,11 @@ public class UtConstants {
                     .effect(Effects.RUBBER)
                     .build());
             
+            Language.GAMEOFLIFE      = Language.addUntransformable(utb.name("GAMEOFLIFE").clearShapes()
+                    .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
+                    .effect(Effects.GOL)
+                    .build());
+            
         } catch(Exception e) { e.printStackTrace(); }
 
     }
