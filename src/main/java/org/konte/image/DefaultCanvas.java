@@ -386,10 +386,10 @@ public class DefaultCanvas implements Canvas {
         }
         if (maxx < 0 || maxy < 0 || minx >= img.getWidth() || miny > img.getHeight())
             return;
-        int u0 = Math.max(0, minx - how.xcontext());
-        int v0 = Math.max(0, miny - how.ycontext());
-        int u1 = Math.min(img.getWidth() - 1, maxx + how.xcontext()); 
-        int v1 = Math.min(img.getHeight() - 1, maxy + how.ycontext());
+        int u0 = Math.max(0, minx - how.xcontext(shape));
+        int v0 = Math.max(0, miny - how.ycontext(shape));
+        int u1 = Math.min(img.getWidth() - 1, maxx + how.xcontext(shape)); 
+        int v1 = Math.min(img.getHeight() - 1, maxy + how.ycontext(shape));
         int w = u1 - u0;
         int h = v1 - v0;
         //int[] data = new int[w*h*4];
@@ -437,7 +437,7 @@ public class DefaultCanvas implements Canvas {
             }
             else
             {
-                x0 = (int) (LU.x + (LD.x-LU.x) / (LD.y-LU.y));
+                x0 = (int) (LU.x + (LD.x-LU.x) * (y - LU.y) / (LD.y-LU.y));
             }
             if (RU.y == RD.y)
             {
@@ -449,13 +449,13 @@ public class DefaultCanvas implements Canvas {
             }
             else
             {
-                x1 = (int) (RU.x + (RD.x-RU.x) / (RD.y-RU.y));
+                x1 = (int) (RU.x + (RD.x-RU.x) * (y - RU.y) / (RD.y-RU.y));
             }
             if (x0 < u0) { x0 = u0; }
             if (x1 >= u1) { x1 = u1 - 1; }
             for(int i = x0 - u0; i <= x1 - u0; i++)
             {
-                how.apply(data, dest, w, h, i, y - v0);
+                how.apply(data, dest, w, h, i, y - v0, shape);
             }
             y++;
         }

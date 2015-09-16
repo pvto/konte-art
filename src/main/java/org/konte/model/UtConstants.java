@@ -44,7 +44,8 @@ public class UtConstants {
             PATH_BLB = Matrix4.translation(-0.5f, -0.5f, 0.5f),
             PATH_BRB = Matrix4.translation(0.5f, -0.5f, 0.5f)
             ;
-
+    private static final Matrix4[] HEXP = new Matrix4[6];
+    private static final Matrix4[] _32GONP = new Matrix4[32];
 
     private final UtBuilder utb;
 
@@ -71,6 +72,16 @@ public class UtConstants {
             CIRC_BEZ[i][0] = Matrix4.translation(x1,y1,0f);
             CIRC_BEZ[i][1] = Matrix4.translation(x2,y2,0f);
         }
+        // create xGON POINTS
+        for(Matrix4[] trg : new Matrix4[][] { HEXP, _32GONP})
+        {
+            for (int i = 0; i < trg.length; i++)
+            {
+                float angle = (float) (Math.PI / 2.0 + Math.PI * 2.0 / trg.length * i);
+                float radius = (float) (0.5 / Math.cos(Math.PI / trg.length));
+                trg[i] = Matrix4.translation((float)Math.cos(angle)*radius, (float)(Math.sin(angle)*radius), 0f);
+            }
+        }
         float S1 = 0.0f;
         float S2 = cf_;
 
@@ -88,6 +99,9 @@ public class UtConstants {
             Language.RTRIANGLE    = Language.addUntransformable(utb.name("RTRIANGLE").clearShapes().
                     addShape(PATH_BOTR,PATH_BOTL,PATH_TOPL).
                     build());
+            Language.HEXAGON    = Language.addUntransformable(utb.name("HEX").clearShapes()
+                    .addShape(HEXP)
+                    .build());
             Language.BOX         = Language.addUntransformable(utb.name("BOX").clearShapes().
                     addShape(PATH_TLB,PATH_TRB,PATH_BRB,PATH_BLB).
                     addShape(PATH_TLB,PATH_TRB,PATH_TRF,PATH_TLF).
@@ -136,52 +150,21 @@ public class UtConstants {
                         {PATH_TOPR,PATH_TOPR},{PATH_BOTR,PATH_BOTR},{PATH_BOTL,PATH_BOTL},{PATH_TOPL,PATH_TOPL}
                     }).
                     build());
-            Language.BLUR      = Language.addUntransformable(utb.name("GBLUR").clearShapes()
+            Language.BLUR_SQUARE      = Language.addUntransformable(utb.name("GBLUR").clearShapes()
                     .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
-                    .effect(new EffectApply() {
-                        @Override public int xcontext() { return 1; }
-                        @Override public int ycontext() { return 1; }
-                        @Override
-                        public void apply(int[] data, int[] dest, int w, int h, int u, int v) {
-                            int r = 0, g = 0, b = 0, a = 0;
-                            int ew = 1; int eh = 1;
-                            if (u < ew)
-                            {
-                                
-                            }
-                            else if (u > w - 1 - ew)
-                            {
-                                
-                            }
-                            else
-                            {
-                                if (v < eh) {}
-                                else if (v > h - 1 - eh) {}
-                                else
-                                {
-                                    int u_jvw = u + (-eh + v) * w;
-                                    for (int i = -ew; i <= ew; i++)
-                                    {
-                                        for (int j = -eh; j <= eh; j++)
-                                        {
-                                            int ind = i + u_jvw;
-                                            b += data[ind] & 0xFF;
-                                            g += (data[ind] >> 8  & 0xFF);
-                                            r += (data[ind] >> 16  & 0xFF);
-                                            a += (data[ind] >>> 24);
-                                        }
-                                        u_jvw += w;
-                                    }
-                                    int nadd = ((ew << 1) | 1) * ((eh << 1) | 1);
-                                    a = Math.min(255, a / nadd);
-                                    r = Math.min(255, r / nadd);
-                                    g = Math.min(255, g / nadd);
-                                    b = Math.min(255, b / nadd);
-                                    dest[u + w * v] = a << 24 | r << 16 | g << 8 | b;
-                                }
-                            }
-                        }
-                    })
+                    .effect(Effects.GBLUR)
+                    .build());
+            Language.BLUR_TRIANGLE    = Language.addUntransformable(utb.name("GBLURTRI").clearShapes()
+                    .addShape(PATH_BOTR,PATH_BOTL,PATH_TOPC)
+                    .effect(Effects.GBLUR)
+                    .build());
+            Language.BLUR_HEXAGON    = Language.addUntransformable(utb.name("GBLURHEX").clearShapes()
+                    .addShape(HEXP)
+                    .effect(Effects.GBLUR)
+                    .build());
+            Language.BLUR_32GON    = Language.addUntransformable(utb.name("GBLUR32").clearShapes()
+                    .addShape(_32GONP)
+                    .effect(Effects.GBLUR)
                     .build());
         } catch(Exception e) { e.printStackTrace(); }
 

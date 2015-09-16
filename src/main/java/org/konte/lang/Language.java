@@ -260,13 +260,17 @@ public class Language {
     public static Token PIPE;
     public static Token TRIANGLE;
     public static Token RTRIANGLE;
+    public static Token HEXAGON;
     public static Token BOX;
     public static Token CIRCLE;
     public static Token RSQU;
     public static Token CSQU;
     public static Token MESH;
     
-    public static Token BLUR;
+    public static Token BLUR_SQUARE;
+    public static Token BLUR_TRIANGLE;
+    public static Token BLUR_HEXAGON;
+    public static Token BLUR_32GON;
    
 //    public static final Token period = addToken(new Operator("."));
     
