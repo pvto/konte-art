@@ -381,6 +381,7 @@ public class DefaultCanvas implements Canvas {
             if (p.x < minx) { minx = (int)p.x; }
             else if (p.x > maxx) { maxx = (int)p.x; }
         }
+        if (miny == maxy) return;
         while(--ind >= 0) { lp.add(lp.remove(0)); }
         int leftU = 0, rightU = 0;
         int leftD = lp.size() - 1;

@@ -220,6 +220,8 @@ public class DiskedFlointShapeReader implements ShapeReader {
             p.shape.draw(model.cameras.get(p.fov), canvas, p);
             shapeCount++;
             fu = fu.next;
+            if (state != 3)
+                return;
         }
 
     }
