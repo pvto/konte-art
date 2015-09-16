@@ -272,6 +272,10 @@ public class Language {
     public static Token BLUR_HEXAGON;
     public static Token BLUR_32GON;
    
+    public static Token MIX_SQUARE;
+    
+    public static Token RUBBER_SQUARE;
+    
 //    public static final Token period = addToken(new Operator("."));
     
     // following tokens are both parsed and recognized as local expressions at generate time

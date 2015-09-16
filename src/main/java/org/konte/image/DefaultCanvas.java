@@ -255,6 +255,7 @@ public class DefaultCanvas implements Canvas {
         path.closePath();
         path.transform(toScreen);
         draw.fill(path);
+
     }
 
     public int getPixelSizeFactor()
