@@ -142,7 +142,7 @@ public abstract class Untransformable extends Token implements Serializable {
     }
 
     public interface EffectApply {
-        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape);
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int background);
         public int xcontext(OutputShape s);
         public int ycontext(OutputShape s);
     }

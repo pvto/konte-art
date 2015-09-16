@@ -273,8 +273,14 @@ public class Language {
     public static Token BLUR_32GON;
    
     public static Token MIX_SQUARE;
+    public static Token MIX_TRIANGLE;
+    public static Token MIX_HEXAGON;
+    public static Token MIX_32GON;
     
     public static Token RUBBER_SQUARE;
+    public static Token RUBBER_TRIANGLE;
+    public static Token RUBBER_HEXAGON;
+    public static Token RUBBER_32GON;
     
 //    public static final Token period = addToken(new Operator("."));
     

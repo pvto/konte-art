@@ -348,6 +348,7 @@ public class DefaultCanvas implements Canvas {
     public void drawEffect(Camera camera, OutputShape shape, EffectApply how)
     {
         BufferedImage img = layerimg;
+        int background = (img == this.image ? bg.getColor().getRGB() : 0x00FFFFFF);
         //layerimg.getRaster().getPixels(width, width, width, width, iArray);
         Matrix4Red orig = shape.matrix;
 
@@ -456,7 +457,7 @@ public class DefaultCanvas implements Canvas {
             if (x1 >= u1) { x1 = u1 - 1; }
             for(int i = x0 - u0; i <= x1 - u0; i++)
             {
-                how.apply(data, dest, w, h, i, y - v0, shape);
+                how.apply(data, dest, w, h, i, y - v0, shape, background);
             }
             y++;
         }

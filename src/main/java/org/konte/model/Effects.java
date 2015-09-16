@@ -21,7 +21,7 @@ public class Effects {
             return xcontext(s);
         }
         @Override
-        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape) {
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg) {
             int r = 0, g = 0, b = 0, a = 0;
             int ew = xcontext(shape); int eh = ew;
             if (u < ew)
@@ -39,9 +39,9 @@ public class Effects {
                 else
                 {
                     int u_jvw = u + (-eh + v) * w;
-                    for (int i = -ew; i <= ew; i++)
+                    for (int j = -eh; j <= eh; j++)
                     {
-                        for (int j = -eh; j <= eh; j++)
+                        for (int i = -ew; i <= ew; i++)
                         {
                             int ind = i + u_jvw;
                             b += data[ind] & 0xFF;
@@ -73,7 +73,7 @@ public class Effects {
             return xcontext(s);
         }
         @Override
-        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape) {
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg) {
             int r = 0, g = 0, b = 0, a = 0;
             int ew = xcontext(shape); int eh = ew;
             if (u < ew)
@@ -116,7 +116,7 @@ public class Effects {
             return xcontext(s);
         }
         @Override
-        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape) {
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg) {
             int r = 0, g = 0, b = 0, a = 0;
             int ew = xcontext(shape); int eh = ew;
             if (u < ew)
@@ -133,7 +133,7 @@ public class Effects {
                 else if (v > h - 1 - eh) {}
                 else
                 {
-                    dest[u + w * v] = 0x00FFFFFF;
+                    dest[u + w * v] = bg;
                 }
             }
         }

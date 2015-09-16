@@ -171,12 +171,36 @@ public class UtConstants {
                     .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
                     .effect(Effects.MIX)
                     .build());
+            Language.MIX_TRIANGLE    = Language.addUntransformable(utb.name("MIXTRI").clearShapes()
+                    .addShape(PATH_BOTR,PATH_BOTL,PATH_TOPC)
+                    .effect(Effects.MIX)
+                    .build());
+            Language.MIX_HEXAGON    = Language.addUntransformable(utb.name("MIXHEX").clearShapes()
+                    .addShape(HEXP)
+                    .effect(Effects.MIX)
+                    .build());
+            Language.MIX_32GON    = Language.addUntransformable(utb.name("MIX32").clearShapes()
+                    .addShape(_32GONP)
+                    .effect(Effects.MIX)
+                    .build());
             
             Language.RUBBER_SQUARE      = Language.addUntransformable(utb.name("RUBBER").clearShapes()
                     .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
                     .effect(Effects.RUBBER)
                     .build());
-
+            Language.RUBBER_TRIANGLE    = Language.addUntransformable(utb.name("RUBBERTRI").clearShapes()
+                    .addShape(PATH_BOTR,PATH_BOTL,PATH_TOPC)
+                    .effect(Effects.RUBBER)
+                    .build());
+            Language.RUBBER_HEXAGON    = Language.addUntransformable(utb.name("RUBBERHEX").clearShapes()
+                    .addShape(HEXP)
+                    .effect(Effects.RUBBER)
+                    .build());
+            Language.RUBBER_32GON    = Language.addUntransformable(utb.name("RUBBER32").clearShapes()
+                    .addShape(_32GONP)
+                    .effect(Effects.RUBBER)
+                    .build());
+            
         } catch(Exception e) { e.printStackTrace(); }
 
     }
