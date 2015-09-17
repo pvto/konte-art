@@ -67,11 +67,21 @@ public class Effects {
 
     
     
-    private static final float[] cos = new float[256];
-    private static final float[] sin = new float[256];
+    private static final double[] cos = new double[257];
+    private static final double cosx(double rad) { 
+        if (rad < 0) rad += 2*Math.PI;
+        return cos[(int) (rad * 128.0 / Math.PI)];
+    }
+    private static final double[] sin = new double[257];
+    private static final double sinx(double rad) { 
+        double d = Math.abs(rad);
+        return sin[(int) (d * 128.0 / Math.PI)] * (rad < 0 ? -1 : 1); 
+    }
+    private static final double QUADRAD = 512.0 / Math.PI;
     static {
         for (int i = 0; i < sin.length; i++) {
-            sin[i] = (float)Math.sin(i);
+            sin[i] = Math.sin(i / 64.0 * Math.PI);
+            cos[i] = Math.cos(i / 64.0 * Math.PI);
         }
     }
     
@@ -86,7 +96,6 @@ public class Effects {
             return xcontext(s);
         }
         
-        private static final double QUADRAD = 512.0 / Math.PI;
         @Override
         public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
         {
@@ -115,9 +124,9 @@ public class Effects {
                     int count = 0;
                     for(float f = -ew; f <= ew; f++)
                     {
-                        int x = (int) Math.round(u + Math.cos(alpha) * f);
+                        int x = (int) Math.round(u + cosx(alpha) * f);
                         if (x < 0 || x >= w) continue;
-                        double y = Math.round(v + Math.sin(alpha) * f);
+                        double y = Math.round(v + sinx(alpha) * f);
                         if (y < 0 || y >= h) continue;
                         int col = data[(int)(x + y * w)];
                         a += (col >> 24) & 0xFF;
@@ -260,4 +269,13 @@ public class Effects {
             dest[ind] = A << 24 | R << 16 | G << 8 | B;
         }
     };
+    
+    public static void main(String[] args) {
+        for(int i = 0; i < 16; i++)
+        {
+            double a = Math.PI * 2.0 * i / 16.0;
+            System.out.println(a + "  cos " + cosx(a) + " sin " + sinx(a));
+            System.out.println(-a + "  cos " + cosx(-a) + " sin " + sinx(-a));
+        }
+    }
 }
