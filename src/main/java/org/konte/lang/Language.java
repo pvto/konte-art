@@ -273,6 +273,8 @@ public class Language {
     public static Token BLUR_32GON;
     
     public static Token RADBLUR_SQUARE;
+    public static Token RADBLUR_HEXAGON;
+    public static Token RADBLUR_32GON;
    
     public static Token MIX_SQUARE;
     public static Token MIX_TRIANGLE;

@@ -171,6 +171,14 @@ public class UtConstants {
                     .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
                     .effect(Effects.RADBLUR)
                     .build());
+            Language.RADBLUR_HEXAGON      = Language.addUntransformable(utb.name("RADBLURHEX").clearShapes()
+                    .addShape(HEXP)
+                    .effect(Effects.RADBLUR)
+                    .build());
+            Language.RADBLUR_32GON      = Language.addUntransformable(utb.name("RADBLUR32").clearShapes()
+                    .addShape(_32GONP)
+                    .effect(Effects.RADBLUR)
+                    .build());
             
             Language.MIX_SQUARE      = Language.addUntransformable(utb.name("MIX").clearShapes()
                     .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
