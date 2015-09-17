@@ -21,7 +21,8 @@ public class Effects {
             return xcontext(s);
         }
         @Override
-        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg) {
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
+        {
             int r = 0, g = 0, b = 0, a = 0;
             int ew = xcontext(shape); int eh = ew;
             if (u < ew)
@@ -61,6 +62,78 @@ public class Effects {
             }
         }
     };
+    
+    
+
+    
+    
+    private static final float[] cos = new float[256];
+    private static final float[] sin = new float[256];
+    static {
+        for (int i = 0; i < sin.length; i++) {
+            sin[i] = (float)Math.sin(i);
+        }
+    }
+    
+    public static final EffectApply RADBLUR = new Untransformable.EffectApply() {
+        
+        @Override public int xcontext(OutputShape s)
+        { 
+            return Math.max(1, (((s.col >>> 24) + 1) & 0xFF) >> 3);
+        }
+        @Override public int ycontext(OutputShape s)
+        { 
+            return xcontext(s);
+        }
+        
+
+        @Override
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
+        {
+            float cx = w / 2.0f;
+            float cy = h / 2.0f;
+            double alpha = Math.atan2(v-cy, u-cx);
+            
+            int r = 0, g = 0, b = 0, a = 0;
+            int ew = xcontext(shape); int eh = ew;
+            if (u < ew)
+            {
+
+            }
+            else if (u > w - 1 - ew)
+            {
+
+            }
+            else
+            {
+                if (v < eh) {}
+                else if (v > h - 1 - eh) {}
+                else
+                {
+                    float dist = (float)Math.sqrt((u - cx)*(u - cx) + (v - cy)*(v -cy));
+                    float start = dist / 2.0f / ew;
+                    int count = 0;
+                    for(float f = start; f <= dist; f++)
+                    {
+                        int col = data[(int) (cx + Math.cos(alpha) * f + w * (cy + Math.sin(alpha) * f))];
+                        a += (col >> 24) & 0xFF;
+                        r += (col >> 16) & 0xFF;
+                        g += (col >> 8) & 0xFF;
+                        b += col & 0xFF;
+                        count++;
+                    }
+                    a = a / count;
+                    r = r / count;
+                    g = g / count;
+                    b = b / count;
+                    dest[u + w * v] = a << 24 | r << 16 | g << 8 | b;
+                }
+            }
+        }
+    };
+    
+    
+    
 
     public static final EffectApply MIX = new Untransformable.EffectApply() {
         
@@ -73,7 +146,8 @@ public class Effects {
             return xcontext(s);
         }
         @Override
-        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg) {
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
+        {
             int r = 0, g = 0, b = 0, a = 0;
             int ew = xcontext(shape); int eh = ew;
             if (u < ew)
@@ -116,7 +190,8 @@ public class Effects {
             return xcontext(s);
         }
         @Override
-        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg) {
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
+        {
             int r = 0, g = 0, b = 0, a = 0;
             int ew = xcontext(shape); int eh = ew;
             if (u < ew)
@@ -150,7 +225,8 @@ public class Effects {
             return xcontext(s);
         }
         @Override
-        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg) {
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
+        {
             int ew = xcontext(shape); int eh = ew;
             if (u < ew || u > w - 1 - ew || v < eh || v > h - 1 - eh)
                 return;
