@@ -86,13 +86,15 @@ public class Effects {
             return xcontext(s);
         }
         
-
+        private static final double QUADRAD = 512.0 / Math.PI;
         @Override
         public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
         {
             float cx = w / 2.0f;
             float cy = h / 2.0f;
             double alpha = Math.atan2(v-cy, u-cx);
+            double turn = ((shape.col >> 16) & 0xFF) / QUADRAD;
+            alpha = alpha + turn;
             
             int r = 0, g = 0, b = 0, a = 0;
             int ew = xcontext(shape); int eh = ew;
@@ -110,12 +112,14 @@ public class Effects {
                 else if (v > h - 1 - eh) {}
                 else
                 {
-                    float dist = (float)Math.sqrt((u - cx)*(u - cx) + (v - cy)*(v -cy));
-                    float start = dist / 2.0f / ew;
                     int count = 0;
-                    for(float f = start; f <= dist; f++)
+                    for(float f = -ew; f <= ew; f++)
                     {
-                        int col = data[(int) (cx + Math.cos(alpha) * f + w * (cy + Math.sin(alpha) * f))];
+                        int x = (int) Math.round(u + Math.cos(alpha) * f);
+                        if (x < 0 || x >= w) continue;
+                        double y = Math.round(v + Math.sin(alpha) * f);
+                        if (y < 0 || y >= h) continue;
+                        int col = data[(int)(x + y * w)];
                         a += (col >> 24) & 0xFF;
                         r += (col >> 16) & 0xFF;
                         g += (col >> 8) & 0xFF;

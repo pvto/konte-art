@@ -166,6 +166,11 @@ public class UtConstants {
                     .addShape(_32GONP)
                     .effect(Effects.GBLUR)
                     .build());
+
+            Language.RADBLUR_SQUARE      = Language.addUntransformable(utb.name("RADBLUR").clearShapes()
+                    .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
+                    .effect(Effects.RADBLUR)
+                    .build());
             
             Language.MIX_SQUARE      = Language.addUntransformable(utb.name("MIX").clearShapes()
                     .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)

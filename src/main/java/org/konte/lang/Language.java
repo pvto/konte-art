@@ -271,6 +271,8 @@ public class Language {
     public static Token BLUR_TRIANGLE;
     public static Token BLUR_HEXAGON;
     public static Token BLUR_32GON;
+    
+    public static Token RADBLUR_SQUARE;
    
     public static Token MIX_SQUARE;
     public static Token MIX_TRIANGLE;
