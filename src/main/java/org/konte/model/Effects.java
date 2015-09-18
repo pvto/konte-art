@@ -77,6 +77,8 @@ public class Effects {
         double d = Math.abs(rad);
         return sin[(int) (d * 128.0 / Math.PI)] * (rad < 0 ? -1 : 1); 
     }
+    private static final double TORAD = 128.0 / Math.PI;
+    private static final double TUPLERAD = 256.0 / Math.PI;
     private static final double QUADRAD = 512.0 / Math.PI;
     static {
         for (int i = 0; i < sin.length; i++) {
@@ -99,9 +101,7 @@ public class Effects {
         @Override
         public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
         {
-            float cx = w / 2.0f;
-            float cy = h / 2.0f;
-            double alpha = Math.atan2(v-cy, u-cx);
+            double alpha = Math.atan2(v - h / 2.0, u - w / 2.0);
             double turn = ((shape.col >> 16) & 0xFF) / QUADRAD;
             alpha = alpha + turn;
             
@@ -286,7 +286,7 @@ public class Effects {
             int ew = xcontext(shape); int eh = ew;
             if (u < ew || u > w - 1 - ew || v < eh || v > h - 1 - eh)
                 return;
-            int DIFF = shape.col >> 24 & 0xFF;
+            int DIFF = Math.max(1, shape.col >> 24 & 0xFF);
 
             
             int ind = u + w * v;
@@ -316,6 +316,36 @@ public class Effects {
     };
 
 
+    
+    public static final EffectApply RADTR = new Untransformable.EffectApply() {
+        
+        @Override public int xcontext(OutputShape s)
+        { 
+            return 1;
+        }
+        @Override public int ycontext(OutputShape s)
+        { 
+            return xcontext(s);
+        }
+        @Override
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
+        {
+            double alpha = Math.atan2(v - h / 2.0, u - w / 2.0);
+            double turn = ((shape.col >> 16) & 0xFF) / TORAD - TUPLERAD;
+            double radialDistance = (shape.col) & 0xFF;
+            double dist = Math.sqrt((u-w)*(u-2)+(v-h)*(v-h));
+            alpha = alpha + turn;
+
+            
+            int x = (int) (w / 2.0 + cosx(alpha + turn) * (dist * 512.0 / radialDistance));
+            if (x < 0 || x >= w) return;
+            int y = (int) (h / 2.0 + sinx(alpha + turn) * (dist * 512.0 / radialDistance));
+            if (y < 0 || y >= w) return;
+            int ind = x + w * y;
+            dest[u + w * v] = data[ind];
+        }
+    };
+    
     public static void main(String[] args) {
         for(int i = 0; i < 16; i++)
         {

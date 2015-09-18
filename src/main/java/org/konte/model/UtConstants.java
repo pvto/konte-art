@@ -179,7 +179,20 @@ public class UtConstants {
                     .addShape(_32GONP)
                     .effect(Effects.RADBLUR)
                     .build());
-            
+
+            Language.RADTR_SQUARE      = Language.addUntransformable(utb.name("RADTR").clearShapes()
+                    .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
+                    .effect(Effects.RADTR)
+                    .build());
+            Language.RADTR_HEXAGON      = Language.addUntransformable(utb.name("RADTRHEX").clearShapes()
+                    .addShape(HEXP)
+                    .effect(Effects.RADTR)
+                    .build());
+            Language.RADTR_32GON      = Language.addUntransformable(utb.name("RADTR32").clearShapes()
+                    .addShape(_32GONP)
+                    .effect(Effects.RADTR)
+                    .build());
+
             Language.MIX_SQUARE      = Language.addUntransformable(utb.name("MIX").clearShapes()
                     .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
                     .effect(Effects.MIX)

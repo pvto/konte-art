@@ -275,6 +275,10 @@ public class Language {
     public static Token RADBLUR_SQUARE;
     public static Token RADBLUR_HEXAGON;
     public static Token RADBLUR_32GON;
+    
+    public static Token RADTR_SQUARE;
+    public static Token RADTR_HEXAGON;
+    public static Token RADTR_32GON;
    
     public static Token MIX_SQUARE;
     public static Token MIX_TRIANGLE;
