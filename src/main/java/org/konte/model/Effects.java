@@ -270,6 +270,52 @@ public class Effects {
         }
     };
     
+    public static final EffectApply EDGE = new Untransformable.EffectApply() {
+        
+        @Override public int xcontext(OutputShape s)
+        { 
+            return 1;
+        }
+        @Override public int ycontext(OutputShape s)
+        { 
+            return xcontext(s);
+        }
+        @Override
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
+        {
+            int ew = xcontext(shape); int eh = ew;
+            if (u < ew || u > w - 1 - ew || v < eh || v > h - 1 - eh)
+                return;
+            int DIFF = shape.col >> 24 & 0xFF;
+
+            
+            int ind = u + w * v;
+            int A = (dest[ind] >> 24 & 0xFF);
+            int R = (dest[ind] >> 16 & 0xFF);
+            int G = (dest[ind] >> 8 & 0xFF);
+            int B = (dest[ind] & 0xFF);
+            
+            int n = 0;
+            for(int j = -1; j <= 1; j++)
+                for(int i = -1; i <= 1; i++)
+                {
+                    if (i == 0 && j == 0) 
+                        continue;
+                    int x = data[ind + i + j * w];
+                    if (Math.abs((x >> 24 & 0xFF) - A) > DIFF
+                        || Math.abs((x >> 16 & 0xFF) - R) > DIFF
+                        || Math.abs((x >> 8 & 0xFF) - G) > DIFF
+                        || Math.abs((x & 0xFF) - B) > DIFF
+                        ) n++;
+                }
+
+            if (n > 2 && n < 8) { /*noop*/ }
+            else { A = 0; } // make non-edges transparent (susceptible to other operations!)
+            dest[ind] = A << 24 | R << 16 | G << 8 | B;
+        }
+    };
+
+
     public static void main(String[] args) {
         for(int i = 0; i < 16; i++)
         {

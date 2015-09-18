@@ -219,6 +219,23 @@ public class UtConstants {
                     .effect(Effects.GOL)
                     .build());
             
+            Language.EDGE_SQUARE      = Language.addUntransformable(utb.name("EDGE").clearShapes()
+                    .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
+                    .effect(Effects.EDGE)
+                    .build());
+            Language.EDGE_TRIANGLE      = Language.addUntransformable(utb.name("EDGETRI").clearShapes()
+                    .addShape(PATH_BOTR,PATH_BOTL,PATH_TOPC)
+                    .effect(Effects.EDGE)
+                    .build());
+            Language.EDGE_HEXAGON    = Language.addUntransformable(utb.name("EDGEHEX").clearShapes()
+                    .addShape(HEXP)
+                    .effect(Effects.EDGE)
+                    .build());
+            Language.EDGE_32GON    = Language.addUntransformable(utb.name("EDGE32").clearShapes()
+                    .addShape(_32GONP)
+                    .effect(Effects.EDGE)
+                    .build());
+            
         } catch(Exception e) { e.printStackTrace(); }
 
     }
