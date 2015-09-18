@@ -64,26 +64,33 @@ public class Effects {
     };
     
     
-
+    private static final double LOOK_4PI = 1024.0 / Math.PI;
+    private static final double LOOK_2PI = 512.0 / Math.PI;
+    private static final double LOOK_PI = 256.0 / Math.PI;
+    private static final double LOOK_PIPER2 = 128.0 / Math.PI;
+    private static final double LOOK_PIPER8 = 32.0 / Math.PI;
+    
+    private static final double[] cos = new double[256];
     
     
-    private static final double[] cos = new double[257];
-    private static final double cosx(double rad) { 
-        if (rad < 0) rad += 2*Math.PI;
-        return cos[(int) (rad * 128.0 / Math.PI)];
+    private static final double cosx(double rad)
+    { 
+        int d = (int) Math.round(rad / Math.PI * 256);
+        if (d < 0) d = -d;
+        d = d & 0x01FF;
+        boolean neg = d > 127 && d < 384;
+        d = d & 0x00FF;
+        return neg ? -cos[d] : cos[d];
     }
-    private static final double[] sin = new double[257];
-    private static final double sinx(double rad) { 
-        double d = Math.abs(rad);
-        return sin[(int) (d * 128.0 / Math.PI)] * (rad < 0 ? -1 : 1); 
+    private static final double sinx(double rad)
+    { 
+        return cosx(rad - Math.PI / 2.0);
     }
-    private static final double TORAD = 128.0 / Math.PI;
-    private static final double TUPLERAD = 256.0 / Math.PI;
-    private static final double QUADRAD = 512.0 / Math.PI;
+    
     static {
-        for (int i = 0; i < sin.length; i++) {
-            sin[i] = Math.sin(i / 64.0 * Math.PI);
-            cos[i] = Math.cos(i / 64.0 * Math.PI);
+        for (int i = 0; i < cos.length; i++)
+        {
+            cos[i] = Math.abs(Math.cos(i / 255.0 * Math.PI));
         }
     }
     
@@ -91,7 +98,7 @@ public class Effects {
         
         @Override public int xcontext(OutputShape s)
         { 
-            return Math.max(1, (((s.col >>> 24) + 1) & 0xFF) >> 3);
+            return Math.max(1, ((s.col >>> 24) & 0xFF) >> 3);
         }
         @Override public int ycontext(OutputShape s)
         { 
@@ -102,7 +109,7 @@ public class Effects {
         public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
         {
             double alpha = Math.atan2(v - h / 2.0, u - w / 2.0);
-            double turn = ((shape.col >> 16) & 0xFF) / QUADRAD;
+            double turn = ((shape.col >> 16) & 0xFF) / LOOK_2PI - Math.PI / 4;
             alpha = alpha + turn;
             
             int r = 0, g = 0, b = 0, a = 0;
@@ -295,7 +302,7 @@ public class Effects {
             int G = (dest[ind] >> 8 & 0xFF);
             int B = (dest[ind] & 0xFF);
             
-            int n = 0;
+            int n = 9;
             for(int j = -1; j <= 1; j++)
                 for(int i = -1; i <= 1; i++)
                 {
@@ -306,12 +313,11 @@ public class Effects {
                         || Math.abs((x >> 16 & 0xFF) - R) > DIFF
                         || Math.abs((x >> 8 & 0xFF) - G) > DIFF
                         || Math.abs((x & 0xFF) - B) > DIFF
-                        ) n++;
+                    ) n--;
                 }
 
-            if (n > 2 && n < 8) { /*noop*/ }
-            else { A = 0; } // make non-edges transparent (susceptible to other operations!)
-            dest[ind] = A << 24 | R << 16 | G << 8 | B;
+            if (n > 2 && n < 8) { /*noop*/ } // has 3..8 quite same colors
+            else { dest[ind] &= 0x00FFFFFF; } // make non-edges transparent (susceptible to other operations!)
         }
     };
 
@@ -321,7 +327,7 @@ public class Effects {
         
         @Override public int xcontext(OutputShape s)
         { 
-            return 1;
+            return Math.max(1, (((s.col >>> 24)) & 0xFF) >> 3);
         }
         @Override public int ycontext(OutputShape s)
         { 
@@ -331,27 +337,26 @@ public class Effects {
         public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
         {
             double alpha = Math.atan2(v - h / 2.0, u - w / 2.0);
-            double turn = ((shape.col >> 16) & 0xFF) / TORAD - TUPLERAD;
-            double radialDistance = (shape.col) & 0xFF;
-            double dist = Math.sqrt((u-w)*(u-2)+(v-h)*(v-h));
-            alpha = alpha + turn;
-
+            double turn = ((shape.col >> 16) & 0xFF) / 31.75 * Math.PI - Math.PI * 4;
+            double dist = Math.sqrt((u-w/2.0)*(u-w/2.0)+(v-h/2.0)*(v-h/2.0));
+            alpha = alpha + turn * dist / w;
+            double radialDistance = ((shape.col >> 0) & 0xFF) / 127.0 * dist;
             
-            int x = (int) (w / 2.0 + cosx(alpha + turn) * (dist * 512.0 / radialDistance));
+            int x = (int) (w / 2.0 + Math.cos(alpha) * radialDistance );
             if (x < 0 || x >= w) return;
-            int y = (int) (h / 2.0 + sinx(alpha + turn) * (dist * 512.0 / radialDistance));
-            if (y < 0 || y >= w) return;
+            int y = (int) (h / 2.0 + Math.sin(alpha) * radialDistance );
+            if (y < 0 || y >= h) return;
             int ind = x + w * y;
             dest[u + w * v] = data[ind];
         }
     };
     
     public static void main(String[] args) {
-        for(int i = 0; i < 16; i++)
+        for(int i = 0; i <= 16; i++)
         {
-            double a = Math.PI * 2.0 * i / 16.0;
-            System.out.println(a + "  cos " + cosx(a) + " sin " + sinx(a));
-            System.out.println(-a + "  cos " + cosx(-a) + " sin " + sinx(-a));
+            double a = 2.0 * Math.PI / 16.0 * i;
+            System.out.println(a/Math.PI*180 + "  cos " + cosx(a) + " sin " + sinx(a));
+            System.out.println(-a/Math.PI*180 + "  -cos " + cosx(-a) + " -sin " + sinx(-a));
         }
     }
 }
