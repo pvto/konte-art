@@ -1,0 +1,14 @@
+
+fov{x -.3 lookat(0,0,-1)}
+
+DEF N 20
+
+aa{
+  do{z -1} 
+  1000*{} GAMEOFLIFE{z -1 x -.2 ry 90 s .35   A -.1}
+}
+do{
+   (N)*{ry 360/N ry rndf()*1}
+     (N)*{rx 360/N rx rndf()*1}
+       SQUARE{s .04 y 2 L .2 R rndf() H rndf()*100}
+}

@@ -1,0 +1,16 @@
+
+DEF ROW 10
+
+do {
+  (ROW)*{x 1/ROW B .03 H 33}
+    (ROW)*{y 1/ROW H 55}
+      draw{x -.5+.5/ROW y -.5+.5/ROW s 1/ROW}
+}
+
+draw {
+  TRIANGLE{}
+  MIX{A -.7 z -.1}
+  RADBLUR32{s .75 R .5 A -.5 y (y*.2) z -.1}
+}
+
+fov{z -1 x -.5 lookat(0,0,0)}

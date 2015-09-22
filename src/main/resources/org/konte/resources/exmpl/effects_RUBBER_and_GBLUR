@@ -1,0 +1,15 @@
+
+DEF ROW 32
+
+do {
+  CIRCLE{layer -1 s .75 R .3 G .3}
+  3*{s 1.01 layer 1}
+    (ROW)*{x 1/ROW}
+      (ROW)*{y 1/ROW}
+        draw{x -.5 + .5/ROW y -.5 + .5/ROW s 1/ROW}
+}
+draw {
+  SQUARE{s .9}
+  RUBBERHEX{s .5 rz rndf()*90}   // RUBBER  RUBBERHEX  RUBBER32
+  GBLUR{s 1.5}                 // GBLUR  GBLURTRI  GBLURHEX  GBLUR32
+}

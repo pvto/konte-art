@@ -24,10 +24,12 @@ color_HSB
 two_cameras
 ortographic_camera
 ---------------
+effects_RUBBER_and_GBLUR
+effects_MIX_and_RADBLUR
+effects_EDGE_and_RADTR
 julia_function_and_blur_effects
 img_from_url
 ---------------
-misc_textfx
 misc_very_long_mesh
 misc_alpha-tilted_layers
 impossible_phong_lights
