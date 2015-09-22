@@ -159,7 +159,7 @@ public class Effects {
         
         @Override public int xcontext(OutputShape s)
         { 
-            return Math.max(1, (((s.col >>> 24) + 1) & 0xFF) >> 3);
+            return Math.max(2, (((s.col >>> 24) + 1) & 0xFF) >> 3);
         }
         @Override public int ycontext(OutputShape s)
         { 
