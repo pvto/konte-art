@@ -277,9 +277,14 @@ public class DefaultCanvas implements Canvas {
             if (layerimg != image)
             {
                 image.getGraphics().drawImage(layerimg, 0, 0, null);
-                setBackground(layerimg, new Color(0, 0, 0, 0));
-                layerRenders++;
             }
+            else {
+                layerimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+                draw = layerimg.createGraphics();
+                draw.setRenderingHints(renderHints);
+            }
+            setBackground(layerimg, new Color(0, 0, 0, 0));
+            layerRenders++;
             return;
         }
         for(CanvasEffect effect : effects)
@@ -401,11 +406,8 @@ public class DefaultCanvas implements Canvas {
         int v1 = Math.min(img.getHeight() - 1, maxy + how.ycontext(shape));
         int w = u1 - u0;
         int h = v1 - v0;
-        //int[] data = new int[w*h*4];
-        //img.getAlphaRaster()
-        //img.getData().getPixels( u0, v0, w, h, data );
+
         int[] data = (int[]) img.getAlphaRaster().getDataElements(u0, v0, w, h, null);
-        //int[] data = img.getRGB(u0, v0, w, h, null, 0, w);
         
         int[] dest = Arrays.copyOf(data, data.length);
         int y = (int)miny;
@@ -469,9 +471,5 @@ public class DefaultCanvas implements Canvas {
             y++;
         }
         img.getAlphaRaster().setDataElements(u0, v0, w, h, dest);
-        //WritableRaster r = img.getAlphaRaster().getWritableParent();
-        //r.setPixels(u0, v0, w, h, dest);
-        //if (img != image)
-            //draw.drawImage(img, 0, 0, null);
     }
 }
