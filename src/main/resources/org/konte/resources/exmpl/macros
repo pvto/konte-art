@@ -27,7 +27,7 @@ rule box {
   (cols)* {z siz}
     (cols)* {x siz}
       (cols)* {y siz}
-
+      {
         SPHERE {
             s siz
             red TT
@@ -35,6 +35,14 @@ rule box {
             y -(cols/2)
             z -(cols/2)
         }
+        GBLUR{s siz
+            x -(cols/2)
+            y -(cols/2)
+            z -(cols/2)
+            A -.6
+        }
+      }
 }
 
 camera { z -2 }
+bg{R .2}

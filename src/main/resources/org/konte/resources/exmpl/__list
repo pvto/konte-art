@@ -27,6 +27,7 @@ ortographic_camera
 effects_RUBBER_and_GBLUR
 effects_MIX_and_RADBLUR
 effects_EDGE_and_RADTR
+effects_GAMEOFLIFE
 julia_function_and_blur_effects
 img_from_url
 ---------------

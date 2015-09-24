@@ -4,6 +4,11 @@
 
 DEF XN 20
 aa{
- (XN)*{x 1/XN}(XN)*{y 1/XN rz .1}20000*{z .0001 rz 1}
-    SQUARE{x -.5 y -.5 s .005 sy .1 L rndf()*(.3+sin(x*x*10+y*y*10))}
+ (XN)*{x 1/XN} (XN)*{y 1/XN rz .1} 20000*{z .0001 ry 1}
+   {
+      SQUARE{x -.5 y -.5 s .005 sy .1 L rndf()*(.3+sin(x*x*10+y*y*10))}
+      if (rndf() < .0001) {
+          RADTR32{s .3 A -.7 z -5 R .7 B .7}
+      }
+    }
 }
