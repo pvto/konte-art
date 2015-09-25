@@ -186,7 +186,7 @@ public class Effects {
                 {
                     int i = u + (int) (Math.random() * ew) - (ew >> 1);//model.getRandomFeed().random()
                     if (i < 0) { return; } else if (i >= w) { return; }
-                    int j = v + (int) (Math.random() * eh) - (ew >> 1);//model.getRandomFeed().random()
+                    int j = v + (int) (Math.random() * eh) - (eh >> 1);//model.getRandomFeed().random()
                     if (j < 0) { return; } else if (j >= h) { return; }
                     int nadd = ((ew << 1) | 1) * ((eh << 1) | 1);
                     a = Math.min(255, a / nadd);
