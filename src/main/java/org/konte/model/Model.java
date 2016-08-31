@@ -372,7 +372,7 @@ public class Model {
                 if ((ndr = rules.get(st.ruleName)) == null
                         && !(st instanceof RepeatStructure))
                 {
-                    throw new ParseException("Could not find rule for shape transform " + st);
+                    throw new ParseException("Could not find rule for shape transform " + st, st.linenr, st.caretPos);
                 }
                 st.indexedNd = ndr.id;
             }

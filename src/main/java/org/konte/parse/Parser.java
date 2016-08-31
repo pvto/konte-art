@@ -1185,6 +1185,8 @@ public class Parser {
                             else
                             {
                                 ltfm = new Transform(s);
+                                ltfm.linenr = lineNr;
+                                ltfm.caretPos = caretPos;
                             }
                             if (lrepeat != null)
                             {

@@ -58,6 +58,8 @@ public class Transform {
     public boolean terminatingShape = false;
     public boolean repeatStructure = false;
     public boolean conditionalStructure = false;
+    
+    public int linenr = 0, caretPos = 0;
 
     public Definition setDef(String lastName, Expression lexpr, boolean isUndef)
     {
