@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import org.konte.model.*;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ import org.konte.lang.ShapeReaders;
 import org.konte.model.PathRule.Placeholder;
 import org.konte.plugin.KontePluginScript;
 import org.konte.plugin.KonteScriptExtension;
+import org.konte.ui.Ui;
 
 /**<p>Parses a konte model from a list of token strings.
  *<p>Method parse creates a state machine for the task. Parse returns a new
@@ -593,8 +596,21 @@ public class Parser {
                         }
                         else
                         {
-                            File fl = getFile(workdir, lastName);
-                            StringBuilder tmp = Readers.fillStringBuilder(fl);
+                            StringBuilder tmp = null;
+                            if (lastName.charAt(0) == '#') { // library from jar
+                                lastName = lastName.substring(1);
+                                String pth = "/org/konte/resources/lib/" + lastName;
+                                try {
+                                    InputStream in = Ui.class.getResource(pth).openStream();
+                                    tmp = Readers.load(in);
+                                } catch(Exception ex) {
+                                    throw new ParseException("Library " + lastName + " does not exist", lineNr, caretPos);
+                                }
+                                
+                            } else {
+                                File fl = getFile(workdir, lastName);
+                                tmp = Readers.fillStringBuilder(fl);
+                            }
                             if (tmp == null || tmp.length() < 1)
                                 throw new ParseException("Empty or missing include file: " + lastName, lineNr, caretPos);
                             ArrayList<Tokenizer.TokenizerString> included =
@@ -1729,6 +1745,11 @@ public class Parser {
                         contextStack.push(curCtx);
                         curCtx = Parser.ParsingContext.REPEAT_CREATE;
                         isSpecialContext = false;
+                    } else if (t == Language.multiply) {
+                        lexpr = new Value(-1f);
+                        contextStack.push(curCtx);
+                        curCtx = Parser.ParsingContext.REPEAT_CREATE;
+                        isSpecialContext = true;
                     } else if (t == Language.ifToken)
                     {
                         contextStack.push(curCtx);
