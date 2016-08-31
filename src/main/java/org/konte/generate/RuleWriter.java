@@ -422,18 +422,18 @@ public class RuleWriter {
             RepeatStructure rr = (RepeatStructure) st;
             DrawingContext repPoint = model.context;
             int repeats = (int) Math.floor(rr.repeats.evaluate());
+            if (-1 == repeats) {    // special case, * syntax without quantity specified
+                if (post != null)
+                    for (BooleanExpression be : post)
+                        be.bevaluate();
+                model.context = rr.repeatTransform.transform(model.context);
+                processShapeTransform(rr.repeatedTransform, null);
+            }
             for (int i = 0; i < repeats; i++)
             {
                 if (post != null)
-                {
                     for (BooleanExpression be : post)
-                    {
-                        if (!be.bevaluate())
-                        {
-                            continue;
-                        }
-                    }
-                }
+                        be.bevaluate();
                 processShapeTransform(rr.repeatedTransform, null);
                 model.context = rr.repeatTransform.transform(model.context);
                 if (model.context.d > -1)

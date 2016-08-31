@@ -38,7 +38,7 @@ import org.konte.plugin.KonteScriptExtension;
 /**<p>Parses a konte model from a list of token strings.
  *<p>Method parse creates a state machine for the task. Parse returns a new
  * model or throws a parse exception, if it encounters a syntax error.
- * 
+ *
  * @author pvto
  */
 public class Parser {
@@ -90,19 +90,19 @@ public class Parser {
         RULE_POST,
         RULE_TRANSFORM_CREATE,
         TRANSFORM_ADJUSTMENTS,
-        TRANSFORM_DEFS,        
+        TRANSFORM_DEFS,
         REPEAT_CREATE,
         REPEAT_ADJUSTMENTS,
         IF_CREATE,
-        IF, 
+        IF,
         BLOCK_CREATE,
         BLOCK}
-    
-    public static int getExpressionList(ArrayList<Tokenizer.TokenizerString> ttOrig, int startpos, ArrayList<Token> ret) throws ParseException 
+
+    public static int getExpressionList(ArrayList<Tokenizer.TokenizerString> ttOrig, int startpos, ArrayList<Token> ret) throws ParseException
     {
         return getExpressionList(ttOrig, startpos, ret, 0);
     }
-    public static int getExpressionList(ArrayList<Tokenizer.TokenizerString> ttOrig, int startpos, ArrayList<Token> ret, int isSemicolons) throws ParseException 
+    public static int getExpressionList(ArrayList<Tokenizer.TokenizerString> ttOrig, int startpos, ArrayList<Token> ret, int isSemicolons) throws ParseException
     {
         int lbcount = 0;
         Token t = Language.tokenByName(ttOrig.get(startpos).getString());
@@ -125,7 +125,7 @@ public class Parser {
                     throw new ParseException("Orphaned negation ", lineNr, caretPos);
                 }
 
-                if (u == null || u == Language.left_bracket || u instanceof Function 
+                if (u == null || u == Language.left_bracket || u instanceof Function
                         || (u != null && InnerExpressiveToken.class.isAssignableFrom(u.getClass())))
                 {
                 // skip to loop
@@ -148,28 +148,28 @@ public class Parser {
             }
         }
         int ii = startpos;
-        boolean moveToNext = true; 
+        boolean moveToNext = true;
         Token last = null;
         while (moveToNext)
         {
             int lbctmp = lbcount;
             String s = ttOrig.get(ii).getString();
-            last = ii>startpos ? 
+            last = ii>startpos ?
                 t : null;
             t = Language.tokenByName(s);
             if (t == null)
             {
                 t = new Token(s);
             }
-            if (t == Language.right_curl || t == Language.semicolon || 
+            if (t == Language.right_curl || t == Language.semicolon ||
                     (lbcount==0 && t == Language.comma))
                     {
                 moveToNext = false;
                 break;
             } else if (t == Language.left_bracket)
             {
-                if ( startpos < ii 
-                    && ! (last == Language.left_bracket || last instanceof Operator 
+                if ( startpos < ii
+                    && ! (last == Language.left_bracket || last instanceof Operator
                         || Function.class.isAssignableFrom(last.getClass())))
                         {
                     moveToNext = false;
@@ -182,21 +182,21 @@ public class Parser {
                 if (lbcount <= 0 && isSemicolons != 1)
                 {
                     moveToNext = false;
-                    if (isSemicolons == 0 && ttOrig.size() > ii + 1 
+                    if (isSemicolons == 0 && ttOrig.size() > ii + 1
                             && Language.tokenByName(ttOrig.get(ii + 1).getString()) instanceof Operator)
                             {
                         moveToNext = true;
                     }
                 }
-            } else if ( startpos < ii 
+            } else if ( startpos < ii
                     && (last.getClass() == Constant.class || last.getClass() == Token.class || InnerExpressiveToken.class.isAssignableFrom(last.getClass()))
-                    && ! (t instanceof Operator || t instanceof Comparator 
+                    && ! (t instanceof Operator || t instanceof Comparator
                         || lbctmp > 0 && t == Language.comma))
                         {
                 moveToNext = false;
                 break;
             }
-            if (moveToNext && ii>startpos && 
+            if (moveToNext && ii>startpos &&
                     (last == null || (lbctmp == 0 && last==Language.right_bracket))
                     && !(t instanceof org.konte.lang.Tokens.Operator ||
                          t instanceof Comparator ||
@@ -226,7 +226,7 @@ public class Parser {
         }
         else
         {
-            if (t==Language.right_bracket && 
+            if (t==Language.right_bracket &&
                     last instanceof org.konte.lang.Tokens.Operator)
                 throw new ParseException("Expression terminates with " + last,
                         lineNr, caretPos);
@@ -241,18 +241,18 @@ public class Parser {
     private static int caretPos;   // caret position (running) in source, for parse exceptions
 
 
-    public Model parse(ArrayList<Tokenizer.TokenizerString> tokenStrings) throws ParseException 
+    public Model parse(ArrayList<Tokenizer.TokenizerString> tokenStrings) throws ParseException
     {
 
         Runtime.stateServer.clear();
-        
+
         String workdir = System.getProperty("konte.workdir");
 
         Runtime.sysoutln("PARSING MODEL", 2);
         Model m = new Model();
         Name.model = m;
         m.bitmapCache.clearReferences(); // clear image reference hash from earlier parsings
-        
+
         ArrayDeque<ParsingContext> contextStack =
                 new ArrayDeque<ParsingContext>();
         ParsingContext curCtx = ParsingContext.GRAMMAR;
@@ -286,7 +286,7 @@ public class Parser {
             s = tokenStrings.get(i).getString();
             lineNr = tokenStrings.get(i).getLineNr();
             caretPos = tokenStrings.get(i).getCaretPos();
-            
+
             if (s.startsWith(Language.comment_start.name))
             {
                 s = s.substring(2);
@@ -350,7 +350,7 @@ public class Parser {
                         curCtx = ParsingContext.CAMERA_CREATE;
                     } else if (t == Language.shading)
                     {
-                        curCtx = ParsingContext.SHADING_CREATE;                        
+                        curCtx = ParsingContext.SHADING_CREATE;
                     } else if (t == Language.model)
                     {
                         curCtx = ParsingContext.MODEL_CREATE;
@@ -409,7 +409,7 @@ public class Parser {
                         pos |= 2;
                     } else if (t == Language.push_stack)
                     {
-                        pos |= 4;                    
+                        pos |= 4;
                     } else if (t == Language.order)
                     {
                         pos = 0x100;
@@ -444,7 +444,7 @@ public class Parser {
                             }
                             if ((pos & 2) != 0)
                             {
-                                m.maxShapes = (int)Math.floor((double)v); 
+                                m.maxShapes = (int)Math.floor((double)v);
                             }
                             if ((pos & 4) != 0)
                             {
@@ -459,7 +459,7 @@ public class Parser {
                                 "model - not expecting " + s +
                                 "", lineNr, caretPos);
                     }
-                    break;                      
+                    break;
                 case BACKGROUND_CREATE:
                     if (t == Language.left_curl)
                     {
@@ -483,7 +483,7 @@ public class Parser {
                                 {
                             lastInnerToken = t;
                             isSpecialContext = true;
-                            lexprs.clear();  
+                            lexprs.clear();
                             pos = 0;
                         }
                         else
@@ -532,8 +532,9 @@ public class Parser {
                         if (lastName == null)
                             lastName = s;
                         else {
-                            if (i < tokenStrings.size()-1 
-                                    && Language.tokenByName(tokenStrings.get(i + 1).getString()) != null)
+                            if (i < tokenStrings.size()-1
+                                    && Language.tokenByName(tokenStrings.get(i + 1).getString()) != null
+                                    && lastName.lastIndexOf("/") != lastName.length() - 1)
                                     {
                                 lastName += " ";
                             }
@@ -709,7 +710,7 @@ public class Parser {
                     if (t==Language.left_curl)
                     {
                         lightBd.clearPointData();
-                        curCtx = Parser.ParsingContext.LIGHT;                    
+                        curCtx = Parser.ParsingContext.LIGHT;
                     } else if (lastName == null)
                     {
                         lastName = s;
@@ -718,14 +719,14 @@ public class Parser {
                             if (t != null)
                                 throw new ParseException("Unexpected token for light name: " + s, lineNr, caretPos);
                             lightBd.name(s);
-                        } else 
+                        } else
                             throw new ParseException("'light' must be followed by a name or a  '{' - found " + s, lineNr, caretPos);
                     }
                     else
                     {
                         throw new ParseException("Repeated name definition for light: " + lastName + "," + s, lineNr, caretPos);
                     }
-                    break;   
+                    break;
                 case LIGHT:
                     if (t == Language.right_curl)
                     {
@@ -740,7 +741,7 @@ public class Parser {
                         }
                         lrstfm = null;
                         lastName = null;
-                        tmpexps.clear();                        
+                        tmpexps.clear();
                         curCtx = contextStack.pop();
                     } else if (t == Language.point)
                     {
@@ -840,11 +841,11 @@ public class Parser {
                         }
                         if (!matched)
                         {
-                            throw new ParseException("Unknown light type: " + s + " – known types are " 
+                            throw new ParseException("Unknown light type: " + s + " – known types are "
                                     + Arrays.toString(LightModifier.values()), lineNr, caretPos);
                         }
                     }
-                    break;                    
+                    break;
                 case SHADING_CREATE:
                     if (lastName == null)
                     {
@@ -854,7 +855,7 @@ public class Parser {
                             if (t != null)
                                 throw new ParseException("Unexpected token for shading name: " + s, lineNr, caretPos);
                             colBd.name(s);
-                        } else 
+                        } else
                             throw new ParseException("'shading' must be followed by a name, found " + s, lineNr, caretPos);
                     } else if (t==Language.left_curl)
                     {
@@ -878,7 +879,7 @@ public class Parser {
                         }
                         lrstfm = null;
                         lastName = null;
-                        tmpexps.clear();                        
+                        tmpexps.clear();
                         curCtx = contextStack.pop();
                     } else if (t == Language.point)
                     {
@@ -999,7 +1000,7 @@ public class Parser {
                                     throw new ParseException("Orphaned " + s + " follows " + lastInnerToken + " in Camera declaration", lineNr, caretPos);
                                 camBd.addProperty(prop);
                                 used = true;
-                            } 
+                            }
                         if (!used)
                         {
                             i = getExpressionList(tokenStrings, i, exprL);
@@ -1065,7 +1066,7 @@ public class Parser {
                     if (lastRule != null)
                         lastRule.addMacro(macro);
                     Runtime.sysoutln((isDef ?
-                        "DEF: " + lastName + "=" + val : 
+                        "DEF: " + lastName + "=" + val :
                         "MACRO: " + lastName + "=" + lexpr)  , 0);
                     lastName = null;
                     isDef = false;
@@ -1168,7 +1169,7 @@ public class Parser {
                         }
                     }
                 case RULE:
-                    if (t == null || t instanceof Untransformable || 
+                    if (t == null || t instanceof Untransformable ||
                             t == Language.peek || t == Language.pop)
                             {
                         if (Language.isName(s))
@@ -1213,7 +1214,7 @@ public class Parser {
                             contextStack.push(curCtx);
                             curCtx = Parser.ParsingContext.REPEAT_CREATE;
                             isSpecialContext = false;
-                            
+
                         }
 
                     } else if (t == Language.moveto && lastRule instanceof PathRule)
@@ -1311,6 +1312,11 @@ public class Parser {
                         contextStack.push(curCtx);
                         curCtx = Parser.ParsingContext.REPEAT_CREATE;
                         isSpecialContext = false;
+                    } else if (t == Language.multiply) { // special case of repeat : apply transforms, call contained then once
+                        lexpr = new Value(-1f);
+                        contextStack.push(curCtx);
+                        curCtx = Parser.ParsingContext.REPEAT_CREATE;
+                        isSpecialContext = true;
                     } else if (t == Language.pre_context)
                     {
                         contextStack.push(curCtx);
@@ -1322,7 +1328,7 @@ public class Parser {
                     } else if (t == Language.def)
                     {
                         contextStack.push(curCtx);
-                        curCtx = Parser.ParsingContext.MACRO_NAME;                          
+                        curCtx = Parser.ParsingContext.MACRO_NAME;
                     } else if (t == Language.macro)
                     {
                         contextStack.push(curCtx);
@@ -1386,7 +1392,7 @@ public class Parser {
                         }
                         else if (t instanceof InnerToken)
                         {
-                            throw new ParseException("Wrong number of arguments to " + lastInnerToken + 
+                            throw new ParseException("Wrong number of arguments to " + lastInnerToken +
                                     " or missing () in " + lastRule, lineNr, caretPos);
                         }
                         if (t == Language.def || t == Language.undef)
@@ -1407,7 +1413,7 @@ public class Parser {
                         {
                             if (lastInnerToken != null)
                             {
-                                throw new ParseException("Missing argument(s) to " + lastInnerToken 
+                                throw new ParseException("Missing argument(s) to " + lastInnerToken
                                         + " in " + lastRule, lineNr, caretPos);
                             }
                             if (curCtx != ParsingContext.REPEAT_ADJUSTMENTS)
@@ -1455,12 +1461,12 @@ public class Parser {
                         try {
                             i = getExpressionList(tokenStrings, i, exprL);
                             lexpr = exprParser.parse(exprL, 0, m);
-                        } 
+                        }
                         catch(ParseException pe)
                         {
                             throw new ParseException(pe.getMessage(), lineNr, caretPos);
                         }
-                        
+
                         switch (pos)
                         {
                             case 0:
@@ -1484,7 +1490,7 @@ public class Parser {
                     }
                     break;
                 case TRANSFORM_DEFS:
-                    if (!isSpecialContext && t != Language.left_curl) 
+                    if (!isSpecialContext && t != Language.left_curl)
                         throw new ParseException("DEF block should start with a  {", lineNr, caretPos);
                     if (wasNamed && wasSet && isSpecialContext)
                     {
@@ -1501,10 +1507,10 @@ public class Parser {
                         if (d.id == null)
                             m.addDefinition(d);
                         wasNamed = wasSet = false;
-                        
+
                     } else if (t == Language.left_curl)
                     {
-                        if (isSpecialContext) 
+                        if (isSpecialContext)
                             throw new ParseException("Duplicate  {  in DEFinition block", lineNr, caretPos);
                         isSpecialContext = true;
                         wasSet = wasNamed = false;
@@ -1559,7 +1565,7 @@ public class Parser {
                         isSpecialContext = false;
                     } else if (t instanceof Comparator)
                     {
-                        throw new ParseException("Misplaced comparator " + lexpr + " in " + 
+                        throw new ParseException("Misplaced comparator " + lexpr + " in " +
                                 curCtx + " near " + s, lineNr, caretPos);
                     } else if (t == Language.right_curl)
                     {
@@ -1631,7 +1637,7 @@ public class Parser {
                         if (!(lexpr instanceof BooleanExpression))
                         {
                             lexpr = new BooleanExpression.Ne(lexpr, new Value(0f));
-                            
+
                         }
                         cond.conditional = (BooleanExpression)lexpr;
                         conditionalStack.push(cond);
