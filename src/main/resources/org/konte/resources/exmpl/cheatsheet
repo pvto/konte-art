@@ -1,6 +1,5 @@
 include #monospace
 startshape help
-fov{z -1}
 DEF W .05
 
 help {

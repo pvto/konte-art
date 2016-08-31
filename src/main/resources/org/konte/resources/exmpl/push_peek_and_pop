@@ -5,9 +5,9 @@
 rule example {
     box {   PUSH SQUARE
             s .2 y 1.5 rx 45 ry 45}
- /* chaining: "CIRCLE";
-  * "4x4.PUSHED" on top */
-    box {   PUSH CIRCLE 4x4.PUSHED
+ /* chaining to stack! */
+    box {   PUSH rndsh 4x4Popper
+ 4x4Popper 4x4Popper 4x4Popper
             s .2 y -.25
             rx -45 rz 45
         }
@@ -28,6 +28,8 @@ rule example {
 */
 
 rule Popper {   POP { } }
+ // useful trick to delay popping from stack
+//        -> so stack is not emptied too early in a compound rule like box 
 
 /* box sides receive PUSHed rules */
 rule box {
@@ -38,11 +40,11 @@ rule box {
 
 /* * * * * * * * * * * */
 
-rule 4x4.PUSHED {
-    PEEK { s .5 x -.5 y -.5 }
-    PEEK { s .5 x -.5 y .5 }
-    PEEK { s .5 x .5 y -.5 }
-    PEEK { s .5 x .5 y .5 }
+rule 4x4Popper {
+    Popper { s .5 x -.5 y -.5 }
+    Popper { s .5 x -.5 y .5 }
+    Popper { s .5 x .5 y -.5 }
+    Popper { s .5 x .5 y .5 }
 }
 rule 4x4 {
     SQUARE { s .5 x -.5 y -.5 }
@@ -57,6 +59,8 @@ rule 16x16 {
     4x4 { s .5 x .5 y .5 }
 }
 
+rndsh { CIRCLE{} }
+rndsh { SQUARE{} }
 
 
 /*
@@ -65,6 +69,6 @@ rule 16x16 {
 * full. Default size is 16.
 *
 */
-model { pushstack 2 }
+model { pushstack 5 }
 
 

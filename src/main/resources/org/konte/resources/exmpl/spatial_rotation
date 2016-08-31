@@ -15,14 +15,13 @@ rule spiral {
    roty                         y
 
 
-                  y  - rotation counterclockwise
+                  y  - positive rotation counterclockwise
                 ^
                 |
-                |
+                |  ^ z - pos. rotation is counterclockwise
+                | /
                  ---->
-               /      x  - rotation counterclockwise
-              /
-             /
-              z  - rotation is counterclockwise
+                      x  - pos. rotation counterclockwise
+              
 */
 

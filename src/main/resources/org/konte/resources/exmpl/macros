@@ -21,7 +21,7 @@ DEF cols (1/siz)
 MACRO TY sin(x*5*y*5)
 MACRO TT (TY%saw(z*2)*2)
 
-rule scene { box { rx 30 ry 30 } }
+rule scene { box { rx 15 ry 30 sy .7} }
 
 rule box {
   (cols)* {z siz}
@@ -35,14 +35,8 @@ rule box {
             y -(cols/2)
             z -(cols/2)
         }
-        GBLUR{s siz
-            x -(cols/2)
-            y -(cols/2)
-            z -(cols/2)
-            A -.6
-        }
       }
 }
 
 camera { z -2 }
-bg{R .2}
+bg{L .7}

@@ -1,22 +1,31 @@
 /*
  =======
-  Meshes are lattices of quadrilaterals (here).
+  Konte meshes are lattices of quadrilaterals
   Reserved keywords are:
     mesh (determines the current mesh: floating point, rounded to 1000th)
     row  (determines the current row in a mesh to pile pieces to)
     MESH (call to insert a piece into a lattice)
+
   There must be at least two rows and two columns,
     otherwise a mesh won't draw.
+
   There is no integrity check on the number of columns in
     different rows. If you are not careful, some meshes may
-    see to be distorted due to this!
-
+    see to be distorted!
 
 */
 camera { z -2 }
 
 startshape meshball
 DEF SCALE 64
+
+light {AMBIENT s .25}
+light {PHONG specular 10 alpha 10 s 1.5 {RGB 1 1 1}
+  point(
+    2,0,-2
+  )
+}
+
 
 rule loop {
     (SCALE) *  {  DEF { u = u + PI/SCALE} }
@@ -33,7 +42,7 @@ rule loop {
                 rotx 30
                 roty (u*100) rotx (-v*100)
                 z (-.6)
-                lightness (sin(u*v*10))
+                L 1
             }
 }
 
