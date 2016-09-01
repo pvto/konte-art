@@ -11,6 +11,8 @@ import org.konte.model.Untransformable.EffectApply;
  */
 public interface Canvas {
 
+    public void initLayer(Model model, float layer);
+    
     public void drawCurve(Camera camera, OutputShape shape);
 
     public void drawMeshPiece(Camera camera, OutputShape shape);

@@ -162,6 +162,8 @@ public class DiskBackedShapeReader implements ShapeReader {
         for (int i = 0; i < keyset.length; i++)
         {
             Layer layer = layers.layers.get(keyset[i]);
+            canvas.initLayer(model, layer.layerIndex);
+            
             Iterator lr = layer.points.descendingMap().values().iterator();
             
             while(lr.hasNext() && state == 3)

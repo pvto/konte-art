@@ -66,6 +66,7 @@ public class StreamingShapeReader implements ShapeReader {
                 for (OutputShape p : shapes) {
                     if (p.layer != prevlayer) {
                         canvas.applyEffects(model, prevlayer);
+                        canvas.initLayer(model, p.layer);
                         prevlayer = p.layer;
                     }
                     try {
@@ -100,6 +101,7 @@ public class StreamingShapeReader implements ShapeReader {
 
             for (OutputShape p : rest) {
                 if (p.layer != prevlayer) {
+                    canvas.initLayer(model, p.layer);
                     canvas.applyEffects(model, prevlayer);
                     prevlayer = p.layer;
                 }

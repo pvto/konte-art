@@ -154,6 +154,8 @@ public class DefaultCanvas implements Canvas {
         draw.setColor(c);
     }
 
+    
+    @Override
     public void drawCurve(Camera camera, OutputShape shape)
     {
         Matrix4Red orig = shape.matrix;
@@ -274,6 +276,7 @@ public class DefaultCanvas implements Canvas {
         List<CanvasEffect> effects = model.canvasEffects.get(layer);
         if (effects == null)
         {
+            System.out.println("no effects for " + layer);
             if (layerimg != image)
             {
                 image.getGraphics().drawImage(layerimg, 0, 0, null);
@@ -283,7 +286,7 @@ public class DefaultCanvas implements Canvas {
                 draw = layerimg.createGraphics();
                 draw.setRenderingHints(renderHints);
             }
-            setBackground(layerimg, new Color(0, 0, 0, 0));
+//            setBackground(layerimg, new Color(0, 0, 0, 0));
             layerRenders++;
             return;
         }
@@ -350,9 +353,10 @@ public class DefaultCanvas implements Canvas {
         }
         if (layerimg != image)
         {
+            System.out.println("1");
             image.getGraphics().drawImage(layerimg, 0, 0, null);
-            setBackground(layerimg, new Color(0, 0, 0, 0));
         }
+        System.out.println("2");
     }
 
     @Override
@@ -471,5 +475,13 @@ public class DefaultCanvas implements Canvas {
             y++;
         }
         img.getAlphaRaster().setDataElements(u0, v0, w, h, dest);
+    }
+
+    
+    @Override
+    public void initLayer(Model model, float layer) {
+        if (layerimg != image) {
+            setBackground(layerimg, new Color(0, 0, 0, 0));
+        }
     }
 }

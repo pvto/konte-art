@@ -158,6 +158,8 @@ public class DiskedFlointShapeReader implements ShapeReader {
         for (int x = 0; x < keyset.length; x++)
         {
             Layer layer = layers.layers.get(keyset[x]);
+            canvas.initLayer(model, layer.layerIndex);
+            
             DiskBackedFlointTree lr = layer.points;
 
             out: for(int i = lr.root.children.length - 1; i >= 0; i--) { Node1 n1 = lr.root.children[i]; if (n1 != null)

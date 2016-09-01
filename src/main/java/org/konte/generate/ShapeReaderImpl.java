@@ -113,6 +113,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                     long then = shapeCount;
                     for (Layer ll : lls)
                     {
+                        canvas.initLayer(model, ll.layerIndex);
                         Entry<Float, ? extends List<OutputShape>> e = ll.points.lastEntry();
                         while (e != null && state == 3)
                         {
@@ -171,6 +172,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                     long then = shapeCount;
                     for (Layer ll : lls)
                     {
+                        canvas.initLayer(model, ll.layerIndex);
                         Entry<Float, ? extends List<OutputShape>> e = ll.points.firstEntry();
                         while (e != null && state == 3)
                         {
