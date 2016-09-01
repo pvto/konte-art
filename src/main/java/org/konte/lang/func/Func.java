@@ -35,7 +35,7 @@ public class Func {
         @Override
         public boolean nArgsAllowed(int n)
         {
-            return n==0 || n==1;
+            return n==0;
         }
 
         public ERndf(String name, Model model) { super(name, model); }
@@ -56,7 +56,7 @@ public class Func {
         @Override
         public boolean nArgsAllowed(int n)
         {
-            return n==0 || n==1;
+            return n==1;
         }
 
         public EIrndf(String name, Model model) { super(name, model); }

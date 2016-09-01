@@ -246,7 +246,7 @@ public class Mathm {
 
         @Override
         public float value(float... val) {
-            return (float) Math.round(Math.random() * val[0]);
+            return (float) Math.floor(Math.random() * val[0]);
         }
     }
 

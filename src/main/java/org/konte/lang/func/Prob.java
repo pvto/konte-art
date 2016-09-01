@@ -115,8 +115,8 @@ public final class Prob {
             i = (left + right) >> 1;
             if (i == left || i == right) break;
         }
-        while(i < cached.length && cached[i] < rndFromU) i++;
-        return (int)cached[0] + i - 1;
+        while(i < cached.length - 1 && cached[i] < rndFromU) i++;
+        return i - 1;
     }
     
     static double hypg(int N1, int N2, int n, int x)

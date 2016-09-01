@@ -424,16 +424,16 @@ binm  // binomial distribution, p.d.f.: binm(n, p, x)
                              Example:  binm(10,0.5,1) -> 0.009765625
 binmc // cumulative binomial dist.
                              Example:  binmc(10,0.5,9) -> 0.9990234
-brndf // seeded random number [0,1] from a binomial distribution
-                             Example:  brndf(10, 0.1) -> 0.153407
-                             (the mean of these would --> 0.1 as n --> Inf.)
-brnd  // random number [0,1] from a binomial distribution
-                             Example:  brnd(10, 0.1) -> 0.085133
+brndf // seeded random integer [0,n] from a binomial distribution
+                             Example:  brndf(10, 0.5) -> 3
+                             (the mean of these would --> 5 as n --> Inf.)
+brnd  // random integer [0,n] from a binomial distribution
+                             Example:  brnd(10, 0.1) -> 1
 
 hypg  // hypergeometric distribution, p.d.f.: hypg(N1, N2, n, x) 
 hypgc // cumulative hypergeometric dist.
-hypgrndf // seeded random number [0,1] from a hypergeometric distribution
-hypgrnd  // random number [0,1] from a hypergeometric distribution
+hypgrndf // seeded random number from a hypergeometric distribution
+hypgrnd  // random number from a hypergeometric distribution
 
 
 saw  // Saw wave function -> [0,1], period 1.
