@@ -169,6 +169,12 @@ public class Parser {
                     {
                 moveToNext = false;
                 break;
+            } else if (t == Language.left_curl && last == Language.multiply)
+            {
+                moveToNext = false;
+                ret.remove(ret.size() - 1);
+                ii--;
+                break;
             } else if (t == Language.left_bracket)
             {
                 if ( startpos < ii
