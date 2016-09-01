@@ -1,4 +1,9 @@
 
+start {
+  TEXT{s .1 PUSH m_rb mn0 m_comma mn3 m_lb
+    DEF{ITALIC=0;DANCE=0;BOLD=0;CAROL=0;WIDE=0}}
+}
+
 TEXT{TEXT_{d 40}}
 TEXT_{
   POP{
@@ -10,10 +15,7 @@ TEXT_{
   TEXT_{x .65+WIDE*.05}
 }
 
-/*start {
-  TEXT{s .1 PUSH ma mn9 m_ mW mO mN
-    DEF{ITALIC=0;DANCE=0;BOLD=0;CAROL=0;WIDE=0}}
-}*/
+
 
 
 path mA {
@@ -3017,4 +3019,30 @@ rule m_hash {
 rule m_plus {
   SQUARE { s .5 .1 .1 }
   SQUARE { s .1 .6 .1 }
+}
+
+rule m_pipe {
+  SQUARE{ s .1 1 .1}
+}
+
+rule m_comma {
+  SQUARE { x -.1 y -.35 s .1 .1 .1 }
+  SQUARE { x -.075 y -.4 s .05 .1 .05 }
+}
+
+path m_lb {
+  moveto(.1,.4,0)
+  bend(-.2,.2,0)
+  bend(-.2,-.2,0)
+  curveto(.1,-.4,0)
+  lineto(.2,-.4,0)
+  bend(-.1,-.2,0)
+  bend(-.1,.2,0)
+  curveto(.2,.4,0)
+  curveto(.2,.4,0)
+  close
+}
+
+rule m_rb {
+  m_lb{flipy 0}
 }

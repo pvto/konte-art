@@ -1,5 +1,6 @@
 include #monospace
 startshape help
+model { pushstack 32 }
 DEF W .05
 
 help {
@@ -114,12 +115,33 @@ help {
     RADBLUR32{x 0 y -6.5+.07 s .75 z -.3 R .5 A -.9 } 
       TEXT{x 1 y -6.5 s .3 PUSH mn2 mn3 mR mU mL mB mD mA mR}
 
-   command_table { x 4+1.5 y 0-3 {SX=5;SY=8} layer -1}
-   TEXT{x 3.5 y .5 s .3 PUSH mv mo mf}
-   TEXT{x 3.5 y 0 s .3 PUSH mn0 mn1 m_ mX m_ mF mE mD}
-   TEXT{x 3.5 y -.5 s .3 PUSH mX m_plus mx m_ mX mx m_ mO mR mC mA mM}
-   TEXT{x 3.5 y -1 s .3 PUSH mm mi ms me m_ mH mS mU mP}
-   TEXT{x 3.5 y -1.5 s .3 PUSH mK mE mE mP m_ mP mO mP }
+   command_table { x 4+1.5 y 0-3.25 {SX=5;SY=8.5} layer -1}
+   *{x 3.5 s .75 {F=.3}} {
+     TEXT{ y .5 s F PUSH mn3 m_dash m_ mx m_ mv mo mf}
+       TEXT{ y 0 s F PUSH m_rb mn0 m_comma mn0 m_comma mn1 m_lb m_ mt ma mk mo mo ml m_ m_}
+     *{y -.5} {
+     TEXT{ y 0 s F PUSH mn0 mn1 m_ mX m_ mF mE mD}
+     TEXT{ y -.5 s F PUSH mX m_plus mx m_ mX mx m_ mO mR mC mA mM}
+     TEXT{ y -1 s F PUSH mm mi ms me m_ mH mS mU mP}
+     TEXT{ y -1.5 s F PUSH mK mE mE mP m_ mP mO mP m_stop m_stop m_stop}
+     TEXT{ y -2 s F PUSH ml me md mo mm }
+     TEXT{ y -2.5 s F PUSH mm me mm m_pipe mt ml mu ma mf me md m_ mr me md mr mo  m_ m_}
+     TEXT{ y -3 s F PUSH mk ms mi md m_pipe mm ma me mr mt ms m_pipe m_ m_ m_ m_}
+     TEXT{ y -3.5 s F PUSH ms ms me ml ml ma mm ms m_pipe mh mt md mi mw m_pipe m_ m_ m_ m_}
+
+     TEXT{y -4 s F PUSH mn0 mn5 m_ mk mc ma mt ms mh ms mu mp m_ m_ }
+     TEXT{y -4.5 s F PUSH mn0 mn0 mn0 mn1 m_ ms me mp ma mh ms mx ma mm m_ m_ }
+     TEXT{y -5 s F PUSH mn1 mn0 mn0 m_stop m_ me mr mu mt ma me mf m_ m_ }
+     TEXT{y -5.5 s F PUSH mn0 mn3 m_ me mt ma mr mm ma me mr mt ms m_ m_ }
+     
+     TEXT{y -6 s F PUSH mh mt ma mp }
+     TEXT{y -6.5 s F PUSH m_rb mn0 m_comma mn1 m_comma mn0 m_lb mo mt me mv mo mm m_ m_ }
+     TEXT{y -7 s F PUSH m_rb mn0 m_comma mn0 m_comma mn0 m_lb md mn me mb m_ m_ }
+     TEXT{y -7.5 s F PUSH m_rb mn0 m_comma mn0 m_comma mn1 m_lb mo mt me mv mr mu mc m_ m_ }
+     TEXT{y -8 s F PUSH m_rb mn1 m_stop m_comma mn0 m_comma mn1 m_lb mo mt me mn mi ml m_ m_ }
+     TEXT{y -8.5 s F PUSH me ms mo ml mc m_ m_ }
+     }
+   }
   }
 }
 
