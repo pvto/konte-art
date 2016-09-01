@@ -13,11 +13,13 @@ import org.konte.model.Model;
  */
 public enum ShapeReaders {
 
-    Z,
+    DEFAULT,
+    MEM,
+    DISK,
     WIDTH,
     SMALLNESS,
     STREAM,
-    DB;
+    ;
 
     public static ShapeReader getReader(String name, Model m)
     {
@@ -27,16 +29,14 @@ public enum ShapeReaders {
             {
                 switch(r)
                 {
-                    case WIDTH: return new DiskBackedShapeReader(m, new PointMetric.MinWidthMetric(m));
-                    case SMALLNESS: return new DiskBackedShapeReader(m, new PointMetric.MaxWidthMetric(m));
+                    case WIDTH: return new DiskedFlointShapeReader(m, new PointMetric.MinWidthMetric(m));
+                    case SMALLNESS: return new DiskedFlointShapeReader(m, new PointMetric.MaxWidthMetric(m));
                     case STREAM: return new StreamingShapeReader(m);
-                    case Z: return new ZOrderShapeReader(m);
-                    default: 
-                    case DB: return new DiskBackedShapeReader(m, new PointMetric.ZMetric(m));
+                    case MEM: return new ZOrderShapeReader(m);
+                    case DISK: return new DiskBackedShapeReader(m, new PointMetric.ZMetric(m));
                 }
             }
         }
         return new DiskedFlointShapeReader(m, new PointMetric.ZMetric(m));
-        //return new DiskBackedShapeReader(m, new PointMetric.ZMetric(m));
     }
 }
