@@ -6,9 +6,9 @@ DEF LW 1/5  DEF DW 1/7
 DEF F 1
 
 funcHelp {
-  *{s W s .275 x -22 y 22}
+  *{s W s .275 x -22 y 22 {BOLD=-1.5;WIDE=-2;FLAT=2}}
   {
-    *{layer -1 x -.5 y 2.5} 22*{x 1} 50*{y -1} { SQUARE{s 1} SQUARE {s .95 lightness 1 } }
+    *{layer -1 x -.5 y 2.5} 22*{x 1} 50*{y -1} { SQUARE{s 1 L .5} SQUARE {s .95 lightness 1 } }
 
     *{y 0 {mesh=1}}{  TEXTR{ s F x -2 PUSH ms mi mn m_lb mx m_rb} 
       200*{{X=X+.1}} 2*{{row=row+1}} MESH { x X y sin(X)+row*LW }
@@ -74,9 +74,9 @@ funcHelp {
 
 
 
-  *{s W s .275 x 10 y 22}
+  *{s W s .275 x 10 y 22 {BOLD=-1.5;WIDE=-2;FLAT=2}}
   {
-    *{layer -1 x -.5 y 2.5} 22*{x 1} 50*{y -1} { SQUARE{s 1} SQUARE {s .95 lightness 1 } }
+    *{layer -1 x -.5 y 2.5} 22*{x 1} 50*{y -1} { SQUARE{s 1 L .5} SQUARE {s .95 lightness 1 } }
 
     *{y 0}{  TEXTR{ s F x -2 PUSH mr mn md mf m_lb m_rb} 
       200*{{X=X+.1}} SQUARE { x X y rndf() s DW }
@@ -98,18 +98,18 @@ funcHelp {
     }
     *{y -20}{  TEXTR{ s F x -2 PUSH mb mi mn mm m_lb mn m_comma mp m_comma mi m_rb } 
       200*{{X=X+.1}} SQUARE { x X y binm(20, .5, X) * 10 s DW }
-      TEXTR{B .4 {WIDE=2;} x 20 y 2 rz 10 s F*.9 PUSH ms mc ma ml me md m_ }
+      TEXTR{B .4 {FLAT=1;} x 20 y 2 rz 10 s F*.9 PUSH ms mc ma ml me md m_ }
     }
     *{y -23}{  TEXTR{ s F x -2 PUSH mb mi mn mm mc m_lb mn m_comma mp m_comma mi m_rb } 
       200*{{X=X+.1}} SQUARE { x X y binmc(20, .5, X) s DW }
     }
     *{y -26}{  TEXTR{ s F x -2 PUSH mb mr mn md mf m_lb mn m_comma mp m_rb } 
       200*{{X=X+.1}} SQUARE { x X y brndf(10, .5)*.1 s DW }
-      TEXTR{B .4 {WIDE=2;} x 20 y 2 rz 10 s F*.9 PUSH ms mc ma ml me md m_ }
+      TEXTR{B .4 {FLAT=1;} x 20 y 2 rz 10 s F*.9 PUSH ms mc ma ml me md m_ }
     }
     *{y -29}{  TEXTR{ s F x -2 PUSH mb mr mn md m_lb mn m_comma mp m_rb } 
       200*{{X=X+.1}} SQUARE { x X y brnd(10, .5)*.1 s DW }
-      TEXTR{B .4 {WIDE=2;} x 20 y 2 rz 10 s F*.9 PUSH ms mc ma ml me md m_ }
+      TEXTR{B .4 {FLAT=1;} x 20 y 2 rz 10 s F*.9 PUSH ms mc ma ml me md m_ }
     }
   }
 

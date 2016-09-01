@@ -1,7 +1,7 @@
 
 start {
   TEXT{s .1 PUSH m_rb mn0 m_comma mn3 m_lb
-    DEF{ITALIC=0;DANCE=0;BOLD=0;CAROL=0;WIDE=0}}
+    DEF{ITALIC=0;DANCE=0;BOLD=0;CAROL=0;WIDE=0;FLAT=0}}
 }
 
 TEXT{TEXT_{d 40 {DIR=1}}}
@@ -12,6 +12,7 @@ TEXT_{
     skewx ITALIC*10 
     skewy DANCE*10 
     sx (1+BOLD/10)
+    sy (1-FLAT/10)
   }
   TEXT_{x DIR*(.65+WIDE*.05)}
 }
