@@ -1,0 +1,55 @@
+/**
+  Topics in this tutorial:
+  1) Repeats (*)
+  2) Grouping blocks
+  3) Special "apply once" repeat
+  4) If
+*/
+
+
+GroupingTutorial {
+
+
+
+  3*{y .1}         // meaning: repeat 3 times, increment y by 0.1 on each iteration
+    {                 // then inside these parentheses what we want to iterate
+
+    
+    // So we are "inside", doing a repeat here (See the three black groups
+    //  stacked vertically).
+
+
+      SQUARE{sy .1 layer -1}
+      lineOfThings{s .1 R .2 PUSH CIRCLE}
+      doSomeOtherStuff{}
+
+    // ...
+    // do as many things as you like here, everything is repeated thrice
+  }
+
+
+
+  *{y -.2} {
+    // "apply once" repeat 
+    // (special, since y -.2 applied immediately, not after iteration!)
+    lineOfThings{s .1 B 1 PUSH CONE}
+  }
+
+
+  { {
+   // nested "orphaned" blocks, no effect whatsoever
+    TRIANGLE{s .1 y -1}
+    TRIANGLE{s .1 y -1 x 1}
+  } }
+}
+
+lineOfThings{
+  5*{{X=X+1}}{
+    PEEK{x X}
+    if (X % 2 < .01) {
+      PEEK{x X s .9 L 1}
+    }
+  }
+}
+
+doSomeOtherStuff{ lineOfThings{s .05 x -6 G .2 PUSH TRIANGLE}}

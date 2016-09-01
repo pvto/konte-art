@@ -1,5 +1,8 @@
 MACRO RND (rndf()-.5)*4+x
 
+include #monospace
+startshape tilp
+
 tilp {
 
     200*{y -.005} SQUARE{y -.2 s 2 .01 .001 L 1}
@@ -8,15 +11,25 @@ tilp {
 
     rain{layer .5 ry 40}
 
-    write { PUSH E3 T3 N3 O3 K3
-            layer 1
-            y -0 sy .8
-            scale .17 x -1.75 lightness 1 red -.1}
+    *{layer 1} {
+        60*{y .002} { SQUARE{y -.1 z .3 scale 3 .001 .001 lightness 1} }
 
-    write { PUSH C3 I3 C3 I3 C3
-            layer 1
-            y -.2 sy .8
-            scale .17 x -1.75 lightness 1 red -.1}
+        80*{A -.0125 y .01 layer -.01 rx 4}
+            write { PUSH E3 T3 N3 O3 K3
+                y -0 sy .8
+                scale .27 x -1.75 lightness 1 red -.1}
+
+        TEXT { PUSH  mt mr mA m_ me mv mi mt ma mr me mn me mG
+              {BOLD=0}
+              y -.25 // -.2
+              scale .1 
+              x -4 // 1.75
+              lightness -1 // 1
+              red -.1}
+        
+        60*{y .002} { SQUARE{y -.5 z .3 scale 1 .001 .001 lightness 0} }
+
+    }
 }
 
 rain {
@@ -27,7 +40,7 @@ rain {
 
 }
 write { POP{s .3 PUSH lblock }
-        if(n<5){write{x 1 DEF{n=n+1;}} } }
+        if(n<5){write{x 1 ry 8 DEF{n=n+1;}} } }
 
 lblock {
     10*{s .95 red -.1 green -.095 blue -.085}

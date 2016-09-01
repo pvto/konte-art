@@ -8,7 +8,7 @@ spatial_rotation
 loops_scaling
 streaming_shapes
 ---------------
-if
+blocks_and_if
 DEF
 macros
 layer_directive
