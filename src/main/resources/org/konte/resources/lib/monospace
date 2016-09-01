@@ -4,7 +4,8 @@ start {
     DEF{ITALIC=0;DANCE=0;BOLD=0;CAROL=0;WIDE=0}}
 }
 
-TEXT{TEXT_{d 40}}
+TEXT{TEXT_{d 40 {DIR=1}}}
+TEXTR{TEXT_{d 40 {DIR=-1}}}
 TEXT_{
   POP{
     rz CAROL
@@ -12,7 +13,7 @@ TEXT_{
     skewy DANCE*10 
     sx (1+BOLD/10)
   }
-  TEXT_{x .65+WIDE*.05}
+  TEXT_{x DIR*(.65+WIDE*.05)}
 }
 
 

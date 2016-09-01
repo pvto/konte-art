@@ -1,22 +1,22 @@
-camera {x 2 z -8}
+camera {x 2.5 z -8}
 
 loopz
 {
 
-  24* {  x 1     sx .75    B .1}
-      PIPE {y 1 rotx 30}
+  24* {  x 1     sx .82    B .1  DEF {N=N+1} }
+      PIPE {y 1 rotx 30 layer N%2}
 
-  24* {  sx .75  x 1       R .1}
-      PIPE {y -1 rotx 30}
+  24* {  sx .82  x 1       R .1  DEF {N=N+1} }
+      PIPE {y -1 rotx 30 layer N%2}
 }
 
 
 
-  // gaussian blur, layer 0, apply 5 times, [1x35] px, RGB
-fx 0*5 { 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 }
+  // gaussian blur, layer 0, apply 2 times, [1x35] px, RGB
+//fx 0*2 { 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 }
 
   // gaussian blur, layer 0, apply 5 times, [21x1] px, RGB
-//fx 0*5 { 7777777777777777777777 }
+fx 0*5 { 7777777777777777777777 }
 
   // 5x5 gaussian blur
 //fx 0*3 { 77777 77777 77777 77777 77777 }

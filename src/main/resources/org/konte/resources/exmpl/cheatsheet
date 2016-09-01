@@ -115,6 +115,14 @@ help {
     RADBLUR32{x 0 y -6.5+.07 s .75 z -.3 R .5 A -.9 } 
       TEXT{x 1 y -6.5 s .3 PUSH mn2 mn3 mR mU mL mB mD mA mR}
 
+
+  *{x -8 y -6.5 {ITALIC=2;BOLD=5;WIDE=2} {BW=.075} ry -30 rx 20} {
+    box{layer -1 z -.25 y .1}
+    TEXT{ s .4 PUSH me mt mn mo mK }
+    TEXT{ y -.5 s .4 PUSH mn1 m_hash m_ mt me me mh ms mt ma me mh mc m_}
+  }
+
+// commands
    command_table { x 4+1.5 y 0-3.25 {SX=5;SY=8.5} layer -1}
    *{x 3.5 s .75 {F=.3}} {
      TEXT{ y .5 s F PUSH mn3 m_dash m_ mx m_ mv mo mf}
@@ -159,8 +167,8 @@ arrow {
 
 box{cbox{L 1}}
 cbox {
- 4*{ry 90}{SQUARE{z -.5 RGB #000000}SQUARE{z -.5 s .9}}
- 2*{rx 180}{SQUARE{rx 90 z -.5 RGB #000000}SQUARE{rx 90 z -.5 s .9}}
+ 4*{ry 90}{SQUARE{z -.5 RGB #000000}SQUARE{z -.5 s .9+BW}}
+ 2*{rx 180}{SQUARE{rx 90 z -.5 RGB #000000}SQUARE{rx 90 z -.5 s .9+BW}}
 }
 
 checkers {

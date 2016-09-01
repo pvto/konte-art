@@ -32,7 +32,7 @@ GroupingTutorial {
   *{y -.2} {
     // "apply once" repeat 
     // (special, since y -.2 applied immediately, not after iteration!)
-    lineOfThings{s .1 B 1 PUSH CONE}
+    lineOfThings{s .1 B .2 PUSH CONE}
   }
 
 
