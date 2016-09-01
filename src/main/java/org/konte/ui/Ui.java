@@ -124,6 +124,8 @@ public class Ui extends MyJFrame {
     {
         super(new FileNameExtensionFilter(
                 "cfdg and c3dg grammar files", "cfdg", "c3dg"));
+//        this.setUndecorated(true);
+        extendFrame(true);
         initComponents();
         this.setTitle(String.format(Locale.ENGLISH, "konte %.2f", Language.version));
         Color bgc = new Color(187,203,209);
@@ -651,6 +653,7 @@ public class Ui extends MyJFrame {
         jMenu3 = new javax.swing.JMenu();
         jMenuItem15 = new javax.swing.JMenuItem();
         jMenuItem16 = new javax.swing.JMenuItem();
+        jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
         editMenu = new javax.swing.JMenu();
         undoItem = new javax.swing.JMenuItem();
         redoItem = new javax.swing.JMenuItem();
@@ -923,6 +926,22 @@ public class Ui extends MyJFrame {
             }
         });
         jMenu3.add(jMenuItem16);
+
+        jCheckBoxMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
+        jCheckBoxMenuItem2.setMnemonic('f');
+        jCheckBoxMenuItem2.setSelected(true);
+        jCheckBoxMenuItem2.setText("Full screen");
+        jCheckBoxMenuItem2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBoxMenuItem2ItemStateChanged(evt);
+            }
+        });
+        jCheckBoxMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBoxMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jCheckBoxMenuItem2);
 
         menuBar.add(jMenu3);
 
@@ -1315,6 +1334,15 @@ public class Ui extends MyJFrame {
         enableSvgSceneExport(evt.getStateChange() == 1);
     }//GEN-LAST:event_jCheckBoxMenuItem1ItemStateChanged
 
+    private void jCheckBoxMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem2ActionPerformed
+
+    }//GEN-LAST:event_jCheckBoxMenuItem2ActionPerformed
+
+    private void jCheckBoxMenuItem2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxMenuItem2ItemStateChanged
+        boolean isExtended = evt.getStateChange() == 1;
+        extendFrame(isExtended);
+    }//GEN-LAST:event_jCheckBoxMenuItem2ItemStateChanged
+
     private void showAbout()
     {
         new KonteAboutDialog().setVisible(true);
@@ -1461,6 +1489,7 @@ public class Ui extends MyJFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem1;
+    private javax.swing.JCheckBoxMenuItem jCheckBoxMenuItem2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
