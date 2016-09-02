@@ -10,88 +10,87 @@ line {
   *{s .05 x -7 y 6.5 s .3 s .75}
   {
  
-   // Laudate omnes
     (NR)*{y -1.5 DEF{ITALIC=ITALIC+1}}
-      TEXTR{PUSH mI mT mA mL mI mC m_ mi mn mc mr }
+      TEXTR{PUSH "^m\^ITALIC incr" }
 
     *{x 10}
     (NR)*{y -1.5 DEF{ITALIC=ITALIC-1}}
-      TEXTR{PUSH mI mT mA mL mI mC m_ md me mc mr }
+      TEXTR{PUSH "^m\^ITALIC decr" }
 
     *{x 10+10}
     (NR)*{y -1.5 DEF{BOLD=BOLD+1}}
-      TEXTR{PUSH mB mO mL mD m_ mi mn mc mr }
+      TEXTR{PUSH "^m\^BOLD incr" }
 
     *{x 10+10+10}
     (NR)*{y -1.5 DEF{BOLD=BOLD-1}}
-      TEXTR{PUSH mB mO mL mD m_ md me mc mr }
+      TEXTR{PUSH "^m\^BOLD decr" }
 
     *{x 10+10+10+10}
     (NR)*{y -1.5 DEF{CAROL=CAROL+3}}
-      TEXTR{PUSH mC mA mR mO mL m_ mi mn mc mr }
+      TEXTR{PUSH "^m\^CAROL incr" }
 
     *{x 10+10+10+10+10}
     (NR)*{y -1.5 DEF{CAROL=CAROL-3}}
-      TEXTR{PUSH mC mA mR mO mL m_ md me mc mr }
+      TEXTR{PUSH "^m\^CAROL decr" }
 
     *{x 10+10+10+10+10+10}
     (NR)*{y -1.5 DEF{DANCE=DANCE+1}}
-      TEXTR{PUSH mD mA mN mC mE m_ mi mn mc mr }
+      TEXTR{PUSH "^m\^DANCE incr" }
 
     *{x 10+10+10+10+10+10+10}
     (NR)*{y -1.5 DEF{DANCE=DANCE-1}}
-      TEXTR{PUSH mD mA mN mC mE m_ md me mc mr }
+      TEXTR{PUSH "^m\^DANCE decr" }
 
     *{y -(NR+3.5) * 1.5}
     {
       *{x 6 rz -30}
       (NR)*{y -1.5 DEF{WIDE=WIDE+1}}
-        TEXTR{PUSH mW mI mD mE m_ mi mn mc mr }
+        TEXTR{PUSH "^m\^WIDE incr" }
 
       *{x 6 rz -30 x 8}
       (NR)*{y -1.5 DEF{WIDE=WIDE-1}}
-        TEXTR{PUSH mW mI mD mE m_ md me mc mr }
+        TEXTR{PUSH "^m\^WIDE decr" }
 
       *{x 6+8+6+10+10+10 rz 30 y -2}
       (NR)*{y -1.5 DEF{FLAT=FLAT+1}}
-        TEXTR{PUSH mF mL mA mT m_ mi mn mc mr }
+        TEXTR{PUSH "^m\^FLAT incr" }
 
       *{x 6+8+6+10+10+10 rz 30 y -2 x 8}
       (NR)*{y -1.5 DEF{FLAT=FLAT-1}}
-        TEXTR{PUSH mF mL mA mT m_ md me mc mr }
+        TEXTR{PUSH "^m\^FLAT decr" }
     }
 
     *{x -7 y -21 * 1.5}
     {
-      *{ y -0 {ITALIC=1;BOLD=-3}} TEXT{PUSH mn3 m_dash m_ mD mL mO mB m_ mn1 m_ mC mI mL mA mT mI }
-      *{ y -1.5 {ITALIC=1;BOLD=7}} TEXT{PUSH mn7 m_ mD mL mO mB m_ mn1 m_ mC mI mL mA mT mI }
-      *{ y -3 {ITALIC=3;BOLD=3}} TEXT{PUSH mn3 m_ mD mL mO mB m_ mn3 m_ mC mI mL mA mT mI }
-      *{ y -4.5 {CAROL=20;BOLD=-3}} TEXT{PUSH mn3 m_dash m_ mD mL mO mB m_ mn0 mn2 m_ mL mO mR mA mC }
-      *{ y -6 {CAROL=20;BOLD=3}} TEXT{PUSH mn3 m_ mD mL mO mB m_ mn0 mn2 m_ mL mO mR mA mC }
-      *{ y -7.5 {CAROL=20;ITALIC=3}} TEXT{PUSH mn3 m_ mC mI mL mA mT mI m_ mn0 mn2 m_ mL mO mR mA mC }
-      *{ y -9 {CAROL=-20;ITALIC=-2}} TEXT{PUSH mn2 m_dash m_ mC mI mL mA mT mI m_ mn0 mn2 m_dash m_ mL mO mR mA mC }
-      *{ y -10.5 {DANCE=3;ITALIC=-.5}} TEXT{PUSH mn5 m_stop m_dash m_ mC mI mL mA mT mI m_ mn3 m_ mE mC mN mA mD }
-      *{ y -12 {DANCE=2;ITALIC=1}} TEXT{PUSH mn1 m_ mC mI mL mA mT mI m_ mn2 m_ mE mC mN mA mD }
-      *{ y -13.5 {DANCE=4;BOLD=-2}} TEXT{PUSH mn2 m_dash m_ mD mL mO mB m_ mn4 m_ mE mC mN mA mD }
-      *{ y -15 {DANCE=5;CAROL=-20}} TEXT{PUSH mn0 mn2 m_dash  m_ mL mO mR mA mC m_ mn5 m_ mE mC mN mA mD }
-      *{ y -16.5 {DANCE=1.5;CAROL=5}} TEXT{PUSH mn5 m_ mL mO mR mA mC m_ mn5 m_stop mn0 m_ mE mC mN mA mD }
+      *{ y -0 {ITALIC=1;BOLD=-3}} TEXT{PUSH "^m^ITALIC 1 BOLD -3" }
+      *{ y -1.5 {ITALIC=1;BOLD=7}} TEXT{PUSH "^m^ITALIC 1 BOLD 7" }
+      *{ y -3 {ITALIC=3;BOLD=3}} TEXT{PUSH "^m^ITALIC 3 BOLD 3" }
+      *{ y -4.5 {CAROL=20;BOLD=-3}} TEXT{PUSH "^m^CAROL 20 BOLD -3" }
+      *{ y -6 {CAROL=20;BOLD=3}} TEXT{PUSH "^m^CAROL 20 BOLD 3" }
+      *{ y -7.5 {CAROL=20;ITALIC=3}} TEXT{PUSH "^m^CAROL 20 ITALIC 3" }
+      *{ y -9 {CAROL=-20;ITALIC=-2}} TEXT{PUSH "^m^CAROL -20 ITALIC -2" }
+      *{ y -10.5 {DANCE=3;ITALIC=-.5}} TEXT{PUSH "^m^DANCE 3 ITALIC -.5" }
+      *{ y -12 {DANCE=2;ITALIC=1}} TEXT{PUSH "^m^DANCE 2 ITALIC 1" }
+      *{ y -13.5 {DANCE=4;BOLD=-2}} TEXT{PUSH "^m^DANCE 4 BOLD -2" }
+      *{ y -15 {DANCE=5;CAROL=-20}} TEXT{PUSH "^m^DANCE 5 CAROL -20" }
+      *{ y -16.5 {DANCE=1.5;CAROL=5}} TEXT{PUSH "^m^DANCE 0.5 CAROL 5" }
     }  
 
     *{x 60 y -21 * 1.5}
     {
-      *{ y -0 {WIDE=-1;BOLD=-3}} TEXT{PUSH mn3 m_dash m_ mD mL mO mB m_ mn1 m_dash m_ mE mD mI mW }
-      *{ y -1.5 {WIDE=3;BOLD=-2}} TEXT{PUSH mn2 m_dash m_ mD mL mO mB m_ mn3 m_ mE mD mI mW }
-      *{ y -3 {WIDE=4;BOLD=3}} TEXT{PUSH mn3 m_ mD mL mO mB m_ mn4 m_ mE mD mI mW }
-      *{ y -4.5 {WIDE=7;BOLD=7}} TEXT{PUSH mn7 m_ mD mL mO mB m_ mn7 m_ mE mD mI mW }
-      *{ y -6 {WIDE=4;FLAT=-4}} TEXT{PUSH mn4 m_dash m_ mT mA mL mF m_ mn4 m_ mE mD mI mW }
-      *{ y -7.5 {WIDE=-1;FLAT=2}} TEXT{PUSH mn2 m_ mT mA mL mF m_ mn1 m_dash m_ mE mD mI mW }
-      *{ y -9 {WIDE=4;FLAT=4}} TEXT{PUSH mn4 m_ mT mA mL mF m_ mn4 m_ mE mD mI mW }
-      *{ y -10.5 {BOLD=2;FLAT=3}} TEXT{PUSH mn3 m_ mT mA mL mF m_ mn2 m_  mD mL mO mB}
-      *{ y -12 {BOLD=2;FLAT=-3}} TEXT{PUSH mn3 m_dash m_ mT mA mL mF m_ mn2 m_  mD mL mO mB}
-      *{ y -13.5 {ITALIC=2;FLAT=-3}} TEXT{PUSH mn3 m_dash m_ mT mA mL mF m_ mn2 m_ mC mI mL mA mT mI}
-      *{ y -15 {ITALIC=2;WIDE=3}} TEXT{PUSH mn3 m_ mE mD mI mW m_ mn2 m_ mC mI mL mA mT mI}
-      *{ y -16.5 {ITALIC=2;FLAT=3}} TEXT{PUSH mn3 m_ mT mA mL mF m_ mn2 m_ mC mI mL mA mT mI}
-      *{ y -18 {ITALIC=-2;FLAT=3}} TEXT{PUSH mn3 m_ mT mA mL mF m_ mn2 m_dash m_ mC mI mL mA mT mI}
+      *{ y -0 {WIDE=-1;BOLD=-3}} TEXT{PUSH "^m^WIDE -1 BOLD -3" }
+      *{ y -1.5 {WIDE=3;BOLD=-2}} TEXT{PUSH "^m^WIDE 3 BOLD -2" }
+      *{ y -3 {WIDE=4;BOLD=3}} TEXT{PUSH "^m^WIDE 4 BOLD 3" }
+      *{ y -4.5 {WIDE=7;BOLD=7}} TEXT{PUSH "^m^WIDE 7 BOLD 7" }
+      *{ y -6 {WIDE=4;FLAT=-4}} TEXT{PUSH "^m^WIDE 4 FLAT -4" }
+      *{ y -7.5 {WIDE=-1;FLAT=2}} TEXT{PUSH "^m^WIDE -1 FLAT 2" }
+      *{ y -9 {WIDE=4;FLAT=4}} TEXT{PUSH "^m^WIDE 4 FLAT 4" }
+      *{ y -10.5 {BOLD=2;FLAT=3}} TEXT{PUSH "^m^BOLD 2 FLAT 3" }
+      *{ y -12 {BOLD=2;FLAT=-3}} TEXT{PUSH "^m^BOLD 2 FLAT -3" }
+      *{ y -13.5 {ITALIC=2;FLAT=-3}} TEXT{PUSH "^m^ITALIC 2 FLAT -3" }
+      *{ y -15 {ITALIC=2;WIDE=3}} TEXT{PUSH "^m^ITALIC 2 WIDE 3" }
+      *{ y -16.5 {ITALIC=2;FLAT=3}} TEXT{PUSH "^m^ITALIC 2 FLAT 3" }
+      *{ y -18 {ITALIC=-2;FLAT=3}} TEXT{PUSH "^m^ITALIC -2 FLAT 3" }
 
     }
   }
@@ -101,8 +100,8 @@ line {
 
   *{s .05 x -7.5 y -6 {ITALIC=2;BOLD=5;WIDE=2} {BW=.075} ry -30 rx 20} {
     box{layer -1 z -.25 y .1}
-    TEXT{ s .4 PUSH me mc ma mp ms mo mn mo mm m_hash m_ me mt mn mo mK }
-    TEXT{ y -.5 s .4 PUSH mt me me mh ms mt ma me mh mc m_}
+    TEXT{ s .4 PUSH "^m^Konte #monospace" }
+    TEXT{ y -.5 s .4 PUSH "^m^ cheatsheet" }
   }
 
 
@@ -119,11 +118,10 @@ line {
         DANCE=DANCE*.9}
   } TEXT{
          PUSH 
-         m_stop m_stop m_stop my ma mw ma m_ mr ma mf m_ mr ma mf m_
-         my mx ma ml ma mg m_ ma m_ mn mI 
+         "^m^In a galaxy far far away..."
      }
 
-  *{y -.3 s .02} TEXT { PUSH me mc ma mp ms mo mn mo mm m_ mr ma ml mu mg me mR }
+  *{y -.3 s .02} TEXT { PUSH "^m^Regular monospace" }
 }
 
 

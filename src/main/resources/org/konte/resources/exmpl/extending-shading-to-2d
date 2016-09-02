@@ -6,7 +6,7 @@ do {
     (N)* {y 1/N {SAT=SAT+1/N}}
       SQUARE{
         shading extended
-        x -.5 y -.5 s 1/N/.7 1/N/.7 .1}
+        x -.5 y -.5 s 1/N/.7 1/N/.7 .5}
 }
 
 shading extended {
@@ -22,4 +22,4 @@ shading extended {
         RGB lirp(0,1,.9,1,SAT) lirp(0,1,.9,.7,SAT) lirp(0,1,1,1,SAT) }
 }
 
-fov { z -1.2 }
+fov { z -1.2 x -.5 lookat(0,0,0) }

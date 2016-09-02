@@ -1,6 +1,6 @@
 
 start {
-  TEXT{s .1 PUSH m_rb mn0 m_comma mn3 m_lb
+  TEXT{s .1 PUSH "^m^(3-3,0) monospace"
     DEF{ITALIC=0;DANCE=0;BOLD=0;CAROL=0;WIDE=0;FLAT=0}}
 }
 
@@ -2415,7 +2415,7 @@ path moe {
     close
 }
 
-path mn0 {
+path m0 {
     moveto(-0.053, 0.028, 0.000)
     bend(-0.053, 0.047, 0.000)
     bend(-0.046, 0.063, 0.000)
@@ -2494,7 +2494,7 @@ path mn0 {
     close
 }
 
-path mn1 {
+path m1 {
     moveto(-0.191, -0.274, 0.000)
     lineto(-0.028, -0.274, 0.000)
     lineto(-0.028, 0.319, 0.000)
@@ -2510,7 +2510,7 @@ path mn1 {
     close
 }
 
-path mn2 {
+path m2 {
     moveto(-0.104, -0.274, 0.000)
     lineto(0.252, -0.274, 0.000)
     lineto(0.252, -0.362, 0.000)
@@ -2568,7 +2568,7 @@ path mn2 {
     close
 }
 
-path mn3 {
+path m3 {
     moveto(0.104, 0.053, 0.000)
     bend(0.155, 0.040, 0.000)
     bend(0.194, 0.016, 0.000)
@@ -2650,7 +2650,7 @@ path mn3 {
     close
 }
 
-path mn4 {
+path m4 {
     moveto(0.077, 0.318, 0.000)
     lineto(-0.168, -0.092, 0.000)
     lineto(0.077, -0.092, 0.000)
@@ -2671,7 +2671,7 @@ path mn4 {
     close
 }
 
-path mn5 {
+path m5 {
     moveto(-0.191, 0.414, 0.000)
     lineto(0.202, 0.414, 0.000)
     lineto(0.202, 0.326, 0.000)
@@ -2730,7 +2730,7 @@ path mn5 {
     close
 }
 
-path mn6 {
+path m6 {
     moveto(0.211, 0.397, 0.000)
     lineto(0.211, 0.300, 0.000)
     bend(0.190, 0.313, 0.000)
@@ -2809,7 +2809,7 @@ path mn6 {
     close
 }
 
-path mn7 {
+path m7 {
     moveto(-0.228, 0.414, 0.000)
     lineto(0.261, 0.414, 0.000)
     lineto(0.261, 0.369, 0.000)
@@ -2821,7 +2821,7 @@ path mn7 {
     close
 }
 
-path mn8 {
+path m8 {
     moveto(0.016, 0.006, 0.000)
     bend(-0.030, 0.006, 0.000)
     bend(-0.067, -0.007, 0.000)
@@ -2924,7 +2924,7 @@ path mn8 {
     close
 }
 
-path mn9 {
+path m9 {
     moveto(0.009, -0.018, 0.000)
     bend(0.054, -0.018, 0.000)
     bend(0.089, -0.002, 0.000)
@@ -3006,11 +3006,11 @@ path mn9 {
 rule m_ { }
 
 rule m_dash {
-  SQUARE { s .636 .1 .1 }
+  SQUARE { s .5 .1 .1 y -.5 }
 }
 
 rule m_stop {
-  SQUARE { x -.1 y -.35 s .1 .1 .1 }
+  SQUARE { x -.1 y -.325 s .1 .1 .1 }
 }
 
 rule m_hash {
@@ -3028,8 +3028,8 @@ rule m_pipe {
 }
 
 rule m_comma {
-  SQUARE { x -.1 y -.35 s .1 .1 .1 }
-  SQUARE { x -.075 y -.4 s .05 .1 .05 }
+  SQUARE { x -.1 y -.325 s .1 .1 .1 }
+  SQUARE { x -.075 y -.375 s .05 .15 .05 }
 }
 
 path m_lb {

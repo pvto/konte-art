@@ -10,144 +10,144 @@ help {
   coordinates{x -7 y 6}
 
   *{x -5} {
-    *{y 7}{  BOX { s .25} TEXT{x .5 s .4 PUSH mX mO mB} }
-    *{y 6.5}{ PIPE { s .25} TEXT{x .5 s .4 PUSH mE mP mI mP} }
-    *{y 6}{ CONE { s .25} TEXT{x .5 s .4 PUSH mE mN mO mC} }
-    *{y 5.5}{ SPHERE { s .25} TEXT{x .5 s .4 PUSH mE mR mE mH mP mS}}
+    *{y 7}{  BOX { s .25} TEXT{x .5 s .4 PUSH "^m^BOX"} }
+    *{y 6.5}{ PIPE { s .25} TEXT{x .5 s .4 PUSH "^m^PIPE"} }
+    *{y 6}{ CONE { s .25} TEXT{x .5 s .4 PUSH "^m^CONE"} }
+    *{y 5.5}{ SPHERE { s .25} TEXT{x .5 s .4 PUSH "^m^SPHERE"}}
   }
   *{x -2.5} {
-    *{y 7}{ CIRCLE { s .25} TEXT{x .5 s .4 PUSH mE mL mC mR mI mC} }
-    *{y 6.5}{ TRIANGLE { s .25} TEXT{x .5 s .4 PUSH mE mL mG mN mA mI mR mT} }
-    *{y 6}{ SQUARE { s .25} TEXT{x .5 s .4 PUSH mE mR mA mU mQ mS} }
-    *{y 5.5}{ RSQU { s .25} TEXT{x .5 s .4 PUSH mU mQ mS mR} }
-    *{y 5}{ RTRIANGLE { s .25} TEXT{x .5 s .4 PUSH mE mL mG mN mA mI mR mT mR} }
+    *{y 7}{ CIRCLE { s .25} TEXT{x .5 s .4 PUSH "^m^CIRCLE"} }
+    *{y 6.5}{ TRIANGLE { s .25} TEXT{x .5 s .4 PUSH "^m^TRIANGLE"} }
+    *{y 6}{ SQUARE { s .25} TEXT{x .5 s .4 PUSH "^m^SQUARE"} }
+    *{y 5.5}{ RSQU { s .25} TEXT{x .5 s .4 PUSH "^m^RSQU"} }
+    *{y 5}{ RTRIANGLE { s .25} TEXT{x .5 s .4 PUSH "^m^RTRIANGLE"} }
   }
 
 // RGB  alpha  layer
   box{x 2 y 6.5 s 1 }
     CIRCLE { x 3 y 6 s 2.5 layer 1 RGB #ff00ff A -.4 }
-      TEXT{x 4.5 y 6.5 s .3 PUSH mf mf mn0 mn0 mf mf m_hash m_ mB mG mR}
-      TEXT{x 4.5 y 6 s .3 PUSH mn4 m_stop m_dash m_ ma mh mp ml ma}
-      TEXT{x 4.5 y 5.5 s .3 PUSH mn1 m_ mr me my ma ml}
+      TEXT{x 4.5 y 6.5 s .3 PUSH "^m^RGB #ff00ff"}
+      TEXT{x 4.5 y 6 s .3 PUSH "^m^alpha -.4"}
+      TEXT{x 4.5 y 5.5 s .3 PUSH "^m^layer 1"}
         box{x 3.5 y 5.5 s .5 layer 1 }
 
 // r  skew  s
-  box{ x -7 y 4 s .25 rz 15} TEXT{x -6.25 y 4 s .3 PUSH mn5 mn1 m_ mz mr}
-    box{ x -4 y 4 s .25 rz -15} TEXT{x -3.25 y 4 s .3 PUSH mn5 mn1 m_dash m_ mz mr}
-  box{ x -7 y 3.5 s .25 ry 40} TEXT{x -6.25 y 3.5 s .3 PUSH mn0 mn4 m_ my mr}
-    box{ x -4 y 3.5 s .25 ry -10} TEXT{x -3.25 y 3.5 s .3 PUSH mn0 mn1 m_dash m_ my mr}
-  box{ x -7 y 3 s .25 sy .3 rx 90 } TEXT{x -6.25 y 3 s .3 PUSH mn0 mn9 m_ mx mr}
-    box{ x -4 y 3 s .25 sy .3 rx -90 } TEXT{x -3.25 y 3 s .3 PUSH mn0 mn9 m_dash m_ mx mr}
+  box{ x -7 y 4 s .25 rz 15} TEXT{x -6.25 y 4 s .3 PUSH "^m^rz 15"}
+    box{ x -4 y 4 s .25 rz -15} TEXT{x -3.25 y 4 s .3 PUSH "^m^rz -15"}
+  box{ x -7 y 3.5 s .25 ry 40} TEXT{x -6.25 y 3.5 s .3 PUSH "^m^ry 40"}
+    box{ x -4 y 3.5 s .25 ry -10} TEXT{x -3.25 y 3.5 s .3 PUSH "^m^ry -10"}
+  box{ x -7 y 3 s .25 sy .3 rx 90 } TEXT{x -6.25 y 3 s .3 PUSH "^m^rx 90"}
+    box{ x -4 y 3 s .25 sy .3 rx -90 } TEXT{x -3.25 y 3 s .3 PUSH "^m^rx -90"}
 
-  box{ x -7 y 2.5 s .25 skewz 40} TEXT{x -6.25 y 2.5 s .3 PUSH mn0 mn4 m_ mz mw me mk ms}
-    box{ x -4 y 2.5 s .25 skewz -40} TEXT{x -3.25 y 2.5 s .3 PUSH mn0 mn4 m_dash m_ mz mw me mk ms}
-  box{ x -7 y 2 s .25 skewy 20} TEXT{x -6.25 y 2 s .3 PUSH mn0 mn2 m_ my mw me mk ms}
-    box{ x -4 y 2 s .25 skewy -20} TEXT{x -3.25 y 2 s .3 PUSH mn0 mn2 m_dash m_ my  mw me mk ms}
-  box{ x -7 y 1.5 s .25 skewx 50} TEXT{x -6.25 y 1.5 s .3 PUSH mn0 mn5 m_ mx  mw me mk ms}
-    box{ x -4 y 1.5 s .25 skewx -50} TEXT{x -3.25 y 1.5 s .3 PUSH mn0 mn5 m_dash m_ mx  mw me mk ms}
+  box{ x -7 y 2.5 s .25 skewz 40} TEXT{x -6.25 y 2.5 s .3 PUSH "^m^skewz 40"}
+    box{ x -4 y 2.5 s .25 skewz -40} TEXT{x -3.25 y 2.5 s .3 PUSH "^m^skewz -40"}
+  box{ x -7 y 2 s .25 skewy 20} TEXT{x -6.25 y 2 s .3 PUSH "^m^skewy 20"}
+    box{ x -4 y 2 s .25 skewy -20} TEXT{x -3.25 y 2 s .3 PUSH "^m^skewy -20"}
+  box{ x -7 y 1.5 s .25 skewx 50} TEXT{x -6.25 y 1.5 s .3 PUSH "^m^skewx 50"}
+    box{ x -4 y 1.5 s .25 skewx -50} TEXT{x -3.25 y 1.5 s .3 PUSH "^m^skewx -50"}
 
-  box{ x -7 y 1 s .25 sz 2.5} TEXT{x -6.25 y 1 s .3 PUSH mn5 m_stop mn2 m_ mz ms}
-    box{ x -4 y 1 s .25 sz -.5} TEXT{x -3.25 y 1 s .3 PUSH mn5 m_stop m_ mz ms}
-  box{ x -7 y .5 s .25 sy 2.5} TEXT{x -6.25 y .5 s .3 PUSH mn5 m_stop mn2 m_ my ms}
-    box{ x -4 y .5 s .25 sy -.5} TEXT{x -3.25 y .5 s .3 PUSH mn5 m_stop m_ my ms}
-  box{ x -7 y 0 s .25 sx 2.5} TEXT{x -6.25 y 0 s .3 PUSH mn5 m_stop mn2 m_ mx ms}
-    box{ x -4 y 0 s .25 sx .5} TEXT{x -3.25 y 0 s .3 PUSH mn5 m_stop m_ mx  ms}
+  box{ x -7 y 1 s .25 sz 2.5} TEXT{x -6.25 y 1 s .3 PUSH "^m^sz 2.5"}
+    box{ x -4 y 1 s .25 sz -.5} TEXT{x -3.25 y 1 s .3 PUSH "^m^sz .5"}
+  box{ x -7 y .5 s .25 sy 2.5} TEXT{x -6.25 y .5 s .3 PUSH "^m^sy 2.5"}
+    box{ x -4 y .5 s .25 sy -.5} TEXT{x -3.25 y .5 s .3 PUSH "^m^sy .5"}
+  box{ x -7 y 0 s .25 sx 2.5} TEXT{x -6.25 y 0 s .3 PUSH "^m^sx 2.5"}
+    box{ x -4 y 0 s .25 sx .5} TEXT{x -3.25 y 0 s .3 PUSH "^m^sx .5"}
 
 //    RGB
-  cbox{ x -1 y 4 s .25 R 1} TEXT{x -.25 y 4 s .3 PUSH mn1 m_ mR }
-    cbox{ x 1 y 4 s .25 R .5} TEXT{x 1.75 y 4 s .3 PUSH mn5 m_stop m_ mR }
-  cbox{ x -1 y 3.5 s .25 G 1} TEXT{x -.25 y 3.5 s .3 PUSH mn1 m_ mG }
-    cbox{ x 1 y 3.5 s .25 G .5} TEXT{x 1.75 y 3.5 s .3 PUSH mn5 m_stop m_ mG }
-  cbox{ x -1 y 3 s .25 B 1} TEXT{x -.25 y 3 s .3 PUSH mn1 m_ mB }
-    cbox{ x 1 y 3 s .25 B .5} TEXT{x 1.75 y 3 s .3 PUSH mn5 m_stop m_ mB }
-  cbox{ x -1 y 2.5 s .25 R 1 S -.5 } TEXT{x -.25 y 2.5 s .3 PUSH mn5 m_stop m_dash m_ mt ma ms m_ mn1 m_ mR}
-  cbox{ x -1 y 2 s .25 B 1 S -.9 } TEXT{x -.25 y 2 s .3 PUSH mn5 mn9 m_stop m_dash m_ mt ma ms m_ mn1 m_ mB}
-  cbox{ x -1 y 1.5 s .25 R 1 hue 60} TEXT{x -.25 y 1.5 s .3 PUSH mn0 mn6 m_ me mu mh m_ mn1 m_ mR }
-  cbox{ x -1 y 1 s .25 R 1 hue 120} TEXT{x -.25 y 1 s .3 PUSH mn0 mn2 mn1 m_ me mu mh m_ mn1 m_ mR }
-  cbox{ x -1 y .5 s .25 R 1 hue 180} TEXT{x -.25 y .5 s .3 PUSH mn0 mn8 mn1 m_ me mu mh m_ mn1 m_ mR }
-  cbox{ x -1 y 0 s .25 R 1 hue 240} TEXT{x -.25 y 0 s .3 PUSH mn0 mn4 mn2 m_ me mu mh m_ mn1 m_ mR }
-  cbox{ x -1 y -.5 s .25 R 1 hue 360} TEXT{x -.25 y -.5 s .3 PUSH mn0 mn6 mn3 m_ me mu mh m_ mn1 m_ mR }
+  cbox{ x -1 y 4 s .25 R 1} TEXT{x -.25 y 4 s .3 PUSH m1 m_ mR }
+    cbox{ x 1 y 4 s .25 R .5} TEXT{x 1.75 y 4 s .3 PUSH "^m^R .5"}
+  cbox{ x -1 y 3.5 s .25 G 1} TEXT{x -.25 y 3.5 s .3 PUSH "^m^G 1"}
+    cbox{ x 1 y 3.5 s .25 G .5} TEXT{x 1.75 y 3.5 s .3 PUSH "^m^G .5"}
+  cbox{ x -1 y 3 s .25 B 1} TEXT{x -.25 y 3 s .3 PUSH "^m^B 1" }
+    cbox{ x 1 y 3 s .25 B .5} TEXT{x 1.75 y 3 s .3 PUSH "^m^B .5"}
+  cbox{ x -1 y 2.5 s .25 R 1 S -.5 } TEXT{x -.25 y 2.5 s .3 PUSH "^m^R 1 sat -.5"}
+  cbox{ x -1 y 2 s .25 B 1 S -.9 } TEXT{x -.25 y 2 s .3 PUSH "^m^B 1 sat -.95"}
+  cbox{ x -1 y 1.5 s .25 R 1 hue 60} TEXT{x -.25 y 1.5 s .3 PUSH "^m^R 1 hue 60"}
+  cbox{ x -1 y 1 s .25 R 1 hue 120} TEXT{x -.25 y 1 s .3 PUSH "^m^R 1 hue 120"}
+  cbox{ x -1 y .5 s .25 R 1 hue 180} TEXT{x -.25 y .5 s .3 PUSH "^m^R 1 hue 180"}
+  cbox{ x -1 y 0 s .25 R 1 hue 240} TEXT{x -.25 y 0 s .3 PUSH "^m^R 1 hue 240"}
+  cbox{ x -1 y -.5 s .25 R 1 hue 360} TEXT{x -.25 y -.5 s .3 PUSH "^m^R 1 hue 360"}
 
   loopx{x 4 y 4 s .5 d 4 PUSH box} 
-    TEXT{x 6 y 4 s .3 PUSH mn4 m_ mh mt mp me md }
+    TEXT{x 6 y 4 s .3 PUSH "^m^depth 4"}
   loopx{x 4 y 3.5 s .5 depth 2 PUSH box} 
-    TEXT{x 6 y 3.5 s .3 PUSH mn2 m_ md }
+    TEXT{x 6 y 3.5 s .3 PUSH "^m^d 2" }
 
-  heart{ x 4 y 2.5 s .5} TEXT{x 4.75 y 2.5 s .3 PUSH mh mt ma mp }
+  heart{ x 4 y 2.5 s .5} TEXT{x 4.75 y 2.5 s .3 PUSH "^m^path" }
 
   meshpiece{ x 4 y 2 s 2}
-    TEXT{x 4.75 y 2 s .3 PUSH mh ms me mm }
+    TEXT{x 4.75 y 2 s .3 PUSH "^m^mesh" }
 
 // effects
   checkers{{N=8} x -7 y -2 }
     RUBBER{x -7 +.1 y -2 s .75 z -.3 } 
-      TEXT{x -6 y -2 s .3 PUSH mR mE mB mB mU mR}
+      TEXT{x -6 y -2 s .3 PUSH "^m^RUBBER"}
   checkers{{N=8} x -7 y -3.5 }
     RUBBERHEX{x -7 +.1 y -3.5 s .75 z -.3 } 
-      TEXT{x -6 y -3.5 s .3 PUSH mX mE mH mR mE mB mB mU mR}
+      TEXT{x -6 y -3.5 s .3 PUSH "^m^RUBBERHEX"}
   checkers{{N=8} x -7 y -5 }
     RUBBER32{x -7 +.1 y -5+.07 s .75 z -.4 } 
-      TEXT{x -6 y -5 s .3 PUSH mn2 mn3 mR mE mB mB mU mR}
+      TEXT{x -6 y -5 s .3 PUSH "^m^RUBBER32"}
 
   checkers{{N=8} x -3.5 y -2 }
     GBLUR{x -3.5 +.05 y -2 s .75 z -.3 } 
-      TEXT{x -2.5 y -2 s .3 PUSH mR mU mL mB mG}
+      TEXT{x -2.5 y -2 s .3 PUSH "^m^GBLUR"}
   checkers{{N=8} x -3.5 y -3.5 }
     GBLURTRI{x -3.5 +.05 y -3.5 s .75 z -.3 } 
-      TEXT{x -2.5 y -3.5 s .3 PUSH mI mR mT mR mU mL mB mG}
+      TEXT{x -2.5 y -3.5 s .3 PUSH "^m^GBLURTRI"}
   checkers{{N=8} x -3.5 y -5 }
     GBLURHEX{x -3.5 +.05 y -5+.07 s .75 z -.3 } 
-      TEXT{x -2.5 y -5 s .3 PUSH mX mE mH mR mU mL mB mG}
+      TEXT{x -2.5 y -5 s .3 PUSH "^m^GBLURHEX"}
   checkers{{N=8} x -3.5 y -6.5 }
     GBLUR32{x -3.5 +.05 y -6.5+.1 s .75 z -.3 } 
-      TEXT{x -2.5 y -6.5 s .3 PUSH mn2 mn3 mR mU mL mB mG}
+      TEXT{x -2.5 y -6.5 s .3 PUSH "^m^GBLUR32"}
 
   checkers{{N=8} x 0 y -2 }
     MIX{x 0 y -2 s .75 z -.3 } 
-      TEXT{x 1 y -2 s .3 PUSH mX mI mM}
+      TEXT{x 1 y -2 s .3 PUSH "^m^MIX"}
   checkers{{N=8} x 0 y -3.5 }
     MIX32{x 0 y -3.5 s .75 z -.3 } 
-      TEXT{x 1 y -3.5 s .3 PUSH mn2 mn3 mX mI mM}
+      TEXT{x 1 y -3.5 s .3 PUSH "^m^MIX32"}
   checkers{{N=8} x 0 y -5 }
     RADBLUR{x 0 y -5+.07 s .75 z -.3 R .5 A -.9 } 
-      TEXT{x 1 y -5 s .3 PUSH mR mU mL mB mD mA mR}
+      TEXT{x 1 y -5 s .3 PUSH "^m^RADBLUR"}
   checkers{{N=8} x 0 y -6.5 }
     RADBLUR32{x 0 y -6.5+.07 s .75 z -.3 R .5 A -.9 } 
-      TEXT{x 1 y -6.5 s .3 PUSH mn2 mn3 mR mU mL mB mD mA mR}
+      TEXT{x 1 y -6.5 s .3 PUSH "^m^RADBLUR32"}
 
 
   *{x -8 y -6.5 {ITALIC=2;BOLD=5;WIDE=2} {BW=.075} ry -30 rx 20} {
     box{layer -1 z -.25 y .1}
-    TEXT{ s .4 PUSH me mt mn mo mK }
-    TEXT{ y -.5 s .4 PUSH mn1 m_hash m_ mt me me mh ms mt ma me mh mc m_}
+    TEXT{ s .4 PUSH "^m^Konte" }
+    TEXT{ y -.5 s .4 PUSH "^m^ cheatsheet #1"}
   }
 
 // commands
    command_table { x 4+1.5 y 0-3.25 {SX=5;SY=8.5} layer -1}
    *{x 3.5 s .75 {F=.3}} {
-     TEXT{ y .5 s F PUSH mn3 m_dash m_ mx m_ mv mo mf}
-       TEXT{ y 0 s F PUSH m_rb mn0 m_comma mn0 m_comma mn1 m_lb m_ mt ma mk mo mo ml m_ m_}
+     TEXT{ y .5 s F PUSH "^m^fov x -3"}
+       TEXT{ y 0 s F PUSH "^m^  lookat (1,0,0)"}
      *{y -.5} {
-     TEXT{ y 0 s F PUSH mn0 mn1 m_ mX m_ mF mE mD}
-     TEXT{ y -.5 s F PUSH mX m_plus mx m_ mX mx m_ mO mR mC mA mM}
-     TEXT{ y -1 s F PUSH mm mi ms me m_ mH mS mU mP}
-     TEXT{ y -1.5 s F PUSH mK mE mE mP m_ mP mO mP m_stop m_stop m_stop}
-     TEXT{ y -2 s F PUSH ml me md mo mm }
-     TEXT{ y -2.5 s F PUSH mm me mm m_pipe mt ml mu ma mf me md m_ mr me md mr mo  m_ m_}
-     TEXT{ y -3 s F PUSH mk ms mi md m_pipe mm ma me mr mt ms m_pipe m_ m_ m_ m_}
-     TEXT{ y -3.5 s F PUSH ms ms me mn ml ml ma mm ms m_pipe mh mt md mi mw m_pipe m_ m_ m_ m_}
+     TEXT{ y 0 s F PUSH "^m^DEF X 10"}
+     TEXT{ y -.5 s F PUSH "^m^MACRO xX x+x"}
+     TEXT{ y -1 s F PUSH "^m^PUSH esim"}
+     TEXT{ y -1.5 s F PUSH "^m^...POP PEEK"}
+     TEXT{ y -2 s F PUSH "^m^model"}
+     TEXT{ y -2.5 s F PUSH "^m^  order default|mem"}
+     TEXT{ y -3 s F PUSH "^m^    |stream|disk"}
+     TEXT{ y -3.5 s F PUSH "^m^    |width|smallness"}
 
-     TEXT{y -4 s F PUSH mn0 mn5 m_ mk mc ma mt ms mh ms mu mp m_ m_ }
-     TEXT{y -4.5 s F PUSH mn0 mn0 mn0 mn1 m_ ms me mp ma mh ms mx ma mm m_ m_ }
-     TEXT{y -5 s F PUSH mn1 mn0 mn0 m_stop m_ me mr mu mt ma me mf m_ m_ }
-     TEXT{y -5.5 s F PUSH mn0 mn3 m_ me mt ma mr mm ma me mr mt ms m_ m_ }
+     TEXT{y -4 s F PUSH "^m^  pushstack 50"}
+     TEXT{y -4.5 s F PUSH "^m^  maxshapes 1000"}
+     TEXT{y -5 s F PUSH "^m^  feature .001"}
+     TEXT{y -5.5 s F PUSH "^m^  streamrate 30"}
      
-     TEXT{y -6 s F PUSH mh mt ma mp }
-     TEXT{y -6.5 s F PUSH m_rb mn0 m_comma mn1 m_comma mn0 m_lb mo mt me mv mo mm m_ m_ }
-     TEXT{y -7 s F PUSH m_rb mn0 m_comma mn0 m_comma mn0 m_lb md mn me mb m_ m_ }
-     TEXT{y -7.5 s F PUSH m_rb mn0 m_comma mn0 m_comma mn1 m_lb mo mt me mv mr mu mc m_ m_ }
-     TEXT{y -8 s F PUSH m_rb mn1 m_stop m_comma mn0 m_comma mn1 m_lb mo mt me mn mi ml m_ m_ }
-     TEXT{y -8.5 s F PUSH me ms mo ml mc m_ m_ }
+     TEXT{y -6 s F PUSH "^m^path"}
+     TEXT{y -6.5 s F PUSH "^m^  moveto(0,1,0)"}
+     TEXT{y -7 s F PUSH "^m^  bend(0,0,0)"}
+     TEXT{y -7.5 s F PUSH "^m^  curveto(1,0,0)"}
+     TEXT{y -8 s F PUSH "^m^  lineto(1,0,.1)"}
+     TEXT{y -8.5 s F PUSH "^m^  close"}
      }
    }
   }

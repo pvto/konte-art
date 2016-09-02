@@ -6,7 +6,6 @@ import java.io.ByteArrayInputStream;
 import org.konte.model.*;
 import java.io.File;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -33,6 +32,8 @@ import org.konte.lang.Language;
 import org.konte.lang.Language.LanguageFunctor;
 import org.konte.lang.LightModifier;
 import org.konte.lang.ShapeReaders;
+import org.konte.lang.Tokenizer.TokenizerString;
+import org.konte.misc.PrefixStringMap;
 import org.konte.model.PathRule.Placeholder;
 import org.konte.plugin.KontePluginScript;
 import org.konte.plugin.KonteScriptExtension;
@@ -248,6 +249,8 @@ public class Parser {
 
     private static int lineNr;     // line number in source for parse exceptions
     private static int caretPos;   // caret position (running) in source, for parse exceptions
+    
+    private static final Pattern prefixPattern = Pattern.compile("^\\^(\\w+\\\\?)\\^(.*)");
 
 
     public Model parse(ArrayList<Tokenizer.TokenizerString> tokenStrings) throws ParseException
@@ -1484,6 +1487,32 @@ public class Parser {
                         }
                         try {
                             i = getExpressionList(tokenStrings, i, exprL);
+                            if (lastInnerToken == Language.push && exprL.size() == 1) {
+                                Token tmpToken = exprL.get(0);
+                                Matcher matcher = prefixPattern.matcher(tmpToken.name);
+                                if (matcher.find()) {
+                                    String prefixType = matcher.group(1);
+                                    String toPrefix = matcher.group(2);
+                                    int strait = 1;
+                                    if ('\\' == prefixType.charAt(prefixType.length() - 1)) {
+                                        strait = 0;
+                                        prefixType = prefixType.substring(0, prefixType.length() - 1);
+                                    }
+                                    PrefixStringMap psmap = Language.prefixMaps.get(prefixType);
+                                    if (psmap == null)
+                                        throw new ParseException("Cannot find prefix mapping for ^" + prefixType + "^ (in " + tmpToken.name + ")", lineNr, caretPos);
+                                    String chr = toPrefix.charAt(strait==0?0:toPrefix.length()-1) + "";
+                                    String mapped = psmap.map(chr);
+                                    exprL.set(0, new Token(mapped));
+                                    if (toPrefix.length() > 1) {
+                                        TokenizerString tts = tokenStrings.get(i);
+                                        tokenStrings.set(i, 
+                                                new TokenizerString('^'+matcher.group(1)+'^'+toPrefix.substring(1-strait, toPrefix.length()-strait), 
+                                                        tts.getLineNr(), tts.getCaretPos()));
+                                        i--;
+                                    }
+                                }
+                            }
                             lexpr = exprParser.parse(exprL, 0, m);
                         }
                         catch(ParseException pe)

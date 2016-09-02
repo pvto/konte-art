@@ -19,6 +19,8 @@ import org.konte.model.TransformModifier;
 import org.konte.plugin.PluginLoader;
 import static org.konte.lang.Tokens.*;
 import org.konte.lang.func.Prob;
+import org.konte.lang.maps.Monospace;
+import org.konte.misc.PrefixStringMap;
 
 /**Many of the language features are defined here.
  *
@@ -36,6 +38,8 @@ public class Language {
     public static final Map<String,Token> tokenReferences = new HashMap<>();
     /** defined output shapes for parse time and generate time PUSH/POP access */
     public static final Map<Integer,Untransformable> utref = new HashMap<>();
+    
+    public static Map<String, PrefixStringMap> prefixMaps = new HashMap<>();
 
 
     /**Plugin extensions for inline scripting register here */
@@ -185,6 +189,7 @@ public class Language {
     public static final Token left_squarebracket = addToken(new Context("["));
     public static final Token right_squarebracket = addToken(new Context("]"));
     public static final Token hyphen = addToken(new Context("\""));
+    public static final Token prefix = addToken(new Context("^"));
     
     public static final Token comma = addToken(new ControlToken(","));
     public static final Token semicolon = addToken(new ControlToken(";"));
@@ -449,6 +454,11 @@ public class Language {
         
         rndf.addAlias("random");
 
+        PrefixStringMap.init(Monospace.monospace);
+        
+        for(PrefixStringMap psm : PrefixStringMap.ALL_PREFIX_STRING_MAPS)
+            Language.prefixMaps.put(psm.prefix, psm);
+        
         // load plugins
         PluginLoader.main(null);    // this will run the static block...        
         
