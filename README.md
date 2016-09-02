@@ -1,8 +1,10 @@
-# konte-art
+![Konte](img/README/logo.png)
 
 Konte is a small language for generating images, "drawing by coding".
 
 See [Development ideas](DEVELOPMENT_IDEAS.md) if you are looking for a feature or a bugfix, or you can file a bug report at github.
+
+![Cheatsheet](img/README/cheatsheet.png)
 
 ##Building and running
 
@@ -32,8 +34,12 @@ Use the *Tutorial* menu to get a quick start into konte code.
 ![meshm2.png](img/README/2015-02-24-02-09-meshm2.png)
 [meshm2.c3dg](img/README/meshm2.c3dg)
 
+![Monospace cheatsheet](img/README/monospace-scheatsheet.png)
+
 ![objective.png](img/README/2015-02-27-23-59-objective.png)
 [objective.c3dg](img/README/objective.c3dg)
+
+![Functions cheatsheet](img/README/funcs-scheatsheet.png)
 
 ![mcs6_9.png](img/README/2015-02-24-02-26-mcs6_9.png)
 [mcs6_9.c3dg](img/README/mcs6_9.c3dg)
@@ -204,7 +210,7 @@ camera { ORTOGRAPHIC }
 /*
 *  a cabinet perspective with a 30 degree tilt and a scale factor of 0.5:
 */
-camera { CABINET 30 0.5 } 
+camera { CABINET 30 0.5 }
 ```
 ![buildings-ortog.png](img/README/2015-02-25-20-45-buildings-ortog.png)
 [buildings-ortog.c3dg](img/README/buildings-ortog.c3dg)
@@ -251,9 +257,9 @@ A script can define its own colorspace and use it by setting ```shading``` and `
 [draw-shading.c3dg](img/README/draw-shading.c3dg)
 [eye.c3dg](img/README/eye.c3dg):
 ```
-shading eyeshades { 
-    point(-2)    { RGB  1  1  1 A 0  } 
-    point(0)    { RGB  .1  0  0  } 
+shading eyeshades {
+    point(-2)    { RGB  1  1  1 A 0  }
+    point(0)    { RGB  .1  0  0  }
     point(0.1)  { RGB  .4 .2  0  }
     point(0.2)  { RGB 0.075 0.506 0.875  }
     point(0.4)  { RGB 1 .3 .2 A .4 }
@@ -395,7 +401,7 @@ floor // Round downwards to nearest int.
       //                     Example:  floor(0.9) -> 0
 max  // maximum.             Example:  max(2, 1) -> 2
 min  // minimum.             Example:  min(3, 1) -> 1
-mean // the mean of the given arguments. 
+mean // the mean of the given arguments.
      //                      Example: mean(0.1, 2, x)
 
 sin  // sine function.       Example:  sin(PI/2)
@@ -403,7 +409,7 @@ cos  // cosine function.     Example:  cos(0)
 tan  // tangent function.    Example:  tan(2/3)
 asin // arcus sine.          Example:  asin(sin(PI/2))
 acos // arcus cosine.
-atan // arcus tangent. 
+atan // arcus tangent.
 
 ```
 ###Other functions
@@ -430,7 +436,7 @@ brndf // seeded random integer [0,n] from a binomial distribution
 brnd  // random integer [0,n] from a binomial distribution
                              Example:  brnd(10, 0.1) -> 1
 
-hypg  // hypergeometric distribution, p.d.f.: hypg(N1, N2, n, x) 
+hypg  // hypergeometric distribution, p.d.f.: hypg(N1, N2, n, x)
 hypgc // cumulative hypergeometric dist.
 hypgrndf // seeded random number from a hypergeometric distribution
 hypgrnd  // random number from a hypergeometric distribution
@@ -528,11 +534,11 @@ rule draw_img {
             i_pxl
             {
                 x -.5 y (.5*ih/iw)
-                s pixsize 
+                s pixsize
                 x u y -v
                 rz (((u*u+v*v)+sin(u*7+v*7)))
-                RGB imgred(img0,u%iw,v%ih) 
-                    imggreen(img0,u%iw,v) 
+                RGB imgred(img0,u%iw,v%ih)
+                    imggreen(img0,u%iw,v)
                     imgblue(img0,u%iw,v)
             }
 }
