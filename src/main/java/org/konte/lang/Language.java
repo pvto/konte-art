@@ -26,7 +26,7 @@ import org.konte.lang.func.Prob;
  */
 public class Language {
     
-    public static final double version = 1.0;
+    public static final double version = 1.1;
     /** output log level*/
     public static int output_verbose_filter = Integer.parseInt(System.getProperty("konte.verbosity", "8"));
 

@@ -67,7 +67,7 @@ public class KonteAboutDialog extends javax.swing.JFrame {
         jTextPane1.setEditable(false);
         jTextPane1.setBackground(new java.awt.Color(187, 203, 209));
         jTextPane1.setContentType("text/html"); // NOI18N
-        jTextPane1.setText("<html>\r\n  <head>\r\n\r\n  </head>\r\n  <body>\r\n    <p style=\"margin-top: 0\">\r\n<p>Some Rights reserved (c) 2015<br>\n Paavo Toivanen.\n    </p>\n<p>Licensed under GNU LGPL\r</p>\n<p><b>Attributions</b>\n<p>MersenneTwisterFast (Java) is by Michael Lecuyer and distributed under GNU GPL.\n<p>Mersenne Twister algorithm is due to M. Matsumoto and T. Nishimura.\n<p>'albook extended blue' icon set is by (http://stopdreaming.deviantart.com).\n<p>Albook concept is by Laurent Baumann (http://lbaumann.com/) and distributed under a Creative Common 2.5 license (http://creativecommons.org/licenses/by/2.5/).\n  </body>\r\n</html>\r\n");
+        jTextPane1.setText("<html>\r\n  <head>\r\n\r\n  </head>\r\n  <body>\r\n    <p style=\"margin-top: 0\">\r\n<p>Some Rights reserved (c) 2009–2016<br>\n Paavo Toivanen.\n    </p>\n<p>Licensed under GNU LGPL\r</p>\n<p><b>Attributions</b>\n<p>'albook extended blue' icon set is by (http://stopdreaming.deviantart.com).\n<p>Albook concept is by Laurent Baumann (http://lbaumann.com/) and distributed under a Creative Common 2.5 license (http://creativecommons.org/licenses/by/2.5/).\n  </body>\r\n</html>\r\n");
         jTextPane1.setOpaque(false);
         jScrollPane1.setViewportView(jTextPane1);
 

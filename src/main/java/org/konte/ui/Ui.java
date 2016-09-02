@@ -204,8 +204,6 @@ public class Ui extends MyJFrame {
         deq.addFirst(s);
     }
 
-    JFrame helpFrame;
-    JEditorPane helpPane;
 
     private File svgDir = null;
 
@@ -314,36 +312,6 @@ public class Ui extends MyJFrame {
         }
     }
     
-    private void showHelp(String string)
-    {
-        if (helpFrame==null)
-        {
-            helpFrame = new JFrame();            
-            helpPane = new JEditorPane();
-            JPanel p = new JPanel();
-            p.setLayout(new FlowLayout(FlowLayout.CENTER));
-            p.add(new JButton("Close")
-            {
-
-                @Override
-                protected void processMouseEvent(MouseEvent e)
-                {
-                    super.processMouseEvent(e);
-                    if (e.getClickCount() > 0)
-                        helpFrame.setVisible(false);
-                }
-                
-            });
-            helpPane.setContentType("text/html");            
-
-            helpFrame.add(new JScrollPane(helpPane), BorderLayout.CENTER);
-            helpFrame.add(p,BorderLayout.SOUTH);
-            helpFrame.setSize(1024,768);
-        }
-        helpFrame.setVisible(true);
-        helpPane.setText(Help.help(string, false));
-        helpPane.setCaretPosition(0);
-    }
     private void updateLatestMenu()
     {
         //this.latestMenu.removeAll();
@@ -676,7 +644,6 @@ public class Ui extends MyJFrame {
         jMenuItem9 = new javax.swing.JMenuItem();
         tutMenu = new javax.swing.JMenu();
         helpMenu = new javax.swing.JMenu();
-        contentsMenuItem = new javax.swing.JMenuItem();
         aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1137,14 +1104,6 @@ public class Ui extends MyJFrame {
         helpMenu.setMnemonic('H');
         helpMenu.setText("Help");
 
-        contentsMenuItem.setText("Contents");
-        contentsMenuItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contentsMenuItemActionPerformed(evt);
-            }
-        });
-        helpMenu.add(contentsMenuItem);
-
         aboutMenuItem.setText("About");
         aboutMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1276,10 +1235,6 @@ public class Ui extends MyJFrame {
     private void deleteMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteMenuItemActionPerformed
     // TODO add your handling code here:
     }//GEN-LAST:event_deleteMenuItemActionPerformed
-
-    private void contentsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contentsMenuItemActionPerformed
-        showHelp("all");
-    }//GEN-LAST:event_contentsMenuItemActionPerformed
 
     private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         openColSpaceEditFrame();
@@ -1476,7 +1431,6 @@ public class Ui extends MyJFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem aboutMenuItem;
-    private javax.swing.JMenuItem contentsMenuItem;
     private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem exitMenuItem;
     private javax.swing.JMenu fileMenu;
