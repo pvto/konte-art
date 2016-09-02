@@ -91,7 +91,7 @@ line {
       *{ y -13.5 {ITALIC=2;FLAT=-3}} TEXT{PUSH mn3 m_dash m_ mT mA mL mF m_ mn2 m_ mC mI mL mA mT mI}
       *{ y -15 {ITALIC=2;WIDE=3}} TEXT{PUSH mn3 m_ mE mD mI mW m_ mn2 m_ mC mI mL mA mT mI}
       *{ y -16.5 {ITALIC=2;FLAT=3}} TEXT{PUSH mn3 m_ mT mA mL mF m_ mn2 m_ mC mI mL mA mT mI}
-      *{ y -18 {ITALIC=-2;FLAT=3}} TEXT{PUSH mn3 m_dash m_ mT mA mL mF m_ mn2 m_ mC mI mL mA mT mI}
+      *{ y -18 {ITALIC=-2;FLAT=3}} TEXT{PUSH mn3 m_ mT mA mL mF m_ mn2 m_dash m_ mC mI mL mA mT mI}
 
     }
   }
@@ -123,7 +123,7 @@ line {
          my mx ma ml ma mg m_ ma m_ mn mI 
      }
 
-  *{y -.3 s .02} TEXT { PUSH me mc ma mp ms mo mn mo mm m_ md mr ma md mn ma mt ms }
+  *{y -.3 s .02} TEXT { PUSH me mc ma mp ms mo mn mo mm m_ mr ma ml mu mg me mR }
 }
 
 

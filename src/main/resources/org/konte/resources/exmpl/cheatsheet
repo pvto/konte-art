@@ -135,7 +135,7 @@ help {
      TEXT{ y -2 s F PUSH ml me md mo mm }
      TEXT{ y -2.5 s F PUSH mm me mm m_pipe mt ml mu ma mf me md m_ mr me md mr mo  m_ m_}
      TEXT{ y -3 s F PUSH mk ms mi md m_pipe mm ma me mr mt ms m_pipe m_ m_ m_ m_}
-     TEXT{ y -3.5 s F PUSH ms ms me ml ml ma mm ms m_pipe mh mt md mi mw m_pipe m_ m_ m_ m_}
+     TEXT{ y -3.5 s F PUSH ms ms me mn ml ml ma mm ms m_pipe mh mt md mi mw m_pipe m_ m_ m_ m_}
 
      TEXT{y -4 s F PUSH mn0 mn5 m_ mk mc ma mt ms mh ms mu mp m_ m_ }
      TEXT{y -4.5 s F PUSH mn0 mn0 mn0 mn1 m_ ms me mp ma mh ms mx ma mm m_ m_ }

@@ -31,13 +31,13 @@ GroupingTutorial {
 
   *{y -.2} {
     // "apply once" repeat 
-    // (special, since y -.2 applied immediately, not after iteration!)
+    // (special, since y -.2 applied immediately, not after each iteration !)
     lineOfThings{s .1 B .2 PUSH CONE}
   }
 
 
   { {
-   // nested "orphaned" blocks, no effect whatsoever
+   // nested "orphaned" blocks, no effect whatsoever, just process contents
     TRIANGLE{s .1 y -1}
     TRIANGLE{s .1 y -1 x 1}
   } }
@@ -46,7 +46,8 @@ GroupingTutorial {
 lineOfThings{
   5*{{X=X+1}}{
     PEEK{x X}
-    if (X % 2 < .01) {
+    if (X % 2 < .01) {       // if block, contents executed only when 
+                             //    expression evaluates to true
       PEEK{x X s .9 L 1}
     }
   }
