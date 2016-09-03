@@ -604,6 +604,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
             {
                 ex.printStackTrace();
             }
+        canvas.finish();
         state = 0;
     }
     

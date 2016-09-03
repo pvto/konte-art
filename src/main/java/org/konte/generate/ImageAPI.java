@@ -123,6 +123,7 @@ public class ImageAPI {
     
     public void commit()
     {
+        rtuple.canvas.finish();
         //noop
     }
     

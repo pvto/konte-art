@@ -123,6 +123,7 @@ public class DiskedFlointShapeReader implements ShapeReader {
             canvas.init(canvas.getWidth(), canvas.getHeight());
             state = 3;
             drawAllShapes();
+            canvas.finish();
         }
         state = 5;
         state = 0;

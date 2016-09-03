@@ -36,10 +36,12 @@ public class DefaultCanvas implements Canvas {
     protected Graphics2D draw;
     private BufferedImage image;
     private BufferedImage layerimg;
+    private BufferedImage tmpImage;
     private GeneralPath path;
     private AffineTransform toScreen;
     private final HashMap<RenderingHints.Key, Object> renderHints = new HashMap<>();
     private int layerRenders = 0;
+    private boolean finished = false;
 
     public DefaultCanvas(Model model, Background bg, GlobalLighting lighting)
     {
@@ -60,6 +62,7 @@ public class DefaultCanvas implements Canvas {
         return toScreen;
     }
 
+    @Override
     public void init(int width, int height)
     {
         this.width = width;
@@ -70,6 +73,7 @@ public class DefaultCanvas implements Canvas {
         {
             layerimg = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             setBackground(layerimg, new Color(0, 0, 0, 0));
+            tmpImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         }
         else
         {
@@ -83,6 +87,11 @@ public class DefaultCanvas implements Canvas {
         toScreen = new AffineTransform(size, 0, 0, size, width / 2, height / 2);
     }
 
+    @Override
+    public void finish() {
+        finished = true;
+    }
+    
     public int getWidth()
     {
         return width;
@@ -115,9 +124,14 @@ public class DefaultCanvas implements Canvas {
 
     public synchronized BufferedImage getImage()
     {
-        if (model.isDrawLayersSeparately() && layerRenders == 0)
+        if (finished) {
+            return image;
+        }
+        if (model.isDrawLayersSeparately())
         {
-            return layerimg;
+            tmpImage.getGraphics().drawImage(image, 0, 0, null);
+            tmpImage.getGraphics().drawImage(layerimg, 0, 0, null);
+            return tmpImage;
         }
         return image;
     }

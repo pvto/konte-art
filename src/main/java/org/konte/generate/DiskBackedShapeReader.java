@@ -128,6 +128,7 @@ public class DiskBackedShapeReader implements ShapeReader {
             state = 3;
             drawAllShapes();
         }
+        canvas.finish();
         state = 5;
         state = 0;
     }

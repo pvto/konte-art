@@ -323,7 +323,7 @@ light {COMPLEMENTARY point(.5,.1,.1){RGB 1 0 0} s .1}
 
 Phong lighting is introduced in Konte 1.0.
 
-![phong_possible.png](img/README/2015-03-25-00-09-phong_possible-A.png)
+![phong_possible.png](img/README/2016-09-03-14-12-phong_possible-A.png)
 [phong_possible-A.c3dg](img/README/phong_possible-A.c3dg)
 
 ![phong_impossible-C.png](img/README/2015-03-25-00-08-phong_impossible-C.png)

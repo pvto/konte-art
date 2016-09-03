@@ -26,6 +26,8 @@ public interface Canvas {
     public void applyEffects(Model model, float layer);
     
     public void init(int width, int height);
+    
+    public void finish();
     /**Clears this canvas by setting all pixels to the given background color.
      * 
      * @param color
