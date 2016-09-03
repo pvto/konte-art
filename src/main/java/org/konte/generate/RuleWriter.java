@@ -48,7 +48,7 @@ public class RuleWriter {
     private List<File> expansionTmpFiles;
     private List<File> handledExpansionTmpFiles = new ArrayList<File>();
 //    public DrawingContext model.context;
-    private Transform zeroTransform = new Transform();
+    private Transform zeroTransform = new Transform(0,0);
     private MeshIndex meshes;
 
     public final Object lock1 = new Object();

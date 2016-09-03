@@ -6,9 +6,9 @@ import org.konte.expression.BooleanExpression;
 public class BlockStructure extends ConditionalStructure {
 
 
-    public BlockStructure()
+    public BlockStructure(int lineNr, int caretPos)
     {
-        super();
+        super(lineNr, caretPos);
         conditionalStructure = true;
         conditional = new BooleanExpression.Dummy(true);
     }

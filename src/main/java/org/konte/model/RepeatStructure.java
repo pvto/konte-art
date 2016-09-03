@@ -25,9 +25,9 @@ public class RepeatStructure extends Transform {
     public Transform repeatedTransform = null;
     public Expression repeats;
 
-    public RepeatStructure()
+    public RepeatStructure(int lineNr, int caretPos)
     {
-        super();
+        super(lineNr, caretPos);
         repeatStructure = true;
     }
 

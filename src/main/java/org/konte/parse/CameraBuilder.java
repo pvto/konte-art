@@ -37,7 +37,7 @@ public class CameraBuilder {
     
     public CameraBuilder setDefault() throws ParseException
     {
-        Transform camPos = new Transform();
+        Transform camPos = new Transform(0,0);
         ArrayList<Expression> exp = new ArrayList<>();
         exp.add(new Value(-1f));
         camPos.setShapeTransform(Language.z, exp);

@@ -10,9 +10,9 @@ public class ConditionalStructure extends Transform {
     public List<Transform> onCondition = new ArrayList<Transform>();
     public BooleanExpression conditional;
 
-    public ConditionalStructure()
+    public ConditionalStructure(int lineNr, int caretPos)
     {
-        super();
+        super(lineNr, caretPos);
         conditionalStructure = true;
     }
 

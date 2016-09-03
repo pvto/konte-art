@@ -34,6 +34,11 @@ public class ParseException extends Exception {
         return lineNr;
     }
 
+    
+    public void setLineAndCaret(int line, int caret) {
+        this.lineNr = line;
+        this.caretPos = caret;
+    }
 
     @Override
     public String getMessage()

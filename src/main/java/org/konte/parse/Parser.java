@@ -475,7 +475,7 @@ public class Parser {
                 case BACKGROUND_CREATE:
                     if (t == Language.left_curl)
                     {
-                        ltfm = new Transform("background");
+                        ltfm = new Transform("background", lineNr, caretPos);
                         m.backgroundTransform = ltfm;
                         curCtx = Parser.ParsingContext.BACKGROUND;
                     }
@@ -825,7 +825,7 @@ public class Parser {
                     } else if (t == Language.left_curl)
                     {
                         contextStack.push(curCtx);
-                        lrstfm = new Transform();
+                        lrstfm = new Transform(lineNr, caretPos);
                         curCtx = ParsingContext.LIGHT_ADJUSTMENTS;
                     }
                     else
@@ -943,7 +943,7 @@ public class Parser {
                     } else if (t == Language.left_curl)
                     {
                         contextStack.push(curCtx);
-                        lrstfm = new Transform();
+                        lrstfm = new Transform(lineNr, caretPos);
                         curCtx = ParsingContext.SHADING_ADJUSTMENTS;
                     }
                     break;
@@ -968,7 +968,7 @@ public class Parser {
                     if (t == Language.left_curl)
                     {
                         curCtx = Parser.ParsingContext.CAMERA;
-                        ltfm = new Transform("fov");
+                        ltfm = new Transform("fov", lineNr, caretPos);
                         camBd = new CameraBuilder(ltfm);
                         if (lastName != null)
                         {
@@ -1204,14 +1204,12 @@ public class Parser {
                                         "call ('%s') within 'path' is prohibited", s), lineNr, caretPos);
                             if (t instanceof Untransformable)
                             {
-                                ltfm = new TerminatingShape(s);
+                                ltfm = new TerminatingShape(s, lineNr, caretPos);
                                 ((TerminatingShape)ltfm).shape = (Untransformable)t;
                             }
                             else
                             {
-                                ltfm = new Transform(s);
-                                ltfm.linenr = lineNr;
-                                ltfm.caretPos = caretPos;
+                                ltfm = new Transform(s, lineNr, caretPos);
                             }
                             if (lrepeat != null)
                             {
@@ -1368,7 +1366,8 @@ public class Parser {
                     {
                         contextStack.push(curCtx);
                         isSpecialContext = true;
-                        conditionalStack.push(new BlockStructure());
+                        BlockStructure blockStructure = new BlockStructure(lineNr, caretPos);
+                        conditionalStack.push(blockStructure);
                         curCtx = Parser.ParsingContext.BLOCK_CREATE;
                         i--; // curl is required by next state
                     } else if (t == Language.right_curl)
@@ -1646,7 +1645,7 @@ public class Parser {
                         {
                             throw new ParseException("keyword '*' prohibited within 'path'", lineNr, caretPos);
                         }
-                        RepeatStructure r = new RepeatStructure();
+                        RepeatStructure r = new RepeatStructure(lineNr, caretPos);
                         r.repeats = lexpr;
                         if (lrepeat != null)
                         {
@@ -1660,7 +1659,7 @@ public class Parser {
                             lastRule.addTransform(r);
                         }
                         lrepeat = r;    // ready for transform iteration
-                        lrstfm = new Transform();  // will be loaded in repeat block
+                        lrstfm = new Transform(lineNr, caretPos);  // will be loaded in repeat block
                         lrepeat.repeatTransform = lrstfm;
                         curCtx = Parser.ParsingContext.REPEAT_ADJUSTMENTS;
                     } else if (t == Language.multiply)
@@ -1686,7 +1685,7 @@ public class Parser {
                         i = getExpressionList(tokenStrings, i, exprL, 0);
                         lexpr = exprParser.parse(exprL, 0, m);
 
-                        ConditionalStructure cond = new ConditionalStructure();
+                        ConditionalStructure cond = new ConditionalStructure(lineNr, caretPos);
                         if (!(lexpr instanceof BooleanExpression))
                         {
                             lexpr = new BooleanExpression.Ne(lexpr, new Value(0f));
@@ -1736,12 +1735,12 @@ public class Parser {
                         {
                             if (t instanceof Untransformable)
                             {
-                                ltfm = new TerminatingShape(s);
+                                ltfm = new TerminatingShape(s, lineNr, caretPos);
                                 ((TerminatingShape)ltfm).shape = (Untransformable)t;
                             }
                             else
                             {
-                                ltfm = new Transform(s);
+                                ltfm = new Transform(s, lineNr, caretPos);
                             }
                             if (lrepeat != null)
                                 lrepeat.repeatedTransform = ltfm;
@@ -1793,7 +1792,8 @@ public class Parser {
                     } else if (t == Language.left_curl)
                     {
                         contextStack.push(curCtx);
-                        conditionalStack.push(new BlockStructure());
+                        BlockStructure blockStructure = new BlockStructure(lineNr, caretPos);
+                        conditionalStack.push(blockStructure);
                         isSpecialContext = true;
                         curCtx = Parser.ParsingContext.BLOCK_CREATE;
                         i--;    // next state requires {
@@ -1817,6 +1817,9 @@ public class Parser {
             catch(ParseException ex )
             {
                 ex.printStackTrace();
+                if (ex.getLineNr() == 0 && ex.getCaretPos() == 0) {
+                    ex.setLineAndCaret(lineNr, caretPos);
+                }
                 throw ex; //new ParseException(ex.getMessage(),lineNr,caretPos);
             }
             catch(Exception ex)

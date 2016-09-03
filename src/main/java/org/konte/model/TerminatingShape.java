@@ -10,9 +10,9 @@ public class TerminatingShape extends Transform {
     public Untransformable shape;
 //    private OutputShape os = new OutputShape();
 
-    public TerminatingShape(String s)
+    public TerminatingShape(String s, int lineNr, int caretPos)
     {
-        super(s);
+        super(s, lineNr, caretPos);
         terminatingShape = true;
     }
     

@@ -227,7 +227,7 @@ public class PathPanel extends JPanel {
 
                 //(float)Math.max(xmax-xmin, ymax-ymin) * marginSize;
             // set camera so that the whole path shows
-            Transform pos = new Transform();
+            Transform pos = new Transform(0,0);
             pos.setShapeTransform(Language.x, mexplist(centerX = (xmax+xmin)/2f+x0));
             pos.setShapeTransform(Language.y, mexplist(centerY = (ymax+ymin)/2f+y0));
             pos.setShapeTransform(Language.z, mexplist(-dmax));

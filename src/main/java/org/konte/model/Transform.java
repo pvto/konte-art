@@ -59,8 +59,30 @@ public class Transform {
     public boolean repeatStructure = false;
     public boolean conditionalStructure = false;
     
-    public int linenr = 0, caretPos = 0;
+    public int lineNr = 0, caretPos = 0;
 
+    private Transform()
+    {
+        continuationNames = new ArrayList<String>();
+        continuationStack = new ArrayList<Integer>();
+        acqExps = new ArrayList<TransformModifier>();   // other expressions
+        acqTrs = new ArrayList<TransformModifier>();    // transforms
+        defs = new ArrayList<Definition>();        
+    }
+
+    public Transform(int lineNr, int caretPos) {
+        this();
+        this.lineNr = lineNr;
+        this.caretPos = caretPos;
+    }
+
+    public Transform(String ruleName, int lineNr, int caretPos)
+    {
+        this(lineNr, caretPos);
+        this.ruleName = ruleName;
+    }
+
+    
     public Definition setDef(String lastName, Expression lexpr, boolean isUndef)
     {
         Definition def = new Definition(lastName, lexpr);
@@ -108,7 +130,7 @@ public class Transform {
                 throw new ParseException(String.format(
                         "No rule matching \"%s\" in %s",
                         continuationNames.get(cnind),
-                        this));
+                        this), lineNr, caretPos);
             }
             Runtime.sysoutln("CONT: " + ndr,0);
             continuationStack.set(cnind, ndr.id);
@@ -251,7 +273,7 @@ public class Transform {
         catch(NullPointerException e)
         {
             e.printStackTrace();
-            throw new ParseException("Null Transform " + this.ruleName);
+            throw new ParseException("Null Transform " + this.ruleName, lineNr, caretPos);
         }
         return tmp;
     }
@@ -262,20 +284,6 @@ public class Transform {
         return createTransformMatrix();
     }
 
-    public Transform()
-    {
-        continuationNames = new ArrayList<String>();
-        continuationStack = new ArrayList<Integer>();
-        acqExps = new ArrayList<TransformModifier>();   // other expressions
-        acqTrs = new ArrayList<TransformModifier>();    // transforms
-        defs = new ArrayList<Definition>();        
-    }
-
-    public Transform(String ruleName)
-    {
-        this();
-        this.ruleName = ruleName;
-    }
 /*
     public void toImplementRestOfTr()
     {
@@ -323,7 +331,7 @@ public class Transform {
                         lexpr = lexprs.get(i);
                     if (!(lexpr instanceof Name))
                     {
-                        throw new ParseException("Push directive must be followed by a rule name instead of:  " + lexpr);
+                        throw new ParseException("Push directive must be followed by a rule name instead of:  " + lexpr, lineNr, caretPos);
                     }
                     continuationNames.add(((Name)lexpr).toString());
                     continuationStack.add(-1);  // will be replaced by Model.initialize() 
@@ -370,7 +378,7 @@ public class Transform {
             }
         }
         else {
-            throw new ParseException("Unrecognized transform token " + t.name);
+            throw new ParseException("Unrecognized transform token " + t.name, lineNr, caretPos);
         }
         
     }

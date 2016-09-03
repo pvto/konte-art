@@ -372,7 +372,7 @@ public class Model {
                 if ((ndr = rules.get(st.ruleName)) == null
                         && !(st instanceof RepeatStructure))
                 {
-                    throw new ParseException("Could not find rule for shape transform " + st, st.linenr, st.caretPos);
+                    throw new ParseException("Could not find rule for shape transform " + st, st.lineNr, st.caretPos);
                 }
                 st.indexedNd = ndr.id;
             }
@@ -450,7 +450,7 @@ public class Model {
         }
         if (backgroundTransform == null)
         {
-            backgroundTransform = new Transform("background");
+            backgroundTransform = new Transform("background", 0,0);
         }
         bg.initFromTransform(backgroundTransform);
         if (cameras.size() == 0)
