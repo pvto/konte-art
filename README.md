@@ -34,15 +34,16 @@ Use the *Tutorial* menu to get a quick start into konte code.
 ![meshm2.png](img/README/2015-02-24-02-09-meshm2.png)
 [meshm2.c3dg](img/README/meshm2.c3dg)
 
-![Monospace cheatsheet](img/README/monospace-scheatsheet.png)
+![Recursions cheatsheet](img/README/recursions-cheatsheet.png)
 
 ![objective.png](img/README/2015-02-27-23-59-objective.png)
 [objective.c3dg](img/README/objective.c3dg)
 
-![Functions cheatsheet](img/README/funcs-scheatsheet.png)
-
 ![mcs6_9.png](img/README/2015-02-24-02-26-mcs6_9.png)
 [mcs6_9.c3dg](img/README/mcs6_9.c3dg)
+
+![Monospace cheatsheet](img/README/monospace-scheatsheet.png)
+![Functions cheatsheet](img/README/funcs-scheatsheet.png)
 
 ![fail_is_bB3.png](img/README/2015-04-10-23-47-fail_is_bB3.png)
 [fail_is_bB3.c3dg](img/README/fail_is_bB3.c3dg)
