@@ -1,0 +1,73 @@
+include #monospace
+include #geometry
+include #recursions
+
+startshape recursionSheet 
+model { pushstack 100 }
+
+
+recursionSheet {*{s .05 x -8 y 6.5 s .75 {F=.3}} {
+  TEXT{x -1.5 y -1 rz -90 {CAROL=90;WIDE=10} s F PUSH "^m^Planar subdivision" }
+  *{} {
+    R3{ {D=0} PUSH TRIANGLE} TEXT{ x 1 s F PUSH "^m^R3 { PUSH TRIANGLE }" }
+    *{y -1.5} { R3{ {D=1} PUSH TRIANGLE } TEXT{ x 1 s F PUSH "^m^R3 { {D=1} PUSH TRIANGLE }" } }
+    *{y -3} { R3{ {D=2} PUSH TRIANGLE } TEXT{ x 1 s F PUSH "^m^R3 { {D=2} PUSH TRIANGLE }" } }
+    *{y -4.5} { R3{ {D=3;SUB=1} PUSH TRIANGLE } TEXT{ x 1 s F PUSH "^m^R3 { {D=3;SUB=1} PUSH TRIANGLE }" } }
+  }
+
+  *{y -6} {
+    R4{ PUSH RSQU} TEXT{ x 1 s F PUSH "^m^R4 { PUSH RSQU }" }
+    *{y -1.5} { R4{ {D=1} PUSH RSQU} TEXT{ x 1 s F PUSH "^m^R4 { {D=1} PUSH RSQU }" } }
+    *{y -3} { R4{ {D=2} PUSH RSQU} TEXT{ x 1 s F PUSH "^m^R4 { {D=2} PUSH RSQU }" } }
+    *{y -4.5} { R4{ {D=3} PUSH RSQU} TEXT{ x 1 s F PUSH "^m^R4 { {D=3} PUSH RSQU }" } }
+  }
+
+  *{y -12} {
+    R5{ {D=0} PUSH PENTAGON } TEXT{ x 1 s F PUSH "^m^R5 { PUSH PENTAGON }" }
+    *{y -1.5} { R5{ {D=1} PUSH PENTAGON } TEXT{ x 1 s F PUSH "^m^R5 { {D=1} PUSH PENTAGON }" } }
+    *{y -3} { R5{ {D=2} PUSH PENTAGON } TEXT{ x 1 s F PUSH "^m^R5 { {D=2} PUSH PENTAGON }" } }
+    *{y -4.5} { R5{ {D=2;SUB=1} PUSH CIRCLE } TEXT{ x 1 s F PUSH "^m^R5 { {D=2;SUB=1} PUSH CIRCLE }" } }
+  }
+
+  *{x 9} {
+    R6{ {D=0} PUSH HEXAGON} TEXT{ x 1 s F PUSH "^m^R6 { PUSH HEXAGON }" }
+    *{y -1.5} { R6{ {D=1} PUSH TRIANGLE } TEXT{ x 1 s F PUSH "^m^R6 { {D=1} PUSH TRIANGLE }" } }
+    *{y -3} { R6{ {D=2} PUSH TRIANGLE } TEXT{ x 1 s F PUSH "^m^R6 { {D=2} PUSH TRIANGLE }" } }
+  }
+
+  *{x 9 y -4.5} {
+    TEXT{ x 1 s F PUSH "^m^R3 ... R12;   Rn" }
+  }
+
+  *{x 9 y -6} {
+    Rn{ {n=7;D=0} PUSH TRInGON} TEXT{ x 1 s F PUSH "^m^Rn { {n=7;D=0} PUSH TRInGON }" }
+    *{y -1.5} { Rn{ {n=8;D=2} PUSH TRIANGLE } TEXT{ x 1 s F PUSH "^m^Rn { {n=8;D=2} PUSH TRIANGLE }" } }
+    *{y -3} { Rn{ {n=11;D=0} PUSH TRInGON} TEXT{ x 1 s F PUSH "^m^Rn { {n=11;D=0} PUSH TRInGON }" } }
+  }
+
+  TEXT{x 7.5 y -10.5 rz -90 {CAROL=90;WIDE=10} s F PUSH "^m^3D subdivision" }
+
+  *{x 9 y -10.5} {
+    R4d2{ ry 30 rx 20 {D=1} PUSH SPHERE} TEXT{ x 1 s F PUSH "^m^R4d2 { {D=1} PUSH SPHERE }" }
+    *{y -1.5} { R4d2 { ry 30 rx 20 {D=2} PUSH SPHERE} TEXT{ x 1 s F PUSH "^m^R4d2 { {D=2} PUSH SPHERE }" } }
+    *{y -3} { R3d2 { ry -15 L 1 {D=0} PUSH PYRAMID} TEXT{ x 1 s F PUSH "^m^R3d2 { {D=0} PUSH PYRAMID L 1 }" } }
+    *{y -4.5} { R3d2 { ry -15 L 1 {D=2} PUSH PYRAMID} TEXT{ x 1 s F PUSH "^m^R3d2 { {D=2} PUSH PYRAMID L 1 }" } }
+    *{y -6} { RCross { {D=2;SUB=.5;SUBX=.25} PUSH box  L 1 {BW=.1} } TEXT{ x 1 s F PUSH "^m^RCross { {D=2;SUB=.5;SUBX=.25} PUSH box L 1 {BW=.1}}" } }
+    *{y -7.5} { RCross { {D=4;SUB=.4;SUBX=.35} PUSH SPHERE } TEXT{ x 1 s F PUSH "^m^RCross { {D=4;SUB=.4;SUBX=.35} PUSH SPHERE }" } }
+  }
+
+  *{y -17.5 {ITALIC=2;BOLD=9;WIDE=4} {BW=.08} ry -30 rx 20} {
+    box{layer -1 z -.25 y .1 L 1 }
+    TEXT{ s .4 PUSH "^m^Konte #recursions" }
+    TEXT{ y -.5 s .4 PUSH "^m^ cheatsheet"}
+  }
+
+
+  *{x 19.5 y -2} {
+    if (PLAY<4) {
+      recursionSheet{s 7.5 ry -20 rx 30 {PLAY=PLAY+1}}
+    }
+  }
+  
+
+}}

@@ -1,0 +1,117 @@
+//  triangle 3 (4) subdivision
+
+R3 {
+  if (D = 0) { POP{} }
+  if (D > 0) {
+    *{{D=D-1}} {
+      R3{s .5 y .5}
+      R3{s .5 y -.5 x -.5}
+      R3{s .5 y -.5 x .5}
+      if (SUB != 0) { R3 { s .5 y -.5 flipx 0 } }
+    }
+  }
+}
+
+
+//    4 square subdivision
+R4 {
+  if (D = 0) { POP{} }
+  if (D > 0) {
+    *{s .5 x -.5 y -.5 {D=D-1}}  2*{x 1} 2*{y 1} 
+        R4{}
+  }
+}
+
+
+// pentagram 5 (6) subdivision
+
+R5{R5_{s .5}}
+R5_{
+  if (D = 0) { POP{ } }
+  if (D > 0) {
+    *{{D=D-1}} {
+      5*{rz 72}
+        R5_{y 1-.38 s .38}
+      if (SUB = 1) { R5_{s .38 rz 180} }
+    }
+  }
+}
+
+// hexagram 6 subdivision
+
+DEF _HY .5/cos(PI/6)
+MACRO NGYH .5/cos(PI/n)
+
+R6y{R6{s cos(PI/6)}}
+R6x{R6{}}
+R6 {
+  if (D=0) { POP {} }
+  if (D > 0) {
+    *{{D=D-1}} {
+      6*{rz 360/6}
+        R6{ y _HY/2 s .5}
+    }
+  }
+}
+
+
+// ngram subdivisions
+
+R7 { Rn{{n=7}} }
+R8 { Rn{{n=8}} }
+R9 { Rn{{n=9}} }
+R10 { Rn{{n=10}} }
+R11 { Rn{{n=11}} }
+R12 { Rn{{n=12}} }
+Rn { Rn_{s cos(PI/n)} }
+Rn_ {
+  if (D=0) { POP {} }
+  if (D > 0) {
+    *{{D=D-1}} {
+      (n)*{rz 360/n}
+        Rn_{ y NGYH/2 s .5}
+    }
+  }
+}
+
+
+// 3-d subdivisions....
+
+
+// pyramid, subdivision into 4 pyramids
+
+R3d2 {
+  if (D = 0) { POP{} }
+  if (D > 0) {
+    *{{D=D-1}} {
+      R3d2 { y .217 s .5}
+      4*{ry 90} R3d2 { y -.217 z -.25 x -.25 s .5}
+    }
+  }
+}
+
+
+// cube, 2-fold subdivision per axis
+
+R4d2 {
+  if (D = 0) { POP{} }
+  if (D > 0) {
+      *{{D=D-1} x -.25 y -.25 z -.25 s .5}
+      2*{x 1} 2*{y 1} 2*{z 1} R4d2{}
+  }
+}
+
+
+// 3d cross, with SUB and SUBX parameters
+
+RCross {
+  if (D = 0) { POP{} }
+  if (D > 0) {
+      *{{D=D-1}} {
+        4*{rz 90}
+          RCross{x SUBX s SUB }
+        2*{rx 180}
+          RCross{z -SUBX s SUB }
+      }
+  }
+}

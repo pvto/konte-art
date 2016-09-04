@@ -1,0 +1,52 @@
+
+// polygon output
+
+DEF RAD (PI/180)
+DEF H6YH .5/cos(PI/6)
+MACRO NGYH .5/cos(PI/n)
+
+path PENTAGON {
+  moveto(cos((90)*RAD),sin((90)*RAD),0)
+  lineto(cos((90-72)*RAD),sin((90-72)*RAD),0)
+  lineto(cos((90-72*2)*RAD),sin((90-72*2)*RAD),0)
+  lineto(cos((90-72*3)*RAD),sin((90-72*3)*RAD),0)
+  lineto(cos((90-72*4)*RAD),sin((90-72*4)*RAD),0)
+  close
+}
+
+path HEXAGON {
+  moveto(0, H6YH, 0)
+  lineto(cos(RAD*(90+60*1))*H6YH, sin(RAD*(90+60*1))*H6YH, 0)
+  lineto(cos(RAD*(90+60*2))*H6YH, sin(RAD*(90+60*2))*H6YH, 0)
+  lineto(cos(RAD*(90+60*3))*H6YH, sin(RAD*(90+60*3))*H6YH, 0)
+  lineto(cos(RAD*(90+60*4))*H6YH, sin(RAD*(90+60*4))*H6YH, 0)
+  lineto(cos(RAD*(90+60*5))*H6YH, sin(RAD*(90+60*5))*H6YH, 0)
+  close
+}
+
+rule TRInGON {
+  (n)*{rz 360/n} TRIN {}
+}
+
+path TRIN {
+  moveto(0, NGYH, 0)
+  lineto(NGYH*cos(RAD*(90-360/n)), NGYH*sin(RAD*(90-360/n)), 0)
+  lineto(0, 0, 0)
+  close
+}
+
+
+// 3D objects
+
+PYRAMID {
+    4*{ry 90}
+    {
+      TRIANGLE{ z - 1/4 rx -30 L -.5}
+      TRIANGLE{ z - 1/4 rx -30 s .9 }
+    }
+}
+
+box {
+  4*{ry 90}{SQUARE{z -.5 L -1}SQUARE{z -.5 s max(0, 1-BW)}}
+  2*{rx 180}{SQUARE{rx 90 z -.5 L -.5}SQUARE{rx 90 z -.5 s max(0, 1-BW)}}
+}
