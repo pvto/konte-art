@@ -1409,10 +1409,12 @@ public class Parser {
                             lastInnerToken = t;
                             pos = 0;
                         } else if (lastInnerToken != null && ((InnerToken)lastInnerToken).nParamsAllowed(pos)) {  // number of set arguments is (pos+1)-1 = pos
-                            if (curCtx==ParsingContext.TRANSFORM_ADJUSTMENTS)
-                                ltfm.setShapeTransform(lastInnerToken, lexprs);
-                            else
-                                lrstfm.setShapeTransform(lastInnerToken, lexprs);
+                            if (pos > 0) {
+                                if (curCtx==ParsingContext.TRANSFORM_ADJUSTMENTS)
+                                    ltfm.setShapeTransform(lastInnerToken, lexprs);
+                                else
+                                    lrstfm.setShapeTransform(lastInnerToken, lexprs);
+                            }
                             lastInnerToken = (t instanceof InnerToken ? t : null);
                             pos = 0;
                         }
