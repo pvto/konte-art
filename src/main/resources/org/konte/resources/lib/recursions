@@ -23,40 +23,13 @@ R4 {
 }
 
 
-// pentagram 5 (6) subdivision
-
-R5{R5_{s .5}}
-R5_{
-  if (D = 0) { POP{ } }
-  if (D > 0) {
-    *{{D=D-1}} {
-      5*{rz 72}
-        R5_{y 1-.38 s .38}
-      if (SUB = 1) { R5_{s .38 rz 180} }
-    }
-  }
-}
-
-// hexagram 6 subdivision
-
-DEF _HY .5/cos(PI/6)
-MACRO NGYH .5/cos(PI/n)
-
-R6y{R6{s cos(PI/6)}}
-R6x{R6{}}
-R6 {
-  if (D=0) { POP {} }
-  if (D > 0) {
-    *{{D=D-1}} {
-      6*{rz 360/6}
-        R6{ y _HY/2 s .5}
-    }
-  }
-}
-
-
 // ngram subdivisions
 
+R2 { Rn{{n=2}} }
+//R3 { Rn{{n=3}} }
+//R4 { Rn{{n=4}} }
+R5 { Rn{{n=5}} }
+R6 { Rn{{n=6}} }
 R7 { Rn{{n=7}} }
 R8 { Rn{{n=8}} }
 R9 { Rn{{n=9}} }

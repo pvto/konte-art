@@ -2,15 +2,16 @@
 // polygon output
 
 DEF RAD (PI/180)
+DEF H5YH .5/cos(PI/5)
 DEF H6YH .5/cos(PI/6)
 MACRO NGYH .5/cos(PI/n)
 
 path PENTAGON {
-  moveto(cos((90)*RAD),sin((90)*RAD),0)
-  lineto(cos((90-72)*RAD),sin((90-72)*RAD),0)
-  lineto(cos((90-72*2)*RAD),sin((90-72*2)*RAD),0)
-  lineto(cos((90-72*3)*RAD),sin((90-72*3)*RAD),0)
-  lineto(cos((90-72*4)*RAD),sin((90-72*4)*RAD),0)
+  moveto(cos((90)*RAD)*H5YH,sin((90)*RAD)*H5YH,0)
+  lineto(cos((90-72)*RAD)*H5YH,sin((90-72)*RAD)*H5YH,0)
+  lineto(cos((90-72*2)*RAD)*H5YH,sin((90-72*2)*RAD)*H5YH,0)
+  lineto(cos((90-72*3)*RAD)*H5YH,sin((90-72*3)*RAD)*H5YH,0)
+  lineto(cos((90-72*4)*RAD)*H5YH,sin((90-72*4)*RAD)*H5YH,0)
   close
 }
 
@@ -23,6 +24,14 @@ path HEXAGON {
   lineto(cos(RAD*(90+60*5))*H6YH, sin(RAD*(90+60*5))*H6YH, 0)
   close
 }
+
+
+
+HEPTAGON { TRInGON {{n=7}} }
+OCTAGON { TRInGON {{n=8}} }
+DECAGON { TRInGON {{n=10}} }
+
+
 
 rule TRInGON {
   (n)*{rz 360/n} TRIN {}
