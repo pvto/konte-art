@@ -1,6 +1,6 @@
 include #monospace
 startshape line
-model { pushstack 32 }
+model { pushstack 60 }
 
 DEF NR 8
 line {
@@ -108,7 +108,7 @@ line {
 
 // In a galaxy far far away...
 
-  *{y .1 s .012 x -8 DEF{ITALIC=4; DANCE=2} z -20}
+  *{y .1 s .012 x -8 DEF{ITALIC=3; DANCE=4} z -20}
   16*{y -2 x -1 z 1.5
         DEF {
         ITALIC=ITALIC-.2;
@@ -121,7 +121,13 @@ line {
          "^m^In a galaxy far far away..."
      }
 
-  *{y -.3 s .02} TEXT { PUSH "^m^Regular monospace" }
+  *{x -.1 y -.31 s .02} {
+     *{s .75} {
+       TEXT { PUSH "^m^AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz" }
+       TEXT { y -1.5 PUSH "^m^ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖØÙÚÛÜÝÞß !#$%&'()*+,-./0123456789" }
+       TEXT { y -3 PUSH "^m^àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþÿ :;<=>?@[\]^_`{|}~" }
+     }
+  }
 }
 
 

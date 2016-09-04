@@ -326,8 +326,8 @@ Phong lighting is introduced in Konte 1.0.
 ![phong_possible.png](img/README/2016-09-03-14-12-phong_possible-A.png)
 [phong_possible-A.c3dg](img/README/phong_possible-A.c3dg)
 
-![phong_impossible-C.png](img/README/2015-03-25-00-08-phong_impossible-C.png)
-[phong_impossible-C.c3dg](img/README/phong_impossible-C.c3dg)
+![phong_impossible-C.png](img/README/2016-09-03-16-50-phong_impossible-D.png)
+[phong_impossible-C.c3dg](img/README/phong_impossible-D.c3dg)
 
 
 ###Drawing meshes

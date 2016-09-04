@@ -16,7 +16,7 @@ public class Monospace extends PrefixStringMap {
         "$", "m_dollar",
         "%", "m_percent",
         "&", "m_et",
-        "'", "m_apos",
+        "'", "m_apostrophe",
         "(", "m_lb",
         ")", "m_rb",
         "*", "m_aster",
@@ -42,12 +42,6 @@ public class Monospace extends PrefixStringMap {
         "|", "m_pipe",
         "}", "m_rcb",
         "~", "m_tilde",
-        "Å", "mAO",
-        "Ä", "mAE",
-        "Ö", "mOE",
-        "å", "mao",
-        "ä", "mae",
-        "ö", "moe"
         
     };
     
