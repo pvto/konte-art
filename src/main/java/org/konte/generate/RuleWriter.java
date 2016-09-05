@@ -465,10 +465,7 @@ public class RuleWriter {
                 DrawingContext p = st.transform(model.context);
                 if (st.poppedContinuation < 0)
                 {
-                    if (st.poppedContinuation == Integer.MIN_VALUE)
-                    {
-                        return;
-                    } // continuation stack had been empty
+
                     for (Untransformable u : Language.untransformables())
                     {
                         if (u.getId() == st.poppedContinuation)

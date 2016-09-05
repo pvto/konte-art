@@ -1,13 +1,8 @@
 
 package org.konte.model;
 
-import java.util.Arrays;
-import org.konte.image.Camera;
-import org.konte.image.Canvas;
-import org.konte.image.OutputShape;
 import org.konte.lang.*;
 import org.konte.misc.Matrix4;
-import org.konte.model.Untransformable.EffectApply;
 
 /**
  *
