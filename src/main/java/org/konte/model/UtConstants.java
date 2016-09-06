@@ -16,7 +16,7 @@ public class UtConstants {
     }
 
     private static final float 
-            cf_ = (float)Math.sqrt(2.0) / 5f;
+            cf_ = .275f;
     private static final Matrix4 
             PATH_TOPL = Matrix4.translation(-0.5f, 0.5f, 0f),
             PATH_TOPR = Matrix4.translation(0.5f, 0.5f, 0f),
@@ -77,8 +77,6 @@ public class UtConstants {
                 trg[i] = Matrix4.translation((float)Math.cos(angle)*radius, (float)(Math.sin(angle)*radius), 0f);
             }
         }
-        float S1 = 0.0f;
-        float S2 = cf_;
 
         try {
             Language.SQUARE      = Language.addUntransformable(utb.name("SQUARE").clearShapes()
