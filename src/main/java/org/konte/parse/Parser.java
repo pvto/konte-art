@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.regex.Matcher;
@@ -180,6 +181,7 @@ public class Parser {
             {
                 if ( startpos < ii
                     && ! (last == Language.left_bracket || last instanceof Operator
+                        || last == Language.comma
                         || Function.class.isAssignableFrom(last.getClass())))
                         {
                     moveToNext = false;
@@ -227,12 +229,12 @@ public class Parser {
         }
         if (lbcount > 0)
         {
-            throw new ParseException("Missing  ) \n" +
-                    ret.toString(), lineNr, caretPos);
+            throw new ParseException("Missing  )  after\n" +
+                    ret.stream().map(tok -> tok.name).reduce("", (ss,s)->ss+" "+s) + "\n", lineNr, caretPos);
         } else if (lbcount < 0)
         {
             throw new ParseException("Unexpected  ) \n " +
-                    ret.toString(), lineNr, caretPos);
+                    ret.stream().map(tok -> tok.name).reduce("", (ss,s)->ss+" "+s) + "\n", lineNr, caretPos);
         }
         else
         {
