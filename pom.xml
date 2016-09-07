@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.konte</groupId>
   <artifactId>konte</artifactId>
-  <version>0.9</version>
+  <version>1.1</version>
   <packaging>jar</packaging>
   
   <properties>
@@ -32,8 +32,8 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
     </plugins>
