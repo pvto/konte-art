@@ -23,7 +23,9 @@ R4 {
 }
 
 
-// ngram subdivisions
+// ngram n subdivisions
+
+MACRO NGYH .5/cos(PI/n)
 
 R2 { Rn{{n=2}} }
 //R3 { Rn{{n=3}} }

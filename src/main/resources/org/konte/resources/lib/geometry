@@ -1,10 +1,56 @@
 
-// polygon output
+// constants and lambdas
 
 DEF RAD (PI/180)
+DEF DEC (180/PI)
+MACRO SECLB .275*ANG/4/90
 DEF H5YH .5/cos(PI/5)
 DEF H6YH .5/cos(PI/6)
 MACRO NGYH .5/cos(PI/n)
+
+
+// 
+
+SECTOR{ SECTOR_{{ANG=max(-360,min(360,ANG))}} }
+path SECTOR_ {
+  moveto(0,0,0)
+  lineto(0,.5,0)
+  bend(cos((90+90)*RAD)*SECLB, .5 + sin((90+90)*RAD)*SECLB, 0)
+  bend(.5*cos((90+ANG/4)*RAD) + cos((ANG/4)*RAD)*SECLB, 
+      .5*sin((90+ANG/4)*RAD) + sin((ANG/4)*RAD)*SECLB, 0)
+  curveto(.5*cos((90+ANG/4)*RAD), .5*sin((90+ANG/4)*RAD), 0)
+  bend(.5*cos((90+ANG/4)*RAD) + cos((90+ANG/4+90)*RAD)*SECLB,
+      .5*sin((90+ANG/4)*RAD) + sin((90+ANG/4+90)*RAD)*SECLB, 0)
+  bend(.5*cos((90+ANG/4*2)*RAD) + cos((ANG/4*2)*RAD)*SECLB, 
+      .5*sin((90+ANG/4*2)*RAD) + sin((ANG/4*2)*RAD)*SECLB, 0)
+  curveto(.5*cos((90+ANG/4*2)*RAD), .5*sin((90+ANG/4*2)*RAD), 0)
+  bend(.5*cos((90+ANG/4*2)*RAD) + cos((90+ANG/4*2+90)*RAD)*SECLB,
+      .5*sin((90+ANG/4*2)*RAD) + sin((90+ANG/4*2+90)*RAD)*SECLB, 0)
+  bend(.5*cos((90+ANG/4*3)*RAD) + cos((ANG/4*3)*RAD)*SECLB, 
+      .5*sin((90+ANG/4*3)*RAD) + sin((ANG/4*3)*RAD)*SECLB, 0)
+  curveto(.5*cos((90+ANG/4*3)*RAD), .5*sin((90+ANG/4*3)*RAD), 0)
+  bend(.5*cos((90+ANG/4*3)*RAD) + cos((90+ANG/4*3+90)*RAD)*SECLB,
+      .5*sin((90+ANG/4*3)*RAD) + sin((90+ANG/4*3+90)*RAD)*SECLB, 0)
+  bend(.5*cos((90+ANG/4*4)*RAD) + cos((ANG/4*4)*RAD)*SECLB, 
+      .5*sin((90+ANG/4*4)*RAD) + sin((ANG/4*4)*RAD)*SECLB, 0)
+  curveto(.5*cos((90+ANG)*RAD), .5*sin((90+ANG)*RAD), 0)
+  close
+}
+
+
+
+PETAL{PETAL_{rz -ANG/2}}
+path PETAL_ {
+    moveto(0,0,0)
+    lineto(0, .5, 0)
+    bend(0, .5 + ROUND, 0)
+    bend((.5 + ROUND)*cos((90+ANG)*RAD), (.5 + ROUND)*sin((90+ANG)*RAD), 0)
+    curveto(.5*cos((90+ANG)*RAD), .5*sin((90+ANG)*RAD), 0)
+    close
+}
+
+
+// polygon output
 
 path PENTAGON {
   moveto(cos((90)*RAD)*H5YH,sin((90)*RAD)*H5YH,0)
