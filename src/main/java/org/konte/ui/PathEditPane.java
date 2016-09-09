@@ -456,7 +456,7 @@ public class PathEditPane extends javax.swing.JPanel {
             String grammar = jTextArea1.getText();
             ArrayList<TokenizerString> tokens = null;
             try {
-                tokens = Tokenizer.retrieveTokenStrings(new StringBuilder(grammar));
+                tokens = Tokenizer.retrieveTokenStrings(grammar);
             }
             catch(ParseException pe)
             {

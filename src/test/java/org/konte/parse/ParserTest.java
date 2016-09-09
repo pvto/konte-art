@@ -20,7 +20,7 @@ public class ParserTest {
 "}"
 ;
         Model m = new Parser().parse( 
-            Tokenizer.retrieveTokenStrings(new StringBuilder(s))
+            Tokenizer.retrieveTokenStrings(s)
         );
         m.initForGenerate();
     }
@@ -29,7 +29,7 @@ public class ParserTest {
     public void testParseInnerExprArg() throws ParseException, IllegalArgumentException, IllegalAccessException
     {
         String s = "throws { SQUARE{col0 col0+1} }";
-        new Parser().parse(Tokenizer.retrieveTokenStrings(new StringBuilder(s)))
+        new Parser().parse(Tokenizer.retrieveTokenStrings(s))
                 .initForGenerate();
     }
     
@@ -54,7 +54,7 @@ public class ParserTest {
 "}"
 ;
         Model m = new Parser().parse( 
-            Tokenizer.retrieveTokenStrings(new StringBuilder(s))
+            Tokenizer.retrieveTokenStrings(s)
         );
         m.initForGenerate();
         System.out.println(m.rules.toString());
@@ -84,7 +84,7 @@ public class ParserTest {
 "cube { SQUARE{} }"
 ;
         Model m = new Parser().parse( 
-            Tokenizer.retrieveTokenStrings(new StringBuilder(s))
+            Tokenizer.retrieveTokenStrings(s)
         );
         m.initForGenerate();
     }
@@ -97,7 +97,7 @@ public class ParserTest {
 "eee { if (1<2 && 4<3) { if (x>0 || y>0 && x<1) { SQUARE{} } } }"
 ;
         Model m = new Parser().parse( 
-            Tokenizer.retrieveTokenStrings(new StringBuilder(s))
+            Tokenizer.retrieveTokenStrings(s)
         );
         m.initForGenerate();
         ConditionalStructure cond0 = (ConditionalStructure)
@@ -113,7 +113,7 @@ public class ParserTest {
                 + "} }";
 //(10.0000000 ((ih-1.0000000)-(32.0000000*((vP*(v+(3.1415927/4.0000000)))%ih))) )
         Model m = new Parser().parse( 
-            Tokenizer.retrieveTokenStrings(new StringBuilder(s))
+            Tokenizer.retrieveTokenStrings(s)
         );
         m.initForGenerate();
         System.out.println(m.rules.get("FNS").getRules().get(0).getRule().transforms.get(0).acqExps.get(1).exprs);
@@ -124,7 +124,7 @@ public class ParserTest {
     {
         String s = "fov{llookat(1,0,0)} F{SPHERE{}}";
         Model m = new Parser().parse( 
-            Tokenizer.retrieveTokenStrings(new StringBuilder(s))
+            Tokenizer.retrieveTokenStrings(s)
         );
     }
 }

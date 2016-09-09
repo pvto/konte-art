@@ -53,8 +53,7 @@ public class ImageAPI {
             {
         Name.gene = null;
         Model model = new Parser().parse(
-                Tokenizer.retrieveTokenStrings(
-                new StringBuilder(grammar)));
+                Tokenizer.retrieveTokenStrings(grammar));
         return init(model, rndFeed);
     }
     

@@ -14,13 +14,14 @@ import java.util.ArrayList;
 public class Tokenizer {
 
     private int offset;
+    private int tokenStart;
     private int lineNr;
     private String token;
     private String b;
 
-    private Tokenizer(StringBuilder rawtextsrc)
+    private Tokenizer(String rawtext)
     {
-        b = rawtextsrc.toString();
+        b = rawtext;
         lineNr = 1;
     }
 
@@ -113,6 +114,8 @@ public class Tokenizer {
             curchar = b.charAt(offset);
         }
 
+        tokenStart = offset;
+        
         if (curchar == '"')
         {
             offset++;
@@ -181,7 +184,7 @@ public class Tokenizer {
     }
 
     
-    public static ArrayList<TokenizerString> retrieveTokenStrings(StringBuilder b) throws ParseException
+    public static ArrayList<TokenizerString> retrieveTokenStrings(String b) throws ParseException
     {
         Tokenizer position = new Tokenizer(b);
         ArrayList<TokenizerString> tokenStrings = new ArrayList<TokenizerString>();
@@ -189,8 +192,8 @@ public class Tokenizer {
         while (position.offset < b.length())
         {
             int tokenLineNr = position.lineNr;
-            int caret = position.offset;
             position.readNext();
+            int caret = position.tokenStart;
             String retrievedToken = position.token;
             if (retrievedToken == null /*|| retrievedToken.length() == 0*/) {
                 // skip

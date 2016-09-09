@@ -625,7 +625,7 @@ public class Parser {
                             if (tmp == null || tmp.length() < 1)
                                 throw new ParseException("Empty or missing include file: " + lastName, lineNr, caretPos);
                             ArrayList<Tokenizer.TokenizerString> included =
-                                    Tokenizer.retrieveTokenStrings(tmp);
+                                    Tokenizer.retrieveTokenStrings(tmp.toString());
                             if (included.size() > 0)
                             {
                                 tokenStrings.addAll(i, included);
@@ -1184,7 +1184,7 @@ public class Parser {
                             kontePath = kontePath.substring(kontePath.lastIndexOf('{') + 1);
                             kontePath = kontePath.substring(0, kontePath.lastIndexOf('}'));
                             ArrayList<Tokenizer.TokenizerString> included =
-                                    Tokenizer.retrieveTokenStrings(new StringBuilder(kontePath));
+                                    Tokenizer.retrieveTokenStrings(kontePath);
                             if (included.size() > 0)
                             {
                                 tokenStrings.remove(i);

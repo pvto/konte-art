@@ -189,7 +189,6 @@ public class Language {
     public static final Token left_squarebracket = addToken(new Context("["));
     public static final Token right_squarebracket = addToken(new Context("]"));
     public static final Token hyphen = addToken(new Context("\""));
-    public static final Token prefix = addToken(new Context("^"));
     
     public static final Token comma = addToken(new ControlToken(","));
     public static final Token semicolon = addToken(new ControlToken(";"));
