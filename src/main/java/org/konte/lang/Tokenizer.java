@@ -29,22 +29,25 @@ public class Tokenizer {
     private void parseMultilineComment()
     {
         int orig = offset;
+        int dropRest = 0;
         for (;;) {
             if (offset > orig + 2 && 
                     b.charAt(offset - 1) == '*' && b.charAt(offset) == '/')
             {
                 offset++;
+                dropRest = 2;
                 break;
             }
             else
             {
                 checkEndline();
             }
-            if (b.length() <= ++offset) {
+            if (b.length() <= ++offset) {   // missing */ ... normally error but allowed in editor line context
                 break;
             }
         }
-        token = b.substring(orig, offset - 2); // leave out trailing */ to ease script parsing
+        token = b.substring(orig, offset - dropRest); // pick */ in the next round
+        offset -= dropRest;
         return;
     }
 
@@ -54,24 +57,29 @@ public class Tokenizer {
         if (offset >= b.length())
             return;
         for(;;) {
-            if (checkEndline() || ++offset >= b.length()) 
+            if (checkEndline() || ++offset >= b.length())
+            {
+                token = b.substring(tokenStart, offset);
                 return;
+            }
         }
     }
     private void parseStringLiteral() throws ParseException
     {
-        int orig = offset;
+        int orig = offset - 1;
         for(;;) {
             if (offset >= b.length())
-                throw new ParseException("Unterminated character literal \"" 
-                    + b.substring(orig, Math.min(orig + 256, b.length())) + "\"", 0, orig);
+            {
+                token = b.substring(orig, b.length());
+                return;
+            }
             char c = b.charAt(offset++);
             if (c == '"')
             {
-                token = b.substring(orig, offset - 1);
+                token = b.substring(orig, offset);
                 return;
             }
-            else if (c == 'n') 
+            else if (c == '\n') 
             {
                 lineNr++;
             }
@@ -87,12 +95,13 @@ public class Tokenizer {
             {
                 if (b.charAt(offset + 1) == '/')
                 {
-                    offset += 2;
+                    tokenStart = offset;
                     parseCommentLine();
                     return true;
                 }
                 else if (b.charAt(offset + 1) == '*') 
                 {
+                    tokenStart = offset;
                     parseMultilineComment();
                     return true;
                 }
@@ -226,6 +235,10 @@ public class Tokenizer {
 
         public String getString() {
             return string;
+        }
+
+        public void setString(String s) {
+            this.string = s;
         }
 
         public int getCaretPos() {

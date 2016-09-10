@@ -10,7 +10,6 @@ import java.net.URL;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.regex.Matcher;
@@ -56,6 +55,24 @@ public class Parser {
         lexprs.add(new Value(((float)(intval >> 8 & 0xFF))/255));
         lexprs.add(new Value(((float)(intval & 0xFF))/255));
         return lexprs;
+    }
+
+    private ArrayList<TokenizerString> stripQuotes(ArrayList<TokenizerString> included) throws ParseException
+    {
+        for(TokenizerString t : included)
+        {
+            String s = t.getString();
+            if (s.charAt(0) == '"')
+            {
+                if (s.charAt(s.length() - 1) != '"')
+                {
+                    throw new ParseException("Unterminated character literal " + s, lineNr, caretPos);
+                }
+                s = s.substring(1, s.length() - 1);
+                t.setString(s);
+            }
+        }
+                    return included;
     }
 
 
@@ -257,7 +274,8 @@ public class Parser {
 
     public Model parse(ArrayList<Tokenizer.TokenizerString> tokenStrings) throws ParseException
     {
-
+        tokenStrings = stripQuotes(tokenStrings);
+        
         Runtime.stateServer.clear();
 
         String workdir = System.getProperty("konte.workdir");
@@ -331,8 +349,16 @@ public class Parser {
                 }
                 continue;
             }
+            if (s.startsWith(Language.comment.name))
+            {
+                continue;
+            }
             Token t = null;
             t = Language.tokenByName(s);
+            if (t == Language.comment_end)
+            {
+                continue;
+            }
             try {
             switch (curCtx)
             {
@@ -626,6 +652,7 @@ public class Parser {
                                 throw new ParseException("Empty or missing include file: " + lastName, lineNr, caretPos);
                             ArrayList<Tokenizer.TokenizerString> included =
                                     Tokenizer.retrieveTokenStrings(tmp.toString());
+                            included = stripQuotes(included);
                             if (included.size() > 0)
                             {
                                 tokenStrings.addAll(i, included);

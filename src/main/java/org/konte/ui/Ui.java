@@ -1,12 +1,10 @@
 
 package org.konte.ui;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FileDialog;
-import java.awt.FlowLayout;
 import java.awt.KeyEventPostProcessor;
 import java.awt.KeyboardFocusManager;
 import java.awt.Toolkit;
@@ -15,7 +13,6 @@ import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
@@ -32,21 +29,17 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.Properties;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JColorChooser;
-import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import org.konte.export.AbstractExporterBase;
 import org.konte.generate.ImageAPI.RenderType;
 import org.konte.generate.RandomFeed;
-import org.konte.lang.help.Help;
 import org.konte.misc.Readers;
 import org.konte.generate.Runtime;
 import org.konte.image.SeqRecorder;
@@ -623,8 +616,6 @@ public class Ui extends MyJFrame {
         jMenuItem16 = new javax.swing.JMenuItem();
         jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
         editMenu = new javax.swing.JMenu();
-        undoItem = new javax.swing.JMenuItem();
-        redoItem = new javax.swing.JMenuItem();
         replaceItem = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
@@ -916,24 +907,6 @@ public class Ui extends MyJFrame {
         editMenu.setMnemonic('E');
         editMenu.setText("Edit");
 
-        undoItem.setMnemonic('U');
-        undoItem.setText("Undo");
-        undoItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                undoItemActionPerformed(evt);
-            }
-        });
-        editMenu.add(undoItem);
-
-        redoItem.setMnemonic('R');
-        redoItem.setText("Redo");
-        redoItem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                redoItemActionPerformed(evt);
-            }
-        });
-        editMenu.add(redoItem);
-
         replaceItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         replaceItem.setMnemonic('F');
         replaceItem.setText("Find/Replace");
@@ -1211,16 +1184,6 @@ public class Ui extends MyJFrame {
         d.setSize(500, 600);
         d.pack();
     }//GEN-LAST:event_messagesList1MouseClicked
-
-    private void undoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoItemActionPerformed
-        EditViewCombo ev = (EditViewCombo) tabs.getSelectedComponent();
-        ev.undo();
-    }//GEN-LAST:event_undoItemActionPerformed
-
-    private void redoItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoItemActionPerformed
-        EditViewCombo ev = (EditViewCombo) tabs.getSelectedComponent();
-        ev.redo();
-    }//GEN-LAST:event_redoItemActionPerformed
     private ReplaceDialog repDi;
 
     private void replaceItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceItemActionPerformed
@@ -1472,13 +1435,11 @@ public class Ui extends MyJFrame {
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JMenuItem openMenuItem;
-    private javax.swing.JMenuItem redoItem;
     private javax.swing.JMenuItem replaceItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JTabbedPane tabs;
     private javax.swing.JMenu tutMenu;
-    private javax.swing.JMenuItem undoItem;
     // End of variables declaration//GEN-END:variables
 
     private void enableSvgSceneExport(boolean b) {

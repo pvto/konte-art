@@ -39,11 +39,11 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
             this.value = value;
         }
     }
-    public static boolean deepEquals(char[] a, char[] segment, int bOffset, int bStripLength)
+    public static boolean deepEquals(char[] a, char[] bSegment, int bOffset, int bStripLength)
     {
         if (a.length != bStripLength) return false;
         for(int i = 0; i < a.length; i++)
-            if (a[i] != segment[i+bOffset]) return false;
+            if (a[i] != bSegment[i+bOffset]) return false;
         return true;
     }
     
@@ -160,17 +160,17 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
     @Override
     public void addToken(Segment segment, int start, int end, int tokenType, int docStartOffset)
     {
-        System.out.println("addToken " + start + "(" + docStartOffset + ")" + "-" + end);
         // This assumes all keywords, etc. were parsed as "identifiers."
         if (tokenType==Token.IDENTIFIER)
         {
             int value = myMap.get(segment.array, start, end);
-            System.out.println(value);
             if (value != -1)
             {
+                //System.out.println(tokenType + "->" + value);
                 tokenType = value;
             }
         }
+        //System.out.println("addToken " + start + "(" + docStartOffset + ")" + "-" + end + " " + tokenType);
         super.addToken(segment, start, end, tokenType, docStartOffset);
     }
 
@@ -184,83 +184,94 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
         int currentTokenType = startTokenType;
         int nextStart = -1;
         int nextEnd = -1;
-        int prevEnd = -1;
+        int prevEnd = offset - 1;
         char[] chars = text.array;
-        char[] seg = Arrays.copyOfRange(chars, text.offset, offset + text.count);
+        char[] seg = Arrays.copyOfRange(chars, offset, offset + text.count);
         String sseg = new String(seg);
         
         
         try
         {
             ArrayList<TokenizerString> tokens = Tokenizer.retrieveTokenStrings(sseg);
+            //System.out.println(tokens);
             TokenizerString prev = null;
 
-            out: for(TokenizerString next : tokens)
+            out: for(int i = 0; i < tokens.size(); i++)
             {
+                TokenizerString next = tokens.get(i);
                 nextStart = offset + next.getCaretPos();
                 nextEnd = nextStart + next.getString().length() - 1;
-                System.out.println(String.format("gtl o=%d nso=%d ctt=%d ns=%d ne=%d pe=%d %s",
-                        offset, newStartOffset, currentTokenType, nextStart, nextEnd, prevEnd, sseg));
+                //System.out.println(String.format("gtl o=%d nso=%d curtt=%d ns=%d ne=%d pe=%d %s",
+                //        offset, newStartOffset, currentTokenType, nextStart, nextEnd, prevEnd, sseg + " / " + next.getString()));
                 Tokens.Token konte = Language.tokenByName(next.getString());
                 switch(currentTokenType)
                 {
                     case Token.COMMENT_MULTILINE:
-                        if (konte != Language.comment_end)
+                        if (konte != Language.comment_end && i < tokens.size() - 1)
                             continue;
                         addToken(text, prevEnd + 1, nextEnd, currentTokenType, newStartOffset + prevEnd + 1);
-                        currentTokenType = Token.NULL;
+                        if (konte == Language.comment_end)
+                        {
+                            currentTokenType = Token.NULL;
+                        }
                         break;
-                    case Token.COMMENT_EOL:
-                        addToken(text, prevEnd + 1, offset + chars.length - 1, currentTokenType, newStartOffset + prevEnd + 1);
-                        currentTokenType = Token.NULL;
-                        break out;
                     case Token.LITERAL_STRING_DOUBLE_QUOTE:
-                        if (konte != Language.hyphen)
+                        if (konte != Language.hyphen && i < tokens.size() - 1)
                             continue;
-                        addToken(text, prevEnd, nextEnd, Token.LITERAL_STRING_DOUBLE_QUOTE, newStartOffset + prevEnd);
-                        currentTokenType = Token.NULL;
+                        addToken(text, prevEnd + 1, nextEnd, currentTokenType, newStartOffset + prevEnd + 1);
+                        if (konte == Language.hyphen)
+                        {
+                            currentTokenType = Token.NULL;
+                        }
                         break;
                     default:
                         if (prevEnd + 1 < nextStart)
                         {
                             addToken(text, prevEnd + 1, nextStart - 1, Token.WHITESPACE, newStartOffset + prevEnd + 1);
                         }
-
-                        int type = Token.IDENTIFIER;
-                        if (konte == Language.comment_start)
+                        
+                        if ('/' == seg[next.getCaretPos()] && seg.length > next.getCaretPos() + 1 && '*' == seg[next.getCaretPos() + 1])
                         {
-                            type = Token.COMMENT_MULTILINE;
+                            currentTokenType = Token.COMMENT_MULTILINE;
+                            addToken(text, nextStart, nextEnd, currentTokenType, newStartOffset + nextStart);
                         }
-                        else if (konte == Language.comment)
+                        else if ('/' == seg[next.getCaretPos()] && seg.length > next.getCaretPos() + 1 && '/' == seg[next.getCaretPos() + 1])
                         {
-                            type = Token.COMMENT_EOL;
+                            currentTokenType = Token.COMMENT_EOL;
+                            addToken(text, nextStart, nextEnd, currentTokenType, newStartOffset + nextStart);
                         }
                         else if (konte == Language.hyphen)
                         {
-                            type = Token.LITERAL_STRING_DOUBLE_QUOTE;
+                            currentTokenType = Token.LITERAL_STRING_DOUBLE_QUOTE;
+                            addToken(text, nextStart, nextEnd, currentTokenType, newStartOffset + nextStart);
                         }
                         else
                         {
-                            addToken(text, nextStart, nextEnd, type, newStartOffset + nextStart);
+                            addToken(text, nextStart, nextEnd, Token.IDENTIFIER, newStartOffset + nextStart);
                         }
-                        prev = next;
-                        prevEnd = nextEnd;
                         break;
                 }
+                prev = next;
+                prevEnd = nextEnd;
 
             }
             switch (currentTokenType) {
 
-               // Remember what token type to begin the next line with.
-               case Token.LITERAL_STRING_DOUBLE_QUOTE:
-               case Token.COMMENT_MULTILINE:
-                   int add = currentTokenType == Token.LITERAL_STRING_DOUBLE_QUOTE ? 0 : -1;
-                  addToken(text, Math.max(0, prevEnd + add), nextEnd, currentTokenType, newStartOffset + prevEnd + add);
-                  break;
-
-               default:
-                  addNullToken();
-
+                // Remember what token type to begin the next line with.
+                case Token.LITERAL_STRING_DOUBLE_QUOTE:
+                case Token.COMMENT_MULTILINE:
+                    if (tokens.size() == 0)
+                    {
+                        addToken(text, prevEnd + 1, prevEnd + 1, currentTokenType, newStartOffset + prevEnd + 1);
+                    }
+                    break;
+                default:
+                    if (prevEnd > -1 && prevEnd < text.offset + text.count - 1)
+                    {
+                        addToken(text, prevEnd + 1, text.offset + text.count - 1, Token.WHITESPACE, newStartOffset + prevEnd + 1);
+                    }
+                    addNullToken();
+                    break;
             }
         }
         catch(ParseException pe)
@@ -271,6 +282,7 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
     }
 
     
+/*
     public static class TextEditorDemo extends JFrame {
 
        public TextEditorDemo() {
@@ -303,5 +315,5 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
           }
        });
     }
-
+*/
 }
