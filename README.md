@@ -1,10 +1,13 @@
-![Konte](img/README/logo.png)
+#Konte
+##Generative Art
 
 Konte is a small language for generating images, "drawing by coding".
 
 See [Development ideas](DEVELOPMENT_IDEAS.md) if you are looking for a feature or a bugfix, or you can file a bug report at github.
 
 ![Cheatsheet](img/README/cheatsheet.png)
+
+![Gui screenshot](img/README/konte-screenshot-D.png)
 
 ##Building and running
 
@@ -15,8 +18,13 @@ $ mvn clean install
 ```
 Run konte GUI from the command line.
 
+Linux:
 ```
-$ java -Xmx2048m -cp target/konte.jar org.konte.ui.Ui
+$ java -Xmx2048m -cp target/konte.jar:target/dependency/rsyntaxtextarea-2.5.8.jar org.konte.ui.Ui
+```
+Windows:
+```
+> java -Xmx2048m -cp target/konte.jar;target/dependency/rsyntaxtextarea-2.5.8.jar org.konte.ui.Ui
 ```
 Use the *Tutorial* menu to get a quick start into konte code.
 

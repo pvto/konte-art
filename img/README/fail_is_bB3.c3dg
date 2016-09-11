@@ -19,7 +19,7 @@ startshape meshball
 DEF SCALE 1000
 
 
-include "/home/paavoto/kauno/2015/aphor/svg/fail_is_bB2.png" img0
+include "/home/paavo/kauno/2015/aphor/svg/fail_is_bB2.png" img0
 
 
 
