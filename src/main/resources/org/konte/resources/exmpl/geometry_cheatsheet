@@ -46,6 +46,8 @@ geometrySheet {*{s .05 x -8 y 6.5 s .75 {F=.3}} {
     *{y -6} { DECAGON {} TEXT{ x 1 s F PUSH "^m^DECAGON {}" } }
     *{y -7.5} { TRInGON {{n=12}} TEXT{ x 1 s F PUSH "^m^TRInGON {{n=12}}" } }
     *{y -8.5} { TEXT{ x 1 s F PUSH "^m^..." } }
+  }
+  *{x 7} {
     *{y -9.5} {
         SKEWSTAR{{n=5;TOOTH=.5}}
         TEXT { x 1 s F PUSH "^m^SKEWSTAR{{n=5;TOOTH=.5}}" }
@@ -66,7 +68,11 @@ geometrySheet {*{s .05 x -8 y 6.5 s .75 {F=.3}} {
         SKEWSTAR{flipx 0 {n=10;TOOTH=.5}}
         TEXT { x 1 s F PUSH "^m^SKEWSTAR{flipx 0 {n=10;TOOTH=.5}}" }
     }
-  }
+ }
+ *{x 7 y -15} {
+   *{y -0} { FRAME{{frame=.1}} TEXT { x 1 s F PUSH "^m^FRAME{{frame=.1}}" } }
+   *{y -1.5} { FRAME{{frame=.5}} TEXT { x 1 s F PUSH "^m^FRAME{{frame=.5}}" } }
+ }
 
   *{y -17.5 {ITALIC=2;BOLD=5;WIDE=2} {BW=.075} ry -30 rx 20} {
     box{layer -1 z -.25 y .1 L 1 }

@@ -114,6 +114,24 @@ path TRIN {
 }
 
 
+
+MACRO FR__ (1-frame)*.5
+path FRAME {
+    moveto(-.5,-.5,.0)
+    lineto(-.5,.5,.0)
+    lineto(.5,.5,.0)
+    lineto(.5,-.5,.0)
+    lineto(-.5,-.5,.0)
+    close
+    moveto(-FR__,-FR__,.0)
+    lineto(FR__,-FR__,.0)
+    lineto(FR__,FR__,.0)
+    lineto(-FR__,FR__,.0)
+    lineto(-FR__,-FR__,.0)
+    close
+}
+
+
 // 3D objects
 
 PYRAMID {
