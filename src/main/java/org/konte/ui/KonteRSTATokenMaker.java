@@ -169,11 +169,42 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
                 //System.out.println(tokenType + "->" + value);
                 tokenType = value;
             }
+            else
+            {
+                char[] ch = segment.array;
+                if (detectNumber(ch, start, end))
+                {
+                    tokenType = Token.LITERAL_NUMBER_FLOAT;
+                }
+            }
         }
         //System.out.println("addToken " + start + "(" + docStartOffset + ")" + "-" + end + " " + tokenType);
         super.addToken(segment, start, end, tokenType, docStartOffset);
     }
 
+    private static boolean detectNumber(char[] ch, int start, int end)
+    {
+        boolean separator = false;
+        for(int i = start; i <= end; i++)
+        {
+            if (ch[i] == '.')
+            {
+                if (separator)
+                {
+                    return false;
+                }
+                separator = true;
+            }
+            else
+            {
+                if (ch[i] < '0' || ch[i] > '9')
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     
     @Override
     public Token getTokenList(Segment text, int startTokenType, int docStartOffset)
@@ -282,7 +313,7 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
     }
 
     
-/*
+
     public static class TextEditorDemo extends JFrame {
 
        public TextEditorDemo() {
@@ -315,5 +346,5 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
           }
        });
     }
-*/
+
 }
