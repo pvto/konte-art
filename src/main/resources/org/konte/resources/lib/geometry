@@ -50,6 +50,29 @@ path PETAL_ {
 }
 
 
+
+// 
+
+SKEWSTAR {
+    *{{ADD=2*PI/n}}
+        (n)*{{RZ=RZ+ADD}}
+            FTRI{{
+                X0=0; Y0=0;
+                X1=cos(RZ)*.5;
+                Y1=sin(RZ)*.5;
+                X2=cos(RZ+ADD)*.5*TOOTH;
+                Y2=sin(RZ+ADD)*.5*TOOTH;
+            }}
+}
+
+path FTRI {
+    moveto(X0,Y0,0)
+    lineto(X1,Y1,0)
+    lineto(X2,Y2,0)
+    close
+}
+
+
 // polygon output
 
 path PENTAGON {

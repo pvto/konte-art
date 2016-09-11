@@ -29,9 +29,54 @@ geometrySheet {*{s .05 x -8 y 6.5 s .75 {F=.3}} {
         TEXT { y -.5 x 1 s F PUSH "^m^    (360/ANG)* {rz ANG}" } 
         TEXT { y -1 x 1 s F PUSH "^m^        PETAL{{ROUND=.5} s .5}" } 
     }
+    *{y -10} { FTRI{{X0=-1;Y0=0;X1=.5;Y1=0;X2=.5;Y2=.5}}
+        TEXT { x 1 y .5 s F PUSH "^m^FTRI{{X0=-1;Y0=0;" }
+        TEXT { x 1 s F PUSH "^m^  X1=.5;Y1=0; X2=.5;Y2=.5}}" } 
+    }
   }
 
-  *{y -10.5 x 7} {
+
+  *{x 7} {
+    PENTAGON {} TEXT{ x 1 s F PUSH "^m^PENTAGON {}" }
+      TEXT{ x 1 y -.5 s F PUSH "^m^( or  TRInGON {{n=5}} )" }
+ 
+    *{y -1.5} { HEXAGON {} TEXT{ x 1 s F PUSH "^m^HEXAGON {}    ,,," } }
+    *{y -3} { OCTAGON {} TEXT{ x 1 s F PUSH "^m^OCTAGON {}" } }
+    *{y -4.5} { TRInGON {{n=9}} TEXT{ x 1 s F PUSH "^m^TRInGON {{n=9}}" } }
+    *{y -6} { DECAGON {} TEXT{ x 1 s F PUSH "^m^DECAGON {}" } }
+    *{y -7.5} { TRInGON {{n=12}} TEXT{ x 1 s F PUSH "^m^TRInGON {{n=12}}" } }
+    *{y -8.5} { TEXT{ x 1 s F PUSH "^m^..." } }
+    *{y -9.5} {
+        SKEWSTAR{{n=5;TOOTH=.5}}
+        TEXT { x 1 s F PUSH "^m^SKEWSTAR{{n=5;TOOTH=.5}}" }
+    }
+    *{y -10.5} {
+        SKEWSTAR{{n=5;TOOTH=.8}}
+        TEXT { x 1 s F PUSH "^m^SKEWSTAR{{n=7;TOOTH=.8}}" }
+    }
+   *{y -11.5} {
+        SKEWSTAR{{n=3;TOOTH=.1}}
+        TEXT { x 1 s F PUSH "^m^SKEWSTAR{{n=3;TOOTH=.1}}" }
+    }
+   *{y -12.5} {
+        SKEWSTAR{{n=3;TOOTH=1.2}}
+        TEXT { x 1 s F PUSH "^m^SKEWSTAR{{n=3;TOOTH=1.2}}" }
+    }
+   *{y -13.5} {
+        SKEWSTAR{flipx 0 {n=10;TOOTH=.5}}
+        TEXT { x 1 s F PUSH "^m^SKEWSTAR{flipx 0 {n=10;TOOTH=.5}}" }
+    }
+  }
+
+  *{y -17.5 {ITALIC=2;BOLD=5;WIDE=2} {BW=.075} ry -30 rx 20} {
+    box{layer -1 z -.25 y .1 L 1 }
+    TEXT{ s .4 PUSH "^m^Konte #geometry" }
+    TEXT{ y -.5 s .4 PUSH "^m^ cheatsheet"}
+  }
+
+
+
+  *{x 13} {
     *{y -0} { nSPHERE{{n=6;mesh=-1} PUSH MESH ry 30 rx 20}
         TEXT { x 1 s F PUSH "^m^nSPHERE { {n=6} PUSH MESH }" }
     }
@@ -41,23 +86,6 @@ geometrySheet {*{s .05 x -8 y 6.5 s .75 {F=.3}} {
     }
     *{y -3} { RBOX{ PUSH mW Xframe s .75} TEXT { x 1 s F PUSH "^m^RBOX{ PUSH mW Xframe }" } }
     *{y -4.5} { RBOX{ PUSH mQ Xframe s .75 rx 20 } TEXT { x 1 s F PUSH "^m^RBOX{ PUSH mQ Xframe }" } }
-  }
-
-
-  *{x 7} {
-    PENTAGON {} TEXT{ x 1 s F PUSH "^m^PENTAGON {}    or  TRInGON {{n=5}}" }
-    *{y -1.5} { HEXAGON {} TEXT{ x 1 s F PUSH "^m^HEXAGON {}    ,,," } }
-    *{y -3} { OCTAGON {} TEXT{ x 1 s F PUSH "^m^OCTAGON {}" } }
-    *{y -4.5} { TRInGON {{n=9}} TEXT{ x 1 s F PUSH "^m^TRInGON {{n=9}}" } }
-    *{y -6} { DECAGON {} TEXT{ x 1 s F PUSH "^m^DECAGON {}" } }
-    *{y -7.5} { TRInGON {{n=12}} TEXT{ x 1 s F PUSH "^m^TRInGON {{n=12}}" } }
-    *{y -8.5} { TEXT{ x 1 s F PUSH "^m^..." } }
-  }
-
-  *{y -17.5 {ITALIC=2;BOLD=5;WIDE=2} {BW=.075} ry -30 rx 20} {
-    box{layer -1 z -.25 y .1 L 1 }
-    TEXT{ s .4 PUSH "^m^Konte #geometry" }
-    TEXT{ y -.5 s .4 PUSH "^m^ cheatsheet"}
   }
 
 }}
