@@ -194,6 +194,10 @@ public class CommandLine {
         destfile  = ind > 0 ?
             destfile.substring(0, ind) + fof + destfile.substring(ind)
             :  fof + destfile;
+        int ind2 = destfile.lastIndexOf(".");
+        destfile = ind2 > 0 ?
+                destfile.substring(0, ind2) + "-" + rnd + destfile.substring(ind2)
+                : destfile + "-" + rnd;
         return destfile;
     }
     private static void printHelp()

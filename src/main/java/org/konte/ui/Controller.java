@@ -283,6 +283,7 @@ public class Controller {
         
         try {
             Runtime.sysoutln("Exporting");
+            Runtime.sysoutln(ev.getRandomFeed().getKey());
             CommandLine.writeImage(expF, ev.getDisplayImage());
             Runtime.sysoutln("Written: " + expF);
         }
