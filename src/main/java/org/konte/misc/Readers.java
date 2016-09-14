@@ -1,39 +1,31 @@
 package org.konte.misc;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 
 public class Readers {
 
     public static StringBuilder load(InputStream in) throws IOException
     {
-        StringBuilder b = new StringBuilder();
-        byte[] bb = new byte[256*256];
-        int size = 0;
-        for (;;)
-        {
-            size = in.read(bb);
-            for(int i=0;i<Math.min(10, size);i++)
-            {
-                int val = (int)(bb[i] & 0xFF);
-                if (val < 0x0A)
-                {
-                    throw new IOException(String.format("Cannot open binary file, found %06x", val));
-                }
-            }
-            if (size == -1)
-            {
-                break;
-            }
-            b.append(new String(Arrays.copyOfRange(bb,0, size)));
-        }
+        return load(in, null);
+    }
+        
+    public static StringBuilder load(InputStream in, Charset charset) throws IOException
+    {
+        final StringBuilder b = new StringBuilder();
+        InputStreamReader ir;
+        if (charset == null) ir = new InputStreamReader(in);
+        else ir = new InputStreamReader(in, charset);
+        BufferedReader br = new BufferedReader(ir);
+        br.lines().forEach((String li) -> {b.append(li).append(System.lineSeparator());});
+        br.close();
         return b;
-
-
     }
 
 

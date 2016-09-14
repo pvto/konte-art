@@ -7,6 +7,7 @@ import org.konte.model.*;
 import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -639,7 +640,7 @@ public class Parser {
                                 String pth = "/org/konte/resources/lib/" + lastName;
                                 try {
                                     InputStream in = Ui.class.getResource(pth).openStream();
-                                    tmp = Readers.load(in);
+                                    tmp = Readers.load(in, StandardCharsets.UTF_8);
                                 } catch(Exception ex) {
                                     throw new ParseException("Library " + lastName + " does not exist", lineNr, caretPos);
                                 }
