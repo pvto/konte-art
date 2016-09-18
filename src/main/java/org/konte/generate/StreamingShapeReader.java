@@ -8,6 +8,7 @@ import org.konte.expression.Expression;
 import org.konte.image.Canvas;
 import org.konte.image.OutputShape;
 import org.konte.model.Model;
+import struct.quadtree.Octree;
 
 /**
  *
@@ -24,7 +25,7 @@ public class StreamingShapeReader implements ShapeReader {
     public Expression streamRate = null;
     private boolean enableLaterIteration = false;
     private List<OutputShape> cache = new ArrayList<>();
-    
+
     public StreamingShapeReader(Model model) {
         this.model = model;
     }
@@ -69,17 +70,7 @@ public class StreamingShapeReader implements ShapeReader {
                         canvas.initLayer(model, p.layer);
                         prevlayer = p.layer;
                     }
-                    try {
-                        p.shape.draw(model.cameras.get(p.fov), canvas, p);
-                        if (enableLaterIteration)
-                        {
-                            cache.add(p);
-                        }
-                        addedCount++;
-                    } catch (Exception e) {
-                        Runtime.sysoutln("Unable to draw shape " + p.shape.name + " [" + p.shape.getClass() + "]", 20);
-                        throw e;
-                    }
+                    addShape(p);
                     if (rate != null && rate > 0f) {
                         delayByStreamRate(rate);
                     }
@@ -105,12 +96,7 @@ public class StreamingShapeReader implements ShapeReader {
                     canvas.applyEffects(model, prevlayer);
                     prevlayer = p.layer;
                 }
-                p.shape.draw(model.cameras.get(p.fov), canvas, p);
-                if (enableLaterIteration)
-                {
-                    cache.add(p);
-                }
-                addedCount++;
+                addShape(p);
                 if (state != 3) {
                     break;
                 }
@@ -123,6 +109,16 @@ public class StreamingShapeReader implements ShapeReader {
         state = 0;
     }
 
+    private void addShape(OutputShape p)
+    {
+        p.shape.draw(model.cameras.get(p.fov), canvas, p);
+        if (enableLaterIteration)
+        {
+            cache.add(p);
+        }
+        addedCount++;
+    }
+    
     public void finish(int step) {
         if (state == 1 || state == 3) {
             state = step;
@@ -165,6 +161,8 @@ public class StreamingShapeReader implements ShapeReader {
         this.canvas = canvas;
     }
 
+    @Override public RuleWriter getRuleWriter() { return this.ruleWriter; }
+    
     public void setRuleWriter(RuleWriter aThis) {
         this.ruleWriter = aThis;
     }

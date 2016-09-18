@@ -253,6 +253,8 @@ public class Language {
     public static final Token img_alpha = addToken(new Img.EImgAlpha("imgalpha", null));
     public static final Token img_width = addToken(new Img.EImgWidth("imgwidth", null));
     public static final Token img_height = addToken(new Img.EImgHeight("imgheight", null));
+    
+    public static final Token nearby = addToken(new Func.EContextSearchXyz("nearby", null));
 
     public static final Token PI =     addConstant("PI",       (float)Math.PI);
     public static final Token E =      addConstant("E",        (float)Math.E);

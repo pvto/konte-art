@@ -14,6 +14,7 @@ import org.konte.image.OutputShape;
 import org.konte.misc.DiskBackedTreeMapBag;
 import org.konte.misc.DiskBackedTreeMapBag.BagWrapper;
 import org.konte.model.Model;
+import struct.quadtree.Octree;
 
 /**
  * @author pvto https://github.com/pvto
@@ -26,7 +27,7 @@ public class DiskBackedShapeReader implements ShapeReader {
     
     private Model model;
     private boolean enableLaterIteration;
-    
+
     public DiskBackedShapeReader(Model model, PointMetric metric)
     {
         this.model = model;
@@ -211,7 +212,7 @@ public class DiskBackedShapeReader implements ShapeReader {
     @Override public Canvas getCanvas() { return canvas; }
     @Override public void setCanvas(Canvas canvas) { this.canvas = canvas; }
     @Override public void setRuleWriter(RuleWriter aThis) { this.rulew = aThis; }
-
+    @Override public RuleWriter getRuleWriter() { return this.rulew; }
     
     OutputShapeSerializer outputShapeSerializer = new OutputShapeSerializer();
     

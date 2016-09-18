@@ -36,6 +36,7 @@ import org.konte.model.Untransformable.Effect;
 public class Model {
 
     public static final Object RNDFEED_KEY = new Object();
+    public boolean enableContextSearch = false;
     public RandomFeed getRandomFeed()
     {
         return (RandomFeed)globalvar.get(RNDFEED_KEY);

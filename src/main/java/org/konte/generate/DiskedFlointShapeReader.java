@@ -22,7 +22,7 @@ public class DiskedFlointShapeReader implements ShapeReader {
     
     private Model model;
     private boolean enableLaterIteration;
-    
+
     public DiskedFlointShapeReader(Model model, PointMetric metric)
     {
         this.model = model;
@@ -249,10 +249,10 @@ public class DiskedFlointShapeReader implements ShapeReader {
     @Override public Canvas getCanvas() { return canvas; }
     @Override public void setCanvas(Canvas canvas) { this.canvas = canvas; }
     @Override public void setRuleWriter(RuleWriter aThis) { this.rulew = aThis; }
-
+    @Override public RuleWriter getRuleWriter() { return this.rulew; }
     
     OutputShapeSerializer outputShapeSerializer = new OutputShapeSerializer();
-    
+
     protected class Layers
     {
         public int addedCount = 0;

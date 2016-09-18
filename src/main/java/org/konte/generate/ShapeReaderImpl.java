@@ -26,6 +26,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import org.konte.image.OutputShape;
 import org.konte.model.Model;
+import struct.quadtree.Octree;
 
 
 /** @author pvto */
@@ -48,7 +49,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
     private RuleWriter rulew;
     private long shapeCount;
     private boolean enableLaterIteration = false;
-
+    
     
     public ShapeReaderImpl(Model model)
     {
@@ -61,6 +62,12 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         this.rulew = rulew;
     }
 
+    @Override
+    public RuleWriter getRuleWriter() {
+        return this.rulew;
+    }
+
+    
     public void setEnableLaterIteration(boolean enable)
     {
         this.enableLaterIteration = enable;

@@ -45,6 +45,7 @@ public class ExpressionFunction extends Operator {
         }
         catch (Exception e) 
         {
+            e.printStackTrace();
             throw new ParseException("error evaluating " + this + ":" + e.getMessage());
         }
     }

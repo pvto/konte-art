@@ -1,6 +1,7 @@
 package org.konte.generate;
 
 import java.util.Iterator;
+import java.util.List;
 import org.konte.image.Canvas;
 import org.konte.image.OutputShape;
 
@@ -22,7 +23,8 @@ public interface ShapeReader extends Runnable {
     public void setCanvas(Canvas canvas);
 
     public void setRuleWriter(RuleWriter aThis);
-
+    public RuleWriter getRuleWriter();
+    
     public void setEnableLaterIteration(boolean enable);
 
 }

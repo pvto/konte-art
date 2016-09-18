@@ -1,6 +1,8 @@
 
 package org.konte.lang.func;
 
+import java.util.List;
+import org.konte.image.OutputShape;
 import org.konte.lang.Tokens.ContextualOneToOneFunction;
 import org.konte.model.Model;
 
@@ -116,4 +118,37 @@ public class Func {
             return (float) Prob.hypgRnd(N1, N2, n, model.getRandomFeed().get());
         }
     }
+    
+    public static class EContextSearchXyz extends ContextualOneToOneFunction
+    {
+        @Override public int getArgsCount() { return 4; }
+
+        @Override
+        public boolean nArgsAllowed(int n)
+        {
+            return n==4;
+        }
+
+        public EContextSearchXyz(String name, Model model)
+        { 
+            super(name, model);
+            if (model != null)
+                model.enableContextSearch = true;
+        }
+        
+        @Override
+        public float value(float... val) throws Exception
+        {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            double x = (double)val[0],
+                    y = (double)val[1],
+                    z = (double)val[2],
+                    radius = (double)val[3]
+                    ;
+            List<OutputShape> list = model.shapeReader.getRuleWriter().findAll(x, y, z, radius);
+            return (float) list.size();
+        }
+    }
+
 }

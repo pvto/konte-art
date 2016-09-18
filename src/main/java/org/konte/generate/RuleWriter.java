@@ -32,6 +32,7 @@ import org.konte.model.Untransformable;
 import org.konte.model.MeshIndex;
 import org.konte.model.PathRule;
 import org.konte.plugin.KontePluginScript;
+import struct.quadtree.Octree;
 
 /**
  *
@@ -57,10 +58,31 @@ public class RuleWriter {
     private int forwardedShapes;
     private int generatedExpansions;
     boolean drained = false;
+    private boolean contextSearch = false;
+    private Octree<OutputShape> xyzIndex;
+    
+    public void enableContextSeach() {
+        contextSearch = true;
+        xyzIndex = new Octree<>();
+    }
+
+    public List<OutputShape> findAll(double x, double y, double z, double radius)
+    {
+        List<Octree<OutputShape>.CoordHolder> list = xyzIndex.findAll(x, y, z, radius);
+        List<OutputShape> ret = new ArrayList<>(list.size());
+        for(Octree<OutputShape>.CoordHolder holder : list)
+            ret.add(holder.o);
+        return ret;
+    }
 
     public RuleWriter(Model model) throws ParseException, IOException 
     {
         this.model = model;
+        if (model.enableContextSearch)
+        {
+            enableContextSeach();
+        }
+
         resetShapes();
     }
 
@@ -343,6 +365,10 @@ public class RuleWriter {
     
     private void addShape(OutputShape s)
     {
+        if (contextSearch)
+        {
+            xyzIndex.place(s.matrix.m03, s.matrix.m13, s.matrix.m23, s);
+        }
         if (shapes.size() < 1030 || !(sr instanceof StreamingShapeReader) && shapes.size() < 131070)
         {
             shapes.add(s);
