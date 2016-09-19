@@ -290,7 +290,6 @@ public class DefaultCanvas implements Canvas {
         List<CanvasEffect> effects = model.canvasEffects.get(layer);
         if (effects == null)
         {
-            System.out.println("no effects for " + layer);
             if (layerimg != image)
             {
                 image.getGraphics().drawImage(layerimg, 0, 0, null);
