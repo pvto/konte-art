@@ -1,9 +1,12 @@
 
 package org.konte.lang.func;
 
+import static java.util.Collections.list;
 import java.util.List;
+import org.konte.expression.Expression;
 import org.konte.image.OutputShape;
 import org.konte.lang.Tokens.ContextualOneToOneFunction;
+import org.konte.lang.Tokens.ContextualTwoToOneFunction;
 import org.konte.model.Model;
 
 public class Func {
@@ -151,4 +154,39 @@ public class Func {
         }
     }
 
+    public static class EContextNbDist extends ContextualTwoToOneFunction
+    {
+        @Override public int getArgsCount() { return 4; }
+
+        @Override
+        public boolean nArgsAllowed(int n)
+        {
+            return n==4;
+        }
+
+        public EContextNbDist(String name, Model model)
+        { 
+            super(name, model);
+            if (model != null)
+                model.enableContextSearch = true;
+        }
+        
+        @Override
+        public float value(float... val) throws Exception
+        {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            double x = (double)val[0],
+                    y = (double)val[1],
+                    z = (double)val[2]
+                    ;
+            int n = (int)val[3];
+            OutputShape p = model.shapeReader.getRuleWriter().findNthNearestNeighbor(x, y, z, n, arg2);
+            double x0 = (x - p.matrix.m03),
+                    y0 = (y - p.matrix.m13),
+                    z0 = (z - p.matrix.m23)
+                    ;
+            return (float)Math.sqrt(x0*x0 + y0*y0 + z0*z0);
+        }
+    }
 }

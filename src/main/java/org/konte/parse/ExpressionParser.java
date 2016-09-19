@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.konte.expression.Operator;
 import org.konte.lang.Language;
+import org.konte.lang.Tokens;
 import org.konte.model.Model;
 
 /**
@@ -199,14 +200,20 @@ public class ExpressionParser {
                         (exps[ref[i] - 1] instanceof ExpressionFunction /*||
                         (ttOrig.get(ref[i]-1)==Language.comma && 
                         exps[ref[ref[i]-1]] instanceof ExpressionFunction)*/))
-                        {
+                {
 
                     int place = getSmallestPriority(argStack.pop() + 1, i, priority, ttOrig);
 
                     int curAN = curargStack.pop();
                     if (place != -1)
                     {
-                        ((ExpressionFunction) exps[funcStack.pop()]).setArg(curAN, exps[place]);
+                        ExpressionFunction exprFunc = ((ExpressionFunction) exps[funcStack.pop()]);
+                        if (exprFunc.getToken() instanceof Tokens.ContextualTwoToOneFunction)
+                        {
+                            ContextualTwoToOneFunction cottof = (ContextualTwoToOneFunction) exprFunc.getToken();
+                            cottof.setArg2(exps[place]);
+                        }
+                        exprFunc.setArg(curAN, exps[place]);
                     }
                     else
                     {
@@ -330,7 +337,8 @@ public class ExpressionParser {
                 priority[i] = cur + Language.FUNCTION_PRIORITY;
                 if (t instanceof ContextualFunction)
                 {
-                    if (t instanceof ContextualOneToOneFunction)
+                    if (t instanceof ContextualOneToOneFunction
+                            || t instanceof ContextualTwoToOneFunction)
                     {
                         ContextualOneToOneFunction coto = (ContextualOneToOneFunction)t;
                         String name = coto.name;
@@ -340,10 +348,6 @@ public class ExpressionParser {
                         }
                         else
                         {
-//                            if (tt.get(i+3)!=Language.right_bracket)
-//                            {
-//                                throw new ParseException("after " + t + " (<name>) or () expected");
-//                            }
                             name += ":" + tt.get(i+2).toString();
                         }
                         t = (Token)model.globalvar.get(name);

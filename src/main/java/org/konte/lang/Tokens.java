@@ -315,6 +315,22 @@ public class Tokens {
             super(name, model);
         }
     }
+    
+    public static abstract class ContextualTwoToOneFunction extends ContextualFunction {
+
+        protected Expression arg2;
+        
+        public ContextualTwoToOneFunction(String name, Model model)
+        {
+            super(name, model);
+            this.arg2 = arg2;
+        }
+        
+        public void setArg2(Expression arg2)
+        {
+            this.arg2 = arg2;
+        }
+    }
 
     public static abstract class Function0 extends Function {
         public Function0(String name) { super(name); }

@@ -24,6 +24,7 @@ import org.konte.model.Transform;
 import org.konte.model.DrawingContext;
 import org.konte.model.NonDeterministicRule;
 import org.konte.expression.BooleanExpression;
+import org.konte.expression.Expression;
 import org.konte.expression.Name;
 import org.konte.image.OutputShape;
 import org.konte.lang.Tokens.Constant;
@@ -75,6 +76,17 @@ public class RuleWriter {
             ret.add(holder.o);
         return ret;
     }
+
+    public OutputShape findNthNearestNeighbor(double x, double y, double z, int n, Expression arg2)
+    {
+        List<Octree<OutputShape>.CoordHolder> list = xyzIndex.findNNearestNeighbors(x, y, z, n, arg2, model);
+        if (list.size() >= n)
+        {
+            return list.get(n - 1).o;
+        }
+        return null;
+    }
+
 
     public RuleWriter(Model model) throws ParseException, IOException 
     {

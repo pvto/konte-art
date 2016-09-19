@@ -3,9 +3,13 @@ package struct.quadtree;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import org.konte.expression.Expression;
+import org.konte.image.OutputShape;
+import org.konte.model.Model;
 
 /**
  *
@@ -99,6 +103,68 @@ public class Octree<T> {
             if (overlap(LRF, X1, Y1, Z1, X2, Y2, Z2)) LRF.findAll(X1, Y1, Z1, X2, Y2, Z2, ret);
         }
 
+        private List<CoordHolder> findNNearestNeighbors(final double x, final double y, final double z, int n, Expression filter, Model model)
+        {
+            List<CoordHolder> ret = new LinkedList<>();
+            List<CoordHolder> tmp = new LinkedList<>();
+            Oct near = narrowDown(this, new CoordHolder(x, y, z, null, null));
+            while(ret.size() + tmp.size() < n)
+            {
+                if (near.parent != null)
+                {
+                    near = near.parent;
+                }
+                collectAll(near, ret);
+                //todo:add from parent's parent's adjacent octs... if it goes beyond that it gets too complicated and must be redone, forsaking these
+                Iterator<CoordHolder> it = ret.iterator();
+                while(it.hasNext())
+                {
+                    CoordHolder h = it.next();
+                    if (h.o instanceof OutputShape)
+                    {
+                        OutputShape nb = (OutputShape) h.o;
+                        //if (filter) it.remove();
+                    }
+                }
+                tmp.addAll(ret);
+                if (near.parent == null)
+                    break;
+                ret = new LinkedList<>();
+            }
+            ret = tmp;
+            
+            Collections.sort(ret, new Comparator<CoordHolder>() {
+                @Override
+                public int compare(CoordHolder a, CoordHolder b) {
+                    double x0 = (x - a.x),
+                            y0 = (y - a.y),
+                            z0 = (z - a.z);
+                    double dista = x0*x0 + y0*y0 + z0*z0;
+                    x0 = (x - b.x);
+                    y0 = (y - b.y);
+                    z0 = (z - b.z);
+                    double distb = x0*x0 + y0*y0 + z0*z0;
+                    if (dista < distb) { return -1; }
+                    if (dista > distb) { return 1; }
+                    return 0;
+                }
+            });
+            return ret.subList(0, Math.min(n, ret.size()));
+        }
+        
+        public void collectAll(Oct container, List<CoordHolder> ret)
+        {
+            if (ULN == null)
+            {
+                ret.addAll(container.items);
+                return;
+            }
+            collectAll(ULN, ret);  collectAll(ULF, ret);
+            collectAll(URN, ret);  collectAll(URF, ret);
+            collectAll(LLN, ret);  collectAll(LLF, ret);
+            collectAll(LRN, ret);  collectAll(LRF, ret);
+        }
+
         private boolean overlap(Oct q, double X1, double Y1, double Z1, double X2, double Y2, double Z2)
         {
             if (q.x2 < X1 || q.y2 < Y1 || q.z2 < Z1 || q.x1 > X2 || q.y1 > Y2 || q.z1 > Z2) return false;
@@ -158,6 +224,12 @@ public class Octree<T> {
 
         private CoordHolder place_(CoordHolder h, Oct oct, int n)
         {
+            oct = narrowDown(oct, h);
+            return oct.place(h, n+1);
+        }
+
+        private Oct narrowDown(Oct oct, CoordHolder h)
+        {
             while (oct.ULN != null)
             {
                 if (h.x <= (oct.x2 + oct.x1) / 2)
@@ -183,9 +255,9 @@ public class Octree<T> {
                     }
                 }
             }
-            return oct.place(h, n+1);
+            return oct;
         }
-
+        
         private void expand(int n)
         {
             if (LLN == null)
@@ -369,7 +441,12 @@ public class Octree<T> {
         }
         return ret;
     }
-    
+
+    public List<CoordHolder> findNNearestNeighbors(double x, double y, double z, int n, Expression filter, Model model) {
+        return root.findNNearestNeighbors(x, y, z, n, filter, model);
+    }
+
+
     
     public CoordHolder place(double x, double y, double z, T o)
     {
