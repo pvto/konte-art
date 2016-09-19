@@ -15,7 +15,7 @@ public class Octree<T> {
 
     public int LEAF_MAX_OBJECTS = 10;
     public boolean DYNAMIC_MAX_OBJECTS = false;
-    public double MAX_OBJ_TARGET_EXPONENT = 0.333333;
+    public double MAX_OBJ_TARGET_EXPONENT = 0.5;
     private int size = 0;
     public ListProvider<CoordHolder> LIST_PROVIDER = ListProvider.LP_LINKEDLIST;
 
@@ -250,10 +250,10 @@ public class Octree<T> {
                 case 1: parent.URN = this; break;
                 case 2: parent.LLN = this; break;
                 case 3: parent.LRN = this; break;
-                case 5: parent.ULF = this; break;
-                case 6: parent.URF = this; break;
-                case 7: parent.LLF = this; break;
-                case 8: parent.LRF = this; break;
+                case 4: parent.ULF = this; break;
+                case 5: parent.URF = this; break;
+                case 6: parent.LLF = this; break;
+                case 7: parent.LRF = this; break;
 
             }
             root = parent;

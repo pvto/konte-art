@@ -64,6 +64,7 @@ public class RuleWriter {
     public void enableContextSeach() {
         contextSearch = true;
         xyzIndex = new Octree<>();
+        xyzIndex.DYNAMIC_MAX_OBJECTS = true;
     }
 
     public List<OutputShape> findAll(double x, double y, double z, double radius)
