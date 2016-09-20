@@ -64,4 +64,12 @@ public class OutputShape implements Serializable {
                 Math.abs(matrix.m20) + Math.abs(matrix.m21) + Math.abs(matrix.m22)));
     }
 
+    public float getAvgWidth()
+    {
+        return (Math.abs(matrix.m00) + Math.abs(matrix.m01) + Math.abs(matrix.m02)
+                + Math.abs(matrix.m10) + Math.abs(matrix.m11) + Math.abs(matrix.m12)
+                + Math.abs(matrix.m20) + Math.abs(matrix.m21) + Math.abs(matrix.m22))
+                / 3.0f;
+    }
+
 }

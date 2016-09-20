@@ -255,6 +255,7 @@ public class Language {
     public static final Token img_height = addToken(new Img.EImgHeight("imgheight", null));
     
     public static final Token nearby = addToken(new Func.EContextSearchXyz("nearby", null));
+    public static final Token nearbyd = addToken(new Func.EContextNearbyDistXyz("mindist", null));
 
     public static final Token PI =     addConstant("PI",       (float)Math.PI);
     public static final Token E =      addConstant("E",        (float)Math.E);

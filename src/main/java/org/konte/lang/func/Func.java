@@ -154,6 +154,64 @@ public class Func {
         }
     }
 
+    public static class EContextNearbyDistXyz extends ContextualOneToOneFunction
+    {
+        @Override public int getArgsCount() { return 4; }
+
+        @Override
+        public boolean nArgsAllowed(int n)
+        {
+            return n==4;
+        }
+
+        public EContextNearbyDistXyz(String name, Model model)
+        { 
+            super(name, model);
+            if (model != null)
+                model.enableContextSearch = true;
+        }
+        
+        @Override
+        public float value(float... val) throws Exception
+        {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            double x = (double)val[0],
+                    y = (double)val[1],
+                    z = (double)val[2],
+                    radius = (double)val[3]
+                    ;
+            double minDist = Double.MAX_VALUE;
+            OutputShape ret = null;
+            List<OutputShape> list = model.shapeReader.getRuleWriter().findAll(x, y, z, radius);
+            for(OutputShape o : list)
+            {
+                double dist = Math.sqrt(
+                        pow2(x - o.matrix.m03)
+                        + pow2(y - o.matrix.m13)
+                        + pow2(z - o.matrix.m23)
+                );
+                double r = o.getAvgWidth() / 2.0;
+                if (r >= dist)
+                {
+                    dist = 0.0;
+                }
+                else
+                {
+                    dist = dist - r;
+                }
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    ret = o;
+                }
+            }
+            return (float)minDist;
+        }
+    }
+    
+    private static double pow2(double x) { return x * x; }
+    
     public static class EContextNbDist extends ContextualTwoToOneFunction
     {
         @Override public int getArgsCount() { return 4; }
