@@ -72,6 +72,12 @@ geometrySheet {*{s .05 x -8 y 6.5 s .75 {F=.3}} {
  *{x 7 y -15} {
    *{y -0} { FRAME{{frame=.1}} TEXT { x 1 s F PUSH "^m^FRAME{{frame=.1}}" } }
    *{y -1.5} { FRAME{{frame=.5}} TEXT { x 1 s F PUSH "^m^FRAME{{frame=.5}}" } }
+
+   *{x 5.5} {
+     *{y -0} { RIM{{ANG=360;rim=.1}} TEXT { x 1 s F PUSH "^m^RIM{{ANG=360;rim=.1}}" } }
+     *{y -1.5} { RIM{{ANG=270;rim=.5}} TEXT { x 1 s F PUSH "^m^RIM{{ANG=270;rim=.5}}" } }
+
+   }
  }
 
   *{y -17.5 {ITALIC=2;BOLD=5;WIDE=2} {BW=.075} ry -30 rx 20} {
