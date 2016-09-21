@@ -180,11 +180,13 @@ public class RuleWriter {
 
             if (expansions.size() > 0)
             {
-                Expansion e = expansions.removeFirst();    //expansions.size()-1);
+                Expansion e;
+                if (contextSearch) e = expansions.removeLast();
+                else e = expansions.removeFirst();
                 model.context = e.point;
                 Rule r = model.indexedNd[e.ndruleIndex].randomRule(rndFeed);
                 processRule(r);
-                if (expansions.size() > nToOut)
+                if (!this.contextSearch && expansions.size() > nToOut)
                 {
                     if (outoftheway.totalSize() > tmpFileSz)
                     {
@@ -545,8 +547,8 @@ public class RuleWriter {
                     }
                 }
                 expansions.add(e);
+                generatedExpansions++;
             }
-            generatedExpansions++;
         }
     }
 

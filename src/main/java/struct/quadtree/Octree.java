@@ -206,7 +206,7 @@ public class Octree<T> {
                     return parent.place(h, n+1);
                 }
             }
-            if (items.size() == LEAF_MAX_OBJECTS)
+            if (items.size() >= LEAF_MAX_OBJECTS)
             {
                 expand(n+1);
             }

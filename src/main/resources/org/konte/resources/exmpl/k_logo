@@ -3,27 +3,31 @@ MACRO RND (rndf()-.5)*4+x
 include #monospace
 startshape tilp
 
+camera { z -2 }
+
 tilp {
 
-    200*{y -.005} SQUARE{y -.2 s 2 .01 .001 L 1}
 
     300*{y .005} SQUARE{y -.2 s 2 .01 .001 B .2 G .1 R .1}
 
-    rain{layer .5 ry 40}
 
     *{layer 1} {
-        60*{y .002} { SQUARE{y -.1 z .3 scale 3 .001 .001 lightness 1} }
 
-        80*{A -.0125 y .01 layer -.01 rx 4}
-            write { PUSH E3 T3 N3 O3 K3
-                y -0 sy .8
-                scale .27 x -1.75 lightness 1 red -.1}
+        100*{ z .02} 
+	   *{ lightness 1 }
+        2*{L -1 {BOLD=BOLD-.75;FLAT=FLAT+.5}}
+        TEXT { PUSH  "^m^K0NTE"
+              {BOLD=BOLD+3;DANCE=0.5;CAROL=5;WIDE=2}
+              scale .4 
+              x -1.5 // 1.75
+              y -.15 // -.2
+              }
 
-        TEXT { PUSH  mt mr mA m_ me mv mi mt ma mr me mn me mG
+        TEXT { PUSH  "^m^Generative Art"
               {BOLD=0}
-              y -.25 // -.2
-              scale .1 
-              x -4 // 1.75
+              scale .05 
+              x -4.25 // 1.75
+              y -7.6 // -.2
               lightness -1 // 1
               red -.1}
         
@@ -32,35 +36,3 @@ tilp {
     }
 }
 
-rain {
-    1000*{} SQUARE{
-        x RND y RND rz 20+rndf()*5  
-        s .0001 .2 .01 
-        A -rndf() L 1}
-
-}
-write { POP{s .3 PUSH lblock }
-        if(n<5){write{x 1 ry 8 DEF{n=n+1;}} } }
-
-lblock {
-    10*{s .95 red -.1 green -.095 blue -.085}
-    {
-        RSQU{ z .1 s 1.2 sat -1 A -.75 }
-        RSQU{}
-    }
-}
-
-K3 { I3 { x -1 d (d)} PEEK { x 1 y 1 } PEEK { } PEEK { x 1 y -1 } }
-O3 { C3 { d (d) } PEEK { x 1 } }
-N3 { x_3 { y 1 d (d)} PEEK { x -1 y -1 } PEEK { x 1 y 1 } }
-T3 { I3 { d (d)} PEEK { x -1 y 1 } PEEK { x 1 y 1 } }
-E3 { I3 { x -1 d (d)} PEEK { y 1 } PEEK { y -1 } }
-
-C3 { L3 { d (d)} PEEK { y 1 } PEEK {y 1 x 1 } }
-I3 { 3* { y 1 d (d)} PEEK { y -1 } }
-L3 { I3 { x -1 d (d)} PEEK { y -1 } PEEK { y -1 x 1 } }
-x_3 { 3* { x 1 } PEEK { x -1 y -1 } }
-
-
-
-camera { z -2 }
