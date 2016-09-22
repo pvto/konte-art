@@ -33,7 +33,7 @@ import org.konte.model.Untransformable;
 import org.konte.model.MeshIndex;
 import org.konte.model.PathRule;
 import org.konte.plugin.KontePluginScript;
-import struct.quadtree.Octree;
+import org.konte.struct.Octree;
 
 /**
  *

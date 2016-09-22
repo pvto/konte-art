@@ -1,5 +1,6 @@
 package org.konte.misc;
 
+import org.konte.struct.FlointTree;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

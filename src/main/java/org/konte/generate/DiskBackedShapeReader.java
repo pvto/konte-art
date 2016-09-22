@@ -14,7 +14,7 @@ import org.konte.image.OutputShape;
 import org.konte.misc.DiskBackedTreeMapBag;
 import org.konte.misc.DiskBackedTreeMapBag.BagWrapper;
 import org.konte.model.Model;
-import struct.quadtree.Octree;
+import org.konte.struct.Octree;
 
 /**
  * @author pvto https://github.com/pvto

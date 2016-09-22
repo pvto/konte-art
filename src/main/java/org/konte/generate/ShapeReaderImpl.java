@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import org.konte.image.OutputShape;
 import org.konte.model.Model;
-import struct.quadtree.Octree;
+import org.konte.struct.Octree;
 
 
 /** @author pvto */

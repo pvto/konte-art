@@ -1,5 +1,6 @@
 package org.konte.misc;
 
+import org.konte.struct.FlointTree;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -8,8 +9,8 @@ import java.util.TreeMap;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.konte.misc.FlointTree.Do;
-import org.konte.misc.FlointTree.FUPair;
+import org.konte.struct.FlointTree.Do;
+import org.konte.struct.FlointTree.FUPair;
 
 public class FlointTreeTest {
     

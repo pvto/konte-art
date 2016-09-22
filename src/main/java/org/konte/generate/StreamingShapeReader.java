@@ -8,7 +8,7 @@ import org.konte.expression.Expression;
 import org.konte.image.Canvas;
 import org.konte.image.OutputShape;
 import org.konte.model.Model;
-import struct.quadtree.Octree;
+import org.konte.struct.Octree;
 
 /**
  *

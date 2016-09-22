@@ -1,4 +1,4 @@
-package struct.quadtree;
+package org.konte.struct;
 
 import java.io.PrintStream;
 import java.util.ArrayList;

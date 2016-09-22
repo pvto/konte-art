@@ -1,6 +1,6 @@
 package org.konte.generate;
 
-import static org.konte.misc.FlointTree.*;
+import static org.konte.struct.FlointTree.*;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -11,7 +11,7 @@ import java.util.Map;
 import org.konte.image.Canvas;
 import org.konte.image.OutputShape;
 import org.konte.misc.DiskBackedFlointTree;
-import org.konte.misc.FlointTree;
+import org.konte.struct.FlointTree;
 import org.konte.model.Model;
 
 public class DiskedFlointShapeReader implements ShapeReader {

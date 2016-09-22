@@ -1,4 +1,4 @@
-package org.konte.misc;
+package org.konte.struct;
 
 
 /**

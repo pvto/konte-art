@@ -1,5 +1,5 @@
 
-package struct.quadtree;
+package org.konte.struct;
 
 import java.util.HashMap;
 
