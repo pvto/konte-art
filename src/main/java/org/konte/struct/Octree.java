@@ -21,6 +21,7 @@ public class Octree<T> {
     public boolean DYNAMIC_MAX_OBJECTS = false;
     public double MAX_OBJ_TARGET_EXPONENT = 0.5;
     private int size = 0;
+    private int dirty = 0;
     public ListProvider<CoordHolder> LIST_PROVIDER = ListProvider.LP_LINKEDLIST;
 
     public class CoordHolder {
@@ -173,10 +174,19 @@ public class Octree<T> {
 
         public CoordHolder place(double x, double y, double z, T o)
         {
-            return place(new CoordHolder(x, y, z, o, null), 0);
+            CoordHolder h = place_(new CoordHolder(x, y, z, o, null), 0);
+            dirty = 0;
+            return h;
+        }
+        
+        public CoordHolder place(CoordHolder h, int n)
+        {
+            h = place_(h, n);
+            dirty = 0;
+            return h;
         }
 
-        public CoordHolder place(CoordHolder h, int n)
+        private CoordHolder place_(CoordHolder h, int n)
         {
             double x = h.x,
                     y = h.y,
@@ -203,10 +213,10 @@ public class Octree<T> {
                     {
                         initParent(x, y, z);
                     }
-                    return parent.place(h, n+1);
+                    return parent.place_(h, n+1);
                 }
             }
-            if (items.size() >= LEAF_MAX_OBJECTS)
+            if (items.size() >= LEAF_MAX_OBJECTS && dirty == 0)
             {
                 expand(n+1);
             }
@@ -225,7 +235,7 @@ public class Octree<T> {
         private CoordHolder place_(CoordHolder h, Oct oct, int n)
         {
             oct = narrowDown(oct, h);
-            return oct.place(h, n+1);
+            return oct.place_(h, n+1);
         }
 
         private Oct narrowDown(Oct oct, CoordHolder h)
@@ -262,6 +272,7 @@ public class Octree<T> {
         {
             if (LLN == null)
             {
+                dirty++;
                 initOct();
             }
             for(CoordHolder c : items)
@@ -341,7 +352,7 @@ public class Octree<T> {
                 {
                     initParent(item.x, item.y, item.z);
                 }
-                parent.place(item, n+1);
+                parent.place_(item, n+1);
             }
         }
 
