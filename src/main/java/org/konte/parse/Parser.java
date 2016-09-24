@@ -637,7 +637,14 @@ public class Parser {
 
                         } else {
                             File fl = getFile(workdir, lastName);
-                            tmp = Readers.fillStringBuilder(fl);
+                            if (fl.exists())
+                            {
+                                tmp = Readers.fillStringBuilder(fl);
+                            }
+                            else
+                            {
+                                tmp = Readers.load(new URL(lastName).openStream());
+                            }
                         }
                         if (tmp != null && tmp.length() > 0)
                         {
