@@ -1,6 +1,7 @@
 package org.konte.parse;
 
 import static org.junit.Assert.assertEquals;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.konte.lang.Tokenizer;
 import org.konte.model.ConditionalStructure;
@@ -126,5 +127,14 @@ public class ParserTest {
         Model m = new Parser().parse( 
             Tokenizer.retrieveTokenStrings(s)
         );
+    }
+    
+    @Test
+    public void testParseInclude() throws ParseException {
+        String s = 
+                "include \"http://pvto.github.io/assets/img/art/2016-09-24-15-30-sierp-textp-corr-frac-landscape-ADK.png\" myimg\n"
+                + "include #monospace\n"
+                + "foo{SQUARE{}}";
+        new Parser().parse(Tokenizer.retrieveTokenStrings(s));
     }
 }

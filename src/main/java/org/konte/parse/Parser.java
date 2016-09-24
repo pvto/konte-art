@@ -567,104 +567,93 @@ public class Parser {
 
                     break;
                 case INCLUDE:
-                    boolean wasLast = false;
-                    if (t == null || t == Language.divide)
+                    if (t != null)
                     {
-                        if (lastName == null)
-                            lastName = s;
-                        else {
-                            if (i < tokenStrings.size()-1
-                                    && Language.tokenByName(tokenStrings.get(i + 1).getString()) != null
-                                    && lastName.lastIndexOf("/") != lastName.length() - 1)
-                                    {
-                                lastName += " ";
-                            }
-                            lastName += s;
-                        }
-                        if (i == tokenStrings.size()-1)
-                        {
-                            wasLast = true;
-                            i++;
-                        }
-                    } else if (i < tokenStrings.size()-1 &&
-                            "/".equals(tokenStrings.get(i+1).getString()))
-                            {
-                        if (lastName == null)
-                            lastName = s;
-                        else lastName += s;
-                        t = null;
-                    }
-                    if ((t != null && t != Language.divide) || wasLast)
-                    {
-                        if (lastName == null || lastName.isEmpty())
-                            throw new ParseException("Include file not specified", lineNr, caretPos);
-                        Matcher matcher = Pattern.compile(
-                                "(.*(jpg|jpeg|png|gif|JPG|PNG|GIF))\\s*(\\w*)$").matcher(lastName);
-                        if (matcher.find())
-                        {
-                            try {
-                                String refName = matcher.group(3);
-                                if (refName.length() == 0)
-                                    throw new ParseException("Syntax: include [bitmap-name] [ref-name]", lineNr, caretPos);
-                                File fl = getFile(workdir, matcher.group(1));
-                                Image img = null;
-                                if (fl.exists())
-                                {
-                                    img = Model.bitmapCache.add(fl, refName);
-                                }
-                                else
-                                {
-                                    img = Model.bitmapCache.add(new URL(matcher.group(1)), refName);
-                                }
-                                if (img == null)
-                                    throw new ParseException("Image not found");
-                                Runtime.sysoutln(String.format(
-                                        "%s [%dx%d] included as %s",
-                                        fl.getAbsolutePath(), img.getWidth(null),
-                                        img.getHeight(null), refName), 5);
-                                Model.bitmapCache.init();
-                                i--;
-                            }
-                            catch(Exception ex)
-                            {
-                                throw new ParseException(String.format(
-                                        "bitmap %s not loaded: %s", matcher.group(1), ex.getMessage()),
-                                        lineNr, caretPos);
-                            }
-                        }
+                        if (lastName != null)
+                            throw new ParseException("Expecting image name, found" + t, lineNr, caretPos);
                         else
+                            throw new ParseException("Expecting file/url, found " + t, lineNr, caretPos);
+                    }                        
+                    if (lastName == null)
+                    {
+                        lastName = s;
+                        if (lastName.matches("(.*(jpg|jpeg|png|gif|JPG|PNG|GIF))"))
                         {
-                            StringBuilder tmp = null;
-                            if (lastName.charAt(0) == '#') { // library from jar
-                                lastName = lastName.substring(1);
-                                String pth = "/org/konte/resources/lib/" + lastName;
-                                try {
-                                    InputStream in = Ui.class.getResource(pth).openStream();
-                                    tmp = Readers.load(in, StandardCharsets.UTF_8);
-                                } catch(Exception ex) {
-                                    throw new ParseException("Library " + lastName + " does not exist", lineNr, caretPos);
-                                }
-                                
-                            } else {
-                                File fl = getFile(workdir, lastName);
-                                tmp = Readers.fillStringBuilder(fl);
+                            break;
+                        }
+                    }
+                    else {
+                        lastName += " " + s;
+                    }
+                    
+                    if (lastName == null || lastName.isEmpty())
+                        throw new ParseException("Include file not specified", lineNr, caretPos);
+                    lastName = lastName.replaceFirst("^~", System.getProperty("user.home"));
+                    Matcher matcher = Pattern.compile(
+                            "(.*(jpg|jpeg|png|gif|JPG|PNG|GIF))\\s*(\\w*)$").matcher(lastName);
+                    if (matcher.find())
+                    {
+                        try {
+                            String refName = matcher.group(3);
+                            if (refName.length() == 0)
+                                throw new ParseException("Syntax: include [bitmap-name] [ref-name]", lineNr, caretPos);
+                            File fl = getFile(workdir, matcher.group(1));
+                            Image img = null;
+                            if (fl.exists())
+                            {
+                                img = Model.bitmapCache.add(fl, refName);
                             }
-                            if (tmp == null || tmp.length() < 1)
-                                throw new ParseException("Empty or missing include file: " + lastName, lineNr, caretPos);
+                            else
+                            {
+                                img = Model.bitmapCache.add(new URL(matcher.group(1)), refName);
+                            }
+                            if (img == null)
+                                throw new ParseException("Image not found");
+                            Runtime.sysoutln(String.format(
+                                    "%s [%dx%d] included as %s",
+                                    fl.getAbsolutePath(), img.getWidth(null),
+                                    img.getHeight(null), refName), 5);
+                            Model.bitmapCache.init();
+                        }
+                        catch(Exception ex)
+                        {
+                            throw new ParseException(String.format(
+                                    "bitmap %s not loaded: %s", matcher.group(1), ex.getMessage()),
+                                    lineNr, caretPos);
+                        }
+                    }
+                    else
+                    {
+                        StringBuilder tmp = null;
+                        if (lastName.charAt(0) == '#') { // library from jar
+                            lastName = lastName.substring(1);
+                            String pth = "/org/konte/resources/lib/" + lastName;
+                            try {
+                                InputStream in = Ui.class.getResource(pth).openStream();
+                                tmp = Readers.load(in, StandardCharsets.UTF_8);
+                            } catch(Exception ex) {
+                                throw new ParseException("Library " + lastName + " does not exist", lineNr, caretPos);
+                            }
+
+                        } else {
+                            File fl = getFile(workdir, lastName);
+                            tmp = Readers.fillStringBuilder(fl);
+                        }
+                        if (tmp != null && tmp.length() > 0)
+                        {
                             ArrayList<Tokenizer.TokenizerString> included =
                                     Tokenizer.retrieveTokenStrings(tmp.toString());
                             included = stripQuotes(included);
                             if (included.size() > 0)
                             {
-                                tokenStrings.addAll(i, included);
+                                tokenStrings.addAll(i+1, included);
                                 Runtime.sysoutln(lastName + " included", 5);
-                                i--;
                             } else
                                 Runtime.sysoutln("Included file is empty: " + lastName, 5);
                         }
-                        lastName = null;
-                        curCtx = contextStack.pop();
                     }
+                    lastName = null;
+                    curCtx = contextStack.pop();
                     break;
                 case FX:
                     if (lastValue == null)
@@ -1520,10 +1509,10 @@ public class Parser {
                             i = getExpressionList(tokenStrings, i, exprL);
                             if (lastInnerToken == Language.push && exprL.size() == 1) {
                                 Token tmpToken = exprL.get(0);
-                                Matcher matcher = prefixPattern.matcher(tmpToken.name);
-                                if (matcher.find()) {
-                                    String prefixType = matcher.group(1);
-                                    String toPrefix = matcher.group(2);
+                                Matcher matcher2 = prefixPattern.matcher(tmpToken.name);
+                                if (matcher2.find()) {
+                                    String prefixType = matcher2.group(1);
+                                    String toPrefix = matcher2.group(2);
                                     int strait = 1;
                                     if ('\\' == prefixType.charAt(prefixType.length() - 1)) {
                                         strait = 0;
@@ -1538,7 +1527,7 @@ public class Parser {
                                     if (toPrefix.length() > 1) {
                                         TokenizerString tts = tokenStrings.get(i);
                                         tokenStrings.set(i, 
-                                                new TokenizerString('^'+matcher.group(1)+'^'+toPrefix.substring(1-strait, toPrefix.length()-strait), 
+                                                new TokenizerString('^'+matcher2.group(1)+'^'+toPrefix.substring(1-strait, toPrefix.length()-strait), 
                                                         tts.getLineNr(), tts.getCaretPos()));
                                         i--;
                                     }
