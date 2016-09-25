@@ -241,6 +241,23 @@ public class UtConstants {
                     .addShape(_32GONP)
                     .effect(Effects.EDGE)
                     .build());
+
+            Language.BRIGHTNESS_SQUARE    = Language.addUntransformable(utb.name("BRIGHTNESS").clearShapes()
+                    .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
+                    .effect(Effects.BRIGHTNESS)
+                    .build());
+            Language.BRIGHTNESS_TRIANGLE    = Language.addUntransformable(utb.name("BRIGHTNESSTRI").clearShapes()
+                    .addShape(PATH_BOTR,PATH_BOTL,PATH_TOPC)
+                    .effect(Effects.BRIGHTNESS)
+                    .build());
+            Language.BRIGHTNESS_HEXAGON    = Language.addUntransformable(utb.name("BRIGHTNESSHEX").clearShapes()
+                    .addShape(HEXP)
+                    .effect(Effects.BRIGHTNESS)
+                    .build());
+            Language.BRIGHTNESS_32GON    = Language.addUntransformable(utb.name("BRIGHTNESS32").clearShapes()
+                    .addShape(_32GONP)
+                    .effect(Effects.BRIGHTNESS)
+                    .build());
             
         } catch(Exception e) { e.printStackTrace(); }
 

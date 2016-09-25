@@ -79,42 +79,48 @@ help {
     TEXT{x 4.75 y 2 s .3 PUSH "^m^mesh" }
 
 // effects
-  checkers{{N=8} x -7 y -2 }
-    RUBBER{x -7 +.1 y -2 s .75 z -.3 } 
-      TEXT{x -6 y -2 s .3 PUSH "^m^RUBBER"}
-  checkers{{N=8} x -7 y -3.5 }
-    RUBBERHEX{x -7 +.1 y -3.5 s .75 z -.3 } 
-      TEXT{x -6 y -3.5 s .3 PUSH "^m^RUBBERHEX"}
-  checkers{{N=8} x -7 y -5 }
-    RUBBER32{x -7 +.1 y -5+.07 s .75 z -.4 } 
-      TEXT{x -6 y -5 s .3 PUSH "^m^RUBBER32"}
+  *{x -7 y -2 y .5 {MS=.6; CS=.9}} {
+	  *{} {
+	    checkers{{N=8} s CS }
+	    RUBBER{x .05 y .05 s MS z -.3 } 
+	    TEXT{x .75 s .3 PUSH "^m^RUBBER"}
+	  }
+	  *{y -1} {
+	    checkers{{N=8} s CS}
+	    MIX{x .05 y .05 s MS z -.3 } 
+	    TEXT{x .75 s .3 PUSH "^m^MIX"}
+	  }
+	  *{y -2} {
+	    checkers{{N=8} s CS}
+	    GBLUR{x .05 y .05 s MS z -.3 } 
+	    TEXT{x .75 s .3 PUSH "^m^GBLUR"}
+	  }
+	  *{y -3} {
+	    checkers{{N=8} s CS}
+	    EDGE{x .05 y .05 s MS z -.3 A -.5} 
+	    TEXT{x .75 s .3 PUSH "^m^EDGE"}
+	  }
+	*{x 2.5} {
+	  *{} {
+	    checkers{{N=8} s CS}
+	    BRIGHTNESS{x .05 y .05 s MS z -.3 B .75} 
+	    TEXT{x .75 s .3 PUSH "^m^BRIGHTNESS"}
+	  }
+	  *{y -1} {
+	    checkers{{N=8} s CS}
+	    RADTR{x .05 y .05 s MS z -.3 B .75} 
+	    TEXT{x .75 s .3 PUSH "^m^RADTR"}
+	  }
+	  *{y -2} {
+	    checkers{{N=8} s CS}
+	    RADBLUR{x .05 y .05 s MS z -.3 R .5 A -.9 } 
+	    TEXT{x .75 s .3 PUSH "^m^RADBLUR"}
+	  }
 
-  checkers{{N=8} x -3.5 y -2 }
-    GBLUR{x -3.5 +.05 y -2 s .75 z -.3 } 
-      TEXT{x -2.5 y -2 s .3 PUSH "^m^GBLUR"}
-  checkers{{N=8} x -3.5 y -3.5 }
-    GBLURTRI{x -3.5 +.05 y -3.5 s .75 z -.3 } 
-      TEXT{x -2.5 y -3.5 s .3 PUSH "^m^GBLURTRI"}
-  checkers{{N=8} x -3.5 y -5 }
-    GBLURHEX{x -3.5 +.05 y -5+.07 s .75 z -.3 } 
-      TEXT{x -2.5 y -5 s .3 PUSH "^m^GBLURHEX"}
-  checkers{{N=8} x -3.5 y -6.5 }
-    GBLUR32{x -3.5 +.05 y -6.5+.1 s .75 z -.3 } 
-      TEXT{x -2.5 y -6.5 s .3 PUSH "^m^GBLUR32"}
+	}
+    }
 
-  checkers{{N=8} x 0 y -2 }
-    MIX{x 0 y -2 s .75 z -.3 } 
-      TEXT{x 1 y -2 s .3 PUSH "^m^MIX"}
-  checkers{{N=8} x 0 y -3.5 }
-    MIX32{x 0 y -3.5 s .75 z -.3 } 
-      TEXT{x 1 y -3.5 s .3 PUSH "^m^MIX32"}
-  checkers{{N=8} x 0 y -5 }
-    RADBLUR{x 0 y -5+.07 s .75 z -.3 R .5 A -.9 } 
-      TEXT{x 1 y -5 s .3 PUSH "^m^RADBLUR"}
-  checkers{{N=8} x 0 y -6.5 }
-    RADBLUR32{x 0 y -6.5+.07 s .75 z -.3 R .5 A -.9 } 
-      TEXT{x 1 y -6.5 s .3 PUSH "^m^RADBLUR32"}
-
+ 
 
   *{x -8 y -6.5 {ITALIC=2;BOLD=5;WIDE=2} {BW=.075} ry -30 rx 20} {
     box{layer -1 z -.25 y .1}
@@ -123,11 +129,13 @@ help {
   }
 
 // commands
-   command_table { x 4+1.5 y 0-3.25 {SX=5;SY=8.5} layer -1}
-   *{x 3.5 s .75 {F=.3}} {
-     TEXT{ y .5 s F PUSH "^m^fov x -3"}
-       TEXT{ y 0 s F PUSH "^m^  lookat (1,0,0)"}
-     *{y -.5} {
+   command_table { x 4+1.5 y 0-2.75 {SX=5;SY=8.5} layer -1}
+   *{x 3.5 y .75 s .75 {F=.3}} {
+     TEXT{ y .5 s F PUSH "^m^fov SIMPLE|ORTOGRAPHIC" }
+     TEXT{ y 0 s F PUSH "^m^  |CABINET|CIRCULAR|PANNING" }
+     TEXT{ y -.5 s F PUSH "^m^  z -2 x -3"}
+     TEXT{ y -1 s F PUSH "^m^  lookat (1,0,0)"}
+     *{y -1.5} {
      TEXT{ y 0 s F PUSH "^m^DEF X 10"}
      TEXT{ y -.5 s F PUSH "^m^MACRO xX x+x"}
      TEXT{ y -1 s F PUSH "^m^PUSH esim"}

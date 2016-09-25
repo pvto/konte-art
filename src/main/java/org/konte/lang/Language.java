@@ -298,10 +298,16 @@ public class Language {
     public static Token RUBBER_32GON;
     
     public static Token GAMEOFLIFE;
+    
     public static Token EDGE_SQUARE;
     public static Token EDGE_TRIANGLE;
     public static Token EDGE_HEXAGON;
     public static Token EDGE_32GON;
+    
+    public static Token BRIGHTNESS_SQUARE;
+    public static Token BRIGHTNESS_TRIANGLE;
+    public static Token BRIGHTNESS_HEXAGON;
+    public static Token BRIGHTNESS_32GON;
     
 //    public static final Token period = addToken(new Operator("."));
     

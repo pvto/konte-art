@@ -1,6 +1,8 @@
 package org.konte.model;
 
+import java.awt.Color;
 import org.konte.image.OutputShape;
+import org.konte.misc.Mathc3;
 import org.konte.model.Untransformable.EffectApply;
 
 /**
@@ -348,6 +350,38 @@ public class Effects {
             if (y < 0 || y >= h) return;
             int ind = x + w * y;
             dest[u + w * v] = data[ind];
+        }
+    };
+    
+    
+    public static final EffectApply BRIGHTNESS = new Untransformable.EffectApply() {
+        
+        @Override public int xcontext(OutputShape s)
+        { 
+            return 0;
+        }
+        @Override public int ycontext(OutputShape s)
+        { 
+            return 0;
+        }
+        private float[] tmpvals = new float[3];
+        @Override
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
+        {
+            int ind = u + w * v;
+            int adjusted = data[ind];
+            int b = data[ind] & 0xFF; 
+            int g = data[ind] >> 8  & 0xFF;
+            int r = data[ind] >> 16  & 0xFF; 
+            float level = (float)(shape.col & 0xFF) / 128f - 1f;
+            int a = data[ind] >>> 24 & 0xFF;
+            Color.RGBtoHSB(r, g, b, tmpvals);
+            tmpvals[2] = Mathc3.bounds1(
+                    tmpvals[2] + level
+            );
+            adjusted = Color.HSBtoRGB(tmpvals[0],tmpvals[1],tmpvals[2]);
+            adjusted = adjusted & 0x00FFFFFF | (data[ind] & 0xFF000000);
+            dest[ind] = adjusted; 
         }
     };
     
