@@ -358,11 +358,11 @@ public class Effects {
         
         @Override public int xcontext(OutputShape s)
         { 
-            return 0;
+            return 1;
         }
         @Override public int ycontext(OutputShape s)
         { 
-            return 0;
+            return 1;
         }
         private float[] tmpvals = new float[3];
         @Override
