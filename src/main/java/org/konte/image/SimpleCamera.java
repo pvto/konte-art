@@ -116,7 +116,7 @@ public class SimpleCamera implements Camera {
     public float distMetric(Matrix4Red matrix)
     {
         float xs = (position.x-matrix.m03);
-        float ys = (position.y-matrix.m13);
+        float ys = (position.y+matrix.m13);
         float zs = (position.z-matrix.m23);
         return xs*xs+ys*ys+zs*zs;   
     }
