@@ -87,7 +87,7 @@ public class RuleWriter {
     {
         List<Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder> list = 
                 xyzIndex.findAll(x, y, z, radius);
-        narrowDownNeighbors(list, n, arg2, model);
+        narrowDownNeighbors(x, y, z, list, n, arg2, model);
         if (list.size() >= n)
         {
             return list.get(n - 1).o.t;
@@ -95,7 +95,7 @@ public class RuleWriter {
         return null;
     }
 
-        private void narrowDownNeighbors(List<Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder> list, int n, Expression filter, Model model) throws ParseException
+        private void narrowDownNeighbors(double x, double y, double z, List<Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder> list, int n, Expression filter, Model model) throws ParseException
         {
             
             float THRESHOLD = 0.0000001f;
@@ -139,16 +139,18 @@ public class RuleWriter {
             Collections.sort(list, new Comparator<Octree.CoordHolder>() {
                 @Override
                 public int compare(Octree.CoordHolder a, Octree.CoordHolder b) {
-                    double x0 = (b.x - a.x),
-                            y0 = (b.y - a.y),
-                            z0 = (b.z - a.z);
-                    double dista = x0*x0 + y0*y0 + z0*z0;
-                    x0 = (b.x - b.x);
-                    y0 = (b.y - b.y);
-                    z0 = (b.z - b.z);
-                    double distb = x0*x0 + y0*y0 + z0*z0;
-                    if (dista < distb) { return 1; }
-                    if (dista > distb) { return -1; }
+                    double x0 = (x - a.x),
+                            y0 = (y - a.y),
+                            z0 = (z - a.z);
+                    double w = ((OutputShape)((Tuple)a.o).t).getAvgWidth() / 2f;
+                    double dista = Math.max(0, Math.sqrt(x0*x0 + y0*y0 + z0*z0) - w);
+                    x0 = (x - b.x);
+                    y0 = (y - b.y);
+                    z0 = (z - b.z);
+                    w = ((OutputShape)((Tuple)b.o).t).getAvgWidth() / 2f;
+                    double distb = Math.max(0, Math.sqrt(x0*x0 + y0*y0 + z0*z0) - w);
+                    if (dista < distb) { return -1; }
+                    if (dista > distb) { return 1; }
                     return 0;
                 }
             });

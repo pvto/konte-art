@@ -351,7 +351,7 @@ public class ExpressionParser {
                             name += ":" + tt.get(i+2).toString();
                         }
                         t = (Token)model.globalvar.get(name);
-                        if (t == null)
+                        if (t == null || t instanceof ContextualTwoToOneFunction)
                         {
                             try {
                                 t = coto.getClass().getConstructor(String.class, Model.class).newInstance(name, model);
