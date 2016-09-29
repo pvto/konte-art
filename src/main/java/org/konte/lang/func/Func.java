@@ -214,12 +214,12 @@ public class Func {
     
     public static class EContextNbDist extends ContextualTwoToOneFunction
     {
-        @Override public int getArgsCount() { return 4; }
+        @Override public int getArgsCount() { return 6; }
 
         @Override
         public boolean nArgsAllowed(int n)
         {
-            return n==4;
+            return n==4 || n==5 || n==6;
         }
 
         public EContextNbDist(String name, Model model)
@@ -236,15 +236,20 @@ public class Func {
                 throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
             double x = (double)val[0],
                     y = (double)val[1],
-                    z = (double)val[2]
+                    z = (double)val[2],
+                    radius = (double)val[3]
                     ;
-            int n = (int)val[3];
-            OutputShape p = model.shapeReader.getRuleWriter().findNthNearestNeighbor(x, y, z, n, arg2);
+            int n = val.length>4? Math.max(1, (int)val[4]) : 1;
+            OutputShape p = model.shapeReader.getRuleWriter().findNthNearestNeighbor(x, y, z, radius, n, arg2);
+            if (p == null)
+            {
+                return Float.MAX_VALUE;
+            }
             double x0 = (x - p.matrix.m03),
                     y0 = (y - p.matrix.m13),
                     z0 = (z - p.matrix.m23)
                     ;
-            return (float)Math.sqrt(x0*x0 + y0*y0 + z0*z0);
+            return (float)Math.sqrt(x0*x0 + y0*y0 + z0*z0) * 2f - p.getAvgWidth();
         }
     }
 }

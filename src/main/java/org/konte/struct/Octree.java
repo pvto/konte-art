@@ -7,9 +7,16 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import org.konte.expression.BooleanExpression;
 import org.konte.expression.Expression;
+import org.konte.expression.Name;
+import org.konte.expression.NameBackReference;
+import org.konte.expression.Value;
 import org.konte.image.OutputShape;
+import org.konte.misc.Tuple;
+import org.konte.model.DrawingContext;
 import org.konte.model.Model;
+import org.konte.parse.ParseException;
 
 /**
  *
@@ -104,54 +111,6 @@ public class Octree<T> {
             if (overlap(LRF, X1, Y1, Z1, X2, Y2, Z2)) LRF.findAll(X1, Y1, Z1, X2, Y2, Z2, ret);
         }
 
-        private List<CoordHolder> findNNearestNeighbors(final double x, final double y, final double z, int n, Expression filter, Model model)
-        {
-            List<CoordHolder> ret = new LinkedList<>();
-            List<CoordHolder> tmp = new LinkedList<>();
-            Oct near = narrowDown(this, new CoordHolder(x, y, z, null, null));
-            while(ret.size() + tmp.size() < n)
-            {
-                if (near.parent != null)
-                {
-                    near = near.parent;
-                }
-                collectAll(near, ret);
-                //todo:add from parent's parent's adjacent octs... if it goes beyond that it gets too complicated and must be redone, forsaking these
-                Iterator<CoordHolder> it = ret.iterator();
-                while(it.hasNext())
-                {
-                    CoordHolder h = it.next();
-                    if (h.o instanceof OutputShape)
-                    {
-                        OutputShape nb = (OutputShape) h.o;
-                        //if (filter) it.remove();
-                    }
-                }
-                tmp.addAll(ret);
-                if (near.parent == null)
-                    break;
-                ret = new LinkedList<>();
-            }
-            ret = tmp;
-            
-            Collections.sort(ret, new Comparator<CoordHolder>() {
-                @Override
-                public int compare(CoordHolder a, CoordHolder b) {
-                    double x0 = (x - a.x),
-                            y0 = (y - a.y),
-                            z0 = (z - a.z);
-                    double dista = x0*x0 + y0*y0 + z0*z0;
-                    x0 = (x - b.x);
-                    y0 = (y - b.y);
-                    z0 = (z - b.z);
-                    double distb = x0*x0 + y0*y0 + z0*z0;
-                    if (dista < distb) { return -1; }
-                    if (dista > distb) { return 1; }
-                    return 0;
-                }
-            });
-            return ret.subList(0, Math.min(n, ret.size()));
-        }
         
         public void collectAll(Oct container, List<CoordHolder> ret)
         {
@@ -451,10 +410,6 @@ public class Octree<T> {
             }
         }
         return ret;
-    }
-
-    public List<CoordHolder> findNNearestNeighbors(double x, double y, double z, int n, Expression filter, Model model) {
-        return root.findNNearestNeighbors(x, y, z, n, filter, model);
     }
 
 

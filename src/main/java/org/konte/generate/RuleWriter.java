@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -26,8 +29,10 @@ import org.konte.model.NonDeterministicRule;
 import org.konte.expression.BooleanExpression;
 import org.konte.expression.Expression;
 import org.konte.expression.Name;
+import org.konte.expression.NameBackReference;
 import org.konte.image.OutputShape;
 import org.konte.lang.Tokens.Constant;
+import org.konte.misc.Tuple;
 import org.konte.model.ConditionalStructure;
 import org.konte.model.Untransformable;
 import org.konte.model.MeshIndex;
@@ -60,7 +65,7 @@ public class RuleWriter {
     private int generatedExpansions;
     boolean drained = false;
     private boolean contextSearch = false;
-    private Octree<OutputShape> xyzIndex;
+    private Octree<Tuple<DrawingContext, OutputShape>> xyzIndex;
     
     public void enableContextSeach() {
         contextSearch = true;
@@ -70,22 +75,84 @@ public class RuleWriter {
 
     public List<OutputShape> findAll(double x, double y, double z, double radius)
     {
-        List<Octree<OutputShape>.CoordHolder> list = xyzIndex.findAll(x, y, z, radius);
+        List<Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder> list = 
+                xyzIndex.findAll(x, y, z, radius);
         List<OutputShape> ret = new ArrayList<>(list.size());
-        for(Octree<OutputShape>.CoordHolder holder : list)
-            ret.add(holder.o);
+        for(Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder holder : list)
+            ret.add(holder.o.t);
         return ret;
     }
 
-    public OutputShape findNthNearestNeighbor(double x, double y, double z, int n, Expression arg2)
+    public OutputShape findNthNearestNeighbor(double x, double y, double z, double radius, int n, Expression arg2) throws ParseException
     {
-        List<Octree<OutputShape>.CoordHolder> list = xyzIndex.findNNearestNeighbors(x, y, z, n, arg2, model);
+        List<Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder> list = 
+                xyzIndex.findAll(x, y, z, radius);
+        narrowDownNeighbors(list, n, arg2, model);
         if (list.size() >= n)
         {
-            return list.get(n - 1).o;
+            return list.get(n - 1).o.t;
         }
         return null;
     }
+
+        private void narrowDownNeighbors(List<Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder> list, int n, Expression filter, Model model) throws ParseException
+        {
+            
+            float THRESHOLD = 0.0000001f;
+            Iterator<Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder> it = list.iterator();
+            DrawingContext stacked = model.context;
+            while(it.hasNext())
+            {
+                Octree.CoordHolder h = it.next();
+                Tuple<DrawingContext,OutputShape> tuple = (Tuple<DrawingContext,OutputShape>)h.o;
+                DrawingContext dc = tuple.s;
+                model.context = dc;
+                if (filter instanceof NameBackReference)    // if a backreference, test for equality between the two contexts
+                {
+                    float val = filter.evaluate();
+                    model.context = stacked;
+                    float val2 = filter.evaluate();
+                    float diff = Math.abs(val - val2);
+                    if (diff >= THRESHOLD)
+                    {
+                        it.remove();
+                    }
+                }
+                else if (filter instanceof BooleanExpression) // if boolean expression, test that it evaluates to true in found context
+                {
+                    boolean val = ((BooleanExpression)filter).bevaluate();
+                    if (!val)
+                    {
+                        it.remove();
+                    }
+                }
+                else {  // other expressions behave c-like, ie. should evaluate to > 0 to count as true (and be included)
+                    float val = filter.evaluate();
+                    if (val < THRESHOLD)
+                    {
+                        it.remove();
+                    }
+                }
+            }
+            model.context = stacked;
+            
+            Collections.sort(list, new Comparator<Octree.CoordHolder>() {
+                @Override
+                public int compare(Octree.CoordHolder a, Octree.CoordHolder b) {
+                    double x0 = (b.x - a.x),
+                            y0 = (b.y - a.y),
+                            z0 = (b.z - a.z);
+                    double dista = x0*x0 + y0*y0 + z0*z0;
+                    x0 = (b.x - b.x);
+                    y0 = (b.y - b.y);
+                    z0 = (b.z - b.z);
+                    double distb = x0*x0 + y0*y0 + z0*z0;
+                    if (dista < distb) { return 1; }
+                    if (dista > distb) { return -1; }
+                    return 0;
+                }
+            });
+        }
 
 
     public RuleWriter(Model model) throws ParseException, IOException 
@@ -378,11 +445,12 @@ public class RuleWriter {
         }
     }
     
-    private void addShape(OutputShape s)
+    private void addShape(DrawingContext p)
     {
+        OutputShape s = p.toOutputShape();
         if (contextSearch)
         {
-            xyzIndex.place(s.matrix.m03, s.matrix.m13, s.matrix.m23, s);
+            xyzIndex.place(s.matrix.m03, s.matrix.m13, s.matrix.m23, new Tuple(p, s));
         }
         if (shapes.size() < 1030 || !(sr instanceof StreamingShapeReader) && shapes.size() < 131070)
         {
@@ -456,7 +524,7 @@ public class RuleWriter {
                 meshes.add(p);
             }
             p.isDrawPhase = 1;
-            addShape(p.toOutputShape());
+            addShape(p);
             forwardedShapes++;
         } else if (st.repeatStructure)
         {
@@ -521,7 +589,7 @@ public class RuleWriter {
                                 meshes.add(p);
                             }
                             p.isDrawPhase = 1;
-                            addShape(p.toOutputShape());
+                            addShape(p);
                             forwardedShapes++;
                             return;
                         }
@@ -568,7 +636,7 @@ public class RuleWriter {
         cur.applyShading(model);
         model.lighting.lightObject(cur);
         cur.isDrawPhase = 1;
-        addShape(cur.toOutputShape());
+        addShape(cur);
         forwardedShapes++;
     }
     

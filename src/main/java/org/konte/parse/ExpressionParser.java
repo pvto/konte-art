@@ -337,10 +337,10 @@ public class ExpressionParser {
                 priority[i] = cur + Language.FUNCTION_PRIORITY;
                 if (t instanceof ContextualFunction)
                 {
+                    ContextualFunction coto = (ContextualFunction)t;
                     if (t instanceof ContextualOneToOneFunction
                             || t instanceof ContextualTwoToOneFunction)
                     {
-                        ContextualOneToOneFunction coto = (ContextualOneToOneFunction)t;
                         String name = coto.name;
                         if (tt.get(i+2)==Language.right_bracket)
                         {
@@ -363,7 +363,7 @@ public class ExpressionParser {
                             }
                         }
                     }
-                    ((ContextualFunction)t).setModel(model);
+                    coto.setModel(model);
                 }
                 exps[i] = new ExpressionFunction((Function) t);
                 funcStack.push(i);

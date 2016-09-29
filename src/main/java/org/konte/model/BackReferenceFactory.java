@@ -2,6 +2,7 @@ package org.konte.model;
 
 import java.awt.image.BufferedImage;
 import org.konte.expression.Name;
+import org.konte.expression.NameBackReference;
 import org.konte.lang.Tokens.InnerExpressiveToken;
 import org.konte.lang.Language;
 import org.konte.lang.Tokens.Token;
@@ -34,7 +35,7 @@ public class BackReferenceFactory {
     {
         if (token == Language.imgr)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException
                 {
@@ -44,7 +45,7 @@ public class BackReferenceFactory {
             };
         } else if (token == Language.imgg)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException
                 {
@@ -54,7 +55,7 @@ public class BackReferenceFactory {
             };
         } else if (token == Language.imgb)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException
                 {
@@ -64,7 +65,7 @@ public class BackReferenceFactory {
             };
         } else if (token == Language.imga)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException
                 {
@@ -79,7 +80,7 @@ public class BackReferenceFactory {
     {
         if (matchingToken == Language.depth)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -88,7 +89,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.x)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -97,7 +98,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.y)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -106,7 +107,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.z)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -115,7 +116,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.s)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -124,7 +125,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.sx)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -133,7 +134,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.sy)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -142,7 +143,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.sz)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -151,7 +152,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.rx)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -160,7 +161,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.ry)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -169,7 +170,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.rz)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -178,7 +179,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.skewx)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -187,7 +188,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.skewy)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -196,7 +197,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.skewz)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -205,7 +206,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.R)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -214,7 +215,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.G)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -223,7 +224,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.B)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -232,7 +233,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.A)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -241,7 +242,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.shading)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -250,7 +251,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.col0)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -259,7 +260,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.H)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -268,7 +269,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.S)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -277,7 +278,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.L)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -286,7 +287,7 @@ public class BackReferenceFactory {
             };
         } else if (matchingToken == Language.layer)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
@@ -295,7 +296,7 @@ public class BackReferenceFactory {
             };
 /*        } else if (matchingToken == Language.img)
         {
-            return new Name()
+            return new NameBackReference()
             {
                 @Override public Float evaluate() throws ParseException 
                 {
