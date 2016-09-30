@@ -1,9 +1,7 @@
 
 package org.konte.lang.func;
 
-import static java.util.Collections.list;
 import java.util.List;
-import org.konte.expression.Expression;
 import org.konte.image.OutputShape;
 import org.konte.lang.Tokens.ContextualOneToOneFunction;
 import org.konte.lang.Tokens.ContextualTwoToOneFunction;

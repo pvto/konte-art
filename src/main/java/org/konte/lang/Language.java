@@ -235,6 +235,7 @@ public class Language {
     public static final Token lowpas = addToken(new Mathm.ELowpass("lopas"));
     public static final Token max = addToken(new Mathm.EMax("max"));
     public static final Token min = addToken(new Mathm.EMin("min"));
+    public static final Token coalesce = addToken(new Mathm.ECoalesce("coalesce"));
     public static final Token mandelb = addToken(new Fractal.EMandelbrot("mandelbrot"));
     public static final Token julia = addToken(new Fractal.EJulia("julia"));
     public static final Token binm = addToken(new Prob.EBinm("binm"));

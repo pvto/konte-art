@@ -11,6 +11,45 @@ MACRO NGYH .5/cos(PI/n)
 
 // 
 
+LINE {
+  *{{SY=(Y2-Y1); SX=(X2-X1); }}
+  *{{S_=max(abs(SY),abs(SX)); k=atan(SY/SX); }}
+  *{{SY=SY/S_; SX=SX/S_; }}
+  *{{width=max(0.0001,width); scap=coalesce(scap,cap); }}
+    LINE__{x X1 y Y1 s S_ 
+      {X2=(1/S)*(X2-X1);
+       Y2=(1/S)*(Y2-Y1);
+      }
+    }
+}
+
+path LINE__{
+  moveto(width*cos(k-PI/2), width*sin(k-PI/2), 0)
+  lineto(width*cos(k-PI/2) + SX, width*sin(k-PI/2) + SY, 0)
+  bend(width*cos(k-PI/2) + SX + cos(k)*width*cap,
+      width*sin(k-PI/2) + SY + sin(k)*width*cap,
+      0
+  )
+  bend(width*cos(k+PI/2) + SX + cos(k)*width*cap,
+      width*sin(k+PI/2) + SY + sin(k)*width*cap,
+      0
+  )
+  curveto(width*cos(k+PI/2) + SX, width*sin(k+PI/2) + SY, 0)
+  lineto(width*cos(k+PI/2), width*sin(k+PI/2), 0)
+  bend(width*cos(k+PI/2) + cos(k+PI)*width*scap, 
+      width*sin(k+PI/2) + sin(k+PI)*width*scap, 
+      0
+  )
+  bend(width*cos(k-PI/2) + cos(k+PI)*width*scap, 
+      width*sin(k-PI/2) + sin(k+PI)*width*scap, 
+      0
+  )
+  curveto(width*cos(k-PI/2), width*sin(k-PI/2), 0)
+  close
+}
+
+
+
 SECTOR{ SECTOR_{{ANG=max(-360,min(360,ANG))}} }
 path SECTOR_ {
   moveto(0,0,0)

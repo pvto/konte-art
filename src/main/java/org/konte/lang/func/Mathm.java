@@ -312,4 +312,22 @@ public class Mathm {
             return 0f;
         }
     }
+    
+    public static class ECoalesce extends FunctionN_ {
+        
+        public ECoalesce(String name) {
+            super(name);
+        }
+        
+        @Override
+        public float value(float... args) {
+            for (float f : args) {
+                if (f != 0f)
+                    return f;
+            }
+            return 0f;
+        }
+
+                
+    }
 }
