@@ -310,7 +310,17 @@ public class Language {
     public static Token BRIGHTNESS_TRIANGLE;
     public static Token BRIGHTNESS_HEXAGON;
     public static Token BRIGHTNESS_32GON;
-    
+
+    public static Token CONTRAST_SQUARE;
+    public static Token CONTRAST_TRIANGLE;
+    public static Token CONTRAST_HEXAGON;
+    public static Token CONTRAST_32GON;
+
+    public static Token SATURATE_SQUARE;
+    public static Token SATURATE_TRIANGLE;
+    public static Token SATURATE_HEXAGON;
+    public static Token SATURATE_32GON;
+
 //    public static final Token period = addToken(new Operator("."));
     
     // following tokens are both parsed and recognized as local expressions at generate time

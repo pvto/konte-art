@@ -385,6 +385,69 @@ public class Effects {
         }
     };
     
+    public static final EffectApply CONTRAST = new Untransformable.EffectApply() {
+        
+        @Override public int xcontext(OutputShape s)
+        { 
+            return 1;
+        }
+        @Override public int ycontext(OutputShape s)
+        { 
+            return 1;
+        }
+        private float[] tmpvals = new float[3];
+        @Override
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
+        {
+            int ind = u + w * v;
+            int adjusted = data[ind];
+            int b = data[ind] & 0xFF; 
+            int g = data[ind] >> 8  & 0xFF;
+            int r = data[ind] >> 16  & 0xFF; 
+            int a = data[ind] >>> 24 & 0xFF;
+            Color.RGBtoHSB(r, g, b, tmpvals);
+            float level = (float)(shape.col & 0xFF) / 127.5f;
+            tmpvals[2] = Mathc3.bounds1(
+                    0.5f + (float)(tmpvals[2] - 0.5f) * level
+            );
+            adjusted = Color.HSBtoRGB(tmpvals[0],tmpvals[1],tmpvals[2]);
+            adjusted = adjusted & 0x00FFFFFF | (data[ind] & 0xFF000000);
+            dest[ind] = adjusted; 
+        }
+    };
+    
+    public static final EffectApply SATURATE = new Untransformable.EffectApply() {
+        
+        @Override public int xcontext(OutputShape s)
+        { 
+            return 1;
+        }
+        @Override public int ycontext(OutputShape s)
+        { 
+            return 1;
+        }
+        private float[] tmpvals = new float[3];
+        @Override
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
+        {
+            int ind = u + w * v;
+            int adjusted = data[ind];
+            int b = data[ind] & 0xFF; 
+            int g = data[ind] >> 8  & 0xFF;
+            int r = data[ind] >> 16  & 0xFF; 
+            int a = data[ind] >>> 24 & 0xFF;
+            Color.RGBtoHSB(r, g, b, tmpvals);
+            float level = ((float)(shape.col & 0xFF) / 255f - 0.5F) * 2F;
+            tmpvals[1] = Mathc3.bounds1(
+                   0.5f + (float)(tmpvals[1] - 0.5f) + level
+            );
+            adjusted = Color.HSBtoRGB(tmpvals[0],tmpvals[1],tmpvals[2]);
+            adjusted = adjusted & 0x00FFFFFF | (data[ind] & 0xFF000000);
+            dest[ind] = adjusted; 
+        }
+    };
+    
+    
     public static void main(String[] args) {
         for(int i = 0; i <= 16; i++)
         {

@@ -258,6 +258,41 @@ public class UtConstants {
                     .addShape(_32GONP)
                     .effect(Effects.BRIGHTNESS)
                     .build());
+
+            Language.CONTRAST_SQUARE    = Language.addUntransformable(utb.name("CONTRAST").clearShapes()
+                    .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
+                    .effect(Effects.CONTRAST)
+                    .build());
+            Language.CONTRAST_TRIANGLE    = Language.addUntransformable(utb.name("CONTRASTTRI").clearShapes()
+                    .addShape(PATH_BOTR,PATH_BOTL,PATH_TOPC)
+                    .effect(Effects.CONTRAST)
+                    .build());
+            Language.CONTRAST_HEXAGON    = Language.addUntransformable(utb.name("CONTRASTHEX").clearShapes()
+                    .addShape(HEXP)
+                    .effect(Effects.CONTRAST)
+                    .build());
+            Language.CONTRAST_32GON    = Language.addUntransformable(utb.name("CONTRAST32").clearShapes()
+                    .addShape(_32GONP)
+                    .effect(Effects.CONTRAST)
+                    .build());
+
+            Language.SATURATE_SQUARE    = Language.addUntransformable(utb.name("SATURATE").clearShapes()
+                    .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
+                    .effect(Effects.SATURATE)
+                    .build());
+            Language.SATURATE_TRIANGLE    = Language.addUntransformable(utb.name("SATURATETRI").clearShapes()
+                    .addShape(PATH_BOTR,PATH_BOTL,PATH_TOPC)
+                    .effect(Effects.SATURATE)
+                    .build());
+            Language.SATURATE_HEXAGON    = Language.addUntransformable(utb.name("SATURATEHEX").clearShapes()
+                    .addShape(HEXP)
+                    .effect(Effects.SATURATE)
+                    .build());
+            Language.SATURATE_32GON    = Language.addUntransformable(utb.name("SATURATE32").clearShapes()
+                    .addShape(_32GONP)
+                    .effect(Effects.SATURATE)
+                    .build());
+            
             
         } catch(Exception e) { e.printStackTrace(); }
 

@@ -8,7 +8,7 @@
 
 #Secondary ideas
 
- - more effects: contrast
+ - (v) more effects: contrast
  - (v) more effects:  brightness
  - more effects:  mask
 
