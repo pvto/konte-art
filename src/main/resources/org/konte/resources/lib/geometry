@@ -125,6 +125,27 @@ path RIM__ {
 }
 
 
+path SQU {
+  moveto(-.5 + min(.5, .5*r), .5, 0)
+  lineto(.5 - min(.5, .5*r), .5, 0)
+  bend(.5 - min(.5, .125*r), .5, 0)
+  bend(.5, .5 - min(.5, .125*r), 0)
+  curveto(.5, .5 - min(.5, .5*r), 0)
+  lineto(.5, -.5 + min(.5, .5*r), 0)
+  bend(.5, -.5 + min(.5, .125*r), 0)
+  bend(.5 - min(.5, .125*r), -.5, 0)
+  curveto(.5 - min(.5, .5*r), -.5, 0)
+  lineto(-.5 + min(.5, .5*r), -.5, 0)
+  bend(-.5 + min(.5, .125*r), -.5, 0)
+  bend(-.5, -.5 + min(.5, .125*r), 0)
+  curveto(-.5, -.5 + min(.5, .5*r), 0)
+  lineto(-.5, .5 - min(.5, .5*r), 0)
+  bend(-.5, .5 - min(.5, .125*r), 0)
+  bend(-.5 + min(.5, .125*r), .5, 0)
+  curveto(-.5 + min(.5, .5*r), .5, 0)
+  close
+}
+
 
 
 PETAL{PETAL_{rz -ANG/2}}
