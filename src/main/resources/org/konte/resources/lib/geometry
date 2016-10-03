@@ -204,6 +204,7 @@ path TRIN {
 
 
 MACRO FR__ (1-frame)*.5
+MACRO FR__Y (1-coalesce(framey,frame))*.5
 path FRAME {
     moveto(-.5,-.5,.0)
     lineto(-.5,.5,.0)
@@ -211,11 +212,11 @@ path FRAME {
     lineto(.5,-.5,.0)
     lineto(-.5,-.5,.0)
     close
-    moveto(-FR__,-FR__,.0)
-    lineto(FR__,-FR__,.0)
-    lineto(FR__,FR__,.0)
-    lineto(-FR__,FR__,.0)
-    lineto(-FR__,-FR__,.0)
+    moveto(-FR__,-FR__Y,.0)
+    lineto(FR__,-FR__Y,.0)
+    lineto(FR__,FR__Y,.0)
+    lineto(-FR__,FR__Y,.0)
+    lineto(-FR__,-FR__Y,.0)
     close
 }
 

@@ -95,66 +95,66 @@ public class RuleWriter {
         return null;
     }
 
-        private void narrowDownNeighbors(double x, double y, double z, List<Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder> list, int n, Expression filter, Model model) throws ParseException
+    private void narrowDownNeighbors(double x, double y, double z, List<Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder> list, int n, Expression filter, Model model) throws ParseException
+    {
+
+        float THRESHOLD = 0.0000001f;
+        Iterator<Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder> it = list.iterator();
+        DrawingContext stacked = model.context;
+        while(it.hasNext())
         {
-            
-            float THRESHOLD = 0.0000001f;
-            Iterator<Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder> it = list.iterator();
-            DrawingContext stacked = model.context;
-            while(it.hasNext())
+            Octree.CoordHolder h = it.next();
+            Tuple<DrawingContext,OutputShape> tuple = (Tuple<DrawingContext,OutputShape>)h.o;
+            DrawingContext dc = tuple.s;
+            model.context = dc;
+            if (filter instanceof NameBackReference)    // if a backreference, test for equality between the two contexts
             {
-                Octree.CoordHolder h = it.next();
-                Tuple<DrawingContext,OutputShape> tuple = (Tuple<DrawingContext,OutputShape>)h.o;
-                DrawingContext dc = tuple.s;
-                model.context = dc;
-                if (filter instanceof NameBackReference)    // if a backreference, test for equality between the two contexts
+                float val = filter.evaluate();
+                model.context = stacked;
+                float val2 = filter.evaluate();
+                float diff = Math.abs(val - val2);
+                if (diff >= THRESHOLD)
                 {
-                    float val = filter.evaluate();
-                    model.context = stacked;
-                    float val2 = filter.evaluate();
-                    float diff = Math.abs(val - val2);
-                    if (diff >= THRESHOLD)
-                    {
-                        it.remove();
-                    }
-                }
-                else if (filter instanceof BooleanExpression) // if boolean expression, test that it evaluates to true in found context
-                {
-                    boolean val = ((BooleanExpression)filter).bevaluate();
-                    if (!val)
-                    {
-                        it.remove();
-                    }
-                }
-                else {  // other expressions behave c-like, ie. should evaluate to > 0 to count as true (and be included)
-                    float val = filter.evaluate();
-                    if (val < THRESHOLD)
-                    {
-                        it.remove();
-                    }
+                    it.remove();
                 }
             }
-            model.context = stacked;
-            
-            Collections.sort(list, new Comparator<Octree.CoordHolder>() {
-                @Override
-                public int compare(Octree.CoordHolder a, Octree.CoordHolder b) {
-                    double x0 = (x - a.x),
-                            y0 = (y - a.y),
-                            z0 = (z - a.z);
-                    double w = ((OutputShape)((Tuple)a.o).t).getAvgWidth() / 2f;
-                    double dista = Math.max(0, Math.sqrt(x0*x0 + y0*y0 + z0*z0) - w);
-                    x0 = (x - b.x);
-                    y0 = (y - b.y);
-                    z0 = (z - b.z);
-                    w = ((OutputShape)((Tuple)b.o).t).getAvgWidth() / 2f;
-                    double distb = Math.max(0, Math.sqrt(x0*x0 + y0*y0 + z0*z0) - w);
-                    if (dista < distb) { return -1; }
-                    if (dista > distb) { return 1; }
-                    return 0;
+            else if (filter instanceof BooleanExpression) // if boolean expression, test that it evaluates to true in found context
+            {
+                boolean val = ((BooleanExpression)filter).bevaluate();
+                if (!val)
+                {
+                    it.remove();
                 }
-            });
+            }
+            else {  // other expressions behave c-like, ie. should evaluate to > 0 to count as true (and be included)
+                float val = filter.evaluate();
+                if (val < THRESHOLD)
+                {
+                    it.remove();
+                }
+            }
         }
+        model.context = stacked;
+
+        Collections.sort(list, new Comparator<Octree.CoordHolder>() {
+            @Override
+            public int compare(Octree.CoordHolder a, Octree.CoordHolder b) {
+                double x0 = (x - a.x),
+                        y0 = (y - a.y),
+                        z0 = (z - a.z);
+                double w = ((OutputShape)((Tuple)a.o).t).getAvgWidth() / 2f;
+                double dista = Math.max(0, Math.sqrt(x0*x0 + y0*y0 + z0*z0) - w);
+                x0 = (x - b.x);
+                y0 = (y - b.y);
+                z0 = (z - b.z);
+                w = ((OutputShape)((Tuple)b.o).t).getAvgWidth() / 2f;
+                double distb = Math.max(0, Math.sqrt(x0*x0 + y0*y0 + z0*z0) - w);
+                if (dista < distb) { return -1; }
+                if (dista > distb) { return 1; }
+                return 0;
+            }
+        });
+    }
 
 
     public RuleWriter(Model model) throws ParseException, IOException 

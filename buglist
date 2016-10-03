@@ -1,0 +1,8 @@
+o = bug
+v = implementd
+T = tested and OK
+------
+
+T  move fov name outside of {} block
+v  add recent files mnemonics
+T  fx to negative layer
