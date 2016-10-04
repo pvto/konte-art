@@ -127,7 +127,7 @@ public class DefaultCanvas implements Canvas {
         if (finished) {
             return image;
         }
-        if (model.isDrawLayersSeparately())
+        if (model != null && model.isDrawLayersSeparately())
         {
             tmpImage.getGraphics().drawImage(image, 0, 0, null);
             tmpImage.getGraphics().drawImage(layerimg, 0, 0, null);
