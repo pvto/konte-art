@@ -3,20 +3,9 @@ package org.konte.struct;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import org.konte.expression.BooleanExpression;
-import org.konte.expression.Expression;
-import org.konte.expression.Name;
-import org.konte.expression.NameBackReference;
-import org.konte.expression.Value;
-import org.konte.image.OutputShape;
-import org.konte.misc.Tuple;
-import org.konte.model.DrawingContext;
-import org.konte.model.Model;
-import org.konte.parse.ParseException;
 
 /**
  *
