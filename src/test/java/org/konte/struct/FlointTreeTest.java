@@ -1,4 +1,4 @@
-package org.konte.misc;
+package org.konte.struct;
 
 import org.konte.struct.FlointTree;
 import java.io.File;
@@ -83,7 +83,7 @@ public class FlointTreeTest {
     public void benchmark() throws FileNotFoundException
     {
         int n = 1<<20;
-        int rounds = 1<<Math.max(0, 17-n);
+        int rounds = 1;
         for(int r = 5; r > 0; r--)
         {
             float range = 
@@ -133,7 +133,6 @@ public class FlointTreeTest {
             {
                 float key = (float) Math.random() * range;
                 f.put(key, i);
-
             }
             if (j < rounds - 1)
             {
