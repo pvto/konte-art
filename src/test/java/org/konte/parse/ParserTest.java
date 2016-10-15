@@ -95,7 +95,7 @@ public class ParserTest {
     public void testParseBooleanExpr() throws ParseException, IllegalArgumentException, IllegalAccessException
     {
         String s =
-"eee { if (1<2 && 4<3) { if (x>0 || y>0 && x<1) { SQUARE{} } } }"
+"eee { if (1<2 && 4<3) { if ((x>0 || y>0) && (x<1 || x+1>10)) { SQUARE{} } } }"
 ;
         Model m = new Parser().parse( 
             Tokenizer.retrieveTokenStrings(s)

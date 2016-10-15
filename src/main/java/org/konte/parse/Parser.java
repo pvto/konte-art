@@ -199,6 +199,7 @@ public class Parser {
             {
                 if ( startpos < ii
                     && ! (last == Language.left_bracket || last instanceof Operator
+                        || last instanceof Comparator
                         || last == Language.comma
                         || Function.class.isAssignableFrom(last.getClass())))
                         {
@@ -219,7 +220,8 @@ public class Parser {
                     }
                 }
             } else if ( startpos < ii
-                    && (last.getClass() == Constant.class || last.getClass() == Token.class || InnerExpressiveToken.class.isAssignableFrom(last.getClass()))
+                    && (last.getClass() == Constant.class || last.getClass() == Token.class 
+                      || InnerExpressiveToken.class.isAssignableFrom(last.getClass()))
                     && ! (t instanceof Operator || t instanceof Comparator
                         || lbctmp > 0 && t == Language.comma))
                         {
