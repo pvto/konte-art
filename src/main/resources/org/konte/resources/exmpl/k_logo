@@ -8,14 +8,14 @@ camera { z -2 }
 tilp {
 
 
-    300*{y .005} SQUARE{y -.2 s 2 .01 .001 B .2 G .1 R .1}
+    549*{y .005} SQUARE{y -.2 s 2 .01 .001 B .2 G .1 R .1}
 
 
     *{layer 1} {
 
-        100*{ z .02} 
-	   *{ lightness 1 }
-        2*{L -1 {BOLD=BOLD-.75;FLAT=FLAT+.5}}
+        100*{ z .01} 
+	   *{ lightness 1 {FLAT=4}}
+        2*{L -1 {BOLD=BOLD-.75;FLAT=FLAT+.5} z .01 }
         TEXT { PUSH  "^m^K0NTE"
               {BOLD=BOLD+3;DANCE=0.5;CAROL=5;WIDE=2}
               scale .4 
