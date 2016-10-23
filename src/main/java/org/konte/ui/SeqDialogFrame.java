@@ -88,8 +88,7 @@ public class SeqDialogFrame extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents()
-    {
+    private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -182,7 +181,7 @@ public class SeqDialogFrame extends javax.swing.JFrame {
 
         jPanel11.setLayout(new java.awt.BorderLayout());
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         jPanel11.add(jFormattedTextField1, java.awt.BorderLayout.CENTER);
 
         jPanel2.add(jPanel11);
@@ -196,10 +195,8 @@ public class SeqDialogFrame extends javax.swing.JFrame {
         jPanel14.setLayout(new java.awt.BorderLayout());
 
         jButton1.setText("Ok");
-        jButton1.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
@@ -210,10 +207,8 @@ public class SeqDialogFrame extends javax.swing.JFrame {
         jPanel15.setLayout(new java.awt.BorderLayout());
 
         jButton2.setText("Cancel");
-        jButton2.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });

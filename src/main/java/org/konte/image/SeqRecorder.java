@@ -32,7 +32,7 @@ public class SeqRecorder {
         schedTask(timer, frequency);
     }
     
-    private void schedTask(final Timer timer, final long frequency)
+    private void schedTask(final Timer timer, final long delay)
     {
         TimerTask task = new TimerTask()
         {
@@ -71,7 +71,7 @@ public class SeqRecorder {
                             };
                         }
                         if (maxState == 0 || state != 0 || finishFlag++<1)
-                            schedTask(timer, Math.max(1,frequency - (System.currentTimeMillis() - start)));
+                            schedTask(timer, Math.max(1,SeqRecorder.this.frequency - (System.currentTimeMillis() - start)));
                     }
                     catch (IOException ex)
                     {
@@ -81,7 +81,7 @@ public class SeqRecorder {
                 } // sync(ruleWriter)
             }
         };
-        timer.schedule(task, frequency);
+        timer.schedule(task, delay);
     }
 
     private String genNextFilename()

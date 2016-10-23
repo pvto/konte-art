@@ -130,7 +130,9 @@ public class DefaultCanvas implements Canvas {
         if (model != null && model.isDrawLayersSeparately())
         {
             tmpImage.getGraphics().drawImage(image, 0, 0, null);
-            tmpImage.getGraphics().drawImage(layerimg, 0, 0, null);
+            if (layerimg != image) {
+                tmpImage.getGraphics().drawImage(layerimg, 0, 0, null);
+            }
             return tmpImage;
         }
         return image;
@@ -366,10 +368,8 @@ public class DefaultCanvas implements Canvas {
         }
         if (layerimg != image)
         {
-            System.out.println("1");
             image.getGraphics().drawImage(layerimg, 0, 0, null);
         }
-        System.out.println("2");
     }
 
     @Override

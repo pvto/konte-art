@@ -1345,7 +1345,7 @@ public class Ui extends MyJFrame {
     {
         int width = Integer.parseInt(props.getProperty("seq_width"));
         int height = Integer.parseInt(props.getProperty("seq_height"));
-        int freq = 1000/Integer.parseInt(props.getProperty("seq_frequency"));
+        int freq = (int) (1000.0/Double.parseDouble(props.getProperty("seq_frequency")));
         int flags = 0;
         Object[] sett = new Object[] {
             1, "seq_is_phase_generate",

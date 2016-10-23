@@ -166,16 +166,18 @@ public class CommandLine {
     {
         int destType = destfile.toLowerCase().endsWith("jpg") ? 1 : 0;
 //        System.out.println("Writing " + destfile);
+        File file = new File(destfile);
         switch (destType)
         {
             case 1:
-                ImageIO.write(image, "JPG", new File(destfile));
+                ImageIO.write(image, "JPG", file);
                 break;
             case 0:
             default:
-                ImageIO.write(image, "PNG", new File(destfile));
+                ImageIO.write(image, "PNG", file);
                 break;
         }
+        System.out.println("Written: " + file);
         
     }
     
