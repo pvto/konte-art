@@ -39,7 +39,6 @@ public class SeqRecorder {
             @Override
             public void run()
             {
-                String filename = genNextFilename();
                 synchronized(rtuple.ruleWriter.lock1)
                 {
                     long start = System.currentTimeMillis();
@@ -54,18 +53,14 @@ public class SeqRecorder {
                                 case 1:
                                     if ((flags & 1) == 1)
                                     {
-                                        BufferedImage img = rtuple.canvas.getImage();
-                                        if (img != null)
-                                            CommandLine.writeImage(filename, img);
+                                        writeImage();
                                     }
                                     break;
                                 case 0:
                                 case 3:
                                     if ((flags & 2) == 2)
                                     {
-                                        BufferedImage img = rtuple.canvas.getImage();
-                                        if (img != null)
-                                            CommandLine.writeImage(filename, img);
+                                        writeImage();
                                     }
                                     break;
                             };
@@ -84,6 +79,16 @@ public class SeqRecorder {
         timer.schedule(task, delay);
     }
 
+    private void writeImage() throws IOException 
+    {
+        BufferedImage img = rtuple.canvas.getImage();
+//        BufferedImage protectiveCopy = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
+//        protectiveCopy.getGraphics().drawImage(img, 0, 0, null);
+        if (img != null)
+            CommandLine.writeImage(genNextFilename(), img);
+
+    }
+    
     private String genNextFilename()
     {
         return String.format("%s%04d.png",prefix, index);

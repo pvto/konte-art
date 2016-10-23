@@ -129,10 +129,12 @@ public class DefaultCanvas implements Canvas {
         }
         if (model != null && model.isDrawLayersSeparately())
         {
+            tmpImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             tmpImage.getGraphics().drawImage(image, 0, 0, null);
             if (layerimg != image) {
                 tmpImage.getGraphics().drawImage(layerimg, 0, 0, null);
             }
+            tmpImage.flush();
             return tmpImage;
         }
         return image;
