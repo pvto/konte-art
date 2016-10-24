@@ -2,6 +2,7 @@ package org.konte.lang.func;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.konte.generate.RandomFeed;
 import org.konte.lang.Tokens;
 
 /**
@@ -358,4 +359,34 @@ public final class Prob {
     }
     
 
+    
+    public static double paretoPdf(double alpha, double minx, double x)
+    {
+        if (x < minx) { return 0.0; }
+        return (alpha * Math.pow(minx, alpha))
+                / Math.pow(x, alpha)
+                ;
+    }
+    
+    public static double paretoTail(double alpha, double minx, double x)
+    {
+        if (x < minx) { return 1.0; }
+        return Math.pow(minx / x, alpha);
+    }
+    
+    public static double paretoRnd(double alpha, double minx, double extent, RandomFeed rfeed)
+    {
+        double test = rfeed.get();
+        double rnd = rfeed.get() * extent;
+        double tail = paretoTail(alpha, minx, rnd);
+        while(tail < test)
+        {
+            rnd = rfeed.get() * extent;
+            tail = paretoTail(alpha, minx, rnd);
+        }
+        return rnd;
+    }
+    
+    
+    
 }

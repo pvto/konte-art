@@ -120,6 +120,31 @@ public class Func {
         }
     }
     
+    public static class ERndfpareto extends ContextualOneToOneFunction
+    {
+        @Override public int getArgsCount() { return 3; }
+
+        @Override
+        public boolean nArgsAllowed(int n)
+        {
+            return n==3;
+        }
+
+        public ERndfpareto(String name, Model model) { super(name, model); }
+        
+        @Override
+        public float value(float... val) throws Exception
+        {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            double alpha = (double)val[0];
+            double minx = (double)val[1];
+            double extent = (double)val[2];
+
+            return (float) Prob.paretoRnd(alpha, minx, extent, model.getRandomFeed());
+        }
+    }
+    
     public static class EContextSearchXyz extends ContextualOneToOneFunction
     {
         @Override public int getArgsCount() { return 4; }

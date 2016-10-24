@@ -247,6 +247,7 @@ public class Language {
     public static final Token hypgRndf = addToken(new Func.ERndfhypg("hypgrndf", null));
     public static final Token hypgRnd = addToken(new Prob.ERndhypg("hypgrnd"));
     public static final Token negbinm = addToken(new Prob.ENegbinm("negbinm"));
+    public static final Token pareto = addToken(new Func.ERndfpareto("pareto", null));
 
     public static final Token img_red = addToken(new Img.EImgRed("imgred", null));
     public static final Token img_green = addToken(new Img.EImgGreen("imggreen", null));
