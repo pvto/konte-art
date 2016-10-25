@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.io.ByteArrayInputStream;
 import org.konte.model.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -579,7 +580,7 @@ public class Parser {
                     if (lastName == null)
                     {
                         lastName = s;
-                        if (lastName.matches("(.*(jpg|jpeg|png|gif|JPG|PNG|GIF))"))
+                        if (lastName.matches("(.*(jpg|jpeg|png|gif|JPG|PNG|GIF|csv|tsv|CSV|TSV))"))
                         {
                             break;
                         }
@@ -591,15 +592,17 @@ public class Parser {
                     if (lastName == null || lastName.isEmpty())
                         throw new ParseException("Include file not specified", lineNr, caretPos);
                     lastName = lastName.replaceFirst("^~", System.getProperty("user.home"));
-                    Matcher matcher = Pattern.compile(
+                    Matcher imgMatcher = Pattern.compile(
                             "(.*(jpg|jpeg|png|gif|JPG|PNG|GIF))\\s*(\\w*)$").matcher(lastName);
-                    if (matcher.find())
+                    Matcher csvMatcher = Pattern.compile(
+                            "(.*(csv|tsv|CSV|TSV))\\s*(\\w*)$").matcher(lastName);
+                    if (imgMatcher.find())
                     {
                         try {
-                            String refName = matcher.group(3);
+                            String refName = imgMatcher.group(3);
                             if (refName.length() == 0)
                                 throw new ParseException("Syntax: include [bitmap-name] [ref-name]", lineNr, caretPos);
-                            File fl = getFile(workdir, matcher.group(1));
+                            File fl = getFile(workdir, imgMatcher.group(1));
                             Image img = null;
                             if (fl.exists())
                             {
@@ -607,7 +610,7 @@ public class Parser {
                             }
                             else
                             {
-                                img = Model.bitmapCache.add(new URL(matcher.group(1)), refName);
+                                img = Model.bitmapCache.add(new URL(imgMatcher.group(1)), refName);
                             }
                             if (img == null)
                                 throw new ParseException("Image not found");
@@ -620,7 +623,40 @@ public class Parser {
                         catch(Exception ex)
                         {
                             throw new ParseException(String.format(
-                                    "bitmap %s not loaded: %s", matcher.group(1), ex.getMessage()),
+                                    "bitmap %s not loaded: %s", imgMatcher.group(1), ex.getMessage()),
+                                    lineNr, caretPos);
+                        }
+                    }
+                    else if (csvMatcher.find())
+                    {
+                        try {
+                            String refName = csvMatcher.group(3);
+                            if (refName.length() == 0)
+                                throw new ParseException("Syntax: include [csv/tsv-name] [ref-name]", lineNr, caretPos);
+                            File fl = getFile(workdir, csvMatcher.group(1));
+                            DataTable dataTable;
+                            if (fl.exists())
+                            {
+                                dataTable = DataTable.parse(new FileInputStream(fl));
+                            }
+                            else
+                            {
+                                dataTable = DataTable.parse(new URL(csvMatcher.group(1)).openStream());
+                            }
+                            int ind = m.dataTableIndex++;
+                            m.dataTables.put(ind, dataTable);
+                            m.constants.put(refName, new Constant(refName, new Value((float)ind), true));
+                            Runtime.sysoutln(String.format(
+                                    "%s [%d lines x %d columns] included as %s",
+                                    fl.getAbsolutePath(), dataTable.data.size(),
+                                    dataTable.headers.length, refName), 5);
+                            Model.bitmapCache.init();
+                        }
+                        catch(Exception ex)
+                        {
+                            ex.printStackTrace();
+                            throw new ParseException(String.format(
+                                    "csv/tsv %s not loaded: %s", csvMatcher.group(1), ex.getMessage()),
                                     lineNr, caretPos);
                         }
                     }

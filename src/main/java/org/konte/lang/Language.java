@@ -259,6 +259,11 @@ public class Language {
     public static final Token nearby = addToken(new Func.EContextSearchXyz("nearby", null));
     public static final Token nearbyd = addToken(new Func.EContextNearbyDistXyz("mindist", null));
     public static final Token nbdist = addToken(new Func.EContextNbDist("nbdist", null));
+    
+    public static final Token csv = addToken(new Func.ECsv("csv", null));
+    public static final Token tabColMin = addToken(new Func.ETabColMin("colmin", null));
+    public static final Token tabColMax = addToken(new Func.ETabColMax("colmax", null));
+    public static final Token tabLength = addToken(new Func.ETabLength("len", null));
 
     public static final Token PI =     addConstant("PI",       (float)Math.PI);
     public static final Token E =      addConstant("E",        (float)Math.E);
@@ -474,6 +479,8 @@ public class Language {
         or.addAlias("or");
         
         rndf.addAlias("random");
+        
+        csv.addAlias("tsv");
 
         PrefixStringMap.init(Monospace.monospace);
         

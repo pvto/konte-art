@@ -74,7 +74,10 @@ public class Model {
     public static BitmapCache bitmapCache = new BitmapCache();
     public DrawingContext context;
     public Map<Float, List<CanvasEffect>> canvasEffects = new HashMap<>();
-
+    
+    public Map<Integer, DataTable> dataTables = new HashMap<>();
+    public int dataTableIndex = 1000;
+    
     private boolean drawLayerSeparately = false;
     private boolean hasMultipleLayers = false;
     

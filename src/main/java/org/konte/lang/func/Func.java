@@ -5,6 +5,7 @@ import java.util.List;
 import org.konte.image.OutputShape;
 import org.konte.lang.Tokens.ContextualOneToOneFunction;
 import org.konte.lang.Tokens.ContextualTwoToOneFunction;
+import org.konte.model.DataTable;
 import org.konte.model.Model;
 
 public class Func {
@@ -275,4 +276,162 @@ public class Func {
             return (float)Math.sqrt(x0*x0 + y0*y0 + z0*z0) * 2f - p.getAvgWidth();
         }
     }
+    
+    
+    
+    
+    public static class ECsv extends ContextualOneToOneFunction
+    {
+        @Override public int getArgsCount() { return 3; }
+
+        @Override
+        public boolean nArgsAllowed(int n)
+        {
+            return n==3;
+        }
+
+        public ECsv(String name, Model model)
+        { 
+            super(name, model);
+            if (model != null)
+                model.enableContextSearch = true;
+        }
+        
+        @Override
+        public float value(float... val) throws Exception
+        {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            int tind = (int)val[0],
+                row = (int)val[1],
+                col = (int)val[2];
+
+            DataTable table = model.dataTables.get(tind);
+            if (table == null)
+                return 0f;
+            Object o = table.data.get(row-1)[col-1];
+            if (o instanceof Float)
+                return (Float)o;
+            return 0f;
+        }
+    }
+    
+    public static class ETabColMin extends ContextualOneToOneFunction
+    {
+        @Override public int getArgsCount() { return 2; }
+
+        @Override
+        public boolean nArgsAllowed(int n)
+        {
+            return n==2;
+        }
+
+        public ETabColMin(String name, Model model)
+        { 
+            super(name, model);
+            if (model != null)
+                model.enableContextSearch = true;
+        }
+        
+        @Override
+        public float value(float... val) throws Exception
+        {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            int tind = (int)val[0],
+                col = (int)val[1];
+
+            DataTable table = model.dataTables.get(tind);
+            if (table == null)
+                return 0f;
+            Float min = Float.MAX_VALUE;
+            for(int i = 0; i < table.data.size(); i++)
+            {
+                Object o = table.data.get(i)[col-1];
+                if (o instanceof Float)
+                    min = Math.min((Float)o, min);
+            }
+            if (min == Float.MAX_VALUE)
+            {
+                return 0f;
+            }
+            return min;
+        }
+    }
+
+    
+    public static class ETabColMax extends ContextualOneToOneFunction
+    {
+        @Override public int getArgsCount() { return 2; }
+
+        @Override
+        public boolean nArgsAllowed(int n)
+        {
+            return n==2;
+        }
+
+        public ETabColMax(String name, Model model)
+        { 
+            super(name, model);
+            if (model != null)
+                model.enableContextSearch = true;
+        }
+        
+        @Override
+        public float value(float... val) throws Exception
+        {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            int tind = (int)val[0],
+                col = (int)val[1];
+
+            DataTable table = model.dataTables.get(tind);
+            if (table == null)
+                return 0f;
+            Float max = Float.MIN_VALUE;
+            for(int i = 0; i < table.data.size(); i++)
+            {
+                Object o = table.data.get(i)[col-1];
+                if (o instanceof Float)
+                    max = Math.max((Float)o, max);
+            }
+            if (max == Float.MIN_VALUE)
+            {
+                return 0f;
+            }
+            return max;
+        }
+    }
+
+    public static class ETabLength extends ContextualOneToOneFunction
+    {
+        @Override public int getArgsCount() { return 1; }
+
+        @Override
+        public boolean nArgsAllowed(int n)
+        {
+            return n==1;
+        }
+
+        public ETabLength(String name, Model model)
+        { 
+            super(name, model);
+            if (model != null)
+                model.enableContextSearch = true;
+        }
+        
+        @Override
+        public float value(float... val) throws Exception
+        {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            int tind = (int)val[0];
+
+            DataTable table = model.dataTables.get(tind);
+            if (table == null)
+                return 0f;
+            return table.data.size();
+        }
+    }
+
 }
