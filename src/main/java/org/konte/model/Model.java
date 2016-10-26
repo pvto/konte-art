@@ -62,7 +62,7 @@ public class Model {
     public Definition[] indexedDefinitions;
     public ArrayList<Definition.NameMap> defMaps = new ArrayList<>();
     private ArrayList<Name> nameExpressions = new ArrayList<>();
-    private int nextid = 0;
+    private int nextid = 1;
     // is set true in  initForGenerate()
     // ; set false in parse
     public boolean isGenerateContext = false;
@@ -291,13 +291,14 @@ public class Model {
             {
                 if (defMaps.get(i).name.compareTo(d.name) == 0)
                 {
-                    ipos = i;
+                    ipos = i + 1;
                     break;
                 }
             }
             if (ipos < 0)
             {
-                defMaps.add(ipos = defMaps.size(), dmap);
+                ipos = defMaps.size() + 1;
+                defMaps.add(dmap);
             }
             dmap.id = ipos;
             d.setNameId(ipos);
