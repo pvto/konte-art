@@ -6,6 +6,7 @@ import org.konte.image.OutputShape;
 import org.konte.lang.Tokens.ContextualOneToOneFunction;
 import org.konte.lang.Tokens.ContextualTwoToOneFunction;
 import org.konte.model.DataTable;
+import org.konte.model.DrawingContext;
 import org.konte.model.Model;
 
 public class Func {
@@ -277,7 +278,48 @@ public class Func {
         }
     }
     
-    
+
+    public static class EContextNbEval extends ContextualTwoToOneFunction
+    {
+        @Override public int getArgsCount() { return 6; }
+
+        @Override
+        public boolean nArgsAllowed(int n)
+        {
+            return n==4 || n==5 || n==6;
+        }
+
+        public EContextNbEval(String name, Model model)
+        { 
+            super(name, model);
+            if (model != null)
+                model.enableContextSearch = true;
+        }
+        
+        @Override
+        public float value(float... val) throws Exception
+        {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            double x = (double)val[0],
+                    y = (double)val[1],
+                    z = (double)val[2],
+                    radius = (double)val[3]
+                    ;
+            int n = val.length>4? Math.max(1, (int)val[4]) : 1;
+            DrawingContext s = model.shapeReader.getRuleWriter().findNthNearestNeighborCtx(x, y, z, radius, n, null);
+            if (s == null)
+            {
+                return 0f;
+            }
+            DrawingContext stacked = model.context;
+            model.context = s;
+            float ret = arg2.evaluate();
+            model.context = stacked;
+            return ret;
+        }
+    }
+
     
     
     public static class ECsv extends ContextualOneToOneFunction

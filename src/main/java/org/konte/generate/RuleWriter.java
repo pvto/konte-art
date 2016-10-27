@@ -94,48 +94,63 @@ public class RuleWriter {
         }
         return null;
     }
+    
+    public DrawingContext findNthNearestNeighborCtx(double x, double y, double z, double radius, int n, Expression arg2) throws ParseException
+    {
+        List<Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder> list = 
+                xyzIndex.findAll(x, y, z, radius);
+        narrowDownNeighbors(x, y, z, list, n, arg2, model);
+        if (list.size() >= n)
+        {
+            return list.get(n - 1).o.s;
+        }
+        return null;
+    }
 
     private void narrowDownNeighbors(double x, double y, double z, List<Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder> list, int n, Expression filter, Model model) throws ParseException
     {
 
         float THRESHOLD = 0.0000001f;
         Iterator<Octree<Tuple<DrawingContext,OutputShape>>.CoordHolder> it = list.iterator();
-        DrawingContext stacked = model.context;
-        while(it.hasNext())
+        if (filter != null)
         {
-            Octree.CoordHolder h = it.next();
-            Tuple<DrawingContext,OutputShape> tuple = (Tuple<DrawingContext,OutputShape>)h.o;
-            DrawingContext dc = tuple.s;
-            model.context = dc;
-            if (filter instanceof NameBackReference)    // if a backreference, test for equality between the two contexts
+            DrawingContext stacked = model.context;
+            while(it.hasNext())
             {
-                float val = filter.evaluate();
-                model.context = stacked;
-                float val2 = filter.evaluate();
-                float diff = Math.abs(val - val2);
-                if (diff >= THRESHOLD)
+                Octree.CoordHolder h = it.next();
+                Tuple<DrawingContext,OutputShape> tuple = (Tuple<DrawingContext,OutputShape>)h.o;
+                DrawingContext dc = tuple.s;
+                model.context = dc;
+                if (filter instanceof NameBackReference)    // if a backreference, test for equality between the two contexts
                 {
-                    it.remove();
+                    float val = filter.evaluate();
+                    model.context = stacked;
+                    float val2 = filter.evaluate();
+                    float diff = Math.abs(val - val2);
+                    if (diff >= THRESHOLD)
+                    {
+                        it.remove();
+                    }
+                }
+                else if (filter instanceof BooleanExpression) // if boolean expression, test that it evaluates to true in found context
+                {
+                    boolean val = ((BooleanExpression)filter).bevaluate();
+                    if (!val)
+                    {
+                        it.remove();
+                    }
+                }
+                else {  // other expressions behave c-like, ie. should evaluate to > 0 to count as true (and be included)
+                    float val = filter.evaluate();
+                    if (val < THRESHOLD)
+                    {
+                        it.remove();
+                    }
                 }
             }
-            else if (filter instanceof BooleanExpression) // if boolean expression, test that it evaluates to true in found context
-            {
-                boolean val = ((BooleanExpression)filter).bevaluate();
-                if (!val)
-                {
-                    it.remove();
-                }
-            }
-            else {  // other expressions behave c-like, ie. should evaluate to > 0 to count as true (and be included)
-                float val = filter.evaluate();
-                if (val < THRESHOLD)
-                {
-                    it.remove();
-                }
-            }
+            model.context = stacked;
         }
-        model.context = stacked;
-
+        
         Collections.sort(list, new Comparator<Octree.CoordHolder>() {
             @Override
             public int compare(Octree.CoordHolder a, Octree.CoordHolder b) {
