@@ -207,7 +207,6 @@ public class Func {
                     radius = (double)val[3]
                     ;
             double minDist = Double.MAX_VALUE;
-            OutputShape ret = null;
             List<OutputShape> list = model.shapeReader.getRuleWriter().findAll(x, y, z, radius);
             for(OutputShape o : list)
             {
@@ -215,23 +214,13 @@ public class Func {
                         pow2(x - o.matrix.m03)
                         + pow2(y - o.matrix.m13)
                         + pow2(z - o.matrix.m23)
-                );
-                double r = o.getAvgWidth() / 2.0;
-                if (r >= dist)
-                {
-                    dist = 0.0;
-                }
-                else
-                {
-                    dist = dist - r;
-                }
+                ) * 2.0 - o.getAvgWidth();
                 if (dist < minDist)
                 {
                     minDist = dist;
-                    ret = o;
                 }
             }
-            return (float)minDist;
+            return (float)Math.max(0.0, minDist);
         }
     }
     

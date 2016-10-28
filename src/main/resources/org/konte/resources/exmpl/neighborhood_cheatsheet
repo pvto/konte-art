@@ -1,0 +1,83 @@
+
+DEF W .05
+DEF LW 1/5  DEF DW 1/7
+DEF F .9
+
+neighborhoodHelp {
+  *{s W s .275 x -22 y 23} {
+    
+    //grid{layer -1 x -2.5 y 2.5 {N=50}}
+
+    CIRCLE{ {T=1}  s 2 x 2 y -4 layer .1 R .6 }
+      m1{ x 4 y -8 L 1 layer .1 }
+    CIRCLE{ {T=1}  s 2 x 3 B .4 }   
+      m2{ x 6 L 1}
+    *{y .4} {
+      TEXT{ y 1 x 8 s F PUSH "^m^I'm the 2nd closest neighbor," }
+      TEXT{ y 0 x 8 s F PUSH "^m^  within 0.2 euclidean distance, with T=1 set." }
+    }
+    
+    *{x 2 y -1} {
+      *{y -3} {
+        RIM{ s nbdist(x,y,z, .2,2, T=1) / s   G .2 }
+        CIRCLE{ s nbdist(x,y,z, .3,1,T=1) / s  R 1}
+        mx{}
+      }
+      
+      TEXT{ x 10 y -2 y .4 s F PUSH "^m^RIM{ size nbdist(x,y,z, .2, 2, T=1) }" }
+      LINE{{X1=4.5;Y1=-3; X2=9.5;Y2=-2; width=.02} RGB #c0a000}
+      CIRCLE{ x 10+16.4 y -1.5 s 1.5 layer -.1 B .4 A -.7}   
+      
+      TEXT{ x 6 y -7 y .4 s F PUSH "^m^CIRCLE{ size nbdist(x,y,z, .2, 1, T=1) }" }
+      LINE{{X1=2.5;Y1=-5; X2=5.5;Y2=-6.75; width=.04} RGB #c0a000}
+      CIRCLE{ x 10+14.1 y -6.5 s 1.5 layer -.1 R .6 A -.7}   
+
+      TEXT{ x 3 y -9 rz -15 s F PUSH "^m^I'm the closest neighbor with T=1 set." }
+    }
+
+    *{y -19.4 x - 3 s 1.25 {ITALIC=2}} {
+      TEXT{ PUSH "^m^Please remember to create the looked up shapes first!" }
+    }
+
+
+
+    *{ y -27 } {
+      3*{}CIRCLE{ s 2 x 2 y -rndf()*3 x rndf()*3 R .4 }
+      *{y -3}
+        RIM{ s mindist(x,y,z, .3) / s 
+             layer -1}
+      LINE{y 2 x -1 {X2=25; width=.05} L .9 layer -.1}
+      TEXT{y 2 s F PUSH "^m^RIM{ s mindist(x,y,z, .3) }" }
+    }
+
+
+    *{ y -30 x 30 } {
+      3*{R .3 x 5 } 3*{B .3 y -5} SQUARE{}
+      *{x 8 y -2} {
+        CIRCLE{ R nbeval(x,y,z, .2, 1, R) s 2}
+        TEXT{ y 4 x -4 s F PUSH "^m^CIRCLE{ R nbeval(x,y,z, .2, 1, R) }" }
+      }
+      *{x 2 y -8} {
+        CIRCLE{ B nbeval(x,y,z, .2, 1, B) s 2}
+        TEXT{ y -4 x -4 s F PUSH "^m^CIRCLE{ B nbeval(x,y,z, .2, 1, B) }" }
+        SQUARE{ x 12.5 y -4.7 s 1 .1 .1}
+        TEXT{ y -5.5 x -8 s F PUSH "^m^(This circle gets its B from its nearest neighbor!)" }
+        SQUARE{ x 13 y -6.2 s 3 .1 .1}
+      }
+    }
+
+    *{ y -48 x -4 } {
+      TEXT{ s 1.5 PUSH "^m^Neighborhood functions: mindist, nbdist, nbeval" }
+    }
+  }
+}
+
+grid {
+  (N)*{x 1} (N)*{y -1} { 
+    SQUARE{s 1 L .5} 
+    SQUARE {s .98 lightness 1 } }
+}
+
+model{pushstack 100}
+include #monospace
+include #geometry

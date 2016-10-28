@@ -18,6 +18,7 @@ macros
 layer_directive
 push_peek_and_pop
 using_expressions
+neighborhood_cheatsheet
 ---------------
 RGB
 shadings
