@@ -78,6 +78,25 @@ public class Model {
     public Map<Integer, DataTable> dataTables = new HashMap<>();
     public int dataTableIndex = 1000;
     
+    public Name EXCLUDE_FROM_CONTEXT_SEARCH;
+    {
+        Model tmp = Name.model;
+        try {
+            Name.model = this;
+            EXCLUDE_FROM_CONTEXT_SEARCH = (Name)Name.createExpressionFinalName("NBEXCL");
+            registerNameExpression(EXCLUDE_FROM_CONTEXT_SEARCH);
+        } 
+        catch(Exception ex) { ex.printStackTrace(); }
+        finally { Name.model = tmp; }
+    }
+    public boolean excludedFromContextSearch()
+    {
+        try {
+            return EXCLUDE_FROM_CONTEXT_SEARCH.evaluate() > 1e-5f;
+        } catch(Exception ex) { ex.printStackTrace(); }
+        return false;
+    }
+    
     private boolean drawLayerSeparately = false;
     private boolean hasMultipleLayers = false;
     

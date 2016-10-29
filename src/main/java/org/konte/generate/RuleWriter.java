@@ -467,7 +467,9 @@ public class RuleWriter {
         OutputShape s = p.toOutputShape();
         if (contextSearch)
         {
-            xyzIndex.place(s.matrix.m03, s.matrix.m13, s.matrix.m23, new Tuple(p, s));
+            if (!model.excludedFromContextSearch()) {
+                xyzIndex.place(s.matrix.m03, s.matrix.m13, s.matrix.m23, new Tuple(p, s));
+            }
         }
         if (shapes.size() < 1030 || !(sr instanceof StreamingShapeReader) && shapes.size() < 131070)
         {
@@ -535,7 +537,6 @@ public class RuleWriter {
             model.context = p;
             p.applyShading(model);
             model.lighting.lightObject(p);
-            model.context = tmp;
             if (p.shape==Language.MESH)
             {
                 meshes.add(p);
@@ -543,6 +544,7 @@ public class RuleWriter {
             p.isDrawPhase = 1;
             addShape(p);
             forwardedShapes++;
+            model.context = tmp;
         } else if (st.repeatStructure)
         {
             RepeatStructure rr = (RepeatStructure) st;
@@ -600,7 +602,6 @@ public class RuleWriter {
                             DrawingContext tmp = model.context;
                             p.applyShading(model);
                             model.lighting.lightObject(p);
-                            model.context = tmp;
                             if (u==Language.MESH)
                             {
                                 meshes.add(p);
@@ -608,6 +609,7 @@ public class RuleWriter {
                             p.isDrawPhase = 1;
                             addShape(p);
                             forwardedShapes++;
+                            model.context = tmp;
                             return;
                         }
                     }

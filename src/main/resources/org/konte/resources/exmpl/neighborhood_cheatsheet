@@ -26,14 +26,16 @@ neighborhoodHelp {
       
       TEXT{ x 10 y -2 y .4 s F PUSH "^m^RIM{ size 2*nbdist(x,y,z, .2, 2, T=1) }" }
       LINE{{X1=4.5;Y1=-3; X2=9.5;Y2=-2; width=.02} RGB #c0a000}
-      CIRCLE{ x 10+16.4 y -1.5 s 1.5 layer -.1 B .4 A -.7}   
+      CIRCLE{ x 10+17.5 y -1.5 s 1.5 layer -.1 B .4 A -.7}   
       
       TEXT{ x 6 y -7 y .4 s F PUSH "^m^CIRCLE{ size 2*nbdist(x,y,z, .2, 1, T=1) }" }
       LINE{{X1=2.5;Y1=-5; X2=5.5;Y2=-6.75; width=.04} RGB #c0a000}
-      CIRCLE{ x 10+14.1 y -6.5 s 1.5 layer -.1 R .6 A -.7}   
+      CIRCLE{ x 10+15.3 y -6.5 s 1.5 layer -.1 R .6 A -.7}   
 
       TEXT{ x 3 y -9 rz -15 s F PUSH "^m^I'm the closest neighbor with T=1 set." }
     }
+
+
 
     *{y -19.4 x - 3 s 1.25 {ITALIC=2}} {
       TEXT{ PUSH "^m^Please remember to create the looked up shapes first!" }
@@ -53,9 +55,18 @@ neighborhoodHelp {
 
     *{ y -30 x 30 } {
       3*{R .3 x 5 } 3*{B .3 y -5} SQUARE{}
+      *{x 7 y -.25} {
+        LINE{{Y1=.5;Y2=2.5;width=.05} layer -1 RGB #c0a000}
+        10000*{}TRIANGLE{R 1 {NBEXCL=1} s .75 x irndf(2) y irndf(2) }
+        TEXT{ y 7 rz 5 x -10 s F PUSH "^m^These triangles are not placed in lookup model..." }
+        TEXT{ y 5 rz 5 x -6 s F PUSH "^m^Quickens things considerably!" }
+        TEXT{ y 3 rz 5 x -3 s F PUSH "^m^10000*{} TRIANGLE{{NBEXCL=1}}" }
+      }
       *{x 8 y -2} {
         CIRCLE{ R nbeval(x,y,z, .2, 1, R) s 2}
-        TEXT{ y 4 x -4 s F PUSH "^m^CIRCLE{ R nbeval(x,y,z, .2, 1, R) }" }
+        TEXT{ y 0 x 4 s F PUSH "^m^CIRCLE{ R nbeval(" }
+        TEXT{ y -1 x 4 s F PUSH "^m^    x,y,z, .2, 1, R) }" }
+        
       }
       *{x 2 y -8} {
         CIRCLE{ B nbeval(x,y,z, .2, 1, B) s 2}
