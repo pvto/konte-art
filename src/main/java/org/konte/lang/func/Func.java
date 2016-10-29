@@ -214,7 +214,7 @@ public class Func {
                         pow2(x - o.matrix.m03)
                         + pow2(y - o.matrix.m13)
                         + pow2(z - o.matrix.m23)
-                ) * 2.0 - o.getAvgWidth();
+                ) - o.getAvgWidth() / 2.0;
                 if (dist < minDist)
                 {
                     minDist = dist;
@@ -263,7 +263,7 @@ public class Func {
                     y0 = (y - p.matrix.m13),
                     z0 = (z - p.matrix.m23)
                     ;
-            return (float)Math.sqrt(x0*x0 + y0*y0 + z0*z0) * 2f - p.getAvgWidth();
+            return (float)Math.sqrt(x0*x0 + y0*y0 + z0*z0) - p.getAvgWidth() / 2.0f;
         }
     }
     

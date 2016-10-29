@@ -19,16 +19,16 @@ neighborhoodHelp {
     
     *{x 2 y -1} {
       *{y -3} {
-        RIM{ s nbdist(x,y,z, .2,2, T=1) / s   G .2 }
-        CIRCLE{ s nbdist(x,y,z, .3,1,T=1) / s  R 1}
+        RIM{ s 2*nbdist(x,y,z, .2,2, T=1) / s   G .2 }
+        CIRCLE{ s 2*nbdist(x,y,z, .3,1,T=1) / s  R 1}
         mx{}
       }
       
-      TEXT{ x 10 y -2 y .4 s F PUSH "^m^RIM{ size nbdist(x,y,z, .2, 2, T=1) }" }
+      TEXT{ x 10 y -2 y .4 s F PUSH "^m^RIM{ size 2*nbdist(x,y,z, .2, 2, T=1) }" }
       LINE{{X1=4.5;Y1=-3; X2=9.5;Y2=-2; width=.02} RGB #c0a000}
       CIRCLE{ x 10+16.4 y -1.5 s 1.5 layer -.1 B .4 A -.7}   
       
-      TEXT{ x 6 y -7 y .4 s F PUSH "^m^CIRCLE{ size nbdist(x,y,z, .2, 1, T=1) }" }
+      TEXT{ x 6 y -7 y .4 s F PUSH "^m^CIRCLE{ size 2*nbdist(x,y,z, .2, 1, T=1) }" }
       LINE{{X1=2.5;Y1=-5; X2=5.5;Y2=-6.75; width=.04} RGB #c0a000}
       CIRCLE{ x 10+14.1 y -6.5 s 1.5 layer -.1 R .6 A -.7}   
 
@@ -44,10 +44,10 @@ neighborhoodHelp {
     *{ y -27 } {
       3*{}CIRCLE{ s 2 x 2 y -rndf()*3 x rndf()*3 R .4 }
       *{y -3}
-        RIM{ s mindist(x,y,z, .3) / s 
+        RIM{ s 2*mindist(x,y,z, .3) / s 
              layer -1}
       LINE{y 2 x -1 {X2=25; width=.05} L .9 layer -.1}
-      TEXT{y 2 s F PUSH "^m^RIM{ s mindist(x,y,z, .3) }" }
+      TEXT{y 2 s F PUSH "^m^RIM{ s 2*mindist(x,y,z, .3) }" }
     }
 
 
