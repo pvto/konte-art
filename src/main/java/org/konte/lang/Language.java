@@ -269,6 +269,7 @@ public class Language {
     public static final Token tabColMax = addToken(new Table.ETabColMax("colmax", null));
     public static final Token tabColSum = addToken(new Table.ETabColSum("colsum", null));
     public static final Token tabLength = addToken(new Table.ETabLength("len", null));
+    public static final Token tabAddRow = addToken(new Table.ETabAddRow("row", null));
 
     public static final Token PI =     addConstant("PI",       (float)Math.PI);
     public static final Token E =      addConstant("E",        (float)Math.E);

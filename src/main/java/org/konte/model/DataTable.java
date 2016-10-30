@@ -54,7 +54,10 @@ public class DataTable {
         return value(index, colInd);
     }
     
-    
+    public void addRow(Object[] row)
+    {
+        data.add(row);
+    }
 
     public static DataTable parse(InputStream in) throws IOException
     {
@@ -109,7 +112,7 @@ public class DataTable {
                     objVals[j] = val;
                 }
             }
-            table.data.add(objVals);
+            table.addRow(objVals);
         }
         table.init();
         br.close();
