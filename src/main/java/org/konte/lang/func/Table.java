@@ -207,7 +207,7 @@ public class Table {
 
     public static class ETabAddRow extends Tokens.ContextualOneToOneFunction
     {
-        @Override public int getArgsCount() { return 1; }
+        @Override public int getArgsCount() { return -1; }
 
         @Override
         public boolean nArgsAllowed(int n)
@@ -233,9 +233,9 @@ public class Table {
             if (table == null)
                 return -1f;
             
-            Object[] row = new Object[val.length];
-            for(int i = 0; i < row.length; i++)
-                row[i] = val[i];
+            Object[] row = new Object[val.length - 1];
+            for(int i = 1; i < row.length; i++)
+                row[i - 1] = val[i];
             table.addRow(row);
             return 1f;
         }
