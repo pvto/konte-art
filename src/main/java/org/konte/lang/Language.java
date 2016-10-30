@@ -238,8 +238,6 @@ public class Language {
     public static final Token max = addToken(new Mathm.EMax("max"));
     public static final Token min = addToken(new Mathm.EMin("min"));
     public static final Token coalesce = addToken(new Mathm.ECoalesce("coalesce"));
-    public static final Token mandelb = addToken(new Fractal.EMandelbrot("mandelbrot"));
-    public static final Token julia = addToken(new Fractal.EJulia("julia"));
     public static final Token binm = addToken(new Prob.EBinm("binm"));
     public static final Token binmcuml = addToken(new Prob.EBincuml("binmc"));
     public static final Token binmRndf = addToken(new Func.ERndfbin("brndf", null));
@@ -250,6 +248,9 @@ public class Language {
     public static final Token hypgRnd = addToken(new Prob.ERndhypg("hypgrnd"));
     public static final Token negbinm = addToken(new Prob.ENegbinm("negbinm"));
     public static final Token pareto = addToken(new Func.ERndfpareto("pareto", null));
+
+    public static final Token mandelb = addToken(new Fractal.EMandelbrot("mandelbrot"));
+    public static final Token julia = addToken(new Fractal.EJulia("julia"));
 
     public static final Token img_red = addToken(new Img.EImgRed("imgred", null));
     public static final Token img_green = addToken(new Img.EImgGreen("imggreen", null));
@@ -266,6 +267,7 @@ public class Language {
     public static final Token csv = addToken(new Table.ECsv("csv", null));
     public static final Token tabColMin = addToken(new Table.ETabColMin("colmin", null));
     public static final Token tabColMax = addToken(new Table.ETabColMax("colmax", null));
+    public static final Token tabColSum = addToken(new Table.ETabColSum("colsum", null));
     public static final Token tabLength = addToken(new Table.ETabLength("len", null));
 
     public static final Token PI =     addConstant("PI",       (float)Math.PI);

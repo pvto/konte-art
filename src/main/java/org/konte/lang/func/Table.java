@@ -135,6 +135,45 @@ public class Table {
         }
     }
 
+    public static class ETabColSum extends Tokens.ContextualOneToOneFunction
+    {
+        @Override public int getArgsCount() { return 2; }
+
+        @Override
+        public boolean nArgsAllowed(int n)
+        {
+            return n==2;
+        }
+
+        public ETabColSum(String name, Model model)
+        { 
+            super(name, model);
+            if (model != null)
+                model.enableContextSearch = true;
+        }
+        
+        @Override
+        public float value(float... val) throws Exception
+        {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            int tind = (int)val[0],
+                col = (int)val[1];
+
+            DataTable table = model.dataTables.get(tind);
+            if (table == null)
+                return 0f;
+            Float sum = 0f;
+            for(int i = 0; i < table.data.size(); i++)
+            {
+                Object o = table.data.get(i)[col-1];
+                if (o instanceof Float)
+                    sum += (Float)o;
+            }
+            return sum;
+        }
+    }
+    
     public static class ETabLength extends Tokens.ContextualOneToOneFunction
     {
         @Override public int getArgsCount() { return 1; }
