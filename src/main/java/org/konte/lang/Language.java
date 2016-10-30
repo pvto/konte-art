@@ -18,7 +18,9 @@ import org.konte.lang.func.Img;
 import org.konte.model.TransformModifier;
 import org.konte.plugin.PluginLoader;
 import static org.konte.lang.Tokens.*;
+import org.konte.lang.func.Nb;
 import org.konte.lang.func.Prob;
+import org.konte.lang.func.Table;
 import org.konte.lang.maps.Monospace;
 import org.konte.misc.PrefixStringMap;
 
@@ -256,15 +258,15 @@ public class Language {
     public static final Token img_width = addToken(new Img.EImgWidth("imgwidth", null));
     public static final Token img_height = addToken(new Img.EImgHeight("imgheight", null));
     
-    public static final Token nearby = addToken(new Func.EContextSearchXyz("nearby", null));
-    public static final Token nearbyd = addToken(new Func.EContextNearbyDistXyz("mindist", null));
-    public static final Token nbdist = addToken(new Func.EContextNbDist("nbdist", null));
-    public static final Token nbeval = addToken(new Func.EContextNbEval("nbeval", null));
+    public static final Token nearby = addToken(new Nb.EContextSearchXyz("nearby", null));
+    public static final Token nearbyd = addToken(new Nb.EContextNearbyDistXyz("mindist", null));
+    public static final Token nbdist = addToken(new Nb.EContextNbDist("nbdist", null));
+    public static final Token nbeval = addToken(new Nb.EContextNbEval("nbeval", null));
     
-    public static final Token csv = addToken(new Func.ECsv("csv", null));
-    public static final Token tabColMin = addToken(new Func.ETabColMin("colmin", null));
-    public static final Token tabColMax = addToken(new Func.ETabColMax("colmax", null));
-    public static final Token tabLength = addToken(new Func.ETabLength("len", null));
+    public static final Token csv = addToken(new Table.ECsv("csv", null));
+    public static final Token tabColMin = addToken(new Table.ETabColMin("colmin", null));
+    public static final Token tabColMax = addToken(new Table.ETabColMax("colmax", null));
+    public static final Token tabLength = addToken(new Table.ETabLength("len", null));
 
     public static final Token PI =     addConstant("PI",       (float)Math.PI);
     public static final Token E =      addConstant("E",        (float)Math.E);
