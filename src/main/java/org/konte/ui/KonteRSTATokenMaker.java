@@ -32,7 +32,7 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
         public char[] key;
         public int value;
         public MyLinkedNode next;
-        
+
         public MyLinkedNode(char[] key, int value)
         {
             this.key = key;
@@ -46,7 +46,7 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
             if (a[i] != bSegment[i+bOffset]) return false;
         return true;
     }
-    
+
     public static class MyNameTypeMap
     {
         private MyLinkedNode[] hashTable = new MyLinkedNode[1<<12];
@@ -57,7 +57,7 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
             if (hashTable[hash] != null)
             {
                 MyLinkedNode prev = hashTable[hash];
-                
+
                 for(;;)
                 {
                     if (deepEquals(prev.key, chars, 0, chars.length))
@@ -70,17 +70,17 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
                         break;
                     }
                     prev = prev.next;
-                } 
+                }
                 prev.next = new MyLinkedNode(chars, type);
                 return;
             }
             hashTable[hash] = new MyLinkedNode(chars, type);
         }
-        
+
         public int get(char[] seg, int offset, int end)
         {
             int hash = getHash(seg, offset, end - offset + 1);
-            MyLinkedNode node = hashTable[hash];
+            MyLinkedNode node = (hash < hashTable.length ? hashTable[hash] : null);
             while(node != null)
             {
                 if (deepEquals(node.key, seg, offset, end - offset + 1))
@@ -91,20 +91,20 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
             }
             return -1;
         }
-        
+
         public int getHash(char[] chars, int offset, int length)
         {
             return chars[offset] * 17 + chars[offset + length - 1] % hashTable.length;
         }
     }
-    
+
     private MyNameTypeMap myMap;
-    
+
     @Override
     public TokenMap getWordsToHighlight()
     {
         if (myMap == null) myMap = new MyNameTypeMap();
-        
+
         TokenMap tokenMap = new TokenMap();
 
         for(Tokens.Token ktok : Language.tokens)
@@ -126,7 +126,7 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
             {
                 type = Token.COMMENT_EOL;
             }
-            else if (ktok == Language.hyphen) 
+            else if (ktok == Language.hyphen)
             {
                 type = Token.LITERAL_STRING_DOUBLE_QUOTE;
             }
@@ -205,7 +205,7 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
         }
         return true;
     }
-    
+
     @Override
     public Token getTokenList(Segment text, int startTokenType, int docStartOffset)
     {
@@ -219,8 +219,8 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
         char[] chars = text.array;
         char[] seg = Arrays.copyOfRange(chars, offset, offset + text.count);
         String sseg = new String(seg);
-        
-        
+
+
         try
         {
             ArrayList<TokenizerString> tokens = Tokenizer.retrieveTokenStrings(sseg);
@@ -260,7 +260,7 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
                         {
                             addToken(text, prevEnd + 1, nextStart - 1, Token.WHITESPACE, newStartOffset + prevEnd + 1);
                         }
-                        
+
                         if ('/' == seg[next.getCaretPos()] && seg.length > next.getCaretPos() + 1 && '*' == seg[next.getCaretPos() + 1])
                         {
                             currentTokenType = Token.COMMENT_MULTILINE;
@@ -312,7 +312,7 @@ public class KonteRSTATokenMaker extends AbstractTokenMaker {
         return firstToken;
     }
 
-    
+
 
     public static class TextEditorDemo extends JFrame {
 
