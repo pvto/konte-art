@@ -9,6 +9,8 @@ DEF H6YH .5/cos(PI/6)
 MACRO NGYH .5/cos(PI/n)
 
 
+void{}
+
 // 
 
 LINE {

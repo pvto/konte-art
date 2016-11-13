@@ -580,7 +580,7 @@ public class Parser {
                     if (lastName == null)
                     {
                         lastName = s;
-                        if (lastName.matches("(.*(jpg|jpeg|png|gif|JPG|PNG|GIF|csv|tsv|CSV|TSV)|/dev/null/?|null|nil)"))
+                        if (lastName.matches("(.*(jpg|jpeg|png|gif|JPG|PNG|GIF|csv|tsv|CSV|TSV|data)|/dev/null/?|null|nil|empty)"))
                         {
                             break;
                         }
@@ -595,9 +595,9 @@ public class Parser {
                     Matcher imgMatcher = Pattern.compile(
                             "(.*(jpg|jpeg|png|gif|JPG|PNG|GIF))\\s*(\\w*)$").matcher(lastName);
                     Matcher csvMatcher = Pattern.compile(
-                            "(.*(csv|tsv|CSV|TSV))\\s*(\\w*)$").matcher(lastName);
+                            "(.*(csv|tsv|CSV|TSV|data))\\s*(\\w*)$").matcher(lastName);
                     Matcher nilMatcher = Pattern.compile(
-                            "(/dev/null/?|null|nil)\\s*(\\w*)$").matcher(lastName);
+                            "(/dev/null/?|null|nil|empty)\\s*(\\w*)$").matcher(lastName);
                     if (imgMatcher.find())
                     {
                         try {

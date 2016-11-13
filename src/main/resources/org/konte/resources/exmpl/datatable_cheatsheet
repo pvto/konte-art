@@ -1,0 +1,121 @@
+include #monospace
+include #geometry
+
+startshape tableUsageSheet 
+model { pushstack 100 }
+
+include empty TAB1
+include empty MYTAB
+
+include 
+  "http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
+  IRIS
+
+tableUsageSheet {*{s .05 x -8 y 6.5 s .75 {F=.3}} {
+
+
+  *{y 0} {
+
+    *{x 16 {ITALIC=2;BOLD=10;WIDE=5} {BW=.075} ry -50 rx 10 rz -12} {
+      box{layer -1 z -.25 y .1 L 1 rx 20 }
+      TEXT{ s .4 PUSH "^m^Konte datatable" }
+      TEXT{ y -.5 s .4 PUSH "^m^ cheatsheet"}
+    }
+    
+    *{y -0} {
+      HEADER {        PUSH "^m^Tabular data" }
+      *{y -1}   T {      PUSH "^m^include empty TAB1" } 
+      *{y -1}   T { B .4 PUSH "^m^                     Create a new empty table from scratch" } 
+      *{y -1.5} T {      PUSH "^m^..." } 
+      *{y -2}   T {      PUSH "^m^10*{} void { x trow(TAB1, rndf()) }" } 
+      *{y -2}   T { B .4 PUSH "^m^                                      ... add 10 table rows," } 
+        *{y -2} T {}
+      *{y -2.5} T { B .4 PUSH "^m^                                      with one random value in each" } 
+
+      10*{} void { x trow(TAB1, rndf()) } 
+      49*{} void { x trow(MYTAB, .5*rndf(), rndf()) } 
+      void { x trow(MYTAB, 1, 0.0) 
+             x tset(MYTAB, 50, 2, 2.0)
+      }
+      
+      *{y -3.5} T {      PUSH "^m^include empty MYTAB" }
+      *{y -3.5} T { B .4 PUSH "^m^                     ... create another table" } 
+      *{y -4.5} T {      PUSH "^m^49*{} void { x trow(MYTAB, .5*rndf(), rndf()) }" } 
+      *{y -4.5} T { B .4 PUSH "^m^                                                ... and populate 49 rows, two columns" } 
+      *{y -5}   T { G .4 PUSH "^m^void { x trow(MYTAB, 1, 0) " } 
+      *{y -5}   T { B .4 PUSH "^m^                                          ... add one more row with fixed values" } 
+      *{y -5.5} T { G .4 PUSH "^m^       x tset(MYTAB, 50, 2, 2.) }" } 
+      *{y -5.5} T { B .4 PUSH "^m^                                          ... set 2nd column of 50th row to =2.0" } 
+    }
+
+    *{ y -7} {
+      len(TAB1)* {x 1 {i=i+1}} {
+        RSQU{B tget(TAB1,i+1,1)}
+        RSQU{y -1 R tget(TAB1,i+1,1) s tget(TAB1,i+1,1) }
+      }
+      *{x 10.5} {
+        T{ PUSH "^m^Use the tabulated values to set blue channel" } 
+        T{ y -1 R .6 PUSH "^m^...or red channel, or whatever!" }
+      }
+      T { y -2   PUSH "^m^len(TAB1)* {{i=i+1}}" }
+      T { y -2.5 PUSH "^m^    RSQU{R tget(TAB1,i+1,1) ..." }
+    }
+
+    *{ y -10.5} {
+      len(MYTAB)* {x .4 {i=i+1}} {
+          CIRCLE{s .3 
+            R tget(MYTAB,i+1,1)
+            s tget(MYTAB,i+1,2)
+          }
+      }
+      T { y -.5 x 10 PUSH 
+      "^m^50* {{i=i+1}} CIRCLE{ R tget(MYTAB,i+1,1) s tget(MYTAB,i+1,2)}" }
+    }
+
+    *{ y -12-7.5} {
+      T { y 2 B .4 PUSH 
+        "^m^Visualising online Iris dataset:" }
+      T { y 1.5 PUSH 
+        "^m^include ''http://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'' IRIS" }
+      T { y 1 x 1 PUSH 
+        "^m^... see source for details" }
+
+      *{{slmax=colmax(IRIS,1); slmin=colmin(IRIS,1);
+         swmax=colmax(IRIS,2); swmin=colmin(IRIS,2);
+         plmax=colmax(IRIS,3);
+         pwmax=colmax(IRIS,4);
+         
+      }}
+        len(IRIS)* {{i=i+1}}
+          iris{
+            B .6 R .2
+            x (tget(IRIS,i+1,1)-slmin)/(slmax-slmin) * 20
+            y tget(IRIS,i+1,2)/swmax * 8
+            {
+              SEPL=tget(IRIS,i+1,1);
+              SEPW=tget(IRIS,i+1,2);
+              PETL=tget(IRIS,i+1,3);
+              PETW=tget(IRIS,i+1,4);
+            }
+            s .1
+          }
+    }
+  }
+
+
+
+}}
+
+void {}
+
+HEADER { T { s 1.5 {BOLD=2}}}
+T { TEXT { s F }}
+
+
+iris {
+  3*{rz 120} {
+    PETAL{{ANG=20+SEPW*16;ROUND=1.2} s 4.5 sy (SEPL/slmax) }
+    PETAL{L 1 S -1 layer 1 {ANG=20+PETW*10;ROUND=2} s 1.5 sy PETL/plmax}
+  }
+}
+

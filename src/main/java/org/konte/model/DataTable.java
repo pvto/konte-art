@@ -60,13 +60,13 @@ public class DataTable {
     }
     
     public void setVal(int row, int col, float toSet) {
-        int y = row - 1;
-        if (row < 0 || row >= data.size())
-            throw new RuntimeException("table " + name + " does not contain a row at index " + row);
-        int x = col - 1;
+        int y = row;
+        if (y < 0 || y >= data.size())
+            throw new RuntimeException("table " + name + " does not contain a row at index " + (row + 1));
+        int x = col;
         Object[] oo = data.get(y);
         if (x < 0 || x >= oo.length)
-            throw new RuntimeException("table " + name + " has too few columns, can't insert value '" + toSet + "' in index (row=" + row + ", col=" + col + ")");
+            throw new RuntimeException("table " + name + " has too few columns, can't insert value '" + toSet + "' in index (row=" + (row+1) + ", col=" + (col+1) + ")");
         oo[x] = toSet;
     }
 
@@ -82,6 +82,9 @@ public class DataTable {
         String separator = ",";
         while((line = br.readLine()) != null && i++ < 100000000)
         {
+            if (line.trim().isEmpty()) {
+                continue;
+            }
             if (i == 1)
             {
                 if (line.contains(";"))

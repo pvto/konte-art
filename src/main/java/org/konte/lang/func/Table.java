@@ -35,8 +35,10 @@ public class Table {
             if (!model.isPreEvaluated)
                 throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
             int tind = (int)val[0],
-                row = (int)val[1],
-                col = (int)val[2];
+                row = (int)val[1];
+            int col = 1;
+            if (val.length > 2)
+                col = Math.max(1, (int)val[2]);
 
             DataTable table = model.dataTables.get(tind);
             if (table == null)
@@ -271,7 +273,7 @@ public class Table {
             DataTable table = model.dataTables.get(tind);
             if (table == null)
                 return 0f;
-            table.setVal(row, col, toSet);
+            table.setVal(row-1, col-1, toSet);
             return toSet;
         }
     }
