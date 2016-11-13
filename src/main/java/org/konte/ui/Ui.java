@@ -116,9 +116,10 @@ public class Ui extends MyJFrame {
     public Ui()
     {
         super(new FileNameExtensionFilter(
-                "cfdg and c3dg grammar files", "cfdg", "c3dg"));
+                "c3dg grammar files", "c3dg"));
 //        this.setUndecorated(true);
-        extendFrame(true);
+        boolean extendAutomatically = !System.getProperty("os.name").matches("mac|osx");
+        extendFrame(extendAutomatically);
         initComponents();
         this.setTitle(String.format(Locale.ENGLISH, "konte %.2f", Language.version));
         Color bgc = new Color(187,203,209);
