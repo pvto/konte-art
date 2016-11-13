@@ -265,6 +265,7 @@ public class Language {
     public static final Token nbeval = addToken(new Nb.EContextNbEval("nbeval", null));
     
     public static final Token csv = addToken(new Table.ECsv("csv", null));
+    public static final Token tset = addToken(new Table.ETabSetVal("tset", null));
     public static final Token tabColMin = addToken(new Table.ETabColMin("colmin", null));
     public static final Token tabColMax = addToken(new Table.ETabColMax("colmax", null));
     public static final Token tabColSum = addToken(new Table.ETabColSum("colsum", null));
@@ -487,6 +488,7 @@ public class Language {
         rndf.addAlias("random");
         
         csv.addAlias("tsv");
+        csv.addAlias("tget");
 
         PrefixStringMap.init(Monospace.monospace);
         

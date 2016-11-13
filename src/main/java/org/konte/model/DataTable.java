@@ -58,6 +58,18 @@ public class DataTable {
     {
         data.add(row);
     }
+    
+    public void setVal(int row, int col, float toSet) {
+        int y = row - 1;
+        if (row < 0 || row >= data.size())
+            throw new RuntimeException("table " + name + " does not contain a row at index " + row);
+        int x = col - 1;
+        Object[] oo = data.get(y);
+        if (x < 0 || x >= oo.length)
+            throw new RuntimeException("table " + name + " has too few columns, can't insert value '" + toSet + "' in index (row=" + row + ", col=" + col + ")");
+        oo[x] = toSet;
+    }
+
 
     public static DataTable parse(InputStream in) throws IOException
     {
