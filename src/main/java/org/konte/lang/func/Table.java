@@ -234,7 +234,7 @@ public class Table {
                 return -1f;
             
             Object[] row = new Object[val.length - 1];
-            for(int i = 1; i < row.length; i++)
+            for(int i = 1; i <= row.length; i++)
                 row[i - 1] = val[i];
             table.addRow(row);
             return 1f;
