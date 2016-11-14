@@ -22,6 +22,8 @@ public class DataTable {
     public Map<String,Integer> headerMap = new HashMap<>();
     public List<Object[]> data = new ArrayList<>();
     
+    public boolean dirty = true;
+    
     public void init()
     {
         if (headers == null)
@@ -57,9 +59,11 @@ public class DataTable {
     public void addRow(Object[] row)
     {
         data.add(row);
+        dirty = true;
     }
     
-    public void setVal(int row, int col, float toSet) {
+    public void setVal(int row, int col, Object toSet)
+    {
         int y = row;
         if (y < 0 || y >= data.size())
             throw new RuntimeException("table " + name + " does not contain a row at index " + (row + 1));
@@ -68,8 +72,46 @@ public class DataTable {
         if (x < 0 || x >= oo.length)
             throw new RuntimeException("table " + name + " has too few columns, can't insert value '" + toSet + "' in index (row=" + (row+1) + ", col=" + (col+1) + ")");
         oo[x] = toSet;
+        dirty = true;
     }
 
+    private List<Map<Object,Integer>> classValues = new ArrayList<>();
+    
+    public int classValue(int row, int col)
+    {
+        if (dirty)
+        {
+            buildClasses();
+            dirty = false;
+        }
+        Map<Object,Integer> map = classValues.get(col - 1);
+        return map.get(data.get(row - 1)[col - 1]);
+    }
+    
+    
+    public void buildClasses()
+    {
+        classValues.clear();
+        back: for(int i = 0; i < data.get(0).length; i++)
+        {
+            Map<Object,Integer> map = new HashMap<>();
+            classValues.add(map);
+            int clazz = 1;
+            for(int j = 0; j < data.size(); j++)
+            {
+                Object o = data.get(j)[i];
+                if (o instanceof Float)
+                {
+                    continue back;
+                }
+                Integer cl = map.get(o);
+                if (cl == null)
+                {
+                    map.put(o, clazz++);
+                }
+            }
+        }
+    }
 
     public static DataTable parse(InputStream in) throws IOException
     {

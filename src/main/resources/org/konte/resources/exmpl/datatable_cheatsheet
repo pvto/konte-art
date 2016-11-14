@@ -86,9 +86,7 @@ tableUsageSheet {*{s .05 x -8 y 6.5 s .75 {F=.3}} {
          pwmax=colmax(IRIS,4);
          
       }}
-        len(IRIS)* {{i=i+1}}
-          iris{
-            B .6 R .2
+        len(IRIS)* {{i=i+1}} *{
             x (tget(IRIS,i+1,1)-slmin)/(slmax-slmin) * 20
             y tget(IRIS,i+1,2)/swmax * 8
             {
@@ -97,7 +95,10 @@ tableUsageSheet {*{s .05 x -8 y 6.5 s .75 {F=.3}} {
               PETL=tget(IRIS,i+1,3);
               PETW=tget(IRIS,i+1,4);
             }
-            s .1
+        }
+          {
+            iris{ B .6 R .2 s .1 }
+            num{ {X=class(IRIS,i+1,5)}  lr .1 s .3 y -1 }
           }
     }
   }
@@ -119,3 +120,21 @@ iris {
   }
 }
 
+
+
+DEF ð .00001
+
+num {
+  if (X%10 < 1-ð) { m0{} }
+  if (X%10 > 1-ð and X%10 < 2-ð) { m1{} }
+  if (X%10 > 2-ð and X%10 < 3-ð) { m2{} }
+  if (X%10 > 3-ð and X%10 < 4-ð) { m3{} }
+  if (X%10 > 4-ð and X%10 < 5-ð) { m4{} }
+  if (X%10 > 5-ð and X%10 < 6-ð) { m5{} }
+  if (X%10 > 6-ð and X%10 < 7-ð) { m6{} }
+  if (X%10 > 7-ð and X%10 < 8-ð) { m7{} }
+  if (X%10 > 8-ð and X%10 < 9-ð) { m8{} }
+  if (X%10 > 9-ð and X%10 < 10-ð) { m9{} }
+  *{{X=X/10-X%10}} {
+    if (X > ð) { num{ x -1 } } }
+}

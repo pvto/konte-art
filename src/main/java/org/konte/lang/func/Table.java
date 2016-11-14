@@ -277,4 +277,38 @@ public class Table {
             return toSet;
         }
     }
+    
+    public static class ETabClassVal extends Tokens.ContextualOneToOneFunction
+    {
+        @Override public int getArgsCount() { return -1; }
+
+        @Override
+        public boolean nArgsAllowed(int n)
+        {
+            return n == 3;
+        }
+
+        public ETabClassVal(String name, Model model)
+        { 
+            super(name, model);
+            if (model != null)
+                model.enableContextSearch = true;
+        }
+        
+        @Override
+        public float value(float... val) throws Exception
+        {
+             if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            int tind = (int)val[0],
+                row = (int)val[1],
+                col = (int)val[2];
+            
+            DataTable table = model.dataTables.get(tind);
+            if (table == null)
+                return 0f;
+            return (float) table.classValue(row, col);
+        }
+    }
+
 }
