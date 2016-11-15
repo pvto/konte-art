@@ -1,0 +1,162 @@
+DEF BLOCKS 14
+
+model {pushstack 100}
+
+fov { C1 CABINET 50 0.5 }
+fov { C2 CABINET 50 0.2 }
+fov { C3 CABINET 50 0.1 }
+fov { C4 CABINET 50 0.0 }
+fov { C5 CABINET 50 1 }
+fov { C6 CABINET 80 0.5 }
+fov { C7 CABINET 80 0.2 }
+fov { C8 CABINET 80 0.1 }
+fov { C9 CABINET 80 0.0 }
+fov { C10 CABINET 80 1 }
+
+fov { C11 CABINET 40 0.5 }
+fov { C12 CABINET 30 0.5 }
+fov { C13 CABINET 20 0.5 }
+fov { C14 CABINET 10 0.5 }
+fov { C15 CABINET 0 0.5 }
+
+fov { c1 CABINET 130 0.5 }
+fov { c2 CABINET 130 0.2 }
+fov { c3 CABINET 130 0.1 }
+fov { c4 CABINET 130 0.0 }
+fov { c5 CABINET 130 1 }
+fov { c6 CABINET 100 0.5 }
+fov { c7 CABINET 100 0.2 }
+fov { c8 CABINET 100 0.1 }
+fov { c9 CABINET 100 0.0 }
+fov { c10 CABINET 100 1 }
+
+
+zoomout{all{s .45}}
+
+all {
+  *{x .6 z .1 s .25} {
+    city { fov C1 y -1.2 }
+ 
+      T{y -1.4 x -.5 PUSH "^m^fov { CABINET 50 0.5 }"}
+    city { fov C2 y -.3 }
+      T{y -.5 x -.5 PUSH "^m^fov { CABINET 50 0.2 }"}
+    city { fov C3 y  .3 }
+      T{y .1 x -.5 PUSH "^m^fov { CABINET 50 0.1 }"}
+    city { fov C4 y  .8 }
+      T{y .6 x -.5 PUSH "^m^fov { CABINET 50 0.0 }"}
+    city { fov C5 y  1.3 }
+      T{y 1.1 x -.5 PUSH "^m^fov { CABINET 50 1 }"}
+  }
+  *{x -.6 z .1 s .25} {
+    city { fov c1 y -1.2 }
+       T{y -1.4 x -.5 PUSH "^m^fov { CABINET 130 0.5 }"}
+    city { fov c2 y -.3 }
+      T{y -.5 x -.5 PUSH "^m^fov { CABINET 130 0.2 }"}
+    city { fov c3 y  .3 }
+      T{y .1 x -.5 PUSH "^m^fov { CABINET 130 0.1 }"}
+    city { fov c4 y  .8 }
+      T{y .6 x -.5 PUSH "^m^fov { CABINET 130 0.0 }"}
+    city { fov c5 y  1.3 }
+      T{y 1.1 x -.5 PUSH "^m^fov { CABINET 130 1 }"}
+  }
+
+  *{x .2 z .1 s .25} {
+    city { fov C6 y -1.2 }
+      T{y -1.4 x -.5 PUSH "^m^fov { CABINET 80 0.5 }"}
+    city { fov C7 y -.3 }
+      T{y -.5 x -.5 PUSH "^m^fov { CABINET 80 0.2 }"}
+    city { fov C8 y  .3 }
+      T{y .1 x -.5 PUSH "^m^fov { CABINET 80 0.1 }"}
+    city { fov C9 y  .8 }
+      T{y .6 x -.5 PUSH "^m^fov { CABINET 80 0.0 }"}
+    city { fov C10 y  1.3 }
+      T{y 1.1 x -.5 PUSH "^m^fov { CABINET 80 1 }"}
+  }
+  *{x -.2 z .1 s .25} {
+    city { fov c6 y -1.2 }
+      T{y -1.4 x -.5 PUSH "^m^fov { CABINET 100 0.5 }"}
+    city { fov c7 y -.3 }
+      T{y -.5 x -.5 PUSH "^m^fov { CABINET 100 0.2 }"}
+    city { fov c8 y  .3 }
+      T{y .1 x -.5 PUSH "^m^fov { CABINET 100 0.1 }"}
+    city { fov c9 y  .8 }
+      T{y .6 x -.5 PUSH "^m^fov { CABINET 100 0.0 }"}
+    city { fov c10 y  1.3 }
+      T{y 1.1 x -.5 PUSH "^m^fov { CABINET 100 1 }"}
+  }
+  *{x -.8 z .1 s .25 y -2.2} {
+    *{x 0}{ city { fov C11 } T{y -.2 x -.5 PUSH "^m^fov { CABINET 40 .5 }"} }
+    *{x 1.5}{ city { fov C12 } T{y -.2 x -.5 PUSH "^m^fov { CABINET 30 .5 }"} }
+    *{x 3}{ city { fov C13 } T{y -.2 x -.5 PUSH "^m^fov { CABINET 20 .5 }"} }
+    *{x 4.5}{ city { fov C14 } T{y -.2 x -.5 PUSH "^m^fov { CABINET 10 .5 }"} }
+    *{x 6}{ city { fov C15 } T{y -.2 x -.5 PUSH "^m^fov { CABINET 0 .5 }"} }
+  }
+}
+
+
+include #monospace
+
+T{TEXT{s .08 y -.3}}
+
+rule city {
+  (BLOCKS)*{x 1/BLOCKS layer -1}
+    (BLOCKS)*{z 1/BLOCKS layer -1}
+    {
+      create_building{x -.5 z -.25 rx 90 scale 1/BLOCKS}
+      SQUARE{layer -2 x -.5 y .05 z -.25 rx 90 z -.5/BLOCKS scale 4/BLOCKS}
+    }
+}
+create_building 3{create_building{col0 (col0+.1)}}
+create_building {building{shading shd sx .5 sy .5 sz .8}}
+building {
+  block{}
+  building_{z 1 layer .1}
+}
+building_ .4 {
+  2*{x .5} 2*{y .5}
+  building { s .5 x -.5 y -.5 z -.5}
+}
+building_ 1{}
+building_ 1{building{}}
+
+block {
+  BOX{s .8 shading -1 y .1 A -.7}
+  cub{PUSH frame {BO=0.4}}
+}
+
+
+cub{
+  PEEK{z -.5}
+  PEEK{z .5 ry 180}
+  PEEK{x -.5 ry -90}
+  PEEK{x .5 ry 90}
+  PEEK{y -.5 rx 90}
+  PEEK{y .5 rx -90}
+}
+
+
+shading shd {
+    point(0.0) { A 1        RGB 0.6 0 0.2 }
+    point(.25) { A 1        RGB 0.918 0.918 0 }
+    point(.5)  { A 1        RGB 0.8 0.8 0.8 }
+    point(.75) { A 1        RGB 0.522 0.718 0.886 }
+    point(1.0) { A 1        RGB 0.420 0.247 0 }
+}
+
+
+DEF BO 0.25
+
+path frame {
+    moveto(-.5,-.5,.0)
+    lineto(-.5,.5,.0)
+    lineto(.5,.5,.0)
+    lineto(.5,-.5,.0)
+    lineto(-.5,-.5,.0)
+    close
+    moveto(-BO,-BO,.0)
+    lineto(BO,-BO,.0)
+    lineto(BO,BO,.0)
+    lineto(-BO,BO,.0)
+    lineto(-BO,-BO,.0)
+    close
+}
