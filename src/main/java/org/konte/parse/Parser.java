@@ -27,6 +27,7 @@ import org.konte.expression.Name;
 import org.konte.expression.Value;
 import org.konte.generate.Runtime;
 import org.konte.generate.StreamingShapeReader;
+import org.konte.image.Camera;
 import org.konte.image.CanvasEffect;
 import org.konte.imprt.SvgImport;
 import org.konte.lang.CameraProperties;
@@ -1085,7 +1086,9 @@ public class Parser {
                         if (lastInnerToken != null)
                             throw new ParseException("Orphaned " + lastInnerToken + " in Camera declaration", lineNr, caretPos);
                         curCtx = contextStack.pop();
-                        m.cameras.add(camBd.build());
+                        Camera cam = camBd.build();
+                        m.cameras.add(cam);
+                        m.addConstant(cam.getName(), new Value((float)m.cameras.indexOf(cam)), true);
                         camBd = null;
                     }
                     else
