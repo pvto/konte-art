@@ -1,4 +1,4 @@
-DEF BLOCKS 14
+DEF BLOCKS 12
 
 model {pushstack 100}
 
@@ -13,12 +13,6 @@ fov { C8 CABINET 80 0.1 }
 fov { C9 CABINET 80 0.0 }
 fov { C10 CABINET 80 1 }
 
-fov { C11 CABINET 40 0.5 }
-fov { C12 CABINET 30 0.5 }
-fov { C13 CABINET 20 0.5 }
-fov { C14 CABINET 10 0.5 }
-fov { C15 CABINET 0 0.5 }
-
 fov { c1 CABINET 130 0.5 }
 fov { c2 CABINET 130 0.2 }
 fov { c3 CABINET 130 0.1 }
@@ -30,66 +24,90 @@ fov { c8 CABINET 100 0.1 }
 fov { c9 CABINET 100 0.0 }
 fov { c10 CABINET 100 1 }
 
+fov { C11 CABINET 40 0.5 }
+fov { C12 CABINET 30 0.5 }
+fov { C13 CABINET 20 0.5 }
+fov { C14 CABINET 10 0.5 }
+fov { C15 CABINET 0 0.5 }
 
-zoomout{all{s .45}}
+DEF Y1 -1.5  DEF Y1T Y1
+DEF Y2 -.6   DEF Y2T Y2
+DEF Y3 .1    DEF Y3T Y3-.1
+DEF Y4 .8    DEF Y4T Y4-.25
+DEF Y5 1.4   DEF Y5T Y5-.2
+
+DEF TX -.7
+
+zoomout{all{s .5}}
+
+void{}
+
+include empty CAM
+
 
 all {
+  void{ 
+    x trow(CAM, C1,C2,C3,C4,C5) 
+    x trow(CAM, -1.3,-.4,.2,.8,1.4)
+    x trow(CAM, c1,c2,c3,c4,c5)
+    x trow(CAM, C6,C7,C8,C9,C10)
+    x trow(CAM, c6,c7,c8,c9,c10)
+    x trow(CAM, C11,C12,C13,C14,C15)
+    x trow(CAM, -1.5,-.6,0,.6,1.2)
+  }
+  
   *{x .6 z .1 s .25} {
-    city { fov C1 y -1.2 }
- 
-      T{y -1.4 x -.5 PUSH "^m^fov { CABINET 50 0.5 }"}
-    city { fov C2 y -.3 }
-      T{y -.5 x -.5 PUSH "^m^fov { CABINET 50 0.2 }"}
-    city { fov C3 y  .3 }
-      T{y .1 x -.5 PUSH "^m^fov { CABINET 50 0.1 }"}
-    city { fov C4 y  .8 }
-      T{y .6 x -.5 PUSH "^m^fov { CABINET 50 0.0 }"}
-    city { fov C5 y  1.3 }
-      T{y 1.1 x -.5 PUSH "^m^fov { CABINET 50 1 }"}
+    5*{{i=i+1}}
+      city { fov tget(CAM,1,i+1) y tget(CAM,2,i+1) }
+    *{x TX} {  
+      T{y Y1T PUSH "^m^fov { CABINET 50 0.5 }"}
+      T{y Y2T PUSH "^m^fov { CABINET 50 0.2 }"}
+      T{y Y3T PUSH "^m^fov { CABINET 50 0.1 }"}
+      T{y Y4T PUSH "^m^fov { CABINET 50 0.0 }"}
+      T{y Y5T PUSH "^m^fov { CABINET 50 1 }"}
+    }
   }
   *{x -.6 z .1 s .25} {
-    city { fov c1 y -1.2 }
-       T{y -1.4 x -.5 PUSH "^m^fov { CABINET 130 0.5 }"}
-    city { fov c2 y -.3 }
-      T{y -.5 x -.5 PUSH "^m^fov { CABINET 130 0.2 }"}
-    city { fov c3 y  .3 }
-      T{y .1 x -.5 PUSH "^m^fov { CABINET 130 0.1 }"}
-    city { fov c4 y  .8 }
-      T{y .6 x -.5 PUSH "^m^fov { CABINET 130 0.0 }"}
-    city { fov c5 y  1.3 }
-      T{y 1.1 x -.5 PUSH "^m^fov { CABINET 130 1 }"}
+    5*{{i=i+1}}
+      city { fov tget(CAM,3,i+1) y tget(CAM,2,i+1) }
+    *{x TX} {  
+      T{y Y1T PUSH "^m^fov { CABINET 130 0.5 }"}
+      T{y Y2T PUSH "^m^fov { CABINET 130 0.2 }"}
+      T{y Y3T PUSH "^m^fov { CABINET 130 0.1 }"}
+      T{y Y4T PUSH "^m^fov { CABINET 130 0.0 }"}
+      T{y Y5T PUSH "^m^fov { CABINET 130 1 }"}
+    }
   }
 
   *{x .2 z .1 s .25} {
-    city { fov C6 y -1.2 }
-      T{y -1.4 x -.5 PUSH "^m^fov { CABINET 80 0.5 }"}
-    city { fov C7 y -.3 }
-      T{y -.5 x -.5 PUSH "^m^fov { CABINET 80 0.2 }"}
-    city { fov C8 y  .3 }
-      T{y .1 x -.5 PUSH "^m^fov { CABINET 80 0.1 }"}
-    city { fov C9 y  .8 }
-      T{y .6 x -.5 PUSH "^m^fov { CABINET 80 0.0 }"}
-    city { fov C10 y  1.3 }
-      T{y 1.1 x -.5 PUSH "^m^fov { CABINET 80 1 }"}
+    5*{{i=i+1}}
+      city { fov tget(CAM,4,i+1) y tget(CAM,2,i+1) }
+    *{x TX} {  
+      T{y Y1T PUSH "^m^fov { CABINET  80 0.5 }"}
+      T{y Y2T PUSH "^m^fov { CABINET  80 0.2 }"}
+      T{y Y3T PUSH "^m^fov { CABINET  80 0.1 }"}
+      T{y Y4T PUSH "^m^fov { CABINET  80 0.0 }"}
+      T{y Y5T PUSH "^m^fov { CABINET  80 1 }"}
+    }
   }
   *{x -.2 z .1 s .25} {
-    city { fov c6 y -1.2 }
-      T{y -1.4 x -.5 PUSH "^m^fov { CABINET 100 0.5 }"}
-    city { fov c7 y -.3 }
-      T{y -.5 x -.5 PUSH "^m^fov { CABINET 100 0.2 }"}
-    city { fov c8 y  .3 }
-      T{y .1 x -.5 PUSH "^m^fov { CABINET 100 0.1 }"}
-    city { fov c9 y  .8 }
-      T{y .6 x -.5 PUSH "^m^fov { CABINET 100 0.0 }"}
-    city { fov c10 y  1.3 }
-      T{y 1.1 x -.5 PUSH "^m^fov { CABINET 100 1 }"}
+    5*{{i=i+1}}
+      city { fov tget(CAM,5,i+1) y tget(CAM,2,i+1) }
+    *{x TX} {  
+      T{y Y1T PUSH "^m^fov { CABINET 100 0.5 }"}
+      T{y Y2T PUSH "^m^fov { CABINET 100 0.2 }"}
+      T{y Y3T PUSH "^m^fov { CABINET 100 0.1 }"}
+      T{y Y4T PUSH "^m^fov { CABINET 100 0.0 }"}
+      T{y Y5T PUSH "^m^fov { CABINET 100 1 }"}
+    }
   }
   *{x -.8 z .1 s .25 y -2.2} {
-    *{x 0}{ city { fov C11 } T{y -.2 x -.5 PUSH "^m^fov { CABINET 40 .5 }"} }
-    *{x 1.5}{ city { fov C12 } T{y -.2 x -.5 PUSH "^m^fov { CABINET 30 .5 }"} }
-    *{x 3}{ city { fov C13 } T{y -.2 x -.5 PUSH "^m^fov { CABINET 20 .5 }"} }
-    *{x 4.5}{ city { fov C14 } T{y -.2 x -.5 PUSH "^m^fov { CABINET 10 .5 }"} }
-    *{x 6}{ city { fov C15 } T{y -.2 x -.5 PUSH "^m^fov { CABINET 0 .5 }"} }
+    5*{x 1.5 {i=i+1}} city { fov tget(CAM,6,i+1) }
+    *{x 0} T{y -.2 x TX PUSH "^m^fov { CABINET 40 .5 }"}
+    *{x 1.5} T{y -.2 x TX PUSH "^m^fov { CABINET 30 .5 }"}
+    *{x 3} T{y -.2 x TX PUSH "^m^fov { CABINET 20 .5 }"}
+    *{x 4.5} T{y -.2 x TX PUSH "^m^fov { CABINET 10 .5 }"}
+    *{x 6} T{y -.2 x TX PUSH "^m^fov { CABINET 0 .5 }"}
   }
 }
 
