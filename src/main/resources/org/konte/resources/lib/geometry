@@ -52,6 +52,15 @@ path LINE__{
 
 
 
+path RECT {
+  moveto(x1,y1,z1)
+  lineto(x2,y2,z2)
+  lineto(x3,y3,z3)
+  lineto(x4,y4,z4)
+  close
+}
+
+
 SECTOR{ SECTOR_{{ANG=max(-360,min(360,ANG))}} }
 path SECTOR_ {
   moveto(0,0,0)
@@ -258,3 +267,62 @@ box {
   4*{ry 90}{SQUARE{z -.5 L -1}SQUARE{z -.5 s max(0, 1-BW)}}
   2*{rx 180}{SQUARE{rx 90 z -.5 L -.5}SQUARE{rx 90 z -.5 s max(0, 1-BW)}}
 }
+
+
+path BULGE {
+  moveto(x1,y1,z1)
+  bend((x2+x1)/2+x1a,(y2+y1)/2+y1a,(z2+z1)/2+z1a)
+  bend((x2+x1)/2+x1b,(y2+y1)/2+y1b,(z2+z1)/2+z1b)
+  curveto(x2,y2,z2)
+  lineto(x3,y3,z3)
+  bend((x4+x3)/2+x3a,(y4+y3)/2+y3a,(z4+z3)/2+z3a)
+  bend((x4+x3)/2+x3b,(y4+y3)/2+y3b,(z4+z3)/2+z3b)
+  curveto(x4,y4,z4)
+  close
+}
+
+
+
+nPIPE {
+  *{{
+     F=coalesce(F, .009);
+     p=coalesce(p, 1);
+     q=coalesce(q, 1);
+     r=coalesce(r, .5);
+     n=coalesce(n, 40);}}
+    *{{Ry=PI*2/n}}
+  (n*p)*{{Ry0=Ry; Ry=Ry+PI*2/n}} {
+    RECT{{
+      x1=cos(Ry0)*r; y1=-r; z1=sin(Ry0)*r;
+      x2=cos(Ry0)*r*q; y2=r; z2=sin(Ry0)*r*q;
+      x3=cos(Ry+F)*r*q; y3=r; z3=sin(Ry+F)*r*q;
+      x4=cos(Ry+F)*r; y4=-r; z4=sin(Ry+F)*r;
+    }}
+  }
+}
+
+
+
+bnCONE {
+  *{{
+     F=coalesce(F, .009);
+     p=coalesce(p, 1);
+     q=coalesce(q, 1);
+     r=coalesce(r, .5);
+     n=coalesce(n, 40);}}
+    *{{Ry=PI*2/n}}
+  (n*p)*{ry Ry/PI*180} {
+    BULGE{{
+      x1=cos(0)*r; y1=-r; z1=sin(0)*r;
+      x2=cos(0)*r*q; y2=r; z2=sin(0)*r*q;
+      x3=cos(Ry+F)*r*q; y3=r; z3=sin(Ry+F)*r*q;
+      x4=cos(Ry+F)*r; y4=-r; z4=sin(Ry+F)*r;
+      y1a=-.25; y1b=.25; y3a=.25; y3b=-.25;
+      z1a=coalesce(bulge, -.5);
+      z1b=coalesce(bulge, -.5);
+      z3a=coalesce(bulge, -.5);
+      z3b=coalesce(bulge, -.5);
+    }}
+  }
+}
+
