@@ -269,7 +269,7 @@ box {
 }
 
 
-path BULGE {
+path PLATE {
   moveto(x1,y1,z1)
   bend((x2+x1)/2+x1a,(y2+y1)/2+y1a,(z2+z1)/2+z1a)
   bend((x2+x1)/2+x1b,(y2+y1)/2+y1b,(z2+z1)/2+z1b)
@@ -301,7 +301,7 @@ nPIPE {
   }
 }
 
-
+nCONE { nPIPE{{q=0.001}} }
 
 bnCONE {
   *{{
@@ -312,16 +312,16 @@ bnCONE {
      n=coalesce(n, 40);}}
     *{{Ry=PI*2/n}}
   (n*p)*{ry Ry/PI*180} {
-    BULGE{{
+    PLATE{{
       x1=cos(0)*r; y1=-r; z1=sin(0)*r;
       x2=cos(0)*r*q; y2=r; z2=sin(0)*r*q;
       x3=cos(Ry+F)*r*q; y3=r; z3=sin(Ry+F)*r*q;
       x4=cos(Ry+F)*r; y4=-r; z4=sin(Ry+F)*r;
       y1a=-.25; y1b=.25; y3a=.25; y3b=-.25;
-      z1a=coalesce(bulge, -.5);
-      z1b=coalesce(bulge, -.5);
-      z3a=coalesce(bulge, -.5);
-      z3b=coalesce(bulge, -.5);
+      z1a=coalesce(bent, -.5);
+      z1b=coalesce(bent, -.5);
+      z3a=coalesce(bent, -.5);
+      z3b=coalesce(bent, -.5);
     }}
   }
 }

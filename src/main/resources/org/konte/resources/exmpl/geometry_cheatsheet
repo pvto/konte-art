@@ -103,6 +103,48 @@ geometrySheet {*{s .05 x -8 y 6.5 s .75 {F=.3}} {
     }
     *{y -3} { RBOX{ PUSH mW Xframe s .75} TEXT { x 1 s F PUSH "^m^RBOX{ PUSH mW Xframe }" } }
     *{y -4.5} { RBOX{ PUSH mQ Xframe s .75 rx 20 } TEXT { x 1 s F PUSH "^m^RBOX{ PUSH mQ Xframe }" } }
+
+    *{y -6} {
+      *{x -.5 y .25}
+      PLATE{{x2=1;z2=-1; x3=1;y3=-.5;z3=1; y4=-.5}}
+      TEXT { x 1 s F PUSH "^m^PLATE{{x2=1;z2=-1; x3=1;y3=-.5;z3=1; y4=-.5}}" }
+    }
+
+    *{y -7.5} {
+      *{{BG=.5}}
+	  *{{
+	    x1=-.5;y1=-.5;z1=0;
+	    x2=-.5;y2=.5;z3=0;
+	    x3=.5;y3=.5;z3=0;
+	    x4=.5;y4=-.5;z4=0;}}
+	 5*{x 1.5 {BG=BG+.3}}
+      PLATE{ry 120 rx 10{ 
+        y1a=-.5;y1b=.5;
+        z1a=-BG;z1b=-BG;
+        y3a=.5;y3b=-.5;
+        z3a=-BG;z3b=-BG
+      }}
+    }
+  }
+
+  *{x 14} {
+    *{y -9} {
+      nCONE{rx 40 {n=6;F=.001}}
+      TEXT { x 1 s F PUSH "^m^nCONE{{n=6;F=.001}}" }
+    }
+    *{y -10.5} {
+      nCONE{rx 40 {n=4;F=.05}}
+      TEXT { x 1 s F PUSH "^m^nCONE{{n=4;F=.05}}" }
+    }
+    *{y -12} {
+      nPIPE{{p=.6;n=40} rx 40}
+      TEXT { x 1 s F PUSH "^m^nPIPE{{p=.6;n=40}}" }
+    }
+    *{y -13.5 x 1.5} {
+      nPIPE{{p=.75;q=.4} rx 40}
+      TEXT { x 1 s F PUSH "^m^nPIPE{{p=.75;q=.4}" }
+    }
+    
   }
 
 }}
