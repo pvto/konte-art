@@ -142,10 +142,7 @@ public class SimpleCamera implements Camera {
         float rx = 0f;
         if (diff.y == 0f)
         {
-            if ( diff.z < 0f)
-                rx = (float)Math.PI;
-            else
-                rx = 0;
+            rx = 0;
         }
         else
         {
