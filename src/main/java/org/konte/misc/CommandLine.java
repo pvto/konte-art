@@ -126,9 +126,9 @@ public class CommandLine {
         }
         if (destfile == null)
         {
-            destfile = filename.replaceAll("(\\.\\w+)$", ".png").replaceAll("\\\\","/");
-            if (!destfile.endsWith(".png")) destfile += ".png";
+            destfile = makeExportFileName(VARIATION,filename);
         }
+        if (!destfile.endsWith(".png")) destfile += ".png";
         Long startt = System.currentTimeMillis();
         BufferedImage img = ImageAPI.createImage(
                 Readers.fillStringBuilder(new File(filename)).toString(), 
@@ -156,7 +156,7 @@ public class CommandLine {
             curp(startt);
             return;
         }
-        destfile = makeExportFileName(VARIATION,destfile);
+        
         writeImage(destfile,img);
         curp(startt);
         System.exit(0);
