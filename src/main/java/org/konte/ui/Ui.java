@@ -135,6 +135,7 @@ public class Ui extends MyJFrame {
         this.setIconImage(new ImageIcon(getClass().
                 getResource("/org/konte/resources/images/k_icon.png")).getImage());
         initTutorials();
+        initLibs();
         //shortcuts = 
         addUntitledTab();
         rndFeed = new RandomFeed();
@@ -530,6 +531,54 @@ public class Ui extends MyJFrame {
         }
     }
 
+        private void initLibs()
+    {
+        final String pth = "/org/konte/resources/lib/";
+        String res = pth + "__list";
+        BufferedReader br = null;
+        try {
+
+            br = new BufferedReader(new InputStreamReader(Ui.class.getResource(res).openStream()));
+            String s;
+            char ch = '0';
+            while ((s = br.readLine()) != null)
+            {
+                final JMenuItem item = new JMenuItem();
+                if (s.startsWith("-"))
+                {
+                    item.setText(s);
+                }
+                else
+                {
+                    item.setMnemonic(ch);
+                    item.setText(ch + " " + s.replaceAll("_", " "));
+                    if (++ch == ':') ch = 'A';
+                    item.addActionListener(new java.awt.event.ActionListener()
+                    {
+
+                        public void actionPerformed(java.awt.event.ActionEvent evt)
+                        {
+                            openTut(pth + item.getText().replaceAll(" ", "_").substring(2));
+                        }
+                    });
+                }
+                this.jMenu4.add(item);
+            }
+        }
+        catch (IOException ex)
+        {
+            Runtime.sysoutln("Can't find resource " + res, 5);
+        } finally {
+            try {
+                br.close();
+            }
+            catch (IOException ex)
+            {
+
+            }
+        }
+    }
+        
     private void openTut(String res)
     {
         BufferedReader br = null;
@@ -635,6 +684,7 @@ public class Ui extends MyJFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
         tutMenu = new javax.swing.JMenu();
+        jMenu4 = new javax.swing.JMenu();
         helpMenu = new javax.swing.JMenu();
         aboutMenuItem = new javax.swing.JMenuItem();
 
@@ -1074,6 +1124,10 @@ public class Ui extends MyJFrame {
         tutMenu.setText("Tutorials");
         menuBar.add(tutMenu);
 
+        jMenu4.setMnemonic('L');
+        jMenu4.setText("Libs");
+        menuBar.add(jMenu4);
+
         helpMenu.setBackground(new java.awt.Color(187, 203, 209));
         helpMenu.setMnemonic('H');
         helpMenu.setText("Help");
@@ -1411,6 +1465,7 @@ public class Ui extends MyJFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem11;
