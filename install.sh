@@ -4,7 +4,7 @@ DEST="/usr/lib/konte"
 SRC1="./target/"
 SRC2="./target/dependency/"
 EXE="./bin/konte"
-
+EXE2="./bin/kontecli"
 
 mkdir "$DEST" 2> /dev/null
 RES=$?
@@ -34,19 +34,21 @@ if [[ "$?" != "0" ]] ; then
   exit 1;
 fi
 
-echo "Installing executable '$EXE'."
+echo "Installing executables '$EXE', '$EXE2'."
 cp "$EXE" /usr/bin/
+cp "$EXE2" /usr/bin/
 
 if [[ "$?" != "0" ]] ; then
-  echo "Could not find Konte executable $EXE. Aborting." ;
+  echo "Could not find Konte executable $EXE/$EXE2. Aborting." ;
   exit 1;
 fi
 
 chmod +x /usr/bin/konte
+chmod +x /usr/bin/kontecli
 
 if [[ "$?" != "0" ]] ; then
   echo "Could not grant execute privileges. Konte may not function correctly."
   exit 1;
 fi
 
-echo "Done. Run 'konte' from command line to execute."
+echo "Done. Run 'konte' or 'kontecli' from command line to execute."
