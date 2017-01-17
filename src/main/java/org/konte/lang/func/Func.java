@@ -1,16 +1,30 @@
 
 package org.konte.lang.func;
 
-import java.util.List;
-import org.konte.image.OutputShape;
+import org.konte.lang.Tokens;
 import org.konte.lang.Tokens.ContextualOneToOneFunction;
-import org.konte.lang.Tokens.ContextualTwoToOneFunction;
-import org.konte.model.DataTable;
-import org.konte.model.DrawingContext;
 import org.konte.model.Model;
 
 public class Func {
 
+   public static class ESleep extends Tokens.Function {
+
+        @Override public int getArgsCount() { return 1; }
+        public ESleep(String name) { super(name); }
+        
+        @Override
+        public float value(float... val)
+        {
+            long start = System.nanoTime();
+            int millis = (int)val[0];
+            try {
+                Thread.sleep(millis / 1000, millis % 1000);
+            } catch(Exception ex) {}
+            long dur = System.nanoTime() - start;
+            return (float)dur;
+        }
+    }
+   
     public static class EInc extends ContextualOneToOneFunction
     {
         @Override public int getArgsCount() { return 0; }
