@@ -51,20 +51,17 @@ path LINE__{
 }
 
 
-path TRI {
-  moveto(x1,y1,z1)
-  lineto(x2,y2,z2)
-  lineto(x3,y3,z3)
-  close
-}
+path TRI      { TRIANGLE{} }
+path RECT     { RECTANGLE{} }
 
-path RECT {
-  moveto(x1,y1,z1)
-  lineto(x2,y2,z2)
-  lineto(x3,y3,z3)
-  lineto(x4,y4,z4)
-  close
-}
+rule TRIANGLE  { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) close }
+rule RECTANGLE { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) lineto(x4,y4,z4) close }
+path PENTANGLE { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) lineto(x4,y4,z4) lineto(x5,y5,z5) close }
+path HEXANGLE  { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) lineto(x4,y4,z4) lineto(x5,y5,z5) lineto(x6,y6,z6) close }
+path SEPTANGLE { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) lineto(x4,y4,z4) lineto(x5,y5,z5) lineto(x6,y6,z6) lineto(x7,y7,z7) close }
+path OCTANGLE  { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) lineto(x4,y4,z4) lineto(x5,y5,z5) lineto(x6,y6,z6) lineto(x7,y7,z7) lineto(x8,y8,z8) close }
+path NONANGLE  { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) lineto(x4,y4,z4) lineto(x5,y5,z5) lineto(x6,y6,z6) lineto(x7,y7,z7) lineto(x8,y8,z8) lineto(x9,y9,z9) close }
+path DECANGLE  { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) lineto(x4,y4,z4) lineto(x5,y5,z5) lineto(x6,y6,z6) lineto(x7,y7,z7) lineto(x8,y8,z8) lineto(x9,y9,z9) lineto(x10,y10,z10) close }
 
 
 SECTOR{ SECTOR_{{ANG=max(-360,min(360,ANG))}} }
