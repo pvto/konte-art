@@ -29,13 +29,13 @@ geometrySheet {*{s .05 x -8 y 6.5 s .75 {F=.3}} {
         TEXT { y -.5 x 1 s F PUSH "^m^    (360/ANG)* {rz ANG}" } 
         TEXT { y -1 x 1 s F PUSH "^m^        PETAL{{ROUND=.5} s .5}" } 
     }
-    *{y -10} { FTRI{{X0=-1;Y0=0;X1=.5;Y1=0;X2=.5;Y2=.5}}
-        TEXT { x 1 y .5 s F PUSH "^m^FTRI{{X0=-1;Y0=0;" }
-        TEXT { x 1 s F PUSH "^m^  X1=.5;Y1=0; X2=.5;Y2=.5}}" } 
+    *{y -10} { TRI{{x1=-1;y1=0;x2=.5;y2=0;x3=.5;y3=.5}}
+        TEXT { x 1 y .5 s F PUSH "^m^TRI{{x1=-1;y1=0;" }
+        TEXT { x 1 s F PUSH "^m^  x2=.5;y2=0; x3=.5;y3=.5}}" } 
     }
-    *{y -11.5} { LINE{{X1=-1;Y1=0;X2=.5;Y2=.5;width=.07;cap=1}}
-        TEXT { x 1 y .5 s F PUSH "^m^LINE{{X1=-1;Y1=0;" }
-        TEXT { x 1 s F PUSH "^m^  X2=.5;Y2=.5;" }
+    *{y -11.5} { LINE{{x1=-1;Y1=0;x2=.5;y2=.5;width=.07;cap=1}}
+        TEXT { x 1 y .5 s F PUSH "^m^LINE{{x1=-1;Y1=0;" }
+        TEXT { x 1 s F PUSH "^m^  x2=.5;y2=.5;" }
         TEXT { x 1 y -.5 s F PUSH "^m^  width=.07;cap=1}}" }
     }
   }

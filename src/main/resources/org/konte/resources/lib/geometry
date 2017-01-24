@@ -14,13 +14,13 @@ void{}
 // 
 
 LINE {
-  *{{SY=(Y2-Y1); SX=(X2-X1); }}
+  *{{SY=(y2-y1); SX=(x2-x1); }}
   *{{S_=max(abs(SY),abs(SX)); k=atan(SY/SX); }}
   *{{SY=SY/S_; SX=SX/S_; }}
   *{{width=max(0.0001,width); scap=coalesce(scap,cap); }}
-    LINE__{x X1 y Y1 s S_ 
-      {X2=(1/S)*(X2-X1);
-       Y2=(1/S)*(Y2-Y1);
+    LINE__{x x1 y y1 s S_ 
+      {x2=(1/S)*(x2-x1);
+       y2=(1/S)*(y2-y1);
       }
     }
 }
@@ -51,6 +51,12 @@ path LINE__{
 }
 
 
+path TRI {
+  moveto(x1,y1,z1)
+  lineto(x2,y2,z2)
+  lineto(x3,y3,z3)
+  close
+}
 
 path RECT {
   moveto(x1,y1,z1)
@@ -176,19 +182,19 @@ path PETAL_ {
 SKEWSTAR {
     *{{ADD=2*PI/n}}
         (n)*{{RZ=RZ+ADD}}
-            FTRI{{
-                X0=0; Y0=0;
-                X1=cos(RZ)*.5;
-                Y1=sin(RZ)*.5;
-                X2=cos(RZ+ADD)*.5*TOOTH;
-                Y2=sin(RZ+ADD)*.5*TOOTH;
+            TRI{{
+                x1=0; y1=0;
+                x2=cos(RZ)*.5;
+                y2=sin(RZ)*.5;
+                x3=cos(RZ+ADD)*.5*TOOTH;
+                y3=sin(RZ+ADD)*.5*TOOTH;
             }}
 }
 
 path FTRI {
     moveto(X0,Y0,0)
-    lineto(X1,Y1,0)
-    lineto(X2,Y2,0)
+    lineto(x1,y1,0)
+    lineto(x2,y2,0)
     close
 }
 
