@@ -1,6 +1,7 @@
 #!/bin/bash
 
-DEST="/usr/lib/konte"
+DEST="/usr/local/lib/konte"
+BINDEST="/usr/local/bin"
 SRC1="./target/"
 SRC2="./target/dependency/"
 EXE="./bin/konte"
@@ -19,7 +20,7 @@ if [[ "$RES" == "0" ]] ; then
 fi
 
 echo "installing from $SRC1"
-cp target/*.jar /usr/lib/konte/
+cp target/*.jar "$DEST"/
 
 if [[ "$?" != "0" ]] ; then
   echo "Could not find libraries under $SRC1. Aborting." ;
@@ -27,24 +28,24 @@ if [[ "$?" != "0" ]] ; then
 fi
 
 echo "installing from $SRC2"
-cp target/dependency/*.jar /usr/lib/konte/
+cp target/dependency/*.jar "$DEST"/
 
 if [[ "$?" != "0" ]] ; then
-  echo "Could not find libraries under $SRC2. Aborting." ;
+  echo "Could not install libraries from $SRC2 to $DEST. Aborting." ;
   exit 1;
 fi
 
 echo "Installing executables '$EXE', '$EXE2'."
-cp "$EXE" /usr/bin/
-cp "$EXE2" /usr/bin/
+cp "$EXE" "$BINDEST"/
+cp "$EXE2" "$BINDEST"/
 
 if [[ "$?" != "0" ]] ; then
   echo "Could not find Konte executable $EXE/$EXE2. Aborting." ;
   exit 1;
 fi
 
-chmod +x /usr/bin/konte
-chmod +x /usr/bin/kontecli
+chmod +x "$BINDEST"/konte
+chmod +x "$BINDEST"/kontecli
 
 if [[ "$?" != "0" ]] ; then
   echo "Could not grant execute privileges. Konte may not function correctly."
