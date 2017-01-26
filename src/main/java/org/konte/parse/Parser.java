@@ -90,6 +90,7 @@ public class Parser {
         MODEL_CREATE,
         MODEL,
         INCLUDE,
+        SYSTEM,
         STARTSHAPE,
         SHADING_CREATE,
         SHADING,
@@ -317,6 +318,7 @@ public class Parser {
         CameraBuilder camBd = null;
         ColorSpaceBuilder colBd = new ColorSpaceBuilder();
         LightBuilder lightBd = new LightBuilder();
+        GreyBoxSystem greyBoxSystem = null;
         String s = null;
         for (int i = 0; i < tokenStrings.size(); i++)
         {
@@ -402,6 +404,9 @@ public class Parser {
                     } else if (t == Language.include)
                     {
                         curCtx = ParsingContext.INCLUDE;
+                    } else if (t == Language.system)
+                    {
+                        curCtx = ParsingContext.SYSTEM;
                     } else if (t == Language.fx)
                     {
                         curCtx = ParsingContext.FX;
@@ -574,7 +579,7 @@ public class Parser {
                     if (t != null)
                     {
                         if (lastName != null)
-                            throw new ParseException("Expecting image name, found" + t, lineNr, caretPos);
+                            throw new ParseException("Expecting image name, found " + t, lineNr, caretPos);
                         else
                             throw new ParseException("Expecting file/url, found " + t, lineNr, caretPos);
                     }                        
@@ -650,7 +655,7 @@ public class Parser {
                                     "%s [%d lines x %d columns] included as %s",
                                     fl.getAbsolutePath(), dataTable.data.size(),
                                     dataTable.headers.length, refName), 5);
-                            int ind = m.dataTableIndex++;
+                            int ind = m.otherDataIdSequence++;
                             m.dataTables.put(ind, dataTable);
                             m.constants.put(refName, new Constant(refName, new Value((float)ind), true));
                         }
@@ -666,7 +671,7 @@ public class Parser {
                     {
                         DataTable dataTable = new DataTable();
                         String refName = nilMatcher.group(2);
-                        int ind = m.dataTableIndex++;
+                        int ind = m.otherDataIdSequence++;
                         m.dataTables.put(ind, dataTable);
                         m.constants.put(refName, new Constant(refName, new Value((float)ind), true));
                     }
@@ -709,6 +714,49 @@ public class Parser {
                     }
                     lastName = null;
                     curCtx = contextStack.pop();
+                    break;
+                case SYSTEM:
+                    if (lastName == null)
+                    {
+                        GreyBoxSystem.Names gn = GreyBoxSystem.Names.valueOf(s);
+                        if (gn == null)
+                            throw new ParseException("Expecting 'system <type>', found " + lastName 
+                                    + " instead. (Types are: " + GreyBoxSystem.Names.values(), lineNr, caretPos);
+                        greyBoxSystem = gn.generator.newInstance();
+                        lastName = "--xxx--";
+                        break;
+                    }
+                    else if ("--xxx--".equals(lastName)) {
+                        int ind = m.otherDataIdSequence++;
+                        m.greyBoxSystems.put(ind, greyBoxSystem);
+                        m.constants.put(s, new Constant(s, new Value((float)ind), true));
+                        lastName = s;
+                        break;
+                    }
+                    if (t == Language.init)
+                    {
+                        i = getExpressionList(tokenStrings, i, exprL);
+                        try {
+                            lexpr = exprParser.parse(exprL, 0, m);
+                        }
+                        catch(ParseException pex)
+                        {
+                            throw new ParseException(
+                                pex.getMessage(), lineNr, caretPos);
+                        }
+                        tmpexps.clear();
+                        ExpressionFunction func = (ExpressionFunction)lexpr;
+                        Object[] vals = new Object[func.getArgs().length];
+                        int it = 0;
+                        for (Expression e : func.getArgs())
+                        {
+                            vals[it++] = e.evaluate();
+                        }
+                        greyBoxSystem.initialize(vals);
+                        curCtx = contextStack.pop();
+                    }
+                    else
+                        throw new ParseException("Expecting init(...) after system " + lastName + ", but got " + s, lineNr, caretPos);
                     break;
                 case FX:
                     if (lastValue == null)

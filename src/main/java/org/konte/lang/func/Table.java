@@ -263,7 +263,7 @@ public class Table {
         @Override
         public float value(float... val) throws Exception
         {
-             if (!model.isPreEvaluated)
+            if (!model.isPreEvaluated)
                 throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
             int tind = (int)val[0],
                 row = (int)val[1],
@@ -298,7 +298,7 @@ public class Table {
         @Override
         public float value(float... val) throws Exception
         {
-             if (!model.isPreEvaluated)
+            if (!model.isPreEvaluated)
                 throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
             int tind = (int)val[0],
                 row = (int)val[1],

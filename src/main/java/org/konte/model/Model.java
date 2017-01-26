@@ -76,7 +76,9 @@ public class Model {
     public Map<Float, List<CanvasEffect>> canvasEffects = new HashMap<>();
     
     public Map<Integer, DataTable> dataTables = new HashMap<>();
-    public int dataTableIndex = 1000;
+    public Map<Integer, GreyBoxSystem> greyBoxSystems = new HashMap<>();
+    public int otherDataIdSequence = 1000;
+    
     
     public Name EXCLUDE_FROM_CONTEXT_SEARCH;
     {

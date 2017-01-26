@@ -18,6 +18,7 @@ import org.konte.lang.func.Img;
 import org.konte.model.TransformModifier;
 import org.konte.plugin.PluginLoader;
 import static org.konte.lang.Tokens.*;
+import org.konte.lang.func.GBSysFunc;
 import org.konte.lang.func.Nb;
 import org.konte.lang.func.Prob;
 import org.konte.lang.func.Table;
@@ -144,6 +145,7 @@ public class Language {
     
     public static final Token model = addToken(new Token("model"));
     public static final Token include = addToken(new Token("include"));
+    public static final Token system = addToken(new Token("system"));
     public static final Token push_stack = addToken(new Token(miscKeywords[MISC_model][0]));
     public static final Token max_shapes = addToken(new Token(miscKeywords[MISC_model][1]));
     public static final Token feature_size = addToken(new Token(miscKeywords[MISC_model][2]));
@@ -173,6 +175,11 @@ public class Language {
     public static final Token point = addToken(new LanguageFunctor("point") {
         @Override public boolean nArgsAllowed(int n) {
             return n > 0 && n < 4;
+        }
+    });
+    public static final Token init = addToken(new LanguageFunctor("init") {
+        @Override public boolean nArgsAllowed(int n) {
+            return n >= 0;
         }
     });
     //shading is InnerExpressiveToken (two-fold usage)
@@ -273,6 +280,10 @@ public class Language {
     public static final Token tabColSum = addToken(new Table.ETabColSum("colsum", null));
     public static final Token tabLength = addToken(new Table.ETabLength("len", null));
     public static final Token tabAddRow = addToken(new Table.ETabAddRow("trow", null));
+    
+    public static final Token sysEval = addToken(new GBSysFunc.ESysEval("syseval", null));
+    public static final Token sysRead = addToken(new GBSysFunc.ESysRead("sysread", null));
+    public static final Token sysWrite = addToken(new GBSysFunc.ESysWrite("syswrite", null));
 
     public static final Token PI =     addConstant("PI",       (float)Math.PI);
     public static final Token E =      addConstant("E",        (float)Math.E);

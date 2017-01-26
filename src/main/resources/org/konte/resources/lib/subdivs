@@ -187,7 +187,7 @@ _6_6r {
     pop{{x1=x6;y1=y6; x2=x61;y2=y61; x3=xc;y3=yc; x4=x56;y4=y56; o=6; }}
   }
 }
-sd6_3r {
+_6_3r {
   *{{xc=(x1+x2+x3+x4+x5+x6)/6; yc=(y1+y2+y3+y4+y5+y6)/6; }} {
     pop{{x4=xc; y4=yc; o=1; }}
     pop{{x1=x3; y1=y3; x2=x4; y2=y4; x3=x5; y3=y5; x4=xc; y4=yc; o=2; }}
