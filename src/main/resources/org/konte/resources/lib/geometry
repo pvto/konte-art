@@ -51,11 +51,10 @@ path LINE__{
 }
 
 
-path TRI      { TRIANGLE{} }
-path RECT     { RECTANGLE{} }
+rule RECT     { RECTANGLE{} }
 
-rule TRIANGLE  { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) close }
-rule RECTANGLE { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) lineto(x4,y4,z4) close }
+path TRI       { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) close }
+path RECTANGLE { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) lineto(x4,y4,z4) close }
 path PENTANGLE { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) lineto(x4,y4,z4) lineto(x5,y5,z5) close }
 path HEXANGLE  { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) lineto(x4,y4,z4) lineto(x5,y5,z5) lineto(x6,y6,z6) close }
 path SEPTANGLE { moveto(x1,y1,z1) lineto(x2,y2,z2) lineto(x3,y3,z3) lineto(x4,y4,z4) lineto(x5,y5,z5) lineto(x6,y6,z6) lineto(x7,y7,z7) close }
