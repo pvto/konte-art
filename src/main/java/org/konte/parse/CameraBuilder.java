@@ -9,6 +9,7 @@ import org.konte.expression.Value;
 import org.konte.image.CabinetCamera;
 import org.konte.image.Camera;
 import org.konte.image.CircularCamera;
+import org.konte.image.FishLensCamera;
 import org.konte.image.OrtographicCamera;
 import org.konte.image.PanningCamera;
 import org.konte.image.SimpleCamera;
@@ -94,11 +95,42 @@ public class CameraBuilder {
                 case CABINET:
                     flag |= 128;
                     break;
+                case FISH:
+                    flag |= 256;
                    
             }
         }
         
-        if ((flag & 128) != 0)
+        if ((flag & 256) != 0) {
+            if (extra.size() > 1)
+            {
+                throw new ParseException("too many arguments to FISH camera: " + extra.size());
+            }
+            float exp = 0.5f;
+            int step = 0;
+            for(Object o : extra)
+            {
+                if (o instanceof Expression)
+                {
+                    try
+                    {
+                        float tmp = ((Expression)o).evaluate();
+                        if (step == 0)
+                        {
+                            exp = tmp;
+                        }
+                        step++;
+                    }
+                    catch (Exception e)
+                    {
+                        throw new ParseException("can't evaluate Fish curvature: " + e.getMessage());
+                    }
+                }
+            }
+            c = new FishLensCamera(exp);
+
+        }
+        else if ((flag & 128) != 0)
         {
             if (extra.size() > 2)
             {

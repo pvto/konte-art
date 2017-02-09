@@ -7,5 +7,6 @@ public enum CameraProperties {
     PANNING,
     ORTOGRAPHIC,
     CABINET,
-    CIRCULAR;
+    CIRCULAR,
+    FISH;
 }
