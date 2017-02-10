@@ -9,6 +9,7 @@ import org.konte.expression.Value;
 import org.konte.image.CabinetCamera;
 import org.konte.image.Camera;
 import org.konte.image.CircularCamera;
+import org.konte.image.FishCamera;
 import org.konte.image.FishLensCamera;
 import org.konte.image.OrtographicCamera;
 import org.konte.image.PanningCamera;
@@ -97,16 +98,20 @@ public class CameraBuilder {
                     break;
                 case FISH:
                     flag |= 256;
+                    break;
+                case FISHEYE:
+                    flag |= 512;
+                    break;
                    
             }
         }
         
-        if ((flag & 256) != 0) {
-            if (extra.size() > 1)
+        if ((flag & 512) != 0) {
+            if (extra.size() > 3)
             {
-                throw new ParseException("too many arguments to FISH camera: " + extra.size());
+                throw new ParseException("too many arguments ("+extra.size()+") to FISHEYE camera");
             }
-            float exp = 0.5f;
+            float exp[] = {0.5f, 1f, 2f};
             int step = 0;
             for(Object o : extra)
             {
@@ -115,11 +120,31 @@ public class CameraBuilder {
                     try
                     {
                         float tmp = ((Expression)o).evaluate();
-                        if (step == 0)
-                        {
-                            exp = tmp;
-                        }
-                        step++;
+                        exp[step++] = tmp;
+                    }
+                    catch (Exception e)
+                    {
+                        throw new ParseException("can't evaluate FISHEYE f: " + e.getMessage());
+                    }
+                }
+            }
+            c = new FishLensCamera(exp[0], exp[1], exp[2]);
+        }
+        else if ((flag & 256) != 0) {
+            if (extra.size() > 3)
+            {
+                throw new ParseException("too many arguments ("+extra.size()+") to FISH camera");
+            }
+            float exp[] = {0.5f, 1f, 2f};
+            int step = 0;
+            for(Object o : extra)
+            {
+                if (o instanceof Expression)
+                {
+                    try
+                    {
+                        float tmp = ((Expression)o).evaluate();
+                        exp[step++] = tmp;
                     }
                     catch (Exception e)
                     {
@@ -127,8 +152,7 @@ public class CameraBuilder {
                     }
                 }
             }
-            c = new FishLensCamera(exp);
-
+            c = new FishCamera(exp[0], exp[1], exp[2]);
         }
         else if ((flag & 128) != 0)
         {

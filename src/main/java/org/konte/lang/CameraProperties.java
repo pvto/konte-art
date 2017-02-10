@@ -8,5 +8,7 @@ public enum CameraProperties {
     ORTOGRAPHIC,
     CABINET,
     CIRCULAR,
-    FISH;
+    FISH, // fishy fish eye simulation
+    FISHEYE // real fish eye optics
+    ;
 }
