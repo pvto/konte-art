@@ -109,9 +109,9 @@ public class CameraBuilder {
         if ((flag & 512) != 0) {
             if (extra.size() > 3)
             {
-                throw new ParseException("too many arguments ("+extra.size()+") to FISHEYE camera");
+                throw new ParseException("too many arguments ("+extra.size()+") to FISHEYE camera(f, type{0,1,2,3})");
             }
-            float exp[] = {0.5f, 1f, 2f};
+            float exp[] = {0.5f, 0f};
             int step = 0;
             for(Object o : extra)
             {
@@ -128,7 +128,7 @@ public class CameraBuilder {
                     }
                 }
             }
-            c = new FishLensCamera(exp[0], exp[1], exp[2]);
+            c = new FishLensCamera(exp[0], exp[1]);
         }
         else if ((flag & 256) != 0) {
             if (extra.size() > 3)
