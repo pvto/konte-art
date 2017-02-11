@@ -14,6 +14,7 @@ import org.konte.image.FishLensCamera;
 import org.konte.image.OrtographicCamera;
 import org.konte.image.PanningCamera;
 import org.konte.image.SimpleCamera;
+import org.konte.image.ZPowCamera;
 import org.konte.lang.Language;
 import org.konte.model.Transform;
 import org.konte.model.TransformModifier;
@@ -102,11 +103,38 @@ public class CameraBuilder {
                 case FISHEYE:
                     flag |= 512;
                     break;
+                case ZPOW:
+                    flag |= 1024;
+                    break;
                    
             }
         }
-        
-        if ((flag & 512) != 0) {
+
+        if ((flag & 1024) != 0) {
+            if (extra.size() > 1)
+            {
+                throw new ParseException("too many arguments ("+extra.size()+") to POW camera(z-exponent)");
+            }
+            float exp[] = {2f};
+            int step = 0;
+            for(Object o : extra)
+            {
+                if (o instanceof Expression)
+                {
+                    try
+                    {
+                        float tmp = ((Expression)o).evaluate();
+                        exp[step++] = tmp;
+                    }
+                    catch (Exception e)
+                    {
+                        throw new ParseException("can't evaluate FISHEYE f: " + e.getMessage());
+                    }
+                }
+            }
+            c = new ZPowCamera(exp[0]);
+        }
+        else if ((flag & 512) != 0) {
             if (extra.size() > 3)
             {
                 throw new ParseException("too many arguments ("+extra.size()+") to FISHEYE camera(f, type{0,1,2,3})");

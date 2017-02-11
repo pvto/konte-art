@@ -9,6 +9,7 @@ public enum CameraProperties {
     CABINET,
     CIRCULAR,
     FISH, // fishy fish eye simulation
-    FISHEYE // real fish eye optics
+    FISHEYE, // real fish eye optics
+    ZPOW
     ;
 }

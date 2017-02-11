@@ -52,7 +52,7 @@ public class FishLensCamera  extends SimpleCamera {
     {
         Vector3 place = cameraRotationMatrix.multiply(Vector3.sub(v, position));
         Vector3 d = Vector3.sub(place, opticalAxis);
-        double theta = (float)Math.atan2(d.length(), 1.0);
+        double theta = (float)Math.atan2(d.length(), opticalAxis.z);
         float r = 2f * (float)(f * Math.tan(theta / 2.0));
         return project(r, place);
     }
@@ -83,7 +83,7 @@ public class FishLensCamera  extends SimpleCamera {
     {
         Vector3 place = cameraRotationMatrix.multiply(Vector3.sub(v, position));
         Vector3 d = Vector3.sub(place, opticalAxis);
-        double theta = (float)Math.atan2(d.length(), 1.0);
+        double theta = (float)Math.atan2(d.length(), opticalAxis.z);
         float r = (float)(f * theta);
         return project(r, place);
     }
@@ -92,7 +92,7 @@ public class FishLensCamera  extends SimpleCamera {
     {
         Vector3 place = cameraRotationMatrix.multiply(Vector3.sub(v, position));
         Vector3 d = Vector3.sub(place, opticalAxis);
-        double theta = (float)Math.atan2(d.length(), 1.0);
+        double theta = (float)Math.atan2(d.length(), opticalAxis.z);
         float r = 2f * (float)(f * Math.sin(theta / 2.0));
         return project(r, place);
     }
@@ -101,7 +101,7 @@ public class FishLensCamera  extends SimpleCamera {
     {
         Vector3 place = cameraRotationMatrix.multiply(Vector3.sub(v, position));
         Vector3 d = Vector3.sub(place, opticalAxis);
-        double theta = (float)Math.atan2(d.length(), 1.0);
+        double theta = (float)Math.atan2(d.length(), opticalAxis.z);
         float r = 2f * (float)(f * Math.sin(theta));
         return project(r, place);
     }
