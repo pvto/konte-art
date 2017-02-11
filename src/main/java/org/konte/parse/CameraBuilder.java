@@ -135,11 +135,11 @@ public class CameraBuilder {
             c = new ZPowCamera(exp[0]);
         }
         else if ((flag & 512) != 0) {
-            if (extra.size() > 3)
+            if (extra.size() > 4)
             {
-                throw new ParseException("too many arguments ("+extra.size()+") to FISHEYE camera(f, type{0,1,2,3})");
+                throw new ParseException("too many arguments ("+extra.size()+") to FISHEYE camera(f, type{0,1,2,3}, opticalBlindSpotDist, r-exp)");
             }
-            float exp[] = {0.5f, 0f};
+            float exp[] = {0.5f, 0f, 1f, 1f};
             int step = 0;
             for(Object o : extra)
             {
@@ -156,7 +156,7 @@ public class CameraBuilder {
                     }
                 }
             }
-            c = new FishLensCamera(exp[0], exp[1]);
+            c = new FishLensCamera(exp[0], exp[1], exp[2], exp[3]);
         }
         else if ((flag & 256) != 0) {
             if (extra.size() > 3)
