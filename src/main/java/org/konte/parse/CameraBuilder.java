@@ -19,6 +19,7 @@ import org.konte.lang.Language;
 import org.konte.model.Transform;
 import org.konte.model.TransformModifier;
 import org.konte.lang.CameraProperties;
+import org.konte.lang.Language.LanguageFunctor;
 import org.konte.misc.Vector3;
 
 
@@ -111,14 +112,15 @@ public class CameraBuilder {
         }
 
         if ((flag & 1024) != 0) {
-            if (extra.size() > 1)
-            {
-                throw new ParseException("too many arguments ("+extra.size()+") to POW camera(z-exponent)");
-            }
             float exp[] = {2f};
             int step = 0;
             for(Object o : extra)
             {
+                if (ExpressionFunction.class.isAssignableFrom(o.getClass()) && ((ExpressionFunction)o).getToken().name.equals("lookat")) { 
+                    continue;
+                }
+                if (step > 1)
+                    throw new ParseException("too many arguments ("+extra.size()+") to POW camera(z-exponent) - " + o);
                 if (o instanceof Expression)
                 {
                     try
@@ -128,6 +130,7 @@ public class CameraBuilder {
                     }
                     catch (Exception e)
                     {
+                        e.printStackTrace();
                         throw new ParseException("can't evaluate FISHEYE f: " + e.getMessage());
                     }
                 }
@@ -135,14 +138,13 @@ public class CameraBuilder {
             c = new ZPowCamera(exp[0]);
         }
         else if ((flag & 512) != 0) {
-            if (extra.size() > 4)
-            {
-                throw new ParseException("too many arguments ("+extra.size()+") to FISHEYE camera(f, type{0,1,2,3}, opticalBlindSpotDist, r-exp)");
-            }
             float exp[] = {0.5f, 0f, 1f, 1f};
             int step = 0;
             for(Object o : extra)
             {
+                if (o instanceof LanguageFunctor) { continue; }
+                if (step > 3)
+                    throw new ParseException("too many arguments ("+extra.size()+") to FISHEYE camera(f, type{0,1,2,3}, opticalBlindSpotDist, r-exp)");
                 if (o instanceof Expression)
                 {
                     try
@@ -159,14 +161,13 @@ public class CameraBuilder {
             c = new FishLensCamera(exp[0], exp[1], exp[2], exp[3]);
         }
         else if ((flag & 256) != 0) {
-            if (extra.size() > 3)
-            {
-                throw new ParseException("too many arguments ("+extra.size()+") to FISH camera");
-            }
             float exp[] = {0.5f, 1f, 2f};
             int step = 0;
             for(Object o : extra)
             {
+                if (o instanceof LanguageFunctor) { continue; }
+                if (step > 2)
+                    throw new ParseException("too many arguments ("+extra.size()+") to FISH camera");
                 if (o instanceof Expression)
                 {
                     try
@@ -184,15 +185,14 @@ public class CameraBuilder {
         }
         else if ((flag & 128) != 0)
         {
-            if (extra.size() > 2)
-            {
-                throw new ParseException("too many arguments to CABINET camera: " + extra.size());
-            }
             float angle = (float)Math.PI / 6f;
             float zContraction = 0.5f;
             int step = 0;
             for(Object o : extra)
             {
+                if (o instanceof LanguageFunctor) { continue; }
+                if (step > 2)
+                    throw new ParseException("too many arguments to CABINET camera: " + extra.size());
                 if (o instanceof Expression)
                 {
                     try

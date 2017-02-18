@@ -278,6 +278,76 @@ public class Table {
         }
     }
     
+    public static class ETabIncVal extends Tokens.ContextualOneToOneFunction
+    {
+        @Override public int getArgsCount() { return -1; }
+
+        @Override
+        public boolean nArgsAllowed(int n)
+        {
+            return n == 4;
+        }
+
+        public ETabIncVal(String name, Model model)
+        { 
+            super(name, model);
+            if (model != null)
+                model.enableContextSearch = true;
+        }
+        
+        @Override
+        public float value(float... val) throws Exception
+        {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            int tind = (int)val[0],
+                row = (int)val[1],
+                col = (int)val[2];
+            float toAdd = val[3];
+            
+            DataTable table = model.dataTables.get(tind);
+            if (table == null)
+                return 0f;
+            table.setVal(row-1, col-1, (Float)table.value(row-1, col-1) + toAdd);
+            return toAdd;
+        }
+    }
+    
+    public static class ETabMulVal extends Tokens.ContextualOneToOneFunction
+    {
+        @Override public int getArgsCount() { return -1; }
+
+        @Override
+        public boolean nArgsAllowed(int n)
+        {
+            return n == 4;
+        }
+
+        public ETabMulVal(String name, Model model)
+        { 
+            super(name, model);
+            if (model != null)
+                model.enableContextSearch = true;
+        }
+        
+        @Override
+        public float value(float... val) throws Exception
+        {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            int tind = (int)val[0],
+                row = (int)val[1],
+                col = (int)val[2];
+            float multiplier = val[3];
+            
+            DataTable table = model.dataTables.get(tind);
+            if (table == null)
+                return 0f;
+            table.setVal(row-1, col-1, (Float)table.value(row-1, col-1) * multiplier);
+            return multiplier;
+        }
+    }
+    
     public static class ETabClassVal extends Tokens.ContextualOneToOneFunction
     {
         @Override public int getArgsCount() { return -1; }
