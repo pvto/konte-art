@@ -1,5 +1,5 @@
-#Konte
-##Generative Art
+# Konte
+## Generative Art
 
 Konte is a small language for generating images, "drawing by coding".
 
@@ -9,7 +9,7 @@ See [Development ideas](DEVELOPMENT_IDEAS.md) if you are looking for a feature o
 
 ![Gui screenshot](img/README/konte-screenshot-D.png)
 
-##Building and running
+## Building and running
 
 Build the project from a command line.
 
@@ -28,8 +28,14 @@ Windows:
 ```
 Use the *Tutorial* menu to get a quick start into konte code.
 
+Generate a single png image ftom the command line.
 
-##What the app does
+Mac:
+```
+$ java -Xmx2048m -cp target/konte.jar org.konte.misc.CommandLine -fgrammar.c3dg -s1200x600 -dmygram.png
+```
+
+## What the app does
 
  - projects arbitrary z-ordered and linearly transformed 3D bezier paths on a Java2D canvas
  - there is no edge clipping, so 3D is "semi" in this way; you should avoid excessively large shapes that could create strange overlap effects
@@ -44,32 +50,31 @@ Use the *Tutorial* menu to get a quick start into konte code.
 
 ![Recursions cheatsheet](img/README/recursions-cheatsheet.png)
 
-![objective.png](img/README/2015-02-27-23-59-objective.png)
-[objective.c3dg](img/README/objective.c3dg)
+![paint-w-light-e-ADU.png](img/README/2017-01-12-23-58-paint-w-light-e-ADU.png)
+
+![Fisheye](img/README/2017-02-11-22-02-FISHEYE-city-b-ABM.png)
 
 ![mcs6_9.png](img/README/2015-02-24-02-26-mcs6_9.png)
 [mcs6_9.c3dg](img/README/mcs6_9.c3dg)
 
-![Monospace cheatsheet](img/README/monospace-scheatsheet.png)
 ![Functions cheatsheet](img/README/funcs-scheatsheet.png)
 
-![fail_is_bB3.png](img/README/2015-04-10-23-47-fail_is_bB3.png)
-[fail_is_bB3.c3dg](img/README/fail_is_bB3.c3dg)
+![subdiv-rupt-AFF.png](img/README/2017-01-21-15-02-subdiv-rupt-AFF.png)
+[subdiv-rupt.c3dg](img/README/subdiv-rupt.c3dg)
 
 ![fail_is_bB2.png](img/README/2015-04-10-23-13-fail_is_bB2.png)
 [fail_is_bB2.c3dg](img/README/fail_is_bB2.c3dg)
 
-![do-w-meshes.png](img/README/2015-03-03-20-56-do-w-meshes.png)
-[do-w-meshes.c3dg](img/README/do-w-meshes.c3dg) (variation ABZ)
-*Other nice variations: AAG AAO AAQ AAY ABG ABJ ABK ABS ACB ACM.*
+![deviate-b-3-b-ADC.png](img/README/2017-02-19-13-44-deviate-b-3-b-ADC.png)
+[deviate-b-3-b.c3dg](img/README/deviate-b-3-b.c3dg)
 
-##Scripting with konte, an introduction
+## Scripting with konte, an introduction
 
 Konte is a mutation of the [contextfreeart.org](http://contextfreeart.org/) language.  In konte, you draw in three dimensions.
 
 There are some predefined shapes like ```SQUARE``` and ```RSQU``` (a rounded square) that you can draw. Here is the list, and you can create your own shapes too.
 
-###Shapes
+### Shapes
 
 ![shapes.png](img/README/2015-02-23-22-41-shapes.png)
 [shapes.c3dg](img/README/shapes.c3dg)
@@ -88,7 +93,7 @@ SPHERE {...}
 
 I find flat shapes like squares and circles most useful in the pack.
 
-###User paths
+### User paths
 
 Also user paths like the following are supported.
 
@@ -117,7 +122,7 @@ path heart {
 }
 ```
 
-###Determinism and two types of randomness
+### Determinism and two types of randomness
 
 Konte uses a seeded random feed to decide what it does next.  By multiply overriding a single rule like this,
 ```
@@ -150,7 +155,7 @@ example3 {SQUARE {scale rnd()+x*0}}
 ```
 
 
-###Rules and loops
+### Rules and loops
 
 ```
 scene {
@@ -202,7 +207,7 @@ featurez {
 ![2015-02-25-01-14-cubes-big.png](img/README/2015-02-25-01-14-cubes-big.png)
 [cubes-big.c3dg](img/README/cubes-big.c3dg)
 
-###Cameras
+### Cameras
 
 There are different types of cameras in konte.
 ```
@@ -221,8 +226,12 @@ camera { ORTOGRAPHIC }
 */
 camera { CABINET 30 0.5 }
 ```
-![buildings-ortog.png](img/README/2015-02-25-20-45-buildings-ortog.png)
-[buildings-ortog.c3dg](img/README/buildings-ortog.c3dg)
+![cabinet-tuto.png](img/README/2017-02-20-21-55-cabinet_camera-AAB.png)
+
+```
+camera { FISHEYE .5 0 1 .5 }
+```
+![Fisheye](img/README/2017-02-20-21-54-fov-tuto-AAB.png)
 
 ```
 /*
@@ -238,7 +247,7 @@ camera { CIRCULAR 2.0 }
 [buildings-circular.c3dg](img/README/buildings-circular.c3dg)
 
 
-###Colors
+### Colors
 
 Konte handles RGBA and HSLA color spaces.  HSL support is based on RGB, so it is not complete.  Adjusting the hue of a uniform grey will not do anything. There is no return from a uniform grey back to a previously used hue.
 
@@ -258,7 +267,7 @@ L //  alias lightness [0..1]
 ![RGB.png](img/README/2015-03-01-23-31-RGB.png)
 [RGB.c3dg](img/README/RGB.c3dg)
 
-####User colorspaces
+#### User colorspaces
 
 A script can define its own colorspace and use it by setting ```shading``` and ```col0```.  Unlike to R,G,B and other properties, ```shading``` and ```col0``` are set as absolute values, and not incremented.
 
@@ -277,7 +286,7 @@ shading eyeshades {
 }
 ```
 
-####Extending user colorspaces
+#### Extending user colorspaces
 
 User colorspaces can be extended to arbitrary dimensions by making them dynamic.  Here's an extension to two dimensions, with the help of a ```lirp``` function (linear interpolation).
 
@@ -301,7 +310,7 @@ shading extended {
 
 This colorspace is composed of five successive points within [0,1] that you reference with setting ```col0 0.25``` etc.  To break a color towards black or towards white, set ```DEF{SAT=X}``` where X=0 would give black and X=1 would give white.
 
-###Lighting
+### Lighting
 
 Konte allows placing lights in the space.  Rather than lights though they can be thought of as spatial expressions that modify object color.
 
@@ -328,9 +337,9 @@ light {COMPLEMENTARY point(.5,.1,.1){RGB 1 0 0} s .1}
 ```
 ![icescape.png](img/README/2015-02-25-22-15-icescape.png)
 
-###Phong lighting
+### Phong lights
 
-Phong lighting is introduced in Konte 1.0.
+Phong lights are fully controllable by dynamical expressions.
 
 ![phong_possible.png](img/README/2016-09-03-14-12-phong_possible-A.png)
 [phong_possible-A.c3dg](img/README/phong_possible-A.c3dg)
@@ -339,7 +348,7 @@ Phong lighting is introduced in Konte 1.0.
 [phong_impossible-C.c3dg](img/README/phong_impossible-D.c3dg)
 
 
-###Drawing meshes
+### Drawing meshes
 
 Each tree trunk or branch or a branch of branch (exluding its leaves) is a separate mesh in the following picture.
 
@@ -351,7 +360,7 @@ A mesh is created by first defining which mesh we are piling to, by doing ```DEF
 That the mesh be drawn, we need to add elements in rows, creating a tabulation of quadrilaterals.  In the example, each column is a tree branch segment that consists of ten quadrilaterals, taking the form of a pipe together: ```10*{ry 36 {row=row+1}} MESH{z 1}```.
 
 
-###Macros
+### Macros
 
 Macros in konte are multivalent lambda expressions that can shorten and clean up code when used prudently.  The following is a polar version of the [Devil's staircase](http://en.wikipedia.org/wiki/Cantor_function) fractal, where polar coordinate mappings are defined as macros like this: ```MACRO Xsc cos((X-SX/2)*WD)```.
 
@@ -360,7 +369,7 @@ Macros in konte are multivalent lambda expressions that can shorten and clean up
 ![devils-staircase.png](img/README/2015-02-26-12-13-devils-staircase.png)
 [devils-staircase.c3dg](img/README/devils-staircase.c3dg)
 
-###Dynamic paths
+### Dynamic paths
 
 If we look at the Devil's staircase example above, it draws a polar cantor segment by using a lambda based path that dynamically adapts to its environment.
 
@@ -394,11 +403,11 @@ path P
 }
 ```
 
-##Predefined functions
+## Predefined functions
 
 Here is a list of functions that can be called in konte.  Additional user defined functions must be installed via a script, through the scripting interface.
 
-###Algebraic and trigonometric functions
+### Algebraic and trigonometric functions
 ```
 abs  // absolute value.      Example:  abs(-2.1)
 sqrt // square root.         Example:  sqrt(2)
@@ -421,7 +430,7 @@ acos // arcus cosine.
 atan // arcus tangent.
 
 ```
-###Other functions
+### Other functions
 ```
 rndf // random number [0,1). Example:  rndf()
      //  Uses a seeded random feed.
@@ -502,7 +511,7 @@ julia       // fractal function [0,255].
 
 ```
 
-##Working with SVG
+## Working with SVG
 
 You can use konte to create svg graphics.  This requires checking a box in the *Generate* submenu, due to svg export currently requiring objects stay longer in the memory than bitmap export.
 
@@ -515,7 +524,7 @@ Here's an example with bitmap and svg versions.  If you zoom in, there are clear
 
 The png is 113 times smaller (!) than the svg that soars up to 3.6M with 14.000 paths.  (I find big svg images with more than 20K paths intolerable, but your situation may be different.)
 
-##More examples
+## More examples
 
 <!--![logo_new-c-rec.png](img/README/AAS-logo_new_c_rec.png)
 ![binbu.png](img/README/binbu.png)-->

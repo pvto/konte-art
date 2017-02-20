@@ -1,0 +1,56 @@
+MACRO bran rndf()-.5+x*0
+fov{z -1 y 1.8 x -.9 FISHEYE .5 0 2}
+bg{B 0}
+include empty Grid
+DEF N 70
+dev {
+  (N)*{{i=i+1;x1=rndf()*.1;y1=rndf()*.3;}} void { 
+    col0 trow(Grid, 
+      0,
+      .09+sin(i)*.02, 
+      rndf()*.01, 
+      x1,y1,
+      x1,y1) } 
+  300*{{row=row+1}} {
+    (N)*{{i=i+1}} draw {
+         {x1=tget(Grid, i+1, 6); y1=tget(Grid, i+1, 7);
+  	    x2=tget(Grid, i+1, 6); y2=tget(Grid, i+1, 5);
+  	    x3=tget(Grid, i+1, 4); y3=tget(Grid, i+1, 5);
+  	    x4=tget(Grid, i+1, 4); y4=tget(Grid, i+1, 7);
+  	    }
+//	    x tget(Grid, i+1, 4)
+//	    y tget(Grid, i+1, 5)
+//	    s tget(Grid, i+1, 3)
+    }
+    (N)*{{i=i+1}} void {
+      col0 tset(Grid, i+1, 6, tget(Grid, i+1, 4))
+      col0 tset(Grid, i+1, 7, tget(Grid, i+1, 5))
+      col0 tadd(Grid, i+1, 4, cos(tget(Grid, i+1, 1))*tget(Grid, i+1, 2) )
+      col0 tadd(Grid, i+1, 5, sin(tget(Grid, i+1, 1))*tget(Grid, i+1, 2) )
+      col0 tset(Grid, i+1, 1, tget(Grid, i+1, 1)+sin(row*.037+i*.000))
+      col0 tset(Grid, i+1, 2, tget(Grid, i+1, 2)+sin(row*.01)*.001)
+    }
+  }
+
+
+}
+draw {
+  LINE{{x2=x3;y2=y3;width=.01;} L 1}
+  //RECT{{x2=(x2+x3)/2;y2=(y2+y3)/2; x4=(x4+x1)/2;y4=(y4+y1)/2;}}
+}
+void{}
+
+LINEx {
+  *{{SY=(y2-y1); SX=(x2-x1); }}
+  *{{S_=max(abs(SY),abs(SX)); k=atan(SY/SX); }}
+  *{{SY=SY/S_; SX=SX/S_; }}
+  *{{width=max(0.0001,width); scap=coalesce(scap,cap); }}
+    LINE__{x x1 y y1 s S_ 
+      {x2=(1/S)*(x2-x1);
+       y2=(1/S)*(y2-y1);
+      }
+    }
+}
+
+
+include #geometry

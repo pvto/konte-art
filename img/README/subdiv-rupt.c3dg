@@ -1,0 +1,319 @@
+MACRO rf (.2+rndf()*.2)*(irndf(2)-.5)*2
+
+startshape test
+
+R1{sd6_3r{PUSH R2}}
+R2{
+  if (o=1) {sd4_4{PUSH R6 R3}}
+  if (o=2) {sd4_r4t{PUSH R6 R3}}
+  if (o=3) {sd4_r4t{PUSH R6 R3}}
+}
+R3{
+  if (o=1) {sd4_2h{PUSH R4}}
+  if (o=2) {sd4_8t{PUSH R6}}
+  if (o=3) {sd4_r4t{PUSH R6 R4}}
+  if (o=4) {sd4_2h{PUSH R4}}
+}
+R4{sd4_2v{PUSH R5}}
+R5{sd4_4t{PUSH R6}}
+R6{sd3_ht{PUSH R7b R7a}}
+R7a{
+  if (o%2=0) {sd6_3r{PUSH twoRect}}
+  if (o%2=1) {sd6_6t{PUSH R7b}}
+}
+R7b{
+  if (o%2=1) {R8{}}
+  if (o%2=0) {sd3_ht{PUSH twoTri hexangle}}
+}
+R8{sd3_ht{PUSH twoTri hexangle}}
+test {
+  *{{
+    //{x1=rf;y1=rf;x2=rf;y2=rf;x3=rf;y3=rf;x4=rf;y4=rf}
+    //{x1=-.2;y1=.2;x2=.2;y2=.2;x3=.2;y3=-.2;x4=-.2;y4=-.2}
+    x1=.25; y1=H6YH*.5;
+    x2=cos(RAD*(90+60*1))*H6YH; y2=.5*sin(RAD*(90+60*1))*H6YH;
+    x3=cos(RAD*(90+60*2))*H6YH*.5; y3=sin(RAD*(90+60*2))*H6YH;
+    x4=cos(RAD*(90+60*3))*H6YH+.4; y4=sin(RAD*(90+60*3))*H6YH*.5;
+    x5=cos(RAD*(90+60*4))*H6YH; y5=sin(RAD*(90+60*4))*H6YH;
+    x6=cos(RAD*(90+60*5))*H6YH; y6=sin(RAD*(90+60*5))*H6YH; }}
+  R1 { A -.5 {border = .05} s .93}
+}
+
+include #geometry
+
+sd3_2a {
+  *{{ x23=(x2+x3)/2; y23=(y2+y3)/2; }}
+  {
+    pop{{x2=x3;y2=y3; x3=x23;y3=y23; o=1;}}
+    pop{{x3=x23;y3=y23; o=2;}}
+  }
+}
+sd3_2b {
+  *{{ x13=(x1+x3)/2; y13=(y1+y3)/2; }}
+  {
+    pop{{x1=x2;y1=y2; x2=x1;y2=y1; x3=x13;y3=y13; o=1;}}
+    pop{{x1=x2;y1=y2; x2=x3;y2=y3; x3=x13;y3=y13; o=2;}}
+  }
+}
+sd3_2c {
+  *{{ x12=(x1+x2)/2; y12=(y1+y2)/2; }}
+  {
+    pop{{x1=x3;y1=y3; x2=x1;y2=y1; x3=x12;y3=y12; o=1;}}
+    pop{{x1=x3;y1=y3; x3=x12;y3=y12; o=2;}}
+  }
+}
+sd3_3 {
+  *{{ x12=(x1+x2+x3)/3; y12=(y1+y2+y3)/3; }}
+  {
+    pop{{x1=x12;y1=y12; x2=x3;y2=y3; x3=x1;y3=y1; o=1;}}
+    pop{{x1=x12;y1=y12; x2=x1;y2=y1; x3=x2;y3=y2; o=2;}}
+    pop{{x1=x12;y1=y12; o=3;}}
+  }
+}
+sd3_ht {
+  *{{
+    x1a2=(x1*2+x2)/3; x1b2=(x1+x2*2)/3;
+    y1a2=(y1*2+y2)/3; y1b2=(y1+y2*2)/3;
+    x2a3=(x2*2+x3)/3; x2b3=(x2+x3*2)/3;
+    y2a3=(y2*2+y3)/3; y2b3=(y2+y3*2)/3;
+    x3a1=(x3*2+x1)/3; x3b1=(x3+x1*2)/3;
+    y3a1=(y3*2+y1)/3; y3b1=(y3+y1*2)/3;
+  }} {
+    POP{{x1=x1a2;y1=y1a2; x2=x1b2;y2=y1b2;
+         x3=x2a3;y3=y2a3; x4=x2b3;y4=y2b3;
+         x5=x3a1;y5=y3a1; x6=x3b1;y6=y3b1;}}
+    pop{{x2=x1a2;y2=y1a2; x3=x3b1;y3=y3b1;}}
+    pop{{x1=x2;y1=y2; x2=x2a3;y2=y2a3; x3=x1b2;y3=y1b2;}}
+    pop{{x1=x3;y1=y3; x2=x3a1;y2=y3a1; x3=x2b3;y3=y2b3;}}
+  }
+}
+sd3_t3t {
+  *{{
+    x1a2=(x1*2+x2)/3; x1b2=(x1+x2*2)/3;
+    y1a2=(y1*2+y2)/3; y1b2=(y1+y2*2)/3;
+    x2a3=(x2*2+x3)/3; x2b3=(x2+x3*2)/3;
+    y2a3=(y2*2+y3)/3; y2b3=(y2+y3*2)/3;
+    x3a1=(x3*2+x1)/3; x3b1=(x3+x1*2)/3;
+    y3a1=(y3*2+y1)/3; y3b1=(y3+y1*2)/3;
+  }} {
+    POP{{x1=x1b2;y1=y1b2; x2=x2b3;y2=y2b3;
+         x3=x3b1;y3=y3b1; }}
+    pop{{x2=x1b2;y2=y1b2; x3=x3b1;y3=y3b1;}}
+    pop{{x1=x2;y1=y2; x2=x2b3;y2=y2b3; x3=x1b2;y3=y1b2;}}
+    pop{{x1=x3;y1=y3; x2=x3b1;y2=y3b1; x3=x2b3;y3=y2b3;}}
+  }
+}
+sd4_2a {
+  pop{{ x3=x4; y3=y4; o=1;}}
+  pop{{ x1=x3;y1=y3; x3=x4; y3=y4; o=2;}}
+}
+sd4_2b {
+  pop{{ x2=x3; y2=y3; x3=x4; y3=y4; o=1;}}
+  pop{{ o=2;}}
+}
+
+sd4_8t{
+  *{{ x12=(x1+x2)/2; y12=(y1+y2)/2;
+      x23=(x2+x3)/2; y23=(y2+y3)/2;
+      x34=(x3+x4)/2; y34=(y3+y4)/2;
+      x41=(x4+x1)/2; y41=(y4+y1)/2; }}
+  {
+    pop{{ x2=x12; y2=y12; 
+          x3=x41; y3=y41; o=1;}}
+    pop{{ x1=(x12+x34)/2; y1=(y12+y34)/2;
+          x2=x41; y2=y41; 
+          x3=x12; y3=y12; o=2;}}
+    pop{{ x1=x2; y1=y2;
+          x2=x23; y2=y23; 
+          x3=x12; y3=y12; o=3;}}
+    pop{{ x1=(x12+x34)/2; y1=(y12+y34)/2;
+          x2=x23; y2=y23;
+          x3=x12; y3=y12; o=4;}}
+    pop{{ x1=x4; y1=y4;
+          x2=x41; y2=y41;
+          x3=x34; y3=y34; o=5;}}
+    pop{{ x1=(x12+x34)/2; y1=(y12+y34)/2;
+          x2=x34; y2=y34; 
+          x3=x41; y3=y41; o=6;}}
+    pop{{ x1=(x12+x34)/2; y1=(y12+y34)/2;
+          x2=x23; y2=y23;
+          x3=x34; y3=y34; o=7;}}
+    pop{{ x1=x3; y1=y3;
+          x2=x34; y2=y34; 
+          x3=x23; y3=y23; o=8;}}
+  }
+}
+
+sd4_r4t{
+  *{{ x12=(x1+x2)/2; y12=(y1+y2)/2;
+      x23=(x2+x3)/2; y23=(y2+y3)/2;
+      x34=(x3+x4)/2; y34=(y3+y4)/2;
+      x41=(x4+x1)/2; y41=(y4+y1)/2; }}
+  {
+    POP{{x1=x12;y1=y12; x2=x23;y2=y23; x3=x34;y3=y34; x4=x41;y4=y41;}}
+    pop{{x2=x12;y2=y12; x3=x41;y3=y41; o=1;}}
+    pop{{x1=x12;y1=y12; x3=x23;y3=y23; o=2;}}
+    pop{{x1=x23;y1=y23; x2=x3;y2=y3; x3=x34;y3=y34; o=3;}}
+    pop{{x1=x34;y1=y34; x2=x4;y2=y4; x3=x41;y3=y41; o=4;}}
+  }
+}
+
+sd4_2h {
+  *{{ x12=(x1+x2)/2; y12=(y1+y2)/2;
+      x34=(x3+x4)/2; y34=(y3+y4)/2; }}
+  {
+    pop{{ x2=x12;y2=y12;
+          x3=x34;y3=y34; o=1;}}
+    pop{{ x1=x3;y1=y3;
+          x2=x34;y2=y34;
+          x3=x12;y3=y12;
+          x4=x2;y4=y2; o=2;}}
+  }
+}
+sd4_2v {
+  *{{ x23=(x2+x3)/2; y23=(y2+y3)/2;
+      x41=(x4+x1)/2; y41=(y4+y1)/2; }}
+  {
+    pop{{ x3=x23;y3=y23; x4=x41;y4=y41; o=1;}}
+    pop{{ x1=x3;y1=y3;
+          x2=x4;y2=y4;
+          x3=x41;y3=y41;
+          x4=x23;y4=y23; o=2;}}
+  }
+
+}
+sd4_3a {
+  *{{ x12=(x1+x2)/2; y12=(y1+y2)/2;
+      x23=(x2+x3)/2; y23=(y2+y3)/2;
+      x34=(x3+x4)/2; y34=(y3+y4)/2;
+      x41=(x4+x1)/2; y41=(y4+y1)/2; }}
+  {
+    pop{{ x1=(x12+x34)/2; y1=(y12+y34)/2;
+          x2=x1;y2=y1;
+          x3=x2; y3=y2;
+          x4=x23;y4=y23; o=1;}}
+    pop{{ x1=(x12+x34)/2; y1=(y12+y34)/2;
+          x2=x34;y2=y34;
+          x3=x4; y3=y4;
+          x4=x1;y4=y1; o=2;}}
+    pop{{ x1=(x12+x34)/2; y1=(y12+y34)/2;
+          x2=x34; y2=y34;
+          x4=x23;y4=y23; o=3;}}
+  }
+}
+sd4_3b { sd4_3a{{x1=x2;y1=y2;x2=x3;y2=y3;x3=x4;y3=y4;x4=x1;y4=y1;}} }
+sd4_3c { sd4_3a{{x1=x3;y1=y3;x2=x4;y2=y4;x3=x1;y3=y1;x4=x2;y4=y2;}} }
+sd4_3d { sd4_3a{{x1=x4;y1=y4;x2=x1;y2=y1;x3=x2;y3=y2;x4=x3;y4=y3;}} }
+sd4_4t {
+  *{{ x12=(x1+x2+x3+x4)/4; y12=(y1+y2+y3+y4)/4; }}
+  {
+    pop{{ x1=x12;y1=y12;
+          x2=x1;y2=y1;
+          x3=x2;y3=y2; o=1;}}
+    pop{{ x1=x12;y1=y12; }}
+    pop{{ x1=x12;y1=y12;
+          x2=x3;y2=y3;
+          x3=x4;y3=y4; o=2;}}
+    pop{{ x1=x12;y1=y12;
+          x2=x4; y2=y4;
+          x3=x1; y3=y1; o=3;}}  
+  }
+}
+sd4_4 {
+  *{{ x12=(x1+x2)/2; y12=(y1+y2)/2;
+      x23=(x2+x3)/2; y23=(y2+y3)/2;
+      x34=(x3+x4)/2; y34=(y3+y4)/2;
+      x41=(x4+x1)/2; y41=(y4+y1)/2; }}
+  {
+    pop{{ x2=x12; y2=y12; 
+          x3=(x12+x34)/2; y3=(y12+y34)/2;
+          x4=x41; y4=y41; o=1;}}
+    pop{{ x1=x2; y1=y2;
+          x2=x12; y2=y12;
+          x3=(x12+x34)/2; y3=(y12+y34)/2;
+          x4=x23; y4=y23; o=2;}}
+    pop{{ x1=x4; y1=y4;
+          x2=x34; y2=y34;
+          x3=(x12+x34)/2; y3=(y12+y34)/2;
+          x4=x41; y4=y41; o=3;}}
+    pop{{ x1=x3; y1=y3;
+          x2=x34; y2=y34;
+          x3=(x12+x34)/2; y3=(y12+y34)/2;
+          x4=x23; y4=y23; o=4;}}
+  }
+}
+
+
+
+sd5_5t {
+  *{{
+    x1=cos((90)*RAD)*H5YH; y1=sin((90)*RAD)*H5YH;
+    x2=cos((90-72)*RAD)*H5YH; y2=sin((90-72)*RAD)*H5YH;
+    x3=cos((90-72*2)*RAD)*H5YH; y3=sin((90-72*2)*RAD)*H5YH;
+    x4=cos((90-72*3)*RAD)*H5YH; y4=sin((90-72*3)*RAD)*H5YH;
+    x5=cos((90-72*4)*RAD)*H5YH; y5=sin((90-72*4)*RAD)*H5YH;
+  }} {
+
+  }
+}
+
+sd6_6t {
+  *{{xc=(x1+x2+x3+x4+x5+x6)/6; yc=(y1+y2+y3+y4+y5+y6)/6; }} {
+    pop{{x3=xc; y3=yc; o=1;}}
+    pop{{x1=x2; y1=y2; x2=x3; y2=y3; x3=xc; y3=yc; o=2;}}
+    pop{{x1=x3; y1=y3; x2=x4; y2=y4; x3=xc; y3=yc; o=3;}}
+    pop{{x1=x4; y1=y4; x2=x5; y2=y5; x3=xc; y3=yc; o=4;}}
+    pop{{x1=x5; y1=y5; x2=x6; y2=y6; x3=xc; y3=yc; o=5;}}
+    pop{{x1=x6; y1=y6; x2=x1; y2=y1; x3=xc; y3=yc; o=6;}}
+  }
+}
+sd6_3r {
+  *{{xc=(x1+x2+x3+x4+x5+x6)/6; yc=(y1+y2+y3+y4+y5+y6)/6; }} {
+    pop{{x4=xc; y4=yc; o=1;}}
+    pop{{x1=x3; y1=y3; x2=x4; y2=y4; x3=x5; y3=y5; x4=xc; y4=yc; o=2;}}
+    pop{{x1=x5; y1=y5; x2=x6; y2=y6; x3=x1; y3=y1; x4=xc; y4=yc; o=3;}}
+  }
+}
+
+pop{POP{}}
+
+twoRect{
+  RECT{}
+  *{{b1=1-border}}
+  RECT{L 1
+    { 
+      x1=x1*b1+(x1+x2+x3+x4)*border/4; y1=y1*b1+(y1+y2+y3+y4)*border/4;
+      x2=x2*b1+(x1+x2+x3+x4)*border/4; y2=y2*b1+(y1+y2+y3+y4)*border/4;
+      x3=x3*b1+(x1+x2+x3+x4)*border/4; y3=y3*b1+(y1+y2+y3+y4)*border/4;
+      x4=x4*b1+(x1+x2+x3+x4)*border/4; y4=y4*b1+(y1+y2+y3+y4)*border/4;
+  }}
+}
+
+
+twoTri{
+  TRI{}
+  *{{b1=1-border}}
+  TRI{B .2 A .5
+    { x1=x1*b1+(x2+x3)*border/2; y1=y1*b1+(y2+y3)*border/2;
+      x2=x2*b1+(x1+x3)*border/2; y2=y2*b1+(y1+y3)*border/2;
+      x3=x3*b1+(x1+x2)*border/2; y3=y3*b1+(y1+y2)*border/2;
+    }}
+}
+
+path TRI {
+  moveto(x1,y1,z1)
+  lineto(x2,y2,z2)
+  lineto(x3,y3,z3)
+  close
+}
+
+path hexangle {
+  moveto(x1,y1,z1)
+  lineto(x2,y2,z2)
+  lineto(x3,y3,z3)
+  lineto(x4,y4,z4)
+  lineto(x5,y5,z5)
+  lineto(x6,y6,z6)
+  close
+}
+
