@@ -26,8 +26,8 @@ shadings
 extending-shading-to-2d
 color_HSB
 ---------------
-cabinet_camera
-ortographic_camera
+CABINET_camera
+FISHEYE_camera
 two_cameras
 ---------------
 effects_RUBBER_and_GBLUR

@@ -27,13 +27,17 @@ public class FishLensCamera  extends SimpleCamera {
     }
     public double f = 0.5;
     public double exp = 5;
+    public float xtr = 0f;
+    public float ytr = 0f;
     public FishLensType type = FishLensType.STEREOGRAPHIC;
     
-    public FishLensCamera(float f, float fishLensType, float opticalBlindSpotZ, float exp) {
+    public FishLensCamera(float f, float fishLensType, float opticalBlindSpotZ, float exp, float xtr, float ytr) {
         this.f = f;
         type = FishLensType.forFloat(fishLensType);
         opticalAxis = new Vector3(0,0,opticalBlindSpotZ);
         this.exp = exp;
+        this.xtr = xtr;
+        this.ytr = ytr;
     }
     
     private final Vector3 opticalAxis;
@@ -84,21 +88,7 @@ public class FishLensCamera  extends SimpleCamera {
             alpha = Math.atan2(place.y, place.x);
         }
          
-        return new Point2((float)Math.cos(alpha) * r, (float)Math.sin(alpha) * r);
-/*        float cosxth;
-        float cosyth;
-
-        if (place.z < 0) {
-            cosxth = place.x / -place.z;
-            cosyth = place.y / -place.z;
-        } else if (place.z == 0) {
-            cosxth = place.x * 100f;
-            cosyth = place.y * 100f;
-        } else {
-            cosxth = place.x / place.z;
-            cosyth = place.y / place.z;
-        }
-        return new Point2(tanxth * r, tanyth * r);*/
+        return new Point2((float)Math.cos(alpha) * r + xtr, (float)Math.sin(alpha) * r - ytr);
     }
     
     public Point2 equidistant(Vector3 v)

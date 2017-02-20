@@ -3,28 +3,28 @@ include #monospace
 startshape tilp
 
 bg {B .3 G .15 R .1}
-camera { z -2 }
+camera { z -.75 FISHEYE .3 3 1.5 .7}
 
 tilp {
 
 
     *{layer 1} {
-
-        100*{ z .01 {i=i+1} B .3 G .15 R .1} 
+        *{rx -10}
+        40*{ z .01 {i=i+1} B .3 G .15 R .1} 
 	   *{ lightness -lightness+.2*(i+1)%(cos(i/20)*3) {FLAT=4}}
         1*{{BOLD=BOLD-.75;FLAT=FLAT+.5}}
         TEXT { PUSH  "^m^Konte"
               {BOLD=BOLD+3;DANCE=0.5;CAROL=5;WIDE=2}
               scale .4 
               x -1.5
-              y -.15
+              y .15
               }
 
         TEXT { PUSH  "^m^Generative Art"
               {BOLD=0;FLAT=-4}
               scale .05 
               x -4.25
-              y -7.6
+              y -2
               lightness 1
               red -.1}
         

@@ -2,6 +2,7 @@
 package org.konte.parse;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.konte.expression.Expression;
 import org.konte.expression.ExpressionFunction;
@@ -138,13 +139,13 @@ public class CameraBuilder {
             c = new ZPowCamera(exp[0]);
         }
         else if ((flag & 512) != 0) {
-            float exp[] = {0.5f, 0f, 1f, 1f};
+            float exp[] = {0.5f, 0f, 1f, 1f, 0f, 0f};
             int step = 0;
             for(Object o : extra)
             {
                 if (o instanceof LanguageFunctor) { continue; }
-                if (step > 3)
-                    throw new ParseException("too many arguments ("+extra.size()+") to FISHEYE camera(f, type{0,1,2,3}, opticalBlindSpotDist, r-exp)");
+                if (step > 5)
+                    throw new ParseException("too many arguments ("+extra.size()+") to camera{FISHEYE f, type{0,1,2,3}, opticalBlindSpotDist, r-exp, x-tr, y-tr}");
                 if (o instanceof Expression)
                 {
                     try
@@ -158,7 +159,8 @@ public class CameraBuilder {
                     }
                 }
             }
-            c = new FishLensCamera(exp[0], exp[1], exp[2], exp[3]);
+            System.out.println(Arrays.toString(exp));
+            c = new FishLensCamera(exp[0], exp[1], exp[2], exp[3], exp[4], exp[5]);
         }
         else if ((flag & 256) != 0) {
             float exp[] = {0.5f, 1f, 2f};

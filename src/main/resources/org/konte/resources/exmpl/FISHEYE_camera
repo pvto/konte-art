@@ -1,0 +1,133 @@
+
+fov{REF z -6}
+
+fov{FA z -1 FISHEYE .0001 0 1 .25   (-.35) (.3)}
+fov{FB z -1 FISHEYE .02 0 1 .5      (-.35) (.125)}
+fov{FC z -1 FISHEYE .1 0 1 .75      (-.35) (-.05)}
+fov{FD z -1 FISHEYE .2 0 1 1.       (-.35) (-.2)}
+fov{FE z -1 FISHEYE .65 0 1 2.      (-.35) (-.325)}
+
+fov{GA z -1 FISHEYE .004 1 .1 .5    (-.15) (.3)}
+fov{GB z -1 FISHEYE .004 1 .25 .5   (-.15) (.125)}
+fov{GC z -1 FISHEYE .007 1 .5 .5    (-.15) (-.05)}
+fov{GD z -1 FISHEYE .01 1 .75 .5    (-.15) (-.2)}
+fov{GE z -1 FISHEYE .012 1 1 .5     (-.15) (-.325)}
+
+fov{HA z -1 FISHEYE .015 0 1 .5     (.05) (.3)}
+fov{HB z -1 FISHEYE .015 1 1 .5     (.05) (.125)}
+fov{HC z -1 FISHEYE .015 2 1 .5     (.05) (-.2)}
+fov{HD z -1 FISHEYE .0075 3 1 .5    (.05) (-.325)}
+
+fov{IA z -1 FISHEYE .01 2 1 .5      (.35) (.3)}
+fov{IB z -1 FISHEYE .02 2 1 .5      (.35) (.125)}
+fov{IC z -1 FISHEYE .03 2 1 .5      (.35) (-.05)}
+fov{ID z -1 FISHEYE .04 2 1 .5      (.35) (-.2)}
+fov{IE z -1 FISHEYE .05 2 1 .5      (.35) (-.325)}
+
+model{pushstack 100}
+
+include #monospace
+startshape foo
+
+rule foo {
+  TEXT{x -2.8 y 2 rz -90 {WIDE=6} s .07 
+    PUSH "^m^Lense distortion factor -->"}
+  example{fov FA} t{x -2.2 y 1.8 PUSH "^m^fov{ FISHEYE _ _ _ .25 }"}
+  example{fov FB} t{x -2.2 y .8  PUSH "^m^fov{ FISHEYE _ _ _ .5 }"}
+  example{fov FC} t{x -2.2 y -.2 PUSH "^m^fov{ FISHEYE _ _ _ .75 }"}
+  example{fov FD} t{x -2.2 y -1.1 PUSH "^m^fov{ FISHEYE _ _ _ 1. }"}
+  example{fov FE} t{x -2.2 y -1.9 PUSH "^m^fov{ FISHEYE _ _ _ 2. }"}
+
+  TEXT{x -1.5 y 2 rz -90 {WIDE=6} s .07 
+    PUSH "^m^Aperture -->"}
+  example{fov GA} t{x -.9 y 1.8 PUSH "^m^fov{_ _ .1 _ FISHEYE }"}
+  example{fov GB} t{x -.9 y .8 PUSH "^m^fov{_ _ .25 _ FISHEYE }"}
+  example{fov GC} t{x -.9 y -.2 PUSH "^m^fov{_ _ .5 _ FISHEYE }"}
+  example{fov GD} t{x -.9 y -1.1 PUSH "^m^fov{_ _ 1. _ FISHEYE }"}
+  example{fov GE} t{x -.9 y -1.9 PUSH "^m^fov{_ _ 2. _ FISHEYE}"}
+
+  TEXT{x -.3 y 2.1 rz -90 {WIDE=6} s .07 
+    PUSH "^m^Stereographic  Equidistant                Equisolid ang   Ortograph"}
+  example{fov HA} t{x .25 y 1.8 PUSH "^m^fov{_ 0 _ _ FISHEYE }"}
+  example{fov HB} t{x .25 y .8 PUSH "^m^fov{_ 1 _ _ FISHEYE }"}
+  SQUARE{R 1 G 1 A -.8 x .25 y -.25}
+  example{fov REF x .25 y -.25 } //t{x .25 y -.25 PUSH "^m^      fov{z -6}"}
+  example{fov HC} t{x .25 y -1.1 PUSH "^m^fov{_ 2 _ _ FISHEYE }"}
+  example{fov HD} t{x .25 y -1.9 PUSH "^m^fov{_ 3 _ _ FISHEYE }"}
+  //example{fov HE} t{x .25 y -1.9 PUSH "^m^fov{f 3 _ _ FISHEYE}"}
+
+  TEXT{x 1.5 y 2 rz -90 {WIDE=6} s .07 
+    PUSH "^m^f -->"}
+  example{fov IA} t{x 2.2 y 1.8 PUSH "^m^fov{.01 _ _ _ FISHEYE }"}
+  example{fov IB} t{x 2.2 y .8 PUSH "^m^fov{.02 _ _ _ FISHEYE }"}
+  example{fov IC} t{x 2.2 y -.2 PUSH "^m^fov{.03 _ _ _ FISHEYE }"}
+  example{fov ID} t{x 2.2 y -1.1 PUSH "^m^fov{.04 _ _ _ FISHEYE }"}
+  example{fov IE} t{x 2.2 y -1.9 PUSH "^m^fov{.05 _ _ _ FISHEYE}"}
+
+  *{layer 1 s .2 x -14 y -10 {F=.3;ITALIC=2;BOLD=5;WIDE=2} {BW=.075} ry -30 rx 20} {
+    TEXT{ s .4 PUSH "^m^Konte FISHEYE fov" L .7 }
+    TEXT{ y -.5 s .4 PUSH "^m^ cheatsheet"L .0 }
+  }
+
+}
+
+/* * * * * * * * * * * */
+
+DEF Sz .175
+rule t {
+  *{fov REF} {
+    RSQU{layer 1 L 1 A -.3 sx 1.1 sy .15}
+    TEXT{layer 2 s .07 y -0 x -7} }
+}
+
+rule example {
+    box {   PUSH SQUARE
+ s Sz y 1.5 rx 45 ry 45}
+    box {   PUSH rndsh 4x4Popper
+ 4x4Popper 4x4Popper 4x4Popper
+            s Sz y -.25
+ rx -45 rz 45
+ }
+    box {   PUSH 4x4
+            s Sz y -1 x 1.5
+ rx -45 ry 45
+ }
+    box {   PUSH 16x16
+            s Sz y -1 x -1.5
+ rx -45 ry -45 }
+}
+
+rule Popper {   POP { } }
+rule box {
+    2* { ry 90 H -20}
+    2* { z 1 L 1 S .5 H 240} Popper { z -.5 }
+    2* { y -1 H 20 } Popper { rx 90 z .5 L .3 H 20 }
+}
+
+
+
+rule 4x4Popper {
+    Popper { s .5 x -.5 y -.5 }
+    Popper { s .5 x -.5 y .5 }
+    Popper { s .5 x .5 y -.5 }
+    Popper { s .5 x .5 y .5 }
+}
+rule 4x4 {
+    SQUARE { s .5 x -.5 y -.5 }
+    SQUARE { s .5 x -.5 y .5 }
+    SQUARE { s .5 x .5 y -.5 }
+    SQUARE { s .5 x .5 y .5 }
+}
+rule 16x16 {
+    4x4 { s .5 x -.5 y -.5 }
+    4x4 { s .5 x -.5 y .5 }
+    4x4 { s .5 x .5 y -.5 }
+    4x4 { s .5 x .5 y .5 }
+}
+
+rndsh { CIRCLE{} }
+rndsh { SQUARE{} }
+
+
+
+
