@@ -9,11 +9,14 @@ import org.konte.misc.Vector3;
  */
 public class ZPowCamera extends SimpleCamera {
     
-    private final float exp;
+    private final float exp,
+            planarXtr, planarYtr;
     
-    public ZPowCamera(float exp)
+    public ZPowCamera(float exp, float xtr, float ytr)
     {
         this.exp = exp;
+        this.planarXtr = xtr;
+        this.planarYtr = -ytr;
     }
     
     @Override
@@ -22,9 +25,9 @@ public class ZPowCamera extends SimpleCamera {
         Vector3 d = cameraRotationMatrix.multiply(Vector3.sub(v, position));
         float zadj = (float)Math.pow(d.z, exp);
         if (zadj >= 1f)
-            return new Point2(d.x / zadj, d.y / zadj);
+            return new Point2(d.x / zadj + planarXtr, d.y / zadj + planarYtr);
         float fct = 2f-zadj;
-        return new Point2(d.x*fct, d.y*fct);
+        return new Point2(d.x*fct + planarXtr, d.y*fct + planarYtr);
     }
     
 }

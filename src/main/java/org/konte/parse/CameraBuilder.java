@@ -113,15 +113,15 @@ public class CameraBuilder {
         }
 
         if ((flag & 1024) != 0) {
-            float exp[] = {2f};
+            float exp[] = {2f, 0f, 0f};
             int step = 0;
             for(Object o : extra)
             {
                 if (ExpressionFunction.class.isAssignableFrom(o.getClass()) && ((ExpressionFunction)o).getToken().name.equals("lookat")) { 
                     continue;
                 }
-                if (step > 1)
-                    throw new ParseException("too many arguments ("+extra.size()+") to POW camera(z-exponent) - " + o);
+                if (step > 2)
+                    throw new ParseException("too many arguments ("+extra.size()+") to POW camera(z-exponent, x_tr, y_tr) - " + o);
                 if (o instanceof Expression)
                 {
                     try
@@ -132,11 +132,11 @@ public class CameraBuilder {
                     catch (Exception e)
                     {
                         e.printStackTrace();
-                        throw new ParseException("can't evaluate FISHEYE f: " + e.getMessage());
+                        throw new ParseException("can't evaluate ZPOW f: " + e.getMessage());
                     }
                 }
             }
-            c = new ZPowCamera(exp[0]);
+            c = new ZPowCamera(exp[0], exp[1], exp[2]);
         }
         else if ((flag & 512) != 0) {
             float exp[] = {0.5f, 0f, 1f, 1f, 0f, 0f};
@@ -145,7 +145,7 @@ public class CameraBuilder {
             {
                 if (o instanceof LanguageFunctor) { continue; }
                 if (step > 5)
-                    throw new ParseException("too many arguments ("+extra.size()+") to camera{FISHEYE f, type{0,1,2,3}, opticalBlindSpotDist, r-exp, x-tr, y-tr}");
+                    throw new ParseException("too many arguments ("+extra.size()+") to camera{FISHEYE f, type{0,1,2,3}, opticalBlindSpotDist, r_exp, x_tr, y_tr}");
                 if (o instanceof Expression)
                 {
                     try
