@@ -16,7 +16,7 @@ Build the project from a command line.
 ```
 $ mvn clean install
 ```
-Run konte GUI from the command line.
+Run konte GUI from the command line. Within, the *Tutorial* menu helps to a quick start.
 
 Linux:
 ```
@@ -26,9 +26,8 @@ Windows:
 ```
 > java -Xmx2048m -cp target/konte.jar;target/dependency/rsyntaxtextarea-2.5.8.jar org.konte.ui.Ui
 ```
-Use the *Tutorial* menu to get a quick start into konte code.
 
-Generate a single png image ftom the command line.
+Generate a single png image from the *command line*.
 
 Mac:
 ```
@@ -43,27 +42,24 @@ $ java -Xmx2048m -cp target/konte.jar org.konte.misc.CommandLine -fgrammar.c3dg 
  - there is an ad hoc support for meshes
  - RGBA, HSLA and user defined color spaces are supported
  - a simple "independent shapes" lighting model is supported, with lights controlled by arbitrary expressions
- - 3D, ortographic and cabinet (oblique) perspectives are supported
+ - 3D, ortographic, cabinet (oblique), fisheye perspectives are supported
 
 ![meshm2.png](img/README/2015-02-24-02-09-meshm2.png)
 [meshm2.c3dg](img/README/meshm2.c3dg)
 
 ![Recursions cheatsheet](img/README/recursions-cheatsheet.png)
+[recursions cheatsheet](./src/main/resources/org/konte/resources/exmpl/recursions_cheatsheet)
 
 ![paint-w-light-e-ADU.png](img/README/2017-01-12-23-58-paint-w-light-e-ADU.png)
 
 ![Fisheye](img/README/2017-02-11-22-02-FISHEYE-city-b-ABM.png)
-
-![mcs6_9.png](img/README/2015-02-24-02-26-mcs6_9.png)
-[mcs6_9.c3dg](img/README/mcs6_9.c3dg)
+[fisheye-city](https://github.com/pvto/konte-snippets/blob/master/test/FISHEYE-city-b.c3dg)
 
 ![Functions cheatsheet](img/README/funcs-scheatsheet.png)
+[functions cheatsheet](./src/main/resources/org/konte/resources/exmpl/functions_cheatsheet)
 
 ![subdiv-rupt-AFF.png](img/README/2017-01-21-15-02-subdiv-rupt-AFF.png)
 [subdiv-rupt.c3dg](img/README/subdiv-rupt.c3dg)
-
-![fail_is_bB2.png](img/README/2015-04-10-23-13-fail_is_bB2.png)
-[fail_is_bB2.c3dg](img/README/fail_is_bB2.c3dg)
 
 ![deviate-b-3-b-ADC.png](img/README/2017-02-19-13-44-deviate-b-3-b-ADC.png)
 [deviate-b-3-b.c3dg](img/README/deviate-b-3-b.c3dg)
@@ -234,6 +230,12 @@ camera { FISHEYE .5 0 1 .5 }
 ![Fisheye](img/README/2017-02-20-21-54-fov-tuto-AAB.png)
 
 ```
+camera { ZPOW 4 }  // proj(x,y,z) = {x/z^4, y/z^4}
+```
+![ZPOW](img/README/2017-02-22-22-23-zpow_camera-AAA.png)
+[ZOPW tutorial](https://github.com/pvto/konte-snippets/blob/master/help/zpow_camera.c3dg)
+
+```
 /*
 * an experimental projection:
 *  [x,y] = [cos(alpha) / dist, sin(alpha) / dist]
@@ -368,6 +370,18 @@ Macros in konte are multivalent lambda expressions that can shorten and clean up
 
 ![devils-staircase.png](img/README/2015-02-26-12-13-devils-staircase.png)
 [devils-staircase.c3dg](img/README/devils-staircase.c3dg)
+
+### Context lookup (octree model)
+
+An octree model can be used to record and lookup nearby features.
+This places some memory burden and generally slows the app down slightly or
+more, depending on feature density and lookup context size.
+
+Q: What triggers the octree model?
+A: Using any of the neighborhood functions in a script.
+
+![neighborhood cheatsheet](img/README/2017-02-22-21-05-neighborhood_cheatsheet-AAB.png)
+[neighborhood cheatsheet.](https://github.com/pvto/konte-snippets/blob/master/help/neighborhood_cheatsheet.c3dg)
 
 ### Dynamic paths
 
