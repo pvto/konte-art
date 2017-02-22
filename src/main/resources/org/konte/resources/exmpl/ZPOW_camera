@@ -1,0 +1,42 @@
+bg{B .1}
+
+fov {}
+fov {z1 ZPOW .5 .2 .2  z -4}
+fov {z2 ZPOW 1 .2 .0 z -2}
+fov {z3 ZPOW 2 .2 (-.175) z -1.41}
+fov {z4 ZPOW 4 .2 (-.35) z -1.185}
+
+show {
+  *{fov z1}{ grid{rx 07 ry 20} t{PUSH "^m^fov{ZPOW .5}" }}
+  *{fov z2}{ grid{rx 12 ry 20} t{PUSH "^m^fov{ZPOW 1}" }}
+  *{fov z3}{ grid{rx 25 ry 20} t{PUSH "^m^fov{ZPOW 2}" }}
+  *{fov z4}{ grid{rx 30 ry 20} t{PUSH "^m^fov{ZPOW 4}" }}
+}
+
+grid {
+  *{{n=10}} *{s 1/n x -(n-1)/2}
+  (n)*{x 1} (n/2)*{z 2} 4*{y .5}
+    block{s .5 {frame=.2} 
+      B .4 S -.5 H 1500*(x+z) 
+    L 5*z%2*.5}
+}
+
+t{TEXT{lr 1 x -1.2 y .1 s .035 L 1 {WIDE=2;FLAT=2}}}
+
+include #geometry
+include #monospace
+
+block {
+  BOX{s .8 shading -1 y .1 A -.7}
+  cub{PUSH FRAME {frame=0.1}}
+}
+
+
+cub{
+  PEEK{z -.5}
+  PEEK{z .5 ry 180}
+  PEEK{x -.5 ry -90}
+  PEEK{x .5 ry 90}
+  PEEK{y -.5 rx 90}
+  PEEK{y .5 rx -90}
+}

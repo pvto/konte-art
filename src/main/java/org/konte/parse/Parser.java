@@ -1128,7 +1128,7 @@ public class Parser {
                     } else if (t == Language.lookat) {
                         i = getExpressionList(tokenStrings, i, exprL);
                         lexpr = exprParser.parse(exprL, 0, m);
-                        camBd.addExtra(lexpr);
+                        camBd.lookat = (ExpressionFunction)lexpr;
                     } else if (t == Language.right_curl)
                     {
                         if (lastInnerToken != null)

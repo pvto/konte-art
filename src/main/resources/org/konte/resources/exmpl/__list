@@ -28,7 +28,7 @@ color_HSB
 ---------------
 CABINET_camera
 FISHEYE_camera
-two_cameras
+ZPOW_camera
 ---------------
 effects_RUBBER_and_GBLUR
 effects_MIX_and_RADBLUR

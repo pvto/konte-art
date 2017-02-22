@@ -30,6 +30,7 @@ public class CameraBuilder {
     private Transform position;
     private final List<CameraProperties> properties = new ArrayList<>();
     private final List<Object> extra = new ArrayList<>();
+    public ExpressionFunction lookat;
 
     public CameraBuilder() { }
 
@@ -117,9 +118,6 @@ public class CameraBuilder {
             int step = 0;
             for(Object o : extra)
             {
-                if (ExpressionFunction.class.isAssignableFrom(o.getClass()) && ((ExpressionFunction)o).getToken().name.equals("lookat")) { 
-                    continue;
-                }
                 if (step > 2)
                     throw new ParseException("too many arguments ("+extra.size()+") to POW camera(z-exponent, x_tr, y_tr) - " + o);
                 if (o instanceof Expression)
@@ -143,7 +141,6 @@ public class CameraBuilder {
             int step = 0;
             for(Object o : extra)
             {
-                if (o instanceof LanguageFunctor) { continue; }
                 if (step > 5)
                     throw new ParseException("too many arguments ("+extra.size()+") to camera{FISHEYE f, type{0,1,2,3}, opticalBlindSpotDist, r_exp, x_tr, y_tr}");
                 if (o instanceof Expression)
@@ -159,7 +156,6 @@ public class CameraBuilder {
                     }
                 }
             }
-            System.out.println(Arrays.toString(exp));
             c = new FishLensCamera(exp[0], exp[1], exp[2], exp[3], exp[4], exp[5]);
         }
         else if ((flag & 256) != 0) {
@@ -167,7 +163,6 @@ public class CameraBuilder {
             int step = 0;
             for(Object o : extra)
             {
-                if (o instanceof LanguageFunctor) { continue; }
                 if (step > 2)
                     throw new ParseException("too many arguments ("+extra.size()+") to FISH camera");
                 if (o instanceof Expression)
@@ -192,7 +187,6 @@ public class CameraBuilder {
             int step = 0;
             for(Object o : extra)
             {
-                if (o instanceof LanguageFunctor) { continue; }
                 if (step > 2)
                     throw new ParseException("too many arguments to CABINET camera: " + extra.size());
                 if (o instanceof Expression)
@@ -275,15 +269,11 @@ public class CameraBuilder {
         position.getTransformMatrix();
 
         c.setName(name);
-        for(int i = 0; i < this.extra.size(); i++)
+        
+        if (lookat != null)
         {
-            Object o = extra.get(i);
-            if (o instanceof ExpressionFunction && ((ExpressionFunction)o).getToken() == Language.lookat)
-            {
-                ExpressionFunction ef = (ExpressionFunction)o;
-                Expression[] A = ef.getArgs();
-                c.lookat(new Vector3(A[0].evaluate(), A[1].evaluate(), A[2].evaluate()));
-            }
+            Expression[] A = lookat.getArgs();
+            c.lookat(new Vector3(A[0].evaluate(), A[1].evaluate(), A[2].evaluate()));
         }
         
         c.setPosition(position);
