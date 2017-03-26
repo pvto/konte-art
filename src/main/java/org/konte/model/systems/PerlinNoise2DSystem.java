@@ -1,6 +1,5 @@
 package org.konte.model.systems;
 
-import org.konte.misc.Mathc3;
 import org.konte.model.GreyBoxSystem;
 
 /** A mutable perlin noise system in 2d.
@@ -16,30 +15,35 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
     
     
     
+    /* -------------------  gradients ------ */
     
     public static interface GradientFunction {
+        
         float gradient(float u0, float u1, float u);
     }
+    
     public static class LinearGradient implements GradientFunction {    
-        public float gradient(float u0, float u1, float u) {
+        public float gradient(float u0, float u1, float u)
+        {
             return u0 + (u1 - u0) * u; } }
-    public static class SquareGradient implements GradientFunction {    
-        public float gradient(float u0, float u1, float u) {
-            return u0 + (u1 - u0) * u * u; } }
+    
     public static class PowGradient implements GradientFunction {
         public final double exponent;
         public PowGradient(double exponent) { this.exponent = exponent; }
-        public float gradient(float u0, float u1, float u) {
+        public float gradient(float u0, float u1, float u)
+        {
             return u0 + (u1 - u0) * (float) Math.pow(u, exponent);
         }
     }
+    
     public static class SmoothstepGradient implements GradientFunction { 
-        public float gradient(float u0, float u1, float u) {
+        public float gradient(float u0, float u1, float u)
+        {
             return u0 + (u1 - u0) * u*u*u*(u * (u*6 - 15) + 10); } }
     
     public enum Gradients {
         LINEAR(new LinearGradient()),
-        SQUARE(new SquareGradient()),
+        SQUARE(new PowGradient(2.0)),
         CUBIC(new PowGradient(3.0)),
         QUADRATIC(new PowGradient(4.0)),
         SMOOTHSTEP(new SmoothstepGradient())
@@ -49,15 +53,14 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
         private Gradients(GradientFunction f) { this.gf = f; }
     }
 
+    /* -------------------  gradients ------ */    
     
     
-    
-    float lerp(float a0, float a1, float w) {
-        return (1.0f - w) * a0 + w * a1;
-    }
+
 
     // Computes the dot product of the distance and gradient vectors.
-    float dotGridGradient(int ix, int iy, float x, float y) {
+    float dotGridGradient(int ix, int iy, float x, float y)
+    {
 
         int ixc = ix % w;
         int iyc = iy % h;
@@ -71,7 +74,8 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
     }
 
     // Compute Perlin noise at coordinates x, y
-    public float perlin(float x, float y) {
+    public float perlin(float x, float y)
+    {
 
         x = normalizeX(x);
         y = normalizeY(y);
@@ -82,7 +86,6 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
         int y1 = y0 + 1;
         
         // Determine interpolation weights
-        // Could also use higher order polynomial/s-curve here
         float sx = x - (float) x0;
         float sy = y - (float) y0;
 
@@ -96,12 +99,6 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
         ix1 = gf.gradient(n0, n1, sx);
         value = gf.gradient(ix0, ix1, sy);
         
-/*        float a,b,c,d, value;
-        a = dotGridGradient(x0, y0, x, y);
-        b = dotGridGradient(x1, y0, x, y);
-        c = dotGridGradient(x0, y1, x, y);
-        d = dotGridGradient(x1, y1, x, y);
-        value = (a + b + c + d) / 4; */
         return value;
     }
 
@@ -144,7 +141,8 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
     public void evaluate(float[] args) { /* noop */ }
 
     @Override
-    public float read(float[] args) {
+    public float read(float[] args)
+    {
         float x = normalizeX(args[1]);
         float y = normalizeY(args[2]);
         return perlin(x, y);
