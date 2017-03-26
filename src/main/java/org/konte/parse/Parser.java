@@ -746,7 +746,9 @@ public class Parser {
                         }
                         tmpexps.clear();
                         ExpressionFunction func = (ExpressionFunction)lexpr;
-                        Object[] vals = new Object[func.getArgs().length];
+                        Object[] vals = new Object[func.getArgs().length + 1];
+                        vals[vals.length - 1] = m;  // insert model as last argument
+                        
                         int it = 0;
                         for (Expression e : func.getArgs())
                         {

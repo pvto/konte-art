@@ -17,7 +17,7 @@ public class ImgChannelSystem implements GreyBoxSystem {
     @Override
     public void initialize(Object[] args)
     {
-        if (args.length != 2)
+        if (args.length != 3)
             throw new RuntimeException("ImgChannelSystem: expecting two args, width and height - got " + args.length);
         int width = ((Float)args[0]).intValue();
         if (width <= 0)

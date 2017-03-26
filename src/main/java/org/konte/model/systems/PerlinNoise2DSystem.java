@@ -128,7 +128,7 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
                 Gradient[j][i][3] = (float) (Math.random()) * 0f;
             }
         }
-        Object grad = args.length > 2 ? args[2] : "SMOOTHSTEP";
+        Object grad = args.length > 3 ? args[2] : "SMOOTHSTEP";
         if (grad instanceof Float) {
             this.gf = new PowGradient((Float)grad);
         } else {
@@ -169,7 +169,7 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
         int y = (int) normalizeY(args[2]);
         float angle = args[3];
         setGridVal(x, y, angle);
-        if (args.length > 2) { Gradient[y][x][2] = args[2]; }
-        if (args.length > 3) { Gradient[y][x][3] = args[3]; }
+        if (args.length > 4) { Gradient[y][x][2] = args[4]; }
+        if (args.length > 5) { Gradient[y][x][3] = args[5]; }
     }
 }
