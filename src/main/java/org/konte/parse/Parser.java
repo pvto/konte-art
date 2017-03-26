@@ -750,10 +750,19 @@ public class Parser {
                         int it = 0;
                         for (Expression e : func.getArgs())
                         {
-                            vals[it++] = e.evaluate();
+                            float f = 0f;
+                            try { f = e.evaluate(); } catch(Exception ex) {}
+                            if (f == 0f && org.konte.expression.Name.class.isAssignableFrom(e.getClass())) {
+                                org.konte.expression.Name name = (org.konte.expression.Name)e;
+                                vals[it++] = name.getName();
+                            }
+                            else {
+                                vals[it++] = f;
+                            }
                         }
                         greyBoxSystem.initialize(vals);
                         curCtx = contextStack.pop();
+                        lastName = null;
                     }
                     else
                         throw new ParseException("Expecting init(...) after system " + lastName + ", but got " + s, lineNr, caretPos);

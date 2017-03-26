@@ -1,6 +1,7 @@
 package org.konte.model;
 
 import org.konte.model.systems.ImgChannelSystem;
+import org.konte.model.systems.PerlinNoise2DSystem;
 
 /**
  *
@@ -16,7 +17,8 @@ public interface GreyBoxSystem {
 
     
     public static enum Names {
-        Channel(new ImgChannelSystem())
+        Channel(new ImgChannelSystem()),
+        Perlin2(new PerlinNoise2DSystem())
         ;
         
         public GreyBoxSystem generator;
