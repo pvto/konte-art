@@ -2,6 +2,7 @@ package org.konte.model;
 
 import org.konte.model.systems.Curl2DSystem;
 import org.konte.model.systems.ImgChannelSystem;
+import org.konte.model.systems.Particle2DSystem;
 import org.konte.model.systems.PerlinNoise2DSystem;
 
 /**
@@ -20,7 +21,8 @@ public interface GreyBoxSystem {
     public static enum Names {
         Channel(new ImgChannelSystem()),
         Perlin2(new PerlinNoise2DSystem()),
-        Curl2(new Curl2DSystem())
+        Curl2(new Curl2DSystem()),
+        Particle2(new Particle2DSystem())
         ;
         
         public GreyBoxSystem generator;

@@ -30,6 +30,9 @@ public class GBSysFunc {
         @Override
         public float value(float... val) throws Exception
         {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+
             int sysInd = (int)val[0];
 
             GreyBoxSystem sys = model.greyBoxSystems.get(sysInd);
