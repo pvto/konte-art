@@ -143,8 +143,8 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
     @Override
     public float read(float[] args)
     {
-        float x = normalizeX(args[1]);
-        float y = normalizeY(args[2]);
+        float x = args[1];
+        float y = args[2];
         return perlin(x, y);
     }
 
@@ -167,8 +167,8 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
     {
         int x = (int) normalizeX(args[1]);
         int y = (int) normalizeY(args[2]);
-        float angle = args[3];
-        setGridVal(x, y, angle);
+        float potential = args[3];
+        setGridVal(x, y, potential);
         if (args.length > 4) { Gradient[y][x][2] = args[4]; }
         if (args.length > 5) { Gradient[y][x][3] = args[5]; }
     }
