@@ -60,8 +60,6 @@ public class Particle2DSystem implements GreyBoxSystem {
         for (int i = 0; i < particles.size(); i++)
         {
             Particle p = particles.get(i);
-            p.x += p.xv;
-            p.y += p.yv;
             
             netg[i][0] = 0f;
             netg[i][1] = 0f;
@@ -90,12 +88,19 @@ public class Particle2DSystem implements GreyBoxSystem {
                 if (g == 0f) { // propel not from the state of equilibrium
                     continue;
                 }
-                g = 1 / g * p.mass * other.mass;
+                g = 1 / g * other.mass;
                 netg[i][0] += (float) Math.cos(angle) * g;
                 netg[i][1] += (float) Math.sin(angle) * g;
             }
             p.xv += timeIncrement * netg[i][0];
             p.yv += timeIncrement * netg[i][1];
+        }
+        
+        for (int i = 0; i < particles.size(); i++)
+        {
+            Particle p = particles.get(i);
+            p.x += p.xv;
+            p.y += p.yv;
         }
     }
 
