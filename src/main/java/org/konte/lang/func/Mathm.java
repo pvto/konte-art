@@ -78,7 +78,7 @@ public class Mathm {
         
         public boolean nArgsAllowed(int n)
         {
-            return getArgsCount() == 1 || getArgsCount() == 2;
+            return n == 1 || n == 2;
         }
 
         @Override

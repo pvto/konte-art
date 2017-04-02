@@ -103,14 +103,11 @@ public class RndCharSliderBar extends JPanel {
         String orig = jTextField1.getText();
         String newst = orig;
         int val = jSlider1.getValue();
-        while (orig.equals(newst))
+        while (orig.equals(newst) || (add > 0 && orig.compareTo(newst) > 0) || (add < 0 && orig.compareTo(newst) > 0))
         {
             val += add;
             newst = randomFeed.toConvertKey(val);
         }
-        val -= add;
-        if (val==jSlider1.getValue())
-            val += add;
         jSlider1.setValue(val);
         changeRndChars(val);
 
