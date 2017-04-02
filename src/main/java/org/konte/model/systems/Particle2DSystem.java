@@ -3,6 +3,7 @@ package org.konte.model.systems;
 import java.util.ArrayList;
 import java.util.List;
 import org.konte.model.GreyBoxSystem;
+import org.konte.model.Model;
 
 /**
  *
@@ -16,6 +17,8 @@ public class Particle2DSystem implements GreyBoxSystem {
      *   yielding  G = (1 / d^2) * m1 * m2 */
     public float[] gravityPolynomial = { 1f, 0f, 0f };
     private float[][] netg;
+    public Model model;
+    private boolean fullyInitialized = false;
     
     public static class Particle {
         float x, y;
@@ -25,13 +28,18 @@ public class Particle2DSystem implements GreyBoxSystem {
     @Override
     public GreyBoxSystem newInstance() { return new Particle2DSystem(); }
 
+    public float
+            radius,
+            massMin,
+            massMax
+            ;
     @Override
     public void initialize(Object[] args)
     {
         int n = ((Float) args[0]).intValue();
-        float radius = (Float) args[1];
-        float massMin = (Float) args[2];
-        float massMax = (Float) args[3];
+        radius = (Float) args[1];
+        massMin = (Float) args[2];
+        massMax = (Float) args[3];
         if (args.length > 5)
         {
             int order = args.length - 5;
@@ -42,21 +50,31 @@ public class Particle2DSystem implements GreyBoxSystem {
             }
         }
         netg = new float[n][2];
-        for (int i = 0; i < n; i++)
+        this.model = (Model)args[args.length - 1];
+    }
+
+    private void initInternal()
+    {
+        if (fullyInitialized) 
+            return;
+        for (int i = 0; i < netg.length; i++)
         {
-            float r0 = radius * (float) Math.random();
-            float angle = (float) (Math.PI * 2.0 * Math.random());
+            float r0 = radius * (float)model.getRandomFeed().get(); //(float) Math.random();
+            float angle = (float) (Math.PI * 2.0 * model.getRandomFeed().get()); // Math.random());
             Particle p = new Particle();
             particles.add(p);
             p.x = (float) Math.cos(angle) * r0;
             p.y = (float) Math.sin(angle) * r0;
-            p.mass = (massMax - massMin) * (float) Math.random() + massMin;
+            p.mass = (massMax - massMin) * (float)model.getRandomFeed().get() + massMin;
         }
+        fullyInitialized = true;
     }
-
+    
     @Override
     public void evaluate(float[] args)
     {
+        
+        initInternal();
         for (int i = 0; i < particles.size(); i++)
         {
             Particle p = particles.get(i);
@@ -138,6 +156,7 @@ public class Particle2DSystem implements GreyBoxSystem {
     @Override
     public void write(float[] args)
     {
+        initInternal();
         int particle = normalize( (int) args[1] );
         int property = (int) args[2];
         float value = args[3];
