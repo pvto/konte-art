@@ -70,15 +70,22 @@ public class Mathm {
         }
     }
 
-    public static class EAtan extends Function1 {
+    public static class EAtan extends FunctionN_ {
 
         public EAtan(String name) {
             super(name);
         }
+        
+        public boolean nArgsAllowed(int n)
+        {
+            return getArgsCount() == 1 || getArgsCount() == 2;
+        }
 
         @Override
         public float value(float... val) {
-            return (float) Math.atan(val[0]);
+            if (val.length == 1)
+                return (float) Math.atan(val[0]);
+            return (float)Math.atan2(val[0], val[1]);
         }
     }
 
