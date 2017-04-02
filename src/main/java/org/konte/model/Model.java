@@ -35,11 +35,15 @@ import org.konte.model.Untransformable.Effect;
  */
 public class Model {
 
+    public RandomFeed randomFeed;
     public static final Object RNDFEED_KEY = new Object();
     public boolean enableContextSearch = false;
     public RandomFeed getRandomFeed()
     {
-        return (RandomFeed)globalvar.get(RNDFEED_KEY);
+        return randomFeed;
+    }
+    public void setRandomFeed(RandomFeed feed) {
+        globalvar.put(Model.RNDFEED_KEY, this.randomFeed = feed);
     }
 
     public LinkedHashMap<String, NonDeterministicRule> rules = new LinkedHashMap<>(30);
