@@ -1,6 +1,7 @@
 package org.konte.model.systems;
 
 import org.konte.model.GreyBoxSystem;
+import org.konte.model.Model;
 
 /** A mutable perlin noise system in 2d.
  *  Adapted from https://en.wikipedia.org/wiki/Perlin_noise .
@@ -13,6 +14,7 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
     public float[][][] Gradient;
     public GradientFunction gf = Gradients.SMOOTHSTEP.gf;
     
+    private Model model;
     
     
     /* -------------------  gradients ------ */
@@ -117,17 +119,9 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
     @Override
     public void initialize(Object[] args)
     {
-        int w = this.w = args.length > 0 ? ((Float)args[0]).intValue() : 16;
-        int h = this.h = args.length > 1 ? ((Float)args[1]).intValue() : 16;
+        int w = this.w = args.length > 1 ? ((Float)args[0]).intValue() : 16;
+        int h = this.h = args.length > 2 ? ((Float)args[1]).intValue() : 16;
         Gradient = new float[h][w][4];
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                float ang = (float)( Math.random() * Math.PI * 2.0 );
-                setGridVal(i, j, ang);
-                Gradient[j][i][2] = (float) (Math.random()) * 0f;
-                Gradient[j][i][3] = (float) (Math.random()) * 0f;
-            }
-        }
         Object grad = args.length > 3 ? args[2] : "SMOOTHSTEP";
         if (grad instanceof Float) {
             this.gf = new PowGradient((Float)grad);
@@ -135,14 +129,16 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
             Gradients g = Gradients.valueOf(grad.toString());
             this.gf = g.gf;
         }
+        model = (Model)args[args.length - 1];
     }
 
     @Override
-    public void evaluate(float[] args) { /* noop */ }
+    public void evaluate(float[] args) { initInternal(); }
 
     @Override
     public float read(float[] args)
     {
+        initInternal();
         float x = args[1];
         float y = args[2];
         return perlin(x, y);
@@ -165,11 +161,29 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
     @Override
     public void write(float[] args)
     {
+        initInternal();
         int x = (int) normalizeX(args[1]);
         int y = (int) normalizeY(args[2]);
         float potential = args[3];
         setGridVal(x, y, potential);
         if (args.length > 4) { Gradient[y][x][2] = args[4]; }
         if (args.length > 5) { Gradient[y][x][3] = args[5]; }
+    }
+    
+    private boolean initialized = false;
+    private void initInternal()
+    {
+        if (initialized)
+            return;
+        initialized = true;
+        
+        for (int i = 0; i < h; i++) {
+            for (int j = 0; j < w; j++) {
+                float ang = (float)( model.getRandomFeed().get() * Math.PI * 2.0 );
+                setGridVal(i, j, ang);
+                Gradient[j][i][2] = (float) (model.getRandomFeed().get()) * 0f;
+                Gradient[j][i][3] = (float) (model.getRandomFeed().get()) * 0f;
+            }
+        }
     }
 }
