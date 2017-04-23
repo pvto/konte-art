@@ -117,9 +117,10 @@ public class Model {
     }
 
     
-    public void addColorSpace(ColorSpace build)
+    public void addColorSpace(ColorSpace build) throws ParseException
     {
         this.colorSpaces.add(build);
+        setConstant(build.getName(), new Value((float)colorSpaces.size() - 1f));
     }
 
     public void addLight(Light light)

@@ -219,6 +219,7 @@ public class Language {
     public static final Token pow_op = addToken(new Operator("**"));
 
     public static final Token sleep = addToken(new Func.ESleep("sleep"));
+    public static final Token chice = addToken(new Func.EChoice("choice"));
     public static final Token inc = addToken(new Func.EInc("inc", null));
     public static final Token sin = addToken(new Mathm.ESin("sin"));
     public static final Token cos = addToken(new Mathm.ECos("cos"));

@@ -3,6 +3,7 @@ package org.konte.lang.func;
 
 import org.konte.lang.Tokens;
 import org.konte.lang.Tokens.ContextualOneToOneFunction;
+import org.konte.lang.Tokens.Function3;
 import org.konte.model.Model;
 
 public class Func {
@@ -92,12 +93,7 @@ public class Func {
     public static class ERndfbin extends ContextualOneToOneFunction
     {
         @Override public int getArgsCount() { return 2; }
-
-        @Override
-        public boolean nArgsAllowed(int n)
-        {
-            return n==2;
-        }
+        @Override public boolean nArgsAllowed(int n) { return n==2; }
 
         public ERndfbin(String name, Model model) { super(name, model); }
         
@@ -115,12 +111,7 @@ public class Func {
     public static class ERndfhypg extends ContextualOneToOneFunction
     {
         @Override public int getArgsCount() { return 2; }
-
-        @Override
-        public boolean nArgsAllowed(int n)
-        {
-            return n==2;
-        }
+        @Override public boolean nArgsAllowed(int n) { return n==2; }
 
         public ERndfhypg(String name, Model model) { super(name, model); }
         
@@ -139,12 +130,7 @@ public class Func {
     public static class ERndfpareto extends ContextualOneToOneFunction
     {
         @Override public int getArgsCount() { return 3; }
-
-        @Override
-        public boolean nArgsAllowed(int n)
-        {
-            return n==3;
-        }
+        @Override public boolean nArgsAllowed(int n) { return n==3; }
 
         public ERndfpareto(String name, Model model) { super(name, model); }
         
@@ -162,5 +148,19 @@ public class Func {
     }
     
 
+    public static class EChoice extends Function3 {
 
+        @Override public int getArgsCount() { return 3; }
+        @Override public boolean nArgsAllowed(int n) { return n==3; }
+        
+        public EChoice(String name) { super(name); }
+        
+        @Override
+        public float value(float... args) throws Exception {
+            if (args[0] <= 0f) { return args[1]; }
+            return args[2];
+        }
+        
+    }
+ 
 }
