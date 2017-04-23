@@ -2,6 +2,8 @@ package org.konte.model.systems;
 
 import org.konte.model.GreyBoxSystem;
 import org.konte.model.Model;
+import org.konte.model.systems.GradientFunction.Gradients;
+import org.konte.model.systems.GradientFunction.PowGradient;
 
 /** A mutable perlin noise system in 2d.
  *  Adapted from https://en.wikipedia.org/wiki/Perlin_noise .
@@ -15,47 +17,6 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
     public GradientFunction gf = Gradients.SMOOTHSTEP.gf;
     
     private Model model;
-    
-    
-    /* -------------------  gradients ------ */
-    
-    public static interface GradientFunction {
-        
-        float gradient(float u0, float u1, float u);
-    }
-    
-    public static class LinearGradient implements GradientFunction {    
-        public float gradient(float u0, float u1, float u)
-        {
-            return u0 + (u1 - u0) * u; } }
-    
-    public static class PowGradient implements GradientFunction {
-        public final double exponent;
-        public PowGradient(double exponent) { this.exponent = exponent; }
-        public float gradient(float u0, float u1, float u)
-        {
-            return u0 + (u1 - u0) * (float) Math.pow(u, exponent);
-        }
-    }
-    
-    public static class SmoothstepGradient implements GradientFunction { 
-        public float gradient(float u0, float u1, float u)
-        {
-            return u0 + (u1 - u0) * u*u*u*(u * (u*6 - 15) + 10); } }
-    
-    public enum Gradients {
-        LINEAR(new LinearGradient()),
-        SQUARE(new PowGradient(2.0)),
-        CUBIC(new PowGradient(3.0)),
-        QUADRATIC(new PowGradient(4.0)),
-        SMOOTHSTEP(new SmoothstepGradient())
-        ;
-        
-        private GradientFunction gf;
-        private Gradients(GradientFunction f) { this.gf = f; }
-    }
-
-    /* -------------------  gradients ------ */    
     
     
 
@@ -120,7 +81,7 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
     public void initialize(Object[] args)
     {
         int w = this.w = args.length > 1 ? ((Float)args[0]).intValue() : 16;
-        int h = this.h = args.length > 2 ? ((Float)args[1]).intValue() : 16;
+        int h = this.h = args.length > 2 ? ((Float)args[1]).intValue() : w;
         Gradient = new float[h][w][4];
         Object grad = args.length > 3 ? args[2] : "SMOOTHSTEP";
         if (grad instanceof Float) {
@@ -181,8 +142,6 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
             for (int j = 0; j < w; j++) {
                 float ang = (float)( model.getRandomFeed().get() * Math.PI * 2.0 );
                 setGridVal(i, j, ang);
-                Gradient[j][i][2] = (float) (model.getRandomFeed().get()) * 0f;
-                Gradient[j][i][3] = (float) (model.getRandomFeed().get()) * 0f;
             }
         }
     }

@@ -4,6 +4,7 @@ import org.konte.model.systems.Curl2DSystem;
 import org.konte.model.systems.ImgChannelSystem;
 import org.konte.model.systems.Particle2DSystem;
 import org.konte.model.systems.PerlinNoise2DSystem;
+import org.konte.model.systems.PerlinNoise3DSystem;
 
 /**
  *
@@ -21,6 +22,7 @@ public interface GreyBoxSystem {
     public static enum Names {
         Channel(new ImgChannelSystem()),
         Perlin2(new PerlinNoise2DSystem()),
+        Perlin3(new PerlinNoise3DSystem()),
         Curl2(new Curl2DSystem()),
         Particle2(new Particle2DSystem())
         ;
