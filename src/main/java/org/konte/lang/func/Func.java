@@ -157,8 +157,8 @@ public class Func {
         
         @Override
         public float value(float... args) throws Exception {
-            if (args[0] <= 0f) { return args[1]; }
-            return args[2];
+            if (args[0] <= 0f) { return args[2]; }
+            return args[1];
         }
         
     }
