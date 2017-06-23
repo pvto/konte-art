@@ -260,18 +260,18 @@ path FRAME {
 
 
 CURVE {
-  *{{c1bx= coalesce(c1bx, x1); c1by= coalesce(c1by, y1)
+  *{{c1bx= coalesce(c1bx, x1); c1by= coalesce(c1by, y1);
     c2ax= coalesce(c2ax, x2); c2ay= coalesce(c2ay, y2); }}
   *{{
     dx1= 3*(c1bx-x1); dy1= 3*(c1by-y1);
     dx2= 3*(x2-c2ax); dy2= 3*(y2-c2ay);
     width= coalesce(width, 00001)*.5; }} 
-  CURVE__ {
+  CURVE__ {{
     dx1= dx1/sqrt(dx1**2 + dy1**2 + .00001);
     dy1= dy1/sqrt(dx1**2 + dy1**2 + .00001);
     dx2= dx2/sqrt(dx2**2 + dy2**2 + .00001);
     dy2= dy2/sqrt(dx2**2 + dy2**2 + .00001);
-  }
+  }}
 }
 path CURVE__ {
   moveto(x1 - width * dy1, y1 + width * dx1, z1)
