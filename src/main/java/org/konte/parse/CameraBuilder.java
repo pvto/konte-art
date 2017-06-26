@@ -1,27 +1,18 @@
 
 package org.konte.parse;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.konte.expression.Expression;
 import org.konte.expression.ExpressionFunction;
 import org.konte.expression.Value;
-import org.konte.image.CabinetCamera;
-import org.konte.image.Camera;
-import org.konte.image.CircularCamera;
-import org.konte.image.FishCamera;
-import org.konte.image.FishLensCamera;
-import org.konte.image.OrtographicCamera;
-import org.konte.image.PanningCamera;
-import org.konte.image.SimpleCamera;
-import org.konte.image.ZPowCamera;
+import org.konte.image.*;
+import org.konte.lang.CameraProperties;
 import org.konte.lang.Language;
+import org.konte.misc.Vector3;
 import org.konte.model.Transform;
 import org.konte.model.TransformModifier;
-import org.konte.lang.CameraProperties;
-import org.konte.lang.Language.LanguageFunctor;
-import org.konte.misc.Vector3;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class CameraBuilder {
@@ -109,11 +100,39 @@ public class CameraBuilder {
                 case ZPOW:
                     flag |= 1024;
                     break;
-                   
+                case BEZIER2:
+                    flag |= 2048;
+                    break;
             }
         }
 
-        if ((flag & 1024) != 0) {
+        if ((flag & 2048) != 0) {
+            float exp[] = new float[18];
+            int step = 0;
+            for(Object o : extra)
+            {
+                if (step > 17)
+                    throw new ParseException("too many arguments ("+extra.size()+") to BEZIER2 camera(cx,cxy,x1,y1,cx,cy, cx,cy,x2,y2,cx,cy, xc,xy,x3,y3,cx,cy, xc,yc,x4,y4,xc,yc) - " + o);
+                if (o instanceof Expression)
+                {
+                    try
+                    {
+                        float tmp = ((Expression)o).evaluate();
+                        exp[step++] = tmp;
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                        throw new ParseException("can't evaluate ZPOW f: " + e.getMessage());
+                    }
+                }
+            }
+            c = new Bezier2Camera(exp[0], exp[1], exp[2], exp[3], exp[4], exp[5],
+                    exp[6], exp[7], exp[8], exp[9], exp[10], exp[11],
+                    exp[12], exp[13], exp[14], exp[15], exp[16], exp[17],
+                    exp[18], exp[19], exp[20], exp[21], exp[22], exp[23]);
+        }
+        else if ((flag & 1024) != 0) {
             float exp[] = {2f, 0f, 0f};
             int step = 0;
             for(Object o : extra)
