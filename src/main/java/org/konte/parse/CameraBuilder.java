@@ -107,12 +107,19 @@ public class CameraBuilder {
         }
 
         if ((flag & 2048) != 0) {
-            float exp[] = new float[18];
+            float w = 1f, bb = 0.4f;
+            float exp[] = new float[] {
+                bb,-w, 0,-w, -bb,-w, 
+                -w,-bb, -w,0, -w,bb,
+                -bb,w, 0,w, bb,w,
+                w,bb, w,0, w,-bb,
+                3f, 1f
+            };
             int step = 0;
             for(Object o : extra)
             {
-                if (step > 17)
-                    throw new ParseException("too many arguments ("+extra.size()+") to BEZIER2 camera(cx,cxy,x1,y1,cx,cy, cx,cy,x2,y2,cx,cy, xc,xy,x3,y3,cx,cy, xc,yc,x4,y4,xc,yc) - " + o);
+                if (step > 25)
+                    throw new ParseException("too many arguments ("+extra.size()+") to BEZIER2 camera(cx,cxy,x1,y1,cx,cy, cx,cy,x2,y2,cx,cy, xc,xy,x3,y3,cx,cy, xc,yc,x4,y4,xc,yc, ease,baseform) - " + o);
                 if (o instanceof Expression)
                 {
                     try
@@ -123,14 +130,16 @@ public class CameraBuilder {
                     catch (Exception e)
                     {
                         e.printStackTrace();
-                        throw new ParseException("can't evaluate ZPOW f: " + e.getMessage());
+                        throw new ParseException("can't evaluate BEZIER2 f: " + e.getMessage());
                     }
                 }
             }
             c = new Bezier2Camera(exp[0], exp[1], exp[2], exp[3], exp[4], exp[5],
                     exp[6], exp[7], exp[8], exp[9], exp[10], exp[11],
                     exp[12], exp[13], exp[14], exp[15], exp[16], exp[17],
-                    exp[18], exp[19], exp[20], exp[21], exp[22], exp[23]);
+                    exp[18], exp[19], exp[20], exp[21], exp[22], exp[23],
+                    exp[24], exp[25]
+            );
         }
         else if ((flag & 1024) != 0) {
             float exp[] = {2f, 0f, 0f};
