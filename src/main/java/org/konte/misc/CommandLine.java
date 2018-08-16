@@ -21,7 +21,7 @@ import org.konte.parse.ParseException;
 
 public class CommandLine {
 
-    public static void main(String[] args) throws ParseException, IllegalArgumentException, IllegalAccessException, IOException, Exception 
+    public static void main(String[] args) throws ParseException, IllegalArgumentException, IllegalAccessException, IOException, Exception
     {
 
         if (args.length == 0)
@@ -114,9 +114,9 @@ public class CommandLine {
                             boolean doHtml = s.startsWith("helph") ? true : false;
                             if (results.size() > 1)
                             {
-                                System.out.println(Help.help(results.get(1), doHtml));                                
+                                System.out.println(Help.help(results.get(1), doHtml));
                             }
-                            else 
+                            else
                                 System.out.println(Help.help("topics", doHtml));
                             System.exit(0);
                         default:
@@ -131,7 +131,7 @@ public class CommandLine {
         if (!destfile.endsWith(".png")) destfile += ".png";
         Long startt = System.currentTimeMillis();
         BufferedImage img = ImageAPI.createImage(
-                Readers.fillStringBuilder(new File(filename)).toString(), 
+                Readers.fillStringBuilder(new File(filename)).toString(),
                 VARIATION == null ? (VARIATION="AAA") : VARIATION, width, height);
 
         org.konte.generate.Runtime.stateServer.setListener(new Observer() {
@@ -156,7 +156,7 @@ public class CommandLine {
             curp(startt);
             return;
         }
-        
+
         writeImage(destfile,img);
         curp(startt);
         System.exit(0);
@@ -178,10 +178,10 @@ public class CommandLine {
                 break;
         }
         System.out.println("Written: " + file);
-        
+
     }
-    
-    
+
+
     private static void curp(long startt)
     {
         System.out.println("Done (" + (System.currentTimeMillis()-startt) + " ms)");
@@ -192,16 +192,15 @@ public class CommandLine {
     public static String makeExportFileName(String rnd, String destfile)
     {
         String fof = f.format(new Date(System.currentTimeMillis()));
-        int ind = destfile.lastIndexOf("/") + 1;
-        destfile  = ind > 0 ?
-            destfile.substring(0, ind) + fof + destfile.substring(ind)
-            :  fof + destfile;
         int ind2 = destfile.lastIndexOf(".");
-        destfile = ind2 > 0 ?
-                destfile.substring(0, ind2) + "-" + rnd + destfile.substring(ind2)
-                : destfile + "-" + rnd;
-        return destfile;
+        String suffix = "", bulkPart = destfile;
+        if (ind2 > 0) {
+            suffix = destfile.substring(ind2);
+            bulkPart = destfile.substring(0, ind2);
+        }
+        return bulkPart + "-" + rnd + "-" + fof + suffix;
     }
+
     private static void printHelp()
     {
         System.out.println(
