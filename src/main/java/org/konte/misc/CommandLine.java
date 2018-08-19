@@ -187,7 +187,7 @@ public class CommandLine {
         System.out.println("Done (" + (System.currentTimeMillis()-startt) + " ms)");
     }
 
-    private static SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd-HH-mm-");
+    private static SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd-HH-mm");
 
     public static String makeExportFileName(String rnd, String destfile)
     {
