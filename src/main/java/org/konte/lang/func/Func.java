@@ -12,7 +12,7 @@ public class Func {
 
         @Override public int getArgsCount() { return 1; }
         public ESleep(String name) { super(name); }
-        
+
         @Override
         public float value(float... val)
         {
@@ -25,7 +25,7 @@ public class Func {
             return (float)dur;
         }
     }
-   
+
     public static class EInc extends ContextualOneToOneFunction
     {
         @Override public int getArgsCount() { return 0; }
@@ -38,7 +38,7 @@ public class Func {
         }
 
         public EInc(String name, Model model) { super(name, model); }
-        
+
         @Override
         public float value(float... val) throws Exception
         {
@@ -59,7 +59,7 @@ public class Func {
         }
 
         public ERndf(String name, Model model) { super(name, model); }
-        
+
         @Override
         public float value(float... val) throws Exception
         {
@@ -80,23 +80,23 @@ public class Func {
         }
 
         public EIrndf(String name, Model model) { super(name, model); }
-        
+
         @Override
         public float value(float... val) throws Exception
         {
             if (!model.isPreEvaluated)
                 throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
-            return (float) Math.floor(model.getRandomFeed().get() * val[0]);
+            return (float) Prob.irnd(model.getRandomFeed(), (int)val[0]);
         }
     }
-    
+
     public static class ERndfbin extends ContextualOneToOneFunction
     {
         @Override public int getArgsCount() { return 2; }
         @Override public boolean nArgsAllowed(int n) { return n==2; }
 
         public ERndfbin(String name, Model model) { super(name, model); }
-        
+
         @Override
         public float value(float... val) throws Exception
         {
@@ -114,7 +114,7 @@ public class Func {
         @Override public boolean nArgsAllowed(int n) { return n==2; }
 
         public ERndfhypg(String name, Model model) { super(name, model); }
-        
+
         @Override
         public float value(float... val) throws Exception
         {
@@ -126,14 +126,14 @@ public class Func {
             return (float) Prob.hypgRnd(N1, N2, n, model.getRandomFeed().get());
         }
     }
-    
+
     public static class ERndfpareto extends ContextualOneToOneFunction
     {
         @Override public int getArgsCount() { return 3; }
         @Override public boolean nArgsAllowed(int n) { return n==3; }
 
         public ERndfpareto(String name, Model model) { super(name, model); }
-        
+
         @Override
         public float value(float... val) throws Exception
         {
@@ -146,21 +146,38 @@ public class Func {
             return (float) Prob.paretoRnd(alpha, minx, extent, model.getRandomFeed());
         }
     }
-    
+
 
     public static class EChoice extends Function3 {
 
         @Override public int getArgsCount() { return 3; }
         @Override public boolean nArgsAllowed(int n) { return n==3; }
-        
+
         public EChoice(String name) { super(name); }
-        
+
         @Override
         public float value(float... args) throws Exception {
             if (args[0] <= 0f) { return args[2]; }
             return args[1];
         }
-        
     }
- 
+
+    public static class ERndfnme extends ContextualOneToOneFunction
+    {
+        @Override public int getArgsCount() { return 3; }
+        @Override public boolean nArgsAllowed(int n) { return n==3; }
+
+        public ERndfnme(String name, Model model) { super(name, model); }
+
+        @Override
+        public float value(float... val) throws Exception
+        {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            double n = (double)val[0];
+            double m = (double)val[1];
+            double exp = (double)val[2];
+            return (float) Prob.rndnme(n, m, exp, model.getRandomFeed());
+        }
+    }
 }

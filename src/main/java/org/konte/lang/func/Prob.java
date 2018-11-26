@@ -10,11 +10,16 @@ import org.konte.lang.Tokens;
  */
 public final class Prob {
 
+    public static int irnd(RandomFeed rfeed, int n)
+    {
+        return (int)Math.floor(rfeed.get() * n);
+    }
+
     static long prod(int n)
     {
         return prodCache[n];
     }
-    
+
     static long npr(int n, int r)
     {
         long res = 1L;
@@ -58,7 +63,7 @@ public final class Prob {
             {
                 ret *= p;
                 k--;
-            }    
+            }
             while (j > 0 && ret > 1.0)
             {
                 ret /= j--;
@@ -94,18 +99,18 @@ public final class Prob {
         checkp(p);
         return n * p;
     }
-    
+
     static double binmVar(int n, double p)
     {
         checkp(p);
         return n * p * (1.0 - p);
     }
-    
+
     public static int binmRnd(int n, double p, double rndFromU)
     {
         checkp(p); checkp(rndFromU);
         double[] cached = getBinmCumulCache(n, p);
-        int 
+        int
                 i = cached.length / 2,
                 left = 1, right = cached.length - 1
                 ;
@@ -119,7 +124,7 @@ public final class Prob {
         while(i < cached.length - 1 && cached[i] < rndFromU) i++;
         return i - 1;
     }
-    
+
     static double hypg(int N1, int N2, int n, int x)
     {
         return ncr(N1, x) * ncr(N2, n - x) / (double)ncr(N1+N2, n);
@@ -143,7 +148,7 @@ public final class Prob {
     {
         throw new UnsupportedOperationException("nep");
     }
-    
+
     static int hypgRnd(int N1, int N2, int n, double rndFromU)
     {
         double z = 0.0;
@@ -154,13 +159,13 @@ public final class Prob {
         }
         return i - 1;
     }
-    
+
     static double negbinm(int x, double p, int r)
     {
         checkp(p);
         return ncr(x - 1, r - 1) * Math.pow(p, r) * Math.pow(1.0 - p, x-r);
     }
-    
+
     static double negbinmE(int x, double p)
     {
         checkp(p);
@@ -168,7 +173,7 @@ public final class Prob {
             return 0;
         return x / p;
     }
-    
+
     static double negbinmVar(int x, double p)
     {
         checkp(p);
@@ -176,8 +181,8 @@ public final class Prob {
             return 0;
         return -1;
     }
-    
-    
+
+
     public static class EProd extends Tokens.Function1 {
 
         public EProd(String name) { super(name); }
@@ -185,12 +190,12 @@ public final class Prob {
         @Override
         public float value(float... val) {
             return (float) prod((int)Math.floor(val[0]));
-        }        
+        }
     }
-    
+
     public static class Enpr extends Tokens.Function2 {
         public Enpr(String name) { super(name); }
-        
+
         @Override
         public float value(float... val) {
             int n = (int)Math.floor(val[0]);
@@ -201,7 +206,7 @@ public final class Prob {
 
     public static class Encr extends Tokens.Function2 {
         public Encr(String name) { super(name); }
-        
+
         @Override
         public float value(float... val) {
             int n = (int)Math.floor(val[0]);
@@ -209,10 +214,10 @@ public final class Prob {
             return (float)ncr(n,r);
         }
     }
-    
+
     public static class EBinm extends Tokens.Function3 {
         public EBinm(String name) { super(name); }
-        
+
         @Override
         public float value(float... val) {
             int n = (int)Math.floor(val[0]);
@@ -224,7 +229,7 @@ public final class Prob {
 
     public static class EBincuml extends Tokens.Function3 {
         public EBincuml(String name) { super(name); }
-        
+
         @Override
         public float value(float... val) {
             int n = (int)Math.floor(val[0]);
@@ -236,7 +241,7 @@ public final class Prob {
 
     public static class ERndbin extends Tokens.Function2 {
         public ERndbin(String name) { super(name); }
-        
+
         @Override
         public float value(float... val) {
             int n = (int)Math.floor(val[0]);
@@ -245,10 +250,10 @@ public final class Prob {
             return (float)binmRnd(n, p, rnd);
         }
     }
-    
+
     public static class EHypg extends Tokens.Function4 {
         public EHypg(String name) { super(name); }
-        
+
         @Override
         public float value(float... val) {
             int N1 = (int)Math.floor(val[0]);
@@ -258,10 +263,10 @@ public final class Prob {
             return (float)hypg(N1, N2, n, x);
         }
     }
-    
+
     public static class EHypgcuml extends Tokens.Function4 {
         public EHypgcuml(String name) { super(name); }
-        
+
         @Override
         public float value(float... val) {
             int N1 = (int)Math.floor(val[0]);
@@ -274,7 +279,7 @@ public final class Prob {
 
     public static class ERndhypg extends Tokens.Function3 {
         public ERndhypg(String name) { super(name); }
-        
+
         @Override
         public float value(float... val) {
             int N1 = (int)Math.floor(val[0]);
@@ -284,10 +289,10 @@ public final class Prob {
             return (float)hypgRnd(N1, N2, n, rnd);
         }
     }
-    
+
     public static class ENegbinm extends Tokens.Function3 {
         public ENegbinm(String name) { super(name); }
-        
+
         @Override
         public float value(float... val) {
             int x = (int)Math.floor(val[0]);
@@ -296,13 +301,13 @@ public final class Prob {
             return (float)negbinm(x, p, r);
         }
     }
-    
+
     static private void checkp(double p)
     {
         if (p < 0 || p > 1.0)
             throw new IllegalArgumentException("binm: p outside of [0..1]");
     }
-    
+
     static private final long[] prodCache = new long[40];
     static
     {
@@ -357,9 +362,9 @@ public final class Prob {
         binmcache.put(-key, cumul);
         return cached;
     }
-    
 
-    
+
+
     public static double paretoPdf(double alpha, double minx, double x)
     {
         if (x < minx) { return 0.0; }
@@ -367,13 +372,13 @@ public final class Prob {
                 / Math.pow(x, alpha)
                 ;
     }
-    
+
     public static double paretoTail(double alpha, double minx, double x)
     {
         if (x < minx) { return 1.0; }
         return Math.pow(minx / x, alpha);
     }
-    
+
     public static double paretoRnd(double alpha, double minx, double extent, RandomFeed rfeed)
     {
         double test = rfeed.get();
@@ -386,7 +391,23 @@ public final class Prob {
         }
         return rnd;
     }
-    
-    
-    
+
+
+
+    public static double rndSig(RandomFeed rfeed) {
+        double t = rfeed.get();
+        if (t >= 0.5) return 1.0;
+        return -1.0;
+    }
+
+    public static double rndnme(double n, double m, double exp, RandomFeed rfeed)
+    {
+        //MACRO MSLICE (.5/M + irndf(M) / M ) ** PW  * rndsig / 2
+        //MACRO RNDnme (MSLICE + .5)  / (Nm)  +  irndf(Nm) / Nm
+        double mslice = Math.pow(.5/m + irnd(rfeed, (int)m) / m, exp) * rndSig(rfeed);
+        double nslice = (mslice + 0.5) / n + irnd(rfeed, (int)n) / n;
+        return nslice;
+    }
+
+
 }

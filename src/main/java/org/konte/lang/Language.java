@@ -30,7 +30,7 @@ import org.konte.misc.PrefixStringMap;
  * @author pvto
  */
 public class Language {
-    
+
     public static final double version = 1.1;
     /** output log level*/
     public static int output_verbose_filter = Integer.parseInt(System.getProperty("konte.verbosity", "8"));
@@ -41,13 +41,13 @@ public class Language {
     public static final Map<String,Token> tokenReferences = new HashMap<>();
     /** defined output shapes for parse time and generate time PUSH/POP access */
     public static final Map<Integer,Untransformable> utref = new HashMap<>();
-    
+
     public static Map<String, PrefixStringMap> prefixMaps = new HashMap<>();
 
 
     /**Plugin extensions for inline scripting register here */
     public static final List<KonteScriptExtension> scriptExtensions = new ArrayList<>();
-    
+
     public static final Token addToken(Token token)
     {
         tokens.add(token);
@@ -55,7 +55,7 @@ public class Language {
     }
     /** <p>Constants can be added at parse time. These are global constants,
      * i.e. executed globally at any single phase of generation.
-     * 
+     *
      * @return the added Constant
      */
     public static Constant addConstant(String name, float val)
@@ -65,7 +65,7 @@ public class Language {
             constant = new Constant(name, new Value(val), true);
             addToken(constant);
         }
-        catch(Exception ex) 
+        catch(Exception ex)
         {
 
         }
@@ -85,8 +85,8 @@ public class Language {
     /* Each character in a {@link ControlToken} will be found on this list -
      * which then defines boundaries for valid names */
     public static BitSet controlCharacters = new BitSet(1024);
-            
-    
+
+
     public static void addControlCharacters(String name)
     {
         for (char c : name.toCharArray()) {
@@ -95,7 +95,7 @@ public class Language {
             }
         }
     }
-    
+
     /** Function-like construct that is used for building
      * objects (for instance shading points) in the model  */
     public static class LanguageFunctor extends Function
@@ -108,20 +108,20 @@ public class Language {
         }
         @Override public int getArgsCount() { return argsCount; }
         @Override
-        public float value(float... args) throws Exception 
+        public float value(float... args) throws Exception
         {
             return 0f;
         }
     }
-    
-    
-    
-    
-    
+
+
+
+
+
     /** whether ; is used between boolean expressions -- equivalent to inclusive or*/
     public static boolean IS_SEMICOLON_SEPARATORS = true;
-    
-    
+
+
     // expression priorities
     public static final int OR_PRIORITY = 1;
     public static final int AND_PRIORITY = 2;
@@ -133,16 +133,16 @@ public class Language {
     public static final int FUNCTION_PRIORITY = 8;
     public static final int VALUE_PRIORITY = 9;
     public static final int BRACKET_PRIORITY = 10;
-    
+
 
     // misc keywords: (type-index,[list])
     public static final int MISC_model = 0;
     public static final String[][] miscKeywords = {
         {"pushstack", "maxshapes", "feature", "order", "streamrate"}
     };
-    
+
     // enumerate keywords in the language
-    
+
     public static final Token model = addToken(new Token("model"));
     public static final Token include = addToken(new Token("include"));
     public static final Token system = addToken(new Token("system"));
@@ -187,7 +187,7 @@ public class Language {
     public static final Token def = addToken(new Token("DEF"));
     public static final Token undef = addToken(new Token("UNDEF"));
     public static final Token macro = addToken(new Token("MACRO"));
-    
+
     public static final Token comment = addToken(new Context("//"));
     public static final Token comment_start = addToken(new Context("/*"));
     public static final Token comment_end = addToken(new Context("*/"));
@@ -198,19 +198,19 @@ public class Language {
     public static final Token left_squarebracket = addToken(new Context("["));
     public static final Token right_squarebracket = addToken(new Context("]"));
     public static final Token hyphen = addToken(new Context("\""));
-    
+
     public static final Token comma = addToken(new ControlToken(","));
     public static final Token semicolon = addToken(new ControlToken(";"));
 
-    
+
     public static final Token and = addToken(new Comparator("&&"));
     public static final Token or = addToken(new Comparator("||"));
     public static final Token equals = addToken(new Comparator("="));
     public static final Token ne = addToken(new Comparator("!="));
     public static final Token lt = addToken(new Comparator("<"));
-    public static final Token lte = addToken(new Comparator("<="));    
+    public static final Token lte = addToken(new Comparator("<="));
     public static final Token gt = addToken(new Comparator(">"));
-    public static final Token gte = addToken(new Comparator(">="));    
+    public static final Token gte = addToken(new Comparator(">="));
     public static final Token add = addToken(new Operator("+"));
     public static final Token subtract = addToken(new Operator("-"));
     public static final Token multiply = addToken(new Operator("*"));
@@ -257,6 +257,7 @@ public class Language {
     public static final Token hypgRnd = addToken(new Prob.ERndhypg("hypgrnd"));
     public static final Token negbinm = addToken(new Prob.ENegbinm("negbinm"));
     public static final Token pareto = addToken(new Func.ERndfpareto("pareto", null));
+    public static final Token rndfnme = addToken(new Func.ERndfnme("rndnme", null));
 
     public static final Token mandelb = addToken(new Fractal.EMandelbrot("mandelbrot"));
     public static final Token julia = addToken(new Fractal.EJulia("julia"));
@@ -267,12 +268,12 @@ public class Language {
     public static final Token img_alpha = addToken(new Img.EImgAlpha("imgalpha", null));
     public static final Token img_width = addToken(new Img.EImgWidth("imgwidth", null));
     public static final Token img_height = addToken(new Img.EImgHeight("imgheight", null));
-    
+
     public static final Token nearby = addToken(new Nb.EContextSearchXyz("nearby", null));
     public static final Token nearbyd = addToken(new Nb.EContextNearbyDistXyz("mindist", null));
     public static final Token nbdist = addToken(new Nb.EContextNbDist("nbdist", null));
     public static final Token nbeval = addToken(new Nb.EContextNbEval("nbeval", null));
-    
+
     public static final Token csv = addToken(new Table.ECsv("csv", null));
     public static final Token tabClassVal = addToken(new Table.ETabClassVal("class", null));
     public static final Token tset = addToken(new Table.ETabSetVal("tset", null));
@@ -283,7 +284,7 @@ public class Language {
     public static final Token tabColSum = addToken(new Table.ETabColSum("colsum", null));
     public static final Token tabLength = addToken(new Table.ETabLength("len", null));
     public static final Token tabAddRow = addToken(new Table.ETabAddRow("trow", null));
-    
+
     public static final Token sysEval = addToken(new GBSysFunc.ESysEval("syseval", null));
     public static final Token sysRead = addToken(new GBSysFunc.ESysRead("sysread", null));
     public static final Token sysWrite = addToken(new GBSysFunc.ESysWrite("syswrite", null));
@@ -291,7 +292,7 @@ public class Language {
     public static final Token PI =     addConstant("PI",       (float)Math.PI);
     public static final Token E =      addConstant("E",        (float)Math.E);
 
-    
+
     public static Token SQUARE;
     public static Token SPHERE;
     public static Token CONE;
@@ -304,37 +305,37 @@ public class Language {
     public static Token RSQU;
     public static Token CSQU;
     public static Token MESH;
-    
+
     public static Token BLUR_SQUARE;
     public static Token BLUR_TRIANGLE;
     public static Token BLUR_HEXAGON;
     public static Token BLUR_32GON;
-    
+
     public static Token RADBLUR_SQUARE;
     public static Token RADBLUR_HEXAGON;
     public static Token RADBLUR_32GON;
-    
+
     public static Token RADTR_SQUARE;
     public static Token RADTR_HEXAGON;
     public static Token RADTR_32GON;
-   
+
     public static Token MIX_SQUARE;
     public static Token MIX_TRIANGLE;
     public static Token MIX_HEXAGON;
     public static Token MIX_32GON;
-    
+
     public static Token RUBBER_SQUARE;
     public static Token RUBBER_TRIANGLE;
     public static Token RUBBER_HEXAGON;
     public static Token RUBBER_32GON;
-    
+
     public static Token GAMEOFLIFE;
-    
+
     public static Token EDGE_SQUARE;
     public static Token EDGE_TRIANGLE;
     public static Token EDGE_HEXAGON;
     public static Token EDGE_32GON;
-    
+
     public static Token BRIGHTNESS_SQUARE;
     public static Token BRIGHTNESS_TRIANGLE;
     public static Token BRIGHTNESS_HEXAGON;
@@ -351,7 +352,7 @@ public class Language {
     public static Token SATURATE_32GON;
 
 //    public static final Token period = addToken(new Operator("."));
-    
+
     // following tokens are both parsed and recognized as local expressions at generate time
     public static final Token depth = addToken(new InnerExpressiveToken("d", TransformModifier.d.class, 1) {
         @Override public TransformModifier newInstance(Expression e, Token t) { return new TransformModifier.d(e, t); }
@@ -457,7 +458,7 @@ public class Language {
     public static final Token imgg = addToken(new Token("imgg"));
     public static final Token imgb = addToken(new Token("imgb"));
     public static final Token imga = addToken(new Token("imga"));
-    
+
     public static final Token diffuse = addToken(new Token("diffuse"));
     public static final Token specular = addToken(new Token("specular"));
 //    public static final Token imgu = addToken(new InnerToken("u",1));
@@ -466,10 +467,10 @@ public class Language {
     private static int nextId = 0;
     private static UtBuilder utb = UtBuilder.getUtBuilder();
     static {
-        
+
         new UtConstants(utb).run();
         // aliases of keywords
-        
+
         rule.addAlias("RULE");
         background.addAlias("bg");
         fov.addAlias("camera");
@@ -495,25 +496,25 @@ public class Language {
         S.addAlias("sat");
         L.addAlias("lightness");
         A.addAlias("alpha");
-        
+
         layer.addAlias("lr");
-        
+
         and.addAlias("and");
         or.addAlias("or");
-        
+
         rndf.addAlias("random");
-        
+
         csv.addAlias("tsv");
         csv.addAlias("tget");
 
         PrefixStringMap.init(Monospace.monospace);
-        
+
         for(PrefixStringMap psm : PrefixStringMap.ALL_PREFIX_STRING_MAPS)
             Language.prefixMaps.put(psm.prefix, psm);
-        
+
         // load plugins
-        PluginLoader.main(null);    // this will run the static block...        
-        
+        PluginLoader.main(null);    // this will run the static block...
+
         // instantiate references for parse/generate time quick access
         int counter = 0;
         for (Token t : tokens)
@@ -562,12 +563,12 @@ public class Language {
             s = "0" + s;
         return Float.parseFloat(s);
     }
-    
+
     public static final Token tokenByName(String s)
     {
         return tokenReferences.get(s);
     }
-    
+
     public static boolean isName(String s)
     {
         boolean hasChar = false;
@@ -596,11 +597,11 @@ public class Language {
         }
         return name;
     }
-    
+
     public static List<Untransformable> untransformables()
     {
         return utb.getUntransformables();
     }
-    
+
 
 }

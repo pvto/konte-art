@@ -29,14 +29,14 @@ funcHelp {
       200*{{X=X+.1}} 2*{{row=row+1}} MESH { x X y atan(X)+row*LW }
     }
 
-  
+
     *{y -18 {mesh=6}}{  TEXTR{ s F x -2 PUSH "^m\^saw(x)" }
       200*{{X=X+.1}} 2*{{row=row+1}} MESH { x X y saw(X)+row*LW }
     }
     *{y -21 {mesh=9}}{  TEXTR{ s F x -2  PUSH "^m\^square(x)" }
       200*{{X=X+.1}} 2*{{row=row+1}} MESH { x X y square(X)+row*LW }
     }
-  
+
     *{y -24 {mesh=10}}{  TEXTR{ s F x -2 PUSH "^m\^hipas(x,thres)" }
       200*{{X=X+.1}} 2*{{row=row+1}} MESH { x X y hipas(sin(X),0)+row*LW }
     }
@@ -121,6 +121,11 @@ funcHelp {
     *{y -35}{  TEXTR{ s F x -2 PUSH "^m\^pareto(1,3,100)" }
       200*{{X=X+.1}} SQUARE { x X y pareto(1, 3, 100)*.01 s DW }
       TEXTR{B .4 {FLAT=1;} x 20 y 2 rz 10 s F*.9 PUSH "^m\^scaled" }
+    }
+    *{y -41}{  TEXTR{ s F x -2 y 1.5 PUSH "^m\^rndnme(n,m,exp)" }
+      TEXTR{ s F x -2 PUSH "^m\^rndnme(2,2,1)" }
+      200*{{X=X+.1}} SQUARE { x X y rndnme(2, 2, 1)*2 s DW }
+      TEXTR{B .4 {FLAT=1;} x 20 y 3 rz 10 s F*.9 PUSH "^m\^scaled" }
     }
   }
 
