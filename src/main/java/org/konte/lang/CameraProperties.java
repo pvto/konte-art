@@ -12,5 +12,6 @@ public enum CameraProperties {
     FISHEYE, // real fish eye optics
     ZPOW,
     BEZIER2,
+    STEREOGRAPHIC
     ;
 }

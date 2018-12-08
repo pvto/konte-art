@@ -31,7 +31,7 @@ public class CameraBuilder {
     }
 
 
-    
+
     public CameraBuilder setDefault() throws ParseException
     {
         Transform camPos = new Transform(0,0);
@@ -52,7 +52,7 @@ public class CameraBuilder {
     {
         return name;
     }
-    
+
 
     public CameraBuilder setPosition(Transform position)
     {
@@ -76,7 +76,7 @@ public class CameraBuilder {
             {
                 throw new ParseException("Inconsistent camera properties: " + properties);
             }
-            
+
             switch (p)
             {
                 case PANNING:
@@ -103,13 +103,41 @@ public class CameraBuilder {
                 case BEZIER2:
                     flag |= 2048;
                     break;
+                case STEREOGRAPHIC:
+                    flag |= 4096;
+                    break;
             }
         }
 
-        if ((flag & 2048) != 0) {
+        if ((flag & 4096) != 0)
+        {
+            float exp[] = { 1f };
+            int step = 0;
+            for(Object o : extra)
+            {
+                if (step > 1)
+                    throw new ParseException("too many arguments ("+extra.size()+") to STEREOGRAPHIC camera(scale) - " + o);
+                if (o instanceof Expression)
+                {
+                    try
+                    {
+                        float tmp = ((Expression)o).evaluate();
+                        exp[step++] = tmp;
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                        throw new ParseException("can't evaluate STEREOGRAPHIC f: " + e.getMessage());
+                    }
+                }
+            }
+            c = new StereographicCamera(exp[0]);
+        }
+        else if ((flag & 2048) != 0)
+        {
             float w = 1f, bb = 0.4f;
             float exp[] = new float[] {
-                bb,-w, 0,-w, -bb,-w, 
+                bb,-w, 0,-w, -bb,-w,
                 -w,-bb, -w,0, -w,bb,
                 -bb,w, 0,w, bb,w,
                 w,bb, w,0, w,-bb,
@@ -226,7 +254,7 @@ public class CameraBuilder {
                         {
                             angle = tmp / 180f * (float)Math.PI;
                         }
-                        else if (step == 1) 
+                        else if (step == 1)
                         {
                             zContraction = tmp;
                         }
@@ -293,17 +321,17 @@ public class CameraBuilder {
             }
             position.setShapeTransform(Language.z, tmp);
         }
-        
+
         position.getTransformMatrix();
 
         c.setName(name);
-        
+
         if (lookat != null)
         {
             Expression[] A = lookat.getArgs();
             c.lookat(new Vector3(A[0].evaluate(), A[1].evaluate(), A[2].evaluate()));
         }
-        
+
         c.setPosition(position);
 
         return c;
