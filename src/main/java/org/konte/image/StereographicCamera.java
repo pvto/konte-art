@@ -20,9 +20,6 @@ public class StereographicCamera extends SimpleCamera {
     {
         Vector3 d = Vector3.sub(v, position);
         d = cameraRotationMatrix.multiply(d);
-        //float len = d.length();
-        //float divisor = len * (1f - d.z / len);
-        //return new Point2(d.x / divisor, d.y / divisor);
         if (d.z >= 2f) {
             return new Point2(d.x * 1000f, d.y * 1000f);
         }

@@ -106,10 +106,37 @@ public class CameraBuilder {
                 case STEREOGRAPHIC:
                     flag |= 4096;
                     break;
+                case AZIMUTHAL:
+                    flag |= 8192;
+                    break;
             }
         }
 
-        if ((flag & 4096) != 0)
+        if ((flag & 8192) != 0)
+        {
+            float exp[] = { 1f };
+            int step = 0;
+            for(Object o : extra)
+            {
+                if (step > 1)
+                    throw new ParseException("too many arguments ("+extra.size()+") to AZIMUTHAL camera(scale) - " + o);
+                if (o instanceof Expression)
+                {
+                    try
+                    {
+                        float tmp = ((Expression)o).evaluate();
+                        exp[step++] = tmp;
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                        throw new ParseException("can't evaluate AZIMUTHAL f: " + e.getMessage());
+                    }
+                }
+            }
+            c = new AzimuthalProjCam(exp[0]);
+        }
+        else if ((flag & 4096) != 0)
         {
             float exp[] = { 1f };
             int step = 0;
