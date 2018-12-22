@@ -66,101 +66,62 @@ public class CameraBuilder {
         return this;
     }
 
+
+    private float[] evalExps(float[] base) throws ParseException
+    {
+        return evalExps(base, "[" + base.length + "]");
+    }
+
+    private float[] evalExps(float[] base, String argNames) throws ParseException
+    {
+        CameraProperties p = properties.size() > 0 ? properties.get(0) : CameraProperties.SIMPLE;
+        int step = 0;
+        for(Object o : extra)
+        {
+            if (step > base.length)
+                throw new ParseException("too many arguments ("+extra.size()+") to " + p +" camera("+argNames+") - " + o);
+            if (o instanceof Expression)
+            {
+                try
+                {
+                    float tmp = ((Expression)o).evaluate();
+                    base[step++] = tmp;
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                    throw new ParseException("can't evaluate " + p + " f: " + e.getMessage());
+                }
+            }
+        }
+        return base;
+    }
+
     public Camera build() throws ParseException
     {
         Camera c = null;
         int flag = 0;
+        CameraProperties CM = CameraProperties.SIMPLE;
         for (CameraProperties p : properties)
         {
-            if (flag >= 16)
+            if (flag >= CameraProperties.PANNING.ENC)
             {
                 throw new ParseException("Inconsistent camera properties: " + properties);
             }
 
-            switch (p)
-            {
-                case PANNING:
-                    flag |= 16;
-                    break;
-                case ORTOGRAPHIC:
-                    flag |= 32;
-                    break;
-                case CIRCULAR:
-                    flag |= 64;
-                    break;
-                case CABINET:
-                    flag |= 128;
-                    break;
-                case FISH:
-                    flag |= 256;
-                    break;
-                case FISHEYE:
-                    flag |= 512;
-                    break;
-                case ZPOW:
-                    flag |= 1024;
-                    break;
-                case BEZIER2:
-                    flag |= 2048;
-                    break;
-                case STEREOGRAPHIC:
-                    flag |= 4096;
-                    break;
-                case AZIMUTHAL:
-                    flag |= 8192;
-                    break;
-            }
+            flag |= p.ENC;
+            CM = p;
         }
 
-        if ((flag & 8192) != 0)
+        if (CM == CameraProperties.AZIMUTHAL)
         {
-            float exp[] = { 1f };
-            int step = 0;
-            for(Object o : extra)
-            {
-                if (step > 1)
-                    throw new ParseException("too many arguments ("+extra.size()+") to AZIMUTHAL camera(scale) - " + o);
-                if (o instanceof Expression)
-                {
-                    try
-                    {
-                        float tmp = ((Expression)o).evaluate();
-                        exp[step++] = tmp;
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                        throw new ParseException("can't evaluate AZIMUTHAL f: " + e.getMessage());
-                    }
-                }
-            }
-            c = new AzimuthalProjCam(exp[0]);
+            c = new AzimuthalProjCam(evalExps(new float[]{ 1f }, "scale-factor")[0]);
         }
-        else if ((flag & 4096) != 0)
+        else if (CM == CameraProperties.STEREOGRAPHIC)
         {
-            float exp[] = { 1f };
-            int step = 0;
-            for(Object o : extra)
-            {
-                if (step > 1)
-                    throw new ParseException("too many arguments ("+extra.size()+") to STEREOGRAPHIC camera(scale) - " + o);
-                if (o instanceof Expression)
-                {
-                    try
-                    {
-                        float tmp = ((Expression)o).evaluate();
-                        exp[step++] = tmp;
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                        throw new ParseException("can't evaluate STEREOGRAPHIC f: " + e.getMessage());
-                    }
-                }
-            }
-            c = new StereographicCamera(exp[0]);
+            c = new StereographicCamera(evalExps(new float[]{1f}, "scale-factor")[0]);
         }
-        else if ((flag & 2048) != 0)
+        else if (CM == CameraProperties.BEZIER2)
         {
             float w = 1f, bb = 0.4f;
             float exp[] = new float[] {
@@ -170,25 +131,7 @@ public class CameraBuilder {
                 w,bb, w,0, w,-bb,
                 3f, 1f
             };
-            int step = 0;
-            for(Object o : extra)
-            {
-                if (step > 25)
-                    throw new ParseException("too many arguments ("+extra.size()+") to BEZIER2 camera(cx,cxy,x1,y1,cx,cy, cx,cy,x2,y2,cx,cy, xc,xy,x3,y3,cx,cy, xc,yc,x4,y4,xc,yc, ease,baseform) - " + o);
-                if (o instanceof Expression)
-                {
-                    try
-                    {
-                        float tmp = ((Expression)o).evaluate();
-                        exp[step++] = tmp;
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                        throw new ParseException("can't evaluate BEZIER2 f: " + e.getMessage());
-                    }
-                }
-            }
+            evalExps(exp, "cx,cxy,x1,y1,cx,cy, cx,cy,x2,y2,cx,cy, xc,xy,x3,y3,cx,cy, xc,yc,x4,y4,xc,yc, ease,baseform");
             c = new Bezier2Camera(exp[0], exp[1], exp[2], exp[3], exp[4], exp[5],
                     exp[6], exp[7], exp[8], exp[9], exp[10], exp[11],
                     exp[12], exp[13], exp[14], exp[15], exp[16], exp[17],
@@ -196,123 +139,36 @@ public class CameraBuilder {
                     exp[24], exp[25]
             );
         }
-        else if ((flag & 1024) != 0) {
-            float exp[] = {2f, 0f, 0f};
-            int step = 0;
-            for(Object o : extra)
-            {
-                if (step > 2)
-                    throw new ParseException("too many arguments ("+extra.size()+") to POW camera(z-exponent, x_tr, y_tr) - " + o);
-                if (o instanceof Expression)
-                {
-                    try
-                    {
-                        float tmp = ((Expression)o).evaluate();
-                        exp[step++] = tmp;
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                        throw new ParseException("can't evaluate ZPOW f: " + e.getMessage());
-                    }
-                }
-            }
+        else if (CM == CameraProperties.ZPOW) {
+            float[] exp = {2f, 0f, 0f};
+            evalExps(exp, "z-exponent, x_tr, y_tr");
             c = new ZPowCamera(exp[0], exp[1], exp[2]);
         }
-        else if ((flag & 512) != 0) {
+        else if (CM == CameraProperties.FISHEYE) {
             float exp[] = {0.5f, 0f, 1f, 1f, 0f, 0f};
-            int step = 0;
-            for(Object o : extra)
-            {
-                if (step > 5)
-                    throw new ParseException("too many arguments ("+extra.size()+") to camera{FISHEYE f, type{0,1,2,3}, opticalBlindSpotDist, r_exp, x_tr, y_tr}");
-                if (o instanceof Expression)
-                {
-                    try
-                    {
-                        float tmp = ((Expression)o).evaluate();
-                        exp[step++] = tmp;
-                    }
-                    catch (Exception e)
-                    {
-                        throw new ParseException("can't evaluate FISHEYE f: " + e.getMessage());
-                    }
-                }
-            }
+            evalExps(exp, "f, type{0,1,2,3}, opticalBlindSpotDist, r_exp, x_tr, y_tr");
             c = new FishLensCamera(exp[0], exp[1], exp[2], exp[3], exp[4], exp[5]);
         }
-        else if ((flag & 256) != 0) {
+        else if (CM == CameraProperties.FISH) {
             float exp[] = {0.5f, 1f, 2f};
-            int step = 0;
-            for(Object o : extra)
-            {
-                if (step > 2)
-                    throw new ParseException("too many arguments ("+extra.size()+") to FISH camera");
-                if (o instanceof Expression)
-                {
-                    try
-                    {
-                        float tmp = ((Expression)o).evaluate();
-                        exp[step++] = tmp;
-                    }
-                    catch (Exception e)
-                    {
-                        throw new ParseException("can't evaluate Fish curvature: " + e.getMessage());
-                    }
-                }
-            }
+            evalExps(exp);
             c = new FishCamera(exp[0], exp[1], exp[2]);
         }
-        else if ((flag & 128) != 0)
+        else if (CM == CameraProperties.CABINET)
         {
-            float angle = (float)Math.PI / 6f;
-            float zContraction = 0.5f;
-            int step = 0;
-            for(Object o : extra)
-            {
-                if (step > 2)
-                    throw new ParseException("too many arguments to CABINET camera: " + extra.size());
-                if (o instanceof Expression)
-                {
-                    try
-                    {
-                        float tmp = ((Expression)o).evaluate();
-                        if (step == 0)
-                        {
-                            angle = tmp / 180f * (float)Math.PI;
-                        }
-                        else if (step == 1)
-                        {
-                            zContraction = tmp;
-                        }
-                        step++;
-                    }
-                    catch (Exception e)
-                    {
-                        throw new ParseException("can't evaluate Cabinet perspective angle: " + e.getMessage());
-                    }
-                }
-            }
-            c = new CabinetCamera(angle, zContraction);
+            float[] exp = { (float)Math.PI / 6f, 0.5f };
+            evalExps(exp, "angle, zContraction");
+            c = new CabinetCamera(exp[0] / 180f * (float)Math.PI, exp[1]);
         }
-        else if ((flag & 64) != 0)
+        else if (CM == CameraProperties.CIRCULAR)
         {
-            float exp = 1f;
-            if (extra.size() > 1)
-            {
-                throw new ParseException("too many arguments to CIRCULAR camera: " + extra.size());
-            }
-            if (extra.size() > 0)
-            {
-                exp = ((Expression)extra.get(0)).evaluate();
-            }
-            c = new CircularCamera(exp);
+            c = new CircularCamera(evalExps(new float[]{1f})[0]);
         }
-        else if ((flag & 32) != 0)
+        else if (CM == CameraProperties.ORTOGRAPHIC)
         {
             c = new OrtographicCamera();
         }
-        else if ((flag & 16) != 0)
+        else if ((flag & CameraProperties.PANNING.ENC) != 0)
         {
             c = new PanningCamera();
             for(Object o : extra)
