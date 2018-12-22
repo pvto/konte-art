@@ -47,7 +47,7 @@ public interface DistanceMetric {
             double dx = Math.abs(a.x - b.x);
             double dy = Math.abs(a.y - b.y);
             double dz = Math.abs(a.z - b.z);
-            return (float)Math.pow(Math.pow(dx, exp) + Math.pow(dz, exp) + Math.pow(dz, exp), cexp); } }
+            return (float)Math.pow(Math.pow(dx, exp) + Math.pow(dy, exp) + Math.pow(dz, exp), cexp); } }
 
 
 
