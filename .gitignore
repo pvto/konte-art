@@ -1,3 +1,5 @@
 org.konte.ui.Ui.properties
 target/
 nbactions.xml
+.idea/
+konte.iml
