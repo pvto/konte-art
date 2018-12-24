@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author Paavo Toivanen https://github.com/pvto
  */
-public class WorlinNoise2DSystem implements GreyBoxSystem {
+public class WorleyNoise2DSystem implements GreyBoxSystem {
 
     private Model model;
     private DistanceMetric metric = new DistanceMetric.EuclideanDistance();
@@ -49,8 +49,8 @@ public class WorlinNoise2DSystem implements GreyBoxSystem {
         }
     }
 
-    /** returns worlin  */
-    public float worlin(float x, float y, float nth)
+    /** returns worley  */
+    public float worley(float x, float y, float nth)
     {
         Vector3 A = new Vector3(x, y, 0f);
         int col = (int)Math.floor(x * rows);
@@ -86,13 +86,13 @@ public class WorlinNoise2DSystem implements GreyBoxSystem {
 
     @Override
     public GreyBoxSystem newInstance() {
-        return new WorlinNoise2DSystem();
+        return new WorleyNoise2DSystem();
     }
 
     @Override
     public void initialize(Object[] args)
     {
-        String usage = "usage:  Worlin2 <n-of-points> <distance-metric := {EUCLIDEAN,MANHATTAN,CHEBYSHEV,<p-norm-exponent>}>";
+        String usage = "usage:  Worley2 <n-of-points> <distance-metric := {EUCLIDEAN,MANHATTAN,CHEBYSHEV,<p-norm-exponent>}>";
         if (args.length != 2 && args.length != 3) {
             throw new RuntimeException(usage);
         }
@@ -109,7 +109,7 @@ public class WorlinNoise2DSystem implements GreyBoxSystem {
         try {
             n = ((Float)args[0]).intValue();
         } catch (Exception ex) {
-            throw new RuntimeException("Worlin2 creation failed. " + usage);
+            throw new RuntimeException("Worley2 creation failed. " + usage);
         }
         points = new float[n][3];
 
@@ -145,7 +145,7 @@ public class WorlinNoise2DSystem implements GreyBoxSystem {
         float x = normalize(args[1]);
         float y = normalize(args[2]);
         float nth = args[3] % points.length;
-        return worlin(x, y, nth);
+        return worley(x, y, nth);
     }
 
     private float normalize(float x) {

@@ -6,7 +6,7 @@ import org.konte.model.systems.Particle2DSystem;
 import org.konte.model.systems.Particle3DSystem;
 import org.konte.model.systems.PerlinNoise2DSystem;
 import org.konte.model.systems.PerlinNoise3DSystem;
-import org.konte.model.systems.WorlinNoise2DSystem;
+import org.konte.model.systems.WorleyNoise2DSystem;
 
 /**
  *
@@ -28,7 +28,7 @@ public interface GreyBoxSystem {
         Curl2(new Curl2DSystem()),
         Particle2(new Particle2DSystem()),
         Particle3(new Particle3DSystem()),
-        Worlin2(new WorlinNoise2DSystem())
+        Worley2(new WorleyNoise2DSystem())
         ;
 
         public GreyBoxSystem generator;
