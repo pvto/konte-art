@@ -38,6 +38,12 @@ public class WorleyNoise2DSystem implements GreyBoxSystem {
         for(int i = boxPointers[pointer]; i < imax; i++)
             tmp.add(points[i]);
     }
+    private void tmpAddPointsDisplaced(int pointer, float xdp, float ydp)
+    {
+        int imax = pointer == boxPointers.length - 1 ? points.length : boxPointers[pointer + 1];
+        for(int i = boxPointers[pointer]; i < imax; i++)
+            tmp.add(new float[]{ points[i][0]+xdp, points[i][1]+ydp, 0f });
+    }
 
     private void tmpComputeDistances(Vector3 A, int offset)
     {
@@ -67,14 +73,54 @@ public class WorleyNoise2DSystem implements GreyBoxSystem {
         float lbx = col * rowStep;
         float ubx = lbx + rowStep;
 
-        if (row > 0 && best > y - lby) tmpAddPoints(pointer - rows);
-        if (row < rows - 1 && best > uby - y) tmpAddPoints(pointer + rows);
-        if (col > 0 && best > x - lbx) tmpAddPoints(pointer - 1);
-        if (col < rows - 1 && best > ubx - x) tmpAddPoints(pointer + 1);
-        if (row > 0 && col > 0 & best > metric.distance(A, new Vector3(lbx, lby, 0f))) tmpAddPoints(pointer - 1 - rows);
-        if (row > 0 && col < rows - 1 & best > metric.distance(A, new Vector3(ubx, lby, 0f))) tmpAddPoints(pointer + 1 - rows);
-        if (row < rows - 1 && col > 0 & best > metric.distance(A, new Vector3(lbx, uby, 0f))) tmpAddPoints(pointer - 1 + rows);
-        if (row < rows - 1 && col < rows - 1 & best > metric.distance(A, new Vector3(ubx, uby, 0f))) tmpAddPoints(pointer + 1 + rows);
+        if (best > y - lby) {
+            if (row > 0) tmpAddPoints(pointer - rows);
+            else tmpAddPointsDisplaced(rows * rows - rows + pointer%rows, 0f, -1f);
+        }
+        if (best > uby - y) {
+            if (row < rows - 1) tmpAddPoints(pointer + rows);
+            else tmpAddPointsDisplaced(pointer%rows, 0f, 1f);
+        }
+        if (best > x - lbx) {
+            if (col > 0) tmpAddPoints(pointer - 1);
+            else tmpAddPointsDisplaced(pointer + rows - 1, -1f, 0f);
+        }
+        if (best > ubx - x) {
+            if (col < rows - 1) tmpAddPoints(pointer + 1);
+            else tmpAddPointsDisplaced(pointer - rows + 1, 1f, 0f);
+        }
+        if (best > metric.distance(A, new Vector3(lbx, lby, 0f))) {
+            if (row > 0 && col > 0) tmpAddPoints(pointer - 1 - rows);
+            else tmpAddPointsDisplaced(
+                pointer + (col > 0 ? -1 : rows - 1) + (row > 0 ? -rows : rows*(rows - 1)),
+                col > 0 ? 0f : -1f,
+                row > 0 ? 0f: -1f
+            );
+        }
+        if (best > metric.distance(A, new Vector3(ubx, lby, 0f))) {
+            if (row > 0 && col < rows - 1) tmpAddPoints(pointer + 1 - rows);
+            else tmpAddPointsDisplaced(
+                pointer + (col < rows - 1 ? 1 : -rows + 1) + (row > 0 ? -rows : rows*(rows - 1)),
+                col < rows - 1 ? 0f : 1f,
+                row > 0 ? 0f: -1f
+            );
+        }
+        if (best > metric.distance(A, new Vector3(lbx, uby, 0f))) {
+            if (row < rows - 1 && col > 0) tmpAddPoints(pointer - 1 + rows);
+            else tmpAddPointsDisplaced(
+                pointer + (col > 0 ? -1 : rows - 1) + (row < rows - 1 ? rows : rows*(1 - rows)),
+                col > 0 ? 0f : -1f,
+                row < rows - 1 ? 0f : 1f
+            );
+        }
+        if (best > metric.distance(A, new Vector3(ubx, uby, 0f))) {
+            if (row < rows - 1 && col < rows - 1) tmpAddPoints(pointer + 1 + rows);
+            else tmpAddPointsDisplaced(
+                pointer + (col < rows - 1 ? 1 : -rows + 1) + (row < rows - 1 ? rows : rows*(1 - rows)),
+                col < rows - 1 ? 0f : 1f,
+                row < rows - 1 ? 0f : 1f
+            );
+        }
         if (tmp.size() > origLen) {
             tmpComputeDistances(A, origLen);
             java.util.Collections.sort(tmp, byCol3);
