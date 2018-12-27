@@ -7,6 +7,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.JPanel;
 import org.konte.expression.Expression;
@@ -195,15 +196,15 @@ public class PathPanel extends JPanel {
             ymax = Float.MIN_VALUE;
             for (int p0 = 0; p0 < getPath().getShapes().size(); p0++)
             {
-                List<Matrix4> shapes = getPath().getShapes().get(p0);
-                List<Matrix4[]> cps = getPath().getControlPoints().get(p0);
-                for (int i = 0; i < shapes.size(); i++)
+                Iterable<Matrix4> shapes = getPath().getShapes().get(p0);
+                Iterable<Matrix4[]> cps = getPath().getControlPoints().get(p0);
+                for (Matrix4 m : shapes)
                 {
-                    Matrix4 m = shapes.get(i);
                     updateMinMax(m);
+                    Iterator<Matrix4[]> cpsi = cps.iterator();
                     for(int j = 0; j < 2; j++)
                     {
-                        Matrix4[] bends = cps.get(i);
+                        Matrix4[] bends = cpsi.next();
                         if (bends != null)
                         {
                             Matrix4 n = bends[j];
@@ -281,11 +282,12 @@ public class PathPanel extends JPanel {
             // draw nodes
             for (int p0 = 0; p0 < getPath().getShapes().size(); p0++)
             {
-                List<Matrix4> shapes = getPath().getShapes().get(p0);
-                List<Matrix4[]> cps = getPath().getControlPoints().get(p0);
-                for(int i = 0; i < shapes.size(); i++)
+                Iterable<Matrix4> shapes = getPath().getShapes().get(p0);
+                Iterator<Matrix4[]> cps = getPath().getControlPoints().get(p0).iterator();
+                int i = 0;
+                for(Matrix4 m : shapes)
                 {
-                    Matrix4 tmp = point.matrix = pos0.multiply(shapes.get(i));
+                    Matrix4 tmp = point.matrix = pos0.multiply(m);
                     point.matrix = point.matrix.multiply(Matrix4.scale(0.015f*zoomFactor));
                     point.shape = (Untransformable)Language.SQUARE;
                     if (i == lastActiveNode)
@@ -297,10 +299,11 @@ public class PathPanel extends JPanel {
                         point.R = point.G = point.B = 0f;
                     }
                     canvas.drawPolygon(camera, point.toOutputShape());
-                    if (cps.get(i) != null)
+                    Matrix4[] cpsi = cps.next();
+                    if (cpsi != null)
                     for(int j = 0; j < 2; j++)
                     {
-                        point.matrix = pos0.multiply(cps.get(i)[j]);
+                        point.matrix = pos0.multiply(cpsi[j]);
                         point.matrix = point.matrix.multiply(Matrix4.scale(0.015f*zoomFactor));
                         point.shape = (Untransformable)Language.CIRCLE;
                         point.R = point.G = point.B = 0f;
@@ -316,6 +319,7 @@ public class PathPanel extends JPanel {
                         }
                         canvas.drawPolygon(camera, point.toOutputShape());
                     }
+                    i++;
                 }
             }
             while (!g.drawImage(canvas.getImage(), 0, 0, null));
@@ -382,18 +386,20 @@ public class PathPanel extends JPanel {
         int[] ret = new int[] { -1, -1, 0 };
         for(int subpath = 0; subpath < getPath().getShapes().size(); subpath++)
         {
-            List<Matrix4> nodes = getPath().getShapes().get(subpath);
-            List<Matrix4[]> bends = getPath().getControlPoints().get(subpath);
-            for(int i = 0; i < nodes.size(); i++)
+            Iterable<Matrix4> nodes = getPath().getShapes().get(subpath);
+            Iterator<Matrix4[]> bends = getPath().getControlPoints().get(subpath).iterator();
+            int i = 0;
+            for(Matrix4 m : nodes)
             {
                 try {
                     float tmpf = fuzzyMark;
+                    Matrix4[] bendsi = bends.next();
                     if ((types & 2) != 0)
                     {
                         for(int j = 0; j < 2; j++)
                         {
                             int[] rsp = new int[] { -1, j, subpath };
-                            fuzzyMark = checkPivot(i, bends.get(i)[j], e, fuzzy, fuzzyMark, rsp);
+                            fuzzyMark = checkPivot(i, bendsi[j], e, fuzzy, fuzzyMark, rsp);
                             if (rsp[0] != -1 && fuzzyMark < tmpf)
                             {
                                 ret = rsp;
@@ -403,7 +409,7 @@ public class PathPanel extends JPanel {
                     if ((types & 1) != 0)
                     {
                         int[] rsp = new int[] { -1, -1, subpath };
-                        fuzzyMark = checkPivot(i, nodes.get(i), e, fuzzy, fuzzyMark*2f, rsp);
+                        fuzzyMark = checkPivot(i, m, e, fuzzy, fuzzyMark*2f, rsp);
                         if (rsp[0] != -1 && fuzzyMark < tmpf)
                         {
                             ret = rsp;
@@ -413,6 +419,7 @@ public class PathPanel extends JPanel {
                 catch (Exception ex)
                 {
                 }
+                i++;
             }
         }
         return ret;

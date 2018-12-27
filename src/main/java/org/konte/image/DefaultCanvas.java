@@ -8,10 +8,8 @@ import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.WritableRaster;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
 import org.konte.model.MeshSqu;
 import org.konte.misc.Matrix4;
 import org.konte.misc.Point2;
@@ -31,7 +29,7 @@ public class DefaultCanvas implements Canvas {
     private final Model model;
     private final Background bg;
     private final GlobalLighting lighting;
-    protected int width, 
+    protected int width,
             height;
     protected Graphics2D draw;
     private BufferedImage image;
@@ -91,7 +89,7 @@ public class DefaultCanvas implements Canvas {
     public void finish() {
         finished = true;
     }
-    
+
     public int getWidth()
     {
         return width;
@@ -172,7 +170,7 @@ public class DefaultCanvas implements Canvas {
         draw.setColor(c);
     }
 
-    
+
     @Override
     public void drawCurve(Camera camera, OutputShape shape)
     {
@@ -180,21 +178,27 @@ public class DefaultCanvas implements Canvas {
         draw.setColor(shape.getColor());
         //draw.setColor(lighting.lightObject(shape));
         path.reset();
-        List<? extends List<Matrix4>> shapes = shape.shape.getShapes();
+        List<? extends Iterable<Matrix4>> shapes = shape.shape.getShapes();
         for (int j = 0; j < shapes.size(); j++)
         {
-            List<Matrix4> m = shapes.get(j);
-            List<Matrix4[]> pcs = shape.shape.getControlPoints().get(j);
-            Matrix4 b = m.get(0);
+            Iterator<Matrix4> m = ((Iterable<Matrix4>) shapes.get(j)).iterator();
+            Iterator<Matrix4[]> pcs = ((Iterable<Matrix4[]>)shape.shape.getControlPoints().get(j)).iterator();
+            Matrix4 b = m.next();
+            Matrix4 first = b;
             Point2 p2 = camera.mapTo2D(v3d.setXyz(orig, b));
             path.moveTo(p2.x, p2.y);
             Point2 p3;
             Point2 p4;
-            for (int i = 1; i <= m.size(); i++)
+            do
             {
-                b = i == m.size() ? m.get(0) : m.get(i);
+                if (m.hasNext()) {
+                    b = m.next();
+                } else {
+                    b = first;
+                    first = null;
+                }
                 p2 = camera.mapTo2D(v3d.setXyz(orig, b));
-                Matrix4[] bends = pcs.get((i - 1) % m.size());
+                Matrix4[] bends = pcs.next();
                 if (bends == null)
                 {
                     path.lineTo(p2.x, p2.y);
@@ -207,7 +211,7 @@ public class DefaultCanvas implements Canvas {
                     p4 = camera.mapTo2D(v3d.setXyz(orig, b));
                     path.curveTo(p3.x, p3.y, p4.x, p4.y, p2.x, p2.y);
                 }
-            }
+            } while (first != null);
             path.closePath();
         }
         path.transform(toScreen);
@@ -238,16 +242,16 @@ public class DefaultCanvas implements Canvas {
         Matrix4Red orig = shape.matrix;
 //        draw.setColor(lighting.lightObject(shape));
         draw.setColor(shape.getColor());
-        for (List<Matrix4> m : shape.shape.getShapes())
+        for (Iterable<Matrix4> m : shape.shape.getShapes())
         {
             path.reset();
-
-            Matrix4 b = m.get(0);
+            Iterator<Matrix4> it = m.iterator();
+            Matrix4 b = it.next();
             Point2 p2 = camera.mapTo2D(v3d.setXyz(orig, b));
             path.moveTo(p2.x, p2.y);
-            for (int i = 1; i < m.size(); i++)
+            while(it.hasNext())
             {
-                b = m.get(i);
+                b = it.next();
                 p2 = camera.mapTo2D(v3d.setXyz(orig, b));
                 path.lineTo(p2.x, p2.y);
             }
@@ -313,7 +317,7 @@ public class DefaultCanvas implements Canvas {
             int[][] m = effect.matrix;
             int[] M = effect.copy;
             DataBuffer ar = layerimg.getAlphaRaster().getDataBuffer();
-            
+
             int[] ref = new int[m.length * m[0].length];
             for(int i = 0; i < ref.length; i++)
             {
@@ -383,15 +387,14 @@ public class DefaultCanvas implements Canvas {
         Matrix4Red orig = shape.matrix;
 
         List<Point2> lp = new ArrayList<>();
-        for (List<Matrix4> m : shape.shape.getShapes())
+        for (Iterable<Matrix4> m : shape.shape.getShapes())
         {
-            for (int i = 0; i < m.size(); i++)
+            for (Matrix4 b : m)
             {
-                Matrix4 b = m.get(i);
                 Point2 p2 = camera.mapTo2D(v3d.setXyz(orig, b));
                 p2.x = (int) (p2.x * toScreen.getScaleX() + toScreen.getTranslateX());
                 p2.y = (int) (p2.y * toScreen.getScaleY() + toScreen.getTranslateY());
-                lp.add(p2);           
+                lp.add(p2);
             }
         }
         int ind = 0, miny, maxy, minx, maxx;
@@ -421,13 +424,13 @@ public class DefaultCanvas implements Canvas {
             return;
         int u0 = Math.max(0, minx - how.xcontext(shape));
         int v0 = Math.max(0, miny - how.ycontext(shape));
-        int u1 = Math.min(img.getWidth() - 1, maxx + how.xcontext(shape)); 
+        int u1 = Math.min(img.getWidth() - 1, maxx + how.xcontext(shape));
         int v1 = Math.min(img.getHeight() - 1, maxy + how.ycontext(shape));
         int w = u1 - u0;
         int h = v1 - v0;
 
         int[] data = (int[]) img.getAlphaRaster().getDataElements(u0, v0, w, h, null);
-        
+
         int[] dest = Arrays.copyOf(data, data.length);
         int y = (int)miny;
         while (y <= maxy)
@@ -492,7 +495,7 @@ public class DefaultCanvas implements Canvas {
         img.getAlphaRaster().setDataElements(u0, v0, w, h, dest);
     }
 
-    
+
     @Override
     public void initLayer(Model model, float layer) {
         if (layerimg != image) {

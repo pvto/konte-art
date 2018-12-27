@@ -91,14 +91,21 @@ public class SvgExporter extends AbstractExporterBase {
             Camera cam = m.cameras.get(p.fov);
             for (int i = 0; i < unt.getShapes().size(); i++)
             {
-                List<Matrix4> pts = unt.getShapes().get(i);
-                List<Matrix4[]> cpts = unt.getControlPoints() == null ? null :
-                    unt.getControlPoints().get(i);
+                Iterator<Matrix4> pts = unt.getShapes().get(i).iterator();
+                Iterator<Matrix4[]> cpts = unt.getControlPoints() == null ? null :
+                    unt.getControlPoints().get(i).iterator();
 //                appMoveTo(bd, p.matrix.multiply(pts.get(0)), cam);
-                for(int j = 1; j <= pts.size(); j++)
+                Matrix4 first = pts.next();
+                Matrix4 pt;
+                do
                 {
-                    Matrix4 pt = pts.get(j%pts.size());
-                    Matrix4[] cpt = cpts == null ? null : cpts.get(j-1);
+                    if (pts.hasNext()) {
+                        pt = pts.next();
+                    } else {
+                        pt = first;
+                        first = null;
+                    }
+                    Matrix4[] cpt = cpts == null ? null : cpts.next();
                     if (cpt == null)
                     {
 //                        appLineTo(bd, p.matrix.multiply(pt), cam);
@@ -109,7 +116,7 @@ public class SvgExporter extends AbstractExporterBase {
 //                                p.matrix.multiply(cpt[1]),
 //                                p.matrix.multiply(pt), cam);
                     }
-                }
+                } while(first != null);
                 if (!unt.isCurved)
                 {
                     bd.append("z\"\n");

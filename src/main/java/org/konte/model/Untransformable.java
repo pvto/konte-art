@@ -20,8 +20,8 @@ public abstract class Untransformable extends Token implements Serializable {
 
     protected int id;
     public boolean isCurved = false;
-    protected List<? extends List<Matrix4>> shapes;
-    protected List<? extends List<Matrix4[]>> controlPoints;
+    protected List<? extends Iterable<Matrix4>> shapes;
+    protected List<? extends Iterable<Matrix4[]>> controlPoints;
     protected EffectApply effect;
 
     
@@ -39,8 +39,8 @@ public abstract class Untransformable extends Token implements Serializable {
 
     }
 
-    public Untransformable(String name, int id, List<? extends List<Matrix4>> shapes,
-            List<? extends List<Matrix4[]>> controlPoints)
+    public Untransformable(String name, int id, List<? extends Iterable<Matrix4>> shapes,
+            List<? extends Iterable<Matrix4[]>> controlPoints)
             {
         super(name);
         this.id = id;
@@ -56,16 +56,16 @@ public abstract class Untransformable extends Token implements Serializable {
     public int getId()
     {
         return id;                  }
-    public List<? extends List<Matrix4>> getShapes()
+    public List<? extends Iterable<Matrix4>> getShapes()
     {
         return shapes;              }
-    public void setShapes(List<? extends List<Matrix4>> shapes)
+    public void setShapes(List<? extends Iterable<Matrix4>> shapes)
     {
         this.shapes = shapes;       }
-    public List<? extends List<Matrix4[]>> getControlPoints()
+    public List<? extends Iterable<Matrix4[]>> getControlPoints()
     {
         return controlPoints;       }
-    public void setControlPoints(List<? extends List<Matrix4[]>> cpl)
+    public void setControlPoints(List<? extends Iterable<Matrix4[]>> cpl)
     {
         this.controlPoints = cpl;   }
     
@@ -99,8 +99,8 @@ public abstract class Untransformable extends Token implements Serializable {
     
     public static class Polygon extends Untransformable implements Serializable {
 
-        public Polygon(String name, int id, List<? extends List<Matrix4>> shapes,
-                List<? extends List<Matrix4[]>> controlPoints)
+        public Polygon(String name, int id, List<? extends Iterable<Matrix4>> shapes,
+                List<? extends Iterable<Matrix4[]>> controlPoints)
                 {
             super(name, id, shapes, controlPoints);
         }
@@ -114,8 +114,8 @@ public abstract class Untransformable extends Token implements Serializable {
 
     public static class Sphere extends Untransformable implements Serializable {
 
-        public Sphere(String name, int id, List<? extends List<Matrix4>> shapes,
-                List<? extends List<Matrix4[]>> controlPoints)
+        public Sphere(String name, int id, List<? extends Iterable<Matrix4>> shapes,
+                List<? extends Iterable<Matrix4[]>> controlPoints)
                 {
             super(name, id, shapes, controlPoints);
         }
@@ -129,8 +129,8 @@ public abstract class Untransformable extends Token implements Serializable {
 
     public static class Curve extends Untransformable implements Serializable {
 
-        public Curve(String name, int id, List<? extends List<Matrix4>> shapes,
-                List<? extends List<Matrix4[]>> controlPoints)
+        public Curve(String name, int id, List<? extends Iterable<Matrix4>> shapes,
+                List<? extends Iterable<Matrix4[]>> controlPoints)
                 {
             super(name, id, shapes, controlPoints);
         }
@@ -149,8 +149,8 @@ public abstract class Untransformable extends Token implements Serializable {
     
     public static class Effect extends Untransformable implements Serializable {
 
-        public Effect(String name, int id, List<? extends List<Matrix4>> shapes,
-                List<? extends List<Matrix4[]>> controlPoints,
+        public Effect(String name, int id, List<? extends Iterable<Matrix4>> shapes,
+                List<? extends Iterable<Matrix4[]>> controlPoints,
                 EffectApply ea)
                 {
             super(name, id, shapes, controlPoints);

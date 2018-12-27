@@ -1,6 +1,7 @@
 
 package org.konte.misc;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import org.konte.model.Path;
@@ -24,18 +25,18 @@ public class ReverseParseTools {
         for(int p0 = 0; p0 < path.getShapes().size(); p0++)
         {
             Matrix4[] bends0 = null;
-            List<Matrix4> paths = path.getShapes().get(p0);
-            List<Matrix4[]> bends = path.getControlPoints().get(p0);
-            for(int i = 0; i < paths.size(); i++)
+            Iterable<Matrix4> paths = path.getShapes().get(p0);
+            Iterator<Matrix4[]> bends = path.getControlPoints().get(p0).iterator();
+            int i = 0;
+            for(Matrix4 m : paths)
             {
-                Matrix4 m = paths.get(i);
                 bd.append(String.format(Locale.ENGLISH,
                         "    %s(%.3f, %.3f, %.3f)\n",
                         (i == 0 ? "moveto" : 
                             (bends0 == null ? "lineto" : "curveto")),
                         m.m03, m.m13, m.m23
                         ));
-                bends0 = bends.get(i % bends.size());
+                bends0 = bends.next();
                 if (bends0 != null)
                     for(int j = 0; j < 2; j++) {
                         m = bends0[j];
@@ -45,6 +46,7 @@ public class ReverseParseTools {
                             m.m03, m.m13, m.m23
                             ));
                     }
+                i++;
             }
             bd.append("    close\n");
         }

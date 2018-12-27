@@ -164,33 +164,33 @@ public class PathEditPane extends javax.swing.JPanel {
                     if (grabbedNode >= 0x1000)
                     {
                         int bend = grabbedNode >= 0x2000 ? 1 : 0;
-                        Matrix4[] bends = pathPanel1.getPath().getControlPoints().get(sel[2]).get(node);
+                        Matrix4[] bends = ((List<Matrix4[]>)pathPanel1.getPath().getControlPoints().get(sel[2])).get(node);
                         bends[bend] = Matrix4.translation(mx, my, bends[bend].m23);
                         if (e.isAltDown())
                         {
-                            List<Matrix4> list = pathPanel1.getPath().getShapes().get(sel[2]);
+                            List<Matrix4> list = (List<Matrix4>)pathPanel1.getPath().getShapes().get(sel[2]);
                             int node2 = node;
                             if (bend == 1)
                             {
                                 node2 = (node+1) % list.size();
                             }
                             list.set(node2, Matrix4.translation(mx, my, list.get(node2).m23));
-                            Matrix4[] bends2 = pathPanel1.getPath().getControlPoints().get(sel[2]).get(node2);
+                            Matrix4[] bends2 = ((List<Matrix4[]>)pathPanel1.getPath().getControlPoints().get(sel[2])).get(node2);
                             bends2[1-bend] = Matrix4.translation(mx, my, bends2[1-bend].m23);
                         }
                     }
                     else
                     {
-                        List<Matrix4> list = pathPanel1.getPath().getShapes().get(sel[2]);
+                        List<Matrix4> list = (List<Matrix4>)pathPanel1.getPath().getShapes().get(sel[2]);
                         list.set(grabbedNode, Matrix4.translation(mx, my, list.get(grabbedNode).m23));
                         if (e.isAltDown())
                         {
                             int node2 = node-1;
                             if (node2 == -1)
                                 node2 = list.size()-1;
-                            Matrix4[] bends = pathPanel1.getPath().getControlPoints().get(sel[2]).get(node);
+                            Matrix4[] bends = ((List<Matrix4[]>)pathPanel1.getPath().getControlPoints().get(sel[2])).get(node);
                             bends[0] = Matrix4.translation(mx, my, bends[0].m23);
-                            bends = pathPanel1.getPath().getControlPoints().get(sel[2]).get(node2);
+                            bends = ((List<Matrix4[]>)pathPanel1.getPath().getControlPoints().get(sel[2])).get(node2);
                             bends[1] = Matrix4.translation(mx, my, bends[1].m23);
                         }
                     }
@@ -225,8 +225,8 @@ public class PathEditPane extends javax.swing.JPanel {
                         int[] sel = pathPanel1.getPivot(e, 0.02f, 1);
                         if (sel[0] != -1 && sel[1] == -1)
                         {
-                            pathPanel1.getPath().getShapes().get(sel[2]).remove(sel[0]);
-                            List<Matrix4[]> cps = pathPanel1.getPath().getControlPoints().get(sel[2]);
+                            ((List<Matrix4>)pathPanel1.getPath().getShapes().get(sel[2])).remove(sel[0]);
+                            List<Matrix4[]> cps = (List<Matrix4[]>)pathPanel1.getPath().getControlPoints().get(sel[2]);
                             int sel2 = sel[0] == 0 ? cps.size()-1 : sel[0]-1;
                             cps.get(sel2)[1] = cps.get(sel[0])[1];
                             cps.remove(sel[0]);
@@ -241,8 +241,8 @@ public class PathEditPane extends javax.swing.JPanel {
                     {
                         Vector3 v = pathPanel1.toModelCoords(e.getX(), e.getY());
                         Path p = pathPanel1.getPath();
-                        List<Matrix4> shapes = p.getShapes().get(0);
-                        List<Matrix4[]> bends = p.getControlPoints().get(0);
+                        List<Matrix4> shapes = (List<Matrix4>)p.getShapes().get(0);
+                        List<Matrix4[]> bends = (List<Matrix4[]>)p.getControlPoints().get(0);
                         int j = 1;
                         int sel = 0;
                         float mind = Float.MAX_VALUE;

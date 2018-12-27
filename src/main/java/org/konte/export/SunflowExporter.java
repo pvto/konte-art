@@ -250,7 +250,7 @@ class SunflowExporter extends AbstractExporterBase {
         int cnt = 0;
         ArrayList<Integer> centInd = new ArrayList<Integer>();
 
-        for (List<Matrix4> l : shape.getShapes())
+        for (Iterable<Matrix4> l : shape.getShapes())
         {
             for (Matrix4 m : l)
             {
@@ -278,8 +278,10 @@ class SunflowExporter extends AbstractExporterBase {
             else
             {
                 bd.append(cnt).append("\n");
-                for (List<Matrix4> l : shape.getShapes())
+                for (Iterable<Matrix4> l : shape.getShapes())
                 {
+                    int sz = 0;
+                    for (Matrix4 m : l) sz++;
                     float cntx = 0f;
                     float cnty = 0f;
                     float cntz = 0f;
@@ -291,19 +293,20 @@ class SunflowExporter extends AbstractExporterBase {
                         bd.append(String.format("\t%s\t%s\t%s\n",
                                 tmp.m03,tmp.m13,tmp.m23));
                     }
-                    bd.append(String.format("\t%s\t%s\t%s\n",cntx/l.size(),cnty/l.size(),cntz/l.size()));
+                    bd.append(String.format("\t%s\t%s\t%s\n",cntx/sz,cnty/sz,cntz/sz));
 
                 }
 
                 bd.append("  triangles ").append(cnt - shape.getShapes().size()).append("\n");
                 int cnt2 = 0;
-                for (List<Matrix4> l : shape.getShapes())
+                for (Iterable<Matrix4> l : shape.getShapes())
                 {
-                    for (int i = 0; i < l.size() - 1; i++)
+                    for (Matrix4 m : l)
                     {
                         bd.append("\t").append(cnt2).append(" ").append(++cnt2).append(" ").append(centInd.get(0)).append("\n");
                     }
-                    bd.append("\t").append(cnt2).append(" ").append(++cnt2 - (l.size())).append(" ").append(centInd.remove(0)).append("\n");
+                    int sz = cnt2;
+                    bd.append("\t").append(cnt2).append(" ").append(++cnt2 - (sz)).append(" ").append(centInd.remove(0)).append("\n");
                     cnt2++;
                 }
             }
