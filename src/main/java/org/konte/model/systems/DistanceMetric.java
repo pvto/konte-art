@@ -49,12 +49,17 @@ public interface DistanceMetric {
             double dz = Math.abs(a.z - b.z);
             return (float)Math.pow(Math.pow(dx, exp) + Math.pow(dy, exp) + Math.pow(dz, exp), cexp); } }
 
-
+    public static class CosineDistance implements DistanceMetric {
+        public float distance(Vector3 a, Vector3 b)
+        {
+            double dot = a.x * b.x + a.y * b.y + a.z * b.z;
+            return (float) ( dot / Math.sqrt(a.length() * b.length()) ); } }
 
     public enum DistanceMetrics {
         EUCLIDEAN(new EuclideanDistance()),
         MANHATTAN(new ManhattanDistance()),
         CHEBYSHEV(new ChebyshevDistance()),
+        COSINE(new CosineDistance())
         ;
 
         public final DistanceMetric dm;
