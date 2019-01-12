@@ -1,3 +1,4 @@
+
 include #monospace
 startshape help
 model { pushstack 32 }
@@ -68,9 +69,9 @@ help {
   cbox{ x -1 y 0 s .25 R 1 hue 240} TEXT{x -.25 y 0 s .3 PUSH "^m^R 1 hue 240"}
   cbox{ x -1 y -.5 s .25 R 1 hue 360} TEXT{x -.25 y -.5 s .3 PUSH "^m^R 1 hue 360"}
 
-  loopx{x 4 y 4 s .5 d 4 PUSH box} 
+  loopx{x 4 y 4 s .5 d 4 PUSH box}
     TEXT{x 6 y 4 s .3 PUSH "^m^depth 4"}
-  loopx{x 4 y 3.5 s .5 depth 2 PUSH box} 
+  loopx{x 4 y 3.5 s .5 depth 2 PUSH box}
     TEXT{x 6 y 3.5 s .3 PUSH "^m^d 2" }
 
   heart{ x 4 y 2.5 s .5} TEXT{x 4.75 y 2.5 s .3 PUSH "^m^path" }
@@ -82,45 +83,45 @@ help {
   *{x -7 y -2 y .5 {MS=.6; CS=.9}} {
 	  *{} {
 	    checkers{{N=8} s CS }
-	    RUBBER{x .05 y .05 s MS z -.3 } 
+	    RUBBER{x .05 y .05 s MS z -.3 }
 	    TEXT{x .75 s .3 PUSH "^m^RUBBER"}
 	  }
 	  *{y -1} {
 	    checkers{{N=8} s CS}
-	    MIX{x .05 y .05 s MS z -.3 } 
+	    MIX{x .05 y .05 s MS z -.3 }
 	    TEXT{x .75 s .3 PUSH "^m^MIX"}
 	  }
 	  *{y -2} {
 	    checkers{{N=8} s CS}
-	    GBLUR{x .05 y .05 s MS z -.3 } 
+	    GBLUR{x .05 y .05 s MS z -.3 }
 	    TEXT{x .75 s .3 PUSH "^m^GBLUR"}
 	  }
 	  *{y -3} {
 	    checkers{{N=8} s CS}
-	    EDGE{x .05 y .05 s MS z -.3 A -.5} 
+	    EDGE{x .05 y .05 s MS z -.3 A -.5}
 	    TEXT{x .75 s .3 PUSH "^m^EDGE"}
 	  }
 	*{x 2.5} {
 	  *{} {
 	    checkers{{N=8} s CS}
-	    BRIGHTNESS{x .05 y .05 s MS z -.3 B .75} 
+	    BRIGHTNESS{x .05 y .05 s MS z -.3 B .75}
 	    TEXT{x .75 s .3 PUSH "^m^BRIGHTNESS"}
 	  }
 	  *{y -1} {
 	    checkers{{N=8} s CS}
-	    RADTR{x .05 y .05 s MS z -.3 B .75} 
+	    RADTR{x .05 y .05 s MS z -.3 B .75}
 	    TEXT{x .75 s .3 PUSH "^m^RADTR"}
 	  }
 	  *{y -2} {
 	    checkers{{N=8} s CS}
-	    RADBLUR{x .05 y .05 s MS z -.3 R .5 A -.9 } 
+	    RADBLUR{x .05 y .05 s MS z -.3 R .5 A -.9 }
 	    TEXT{x .75 s .3 PUSH "^m^RADBLUR"}
 	  }
 
 	}
     }
 
- 
+
 
   *{x -8 y -6.5 {ITALIC=2;BOLD=5;WIDE=2} {BW=.075} ry -30 rx 20} {
     box{layer -1 z -.25 y .1}
@@ -129,13 +130,16 @@ help {
   }
 
 // commands
-   command_table { x 4+1.5 y 0-2.75 {SX=5;SY=8.5} layer -1}
+   command_table { x 4+1.5 y 0-3.75 {SX=5;SY=10.5} layer -1}
    *{x 3.5 y .75 s .75 {F=.3}} {
      TEXT{ y .5 s F PUSH "^m^fov SIMPLE|ORTOGRAPHIC" }
      TEXT{ y 0 s F PUSH "^m^  |CABINET|CIRCULAR|PANNING" }
-     TEXT{ y -.5 s F PUSH "^m^  z -2 x -3"}
-     TEXT{ y -1 s F PUSH "^m^  lookat (1,0,0)"}
-     *{y -1.5} {
+     TEXT{ y -.5 s F PUSH "^m^  |FISHEYE|ZPOW" }
+     TEXT{ y -1 s F PUSH "^m^  |STEREOGRAPHIC|AZIMUTHAL" }
+     TEXT{ y -1.5 s F PUSH "^m^  <params>" }
+     TEXT{ y -2 s F PUSH "^m^  z -2 x -3"}
+     TEXT{ y -2.5 s F PUSH "^m^  lookat (1,0,0)"}
+     *{y -3} {
      TEXT{ y 0 s F PUSH "^m^DEF X 10"}
      TEXT{ y -.5 s F PUSH "^m^MACRO xX x+x"}
      TEXT{ y -1 s F PUSH "^m^PUSH esim"}
@@ -149,7 +153,7 @@ help {
      TEXT{y -4.5 s F PUSH "^m^  maxshapes 1000"}
      TEXT{y -5 s F PUSH "^m^  feature .001"}
      TEXT{y -5.5 s F PUSH "^m^  streamrate 30"}
-     
+
      TEXT{y -6 s F PUSH "^m^path"}
      TEXT{y -6.5 s F PUSH "^m^  moveto(0,1,0)"}
      TEXT{y -7 s F PUSH "^m^  bend(0,0,0)"}
@@ -167,7 +171,7 @@ coordinates {
     arrow{y W x W + .25 rz -45 sy .7 ry -45} mz{ x .7 y .5 s .4}
 }
 
-arrow { 
+arrow {
   RSQU{sx W}
   2*{flipy 0} RSQU{y .5 rz 135 y .1 sy .25 sx W}
 
@@ -201,7 +205,7 @@ path heart {
 }
 
 meshpiece {
-  5*{x rndf()*.05+.05}4*{y rndf()*.05+.05 ry -30 {row=row+1}} 
+  5*{x rndf()*.05+.05}4*{y rndf()*.05+.05 ry -30 {row=row+1}}
     MESH{ry 15 x -.15 y -.15}
 }
 
@@ -209,4 +213,3 @@ command_table{
  SQUARE{sx SX sy SY}
  SQUARE{sx SX * .99 sy SY *.99 L 1}
 }
-

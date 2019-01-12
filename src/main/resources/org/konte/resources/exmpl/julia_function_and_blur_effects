@@ -1,7 +1,7 @@
-// Apply a blur effect on layer 3 four times.
+// Apply a blur effect on layer 3 fifteen times.
 // Each character is a composite of 1+2+4+8 [R,G,B,A channels].
 // so 7 gives a full RGB without alpha layer.
-fx 3*4 { 
+fx 3*15 {
 770000000
 077000000
 007700000
@@ -10,13 +10,22 @@ fx 3*4 {
 770007777
 }
 
+// for layer 1 too
+fx 1*15 {
+770000000
+077000000
+007700000
+000777000
+770077700
+770007777
+}
+
+
 rule sets {
-    3* { layer -0 s 1.5 }
+    3* { layer (layer+1) s 1.5 }
     loop { DEF { re = -1.5 ; im = -0.9}
             s .5 .5 1
             rz 90
-            //ry 30
-layer 3
     }
 }
 
