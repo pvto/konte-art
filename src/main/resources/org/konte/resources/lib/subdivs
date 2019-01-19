@@ -17,9 +17,9 @@ _3_3t { *{{ x12=(x1+x2+x3)/3; y12=(y1+y2+y3)/3; }} {
     pop{{ x1=x12;y1=y12; o=3; }}
 }}
 _3_3r {
-  *{{ xc=(x1+x2+x3)/3; yc=(y1+y2+y3)/3; 
+  *{{ xc=(x1+x2+x3)/3+xd; yc=(y1+y2+y3)/3+yd;
       x12=(x1+x2)/2;y12=(y1+y2)/2;
-      x23=(x2+x3)/2;y23=(y2+y3)/2; 
+      x23=(x2+x3)/2;y23=(y2+y3)/2;
       x31=(x3+x1)/2;y31=(y3+y1)/2; }} {
     pop{{x2=x12;y2=y12; x3=xc;y3=yc; x4=x31;y4=y31; o=1; }}
     pop{{x1=x2;y1=y2; x2=x23;y2=y23; x3=xc;y3=yc; x4=x12;y4=y12; o=2; }}
@@ -130,7 +130,7 @@ _4_4t { *{{ xc=(x1+x2+x3+x4)/4; yc=(y1+y2+y3+y4)/4; }} {
     pop{{ x1=xc;y1=yc; x2=x1;y2=y1; x3=x2;y3=y2; o=1; }}
     pop{{ x1=xc;y1=yc; o=2; }}
     pop{{ x1=xc;y1=yc; x2=x3;y2=y3; x3=x4;y3=y4; o=3; }}
-    pop{{ x1=xc;y1=yc; x2=x4;y2=y4; x3=x1;y3=y1; o=4; }}  
+    pop{{ x1=xc;y1=yc; x2=x4;y2=y4; x3=x1;y3=y1; o=4; }}
   }
 }
 _4_4r {
@@ -139,7 +139,7 @@ _4_4r {
       x23=(x2*r+x3*nr); y23=(y2*r+y3*nr);
       x34=(x3*r+x4*nr); y34=(y3*r+y4*nr);
       x41=(x4*r+x1*nr); y41=(y4*r+y1*nr);
-      xc=(x1+x2+x3+x4)/4; yc=(y1+y2+y3+y4)/4; }}
+      xc=(x1+x2+x3+x4)/4+xd; yc=(y1+y2+y3+y4)/4+yd; }}
   {
     pop{{ x2=x12;y2=y12; x3=xc;y3=yc; x4=x41;y4=y41; o=1; }}
     pop{{ x1=x2;y1=y2; x2=x12;y2=y12; x3=xc;y3=yc; x4=x23;y4=y23; o=2; }}
@@ -149,7 +149,7 @@ _4_4r {
 }
 
 _4_4r.b {
-  *{{ xc=(x1+x2+x3+x4)/4; yc=(y1+y2+y3+y4)/4; }} {
+  *{{ xc=(x1+x2+x3+x4)/4 +xd; yc=(y1+y2+y3+y4)/4 +yd; }} {
     pop{{ x3=xc;y3=yc; o=1; }}
     pop{{ x1=x2;y1=y2; x2=x3;y2=y3; x3=xc;y3=yc; x4=x1;y4=y1; o=2 }}
     pop{{ x1=x3;y1=y3; x2=x4;y2=y4; x3=xc;y3=yc; x4=x2;y4=y2; o=3 }}
@@ -157,8 +157,36 @@ _4_4r.b {
   }
 }
 
+_4_r5p {
+  *{{ xc=(x1+x2+x3+x4)/4+xd; yc=(y1+y2+y3+y4)/4+yd;
+      x12=(x1+x2)/2; y12=(y1+y2)/2;
+      x23=(x2+x3)/2; y23=(y2+y3)/2;
+      x34=(x3+x4)/2; y34=(y3+y4)/2;
+      x41=(x4+x1)/2; y41=(y4+y1)/2;
+    }}
+  *{{ xc12=(xc+x12)/2; yc12=(yc+y12)/2;
+      xc23=(xc+x23)/2; yc23=(yc+y23)/2;
+      xc34=(xc+x34)/2; yc34=(yc+y34)/2;
+      xc41=(xc+x41)/2; yc41=(yc+y41)/2;
+    }}
+  {
+    POP{{ x1=xc12;y1=yc12; x2=xc23;y2=yc23; x3=xc34;y3=yc34; x4=xc41;y4=yc41; o=0; }}
+    pop{{ x1=xc12;y1=yc12; x2=x12;y2=y12; x3=x2;y3=y2; x4=x23;y4=y23; x5=xc23;y5=yc23; o=1; }}
+    pop{{ x1=xc23;y1=yc23; x2=x23;y2=y23; x3=x3;y3=y3; x4=x34;y4=y34; x5=xc34;y5=yc34; o=2; }}
+    pop{{ x1=xc34;y1=yc34; x2=x34;y2=y34; x3=x4;y3=y4; x4=x41;y4=y41; x5=xc41;y5=yc41; o=3; }}
+    pop{{ x1=xc41;y1=yc41; x2=x41;y2=y41; x3=x1;y3=y1; x4=x12;y4=y12; x5=xc12;y5=yc12; o=4; }}
+  }
+}
+
+_5_2r {
+  *{{ x12=(x1+x2)/2; y12=(y1+y2)/2; }} {
+    pop{{ x2=x12;y2=y12; x3=x4;y3=y4; x4=x5;y4=y5; o=1; }}
+    pop{{ x1=x12;y1=y12; o=2; }}
+  }
+}
+
 _5_5t {
-  *{{ xc=(x1+x2+x3+x4+x5)/5; yc=(y1+y2+y3+y4+y5)/5; }} {
+  *{{ xc=(x1+x2+x3+x4+x5)/5 +xd; yc=(y1+y2+y3+y4+y5)/5 +yd; }} {
     pop{{ x1=xc;y1=yc; x2=x1;y2=y1; x3=x2;y3=y2; o=1; }}
     pop{{ x1=xc;y1=yc; x2=x2;y2=y2; x3=x3;y3=y3; o=2; }}
     pop{{ x1=xc;y1=yc; x2=x3;y2=y3; x3=x4;y3=y4; o=3; }}
@@ -167,8 +195,48 @@ _5_5t {
   }
 }
 
+_5_5r {
+  *{{ xc=(x1+x2+x3+x4+x5)/5+xd; yc=(y1+y2+y3+y4+y5)/5+yd;
+      x12=(x1+x2)/2; y12=(y1+y2)/2;
+      x23=(x2+x3)/2; y23=(y2+y3)/2;
+      x34=(x3+x4)/2; y34=(y3+y4)/2;
+      x45=(x4+x5)/2; y45=(y4+y5)/2;
+      x51=(x5+x1)/2; y51=(y5+y1)/2;
+    }} {
+    pop{{ x1=xc;y1=yc; x2=x12;y2=y12; x3=x2;y3=y2; x4=x23;y4=y23; o=1; }}
+    pop{{ x1=xc;y1=yc; x2=x23;y2=y23; x3=x3;y3=y3; x4=x34;y4=y34; o=2; }}
+    pop{{ x1=xc;y1=yc; x2=x34;y2=y34; x3=x4;y3=y4; x4=x45;y4=y45; o=3; }}
+    pop{{ x1=xc;y1=yc; x2=x45;y2=y45; x3=x5;y3=y5; x4=x51;y4=y51; o=4; }}
+    pop{{ x1=xc;y1=yc; x2=x51;y2=y51; x3=x1;y3=y1; x4=x12;y4=y12; o=5; }}
+  }
+}
+
+_5_6p {
+  *{{ xc=(x1+x2+x3+x4+x5)/5+xd; yc=(y1+y2+y3+y4+y5)/5+yd;
+      x12=(x1+x2)/2; y12=(y1+y2)/2;
+      x23=(x2+x3)/2; y23=(y2+y3)/2;
+      x34=(x3+x4)/2; y34=(y3+y4)/2;
+      x45=(x4+x5)/2; y45=(y4+y5)/2;
+      x51=(x5+x1)/2; y51=(y5+y1)/2;
+    }}
+  *{{ xc12=(xc+x12)/2; yc12=(yc+y12)/2;
+      xc23=(xc+x23)/2; yc23=(yc+y23)/2;
+      xc34=(xc+x34)/2; yc34=(yc+y34)/2;
+      xc45=(xc+x45)/2; yc45=(yc+y45)/2;
+      xc51=(xc+x51)/2; yc51=(yc+y51)/2;
+    }}
+  {
+    pop{{ x1=xc12;y1=yc12; x2=xc23;y2=yc23; x3=xc34;y3=yc34; x4=xc45;y4=yc45; x5=xc51;y5=yc51; o=0; }}
+    pop{{ x1=xc12;y1=yc12; x2=x12;y2=y12; x3=x2;y3=y2; x4=x23;y4=y23; x5=xc23;y5=yc23;  o=1; }}
+    pop{{ x1=xc23;y1=yc23; x2=x23;y2=y23; x3=x3;y3=y3; x4=x34;y4=y34; x5=xc34;y5=yc34;  o=2; }}
+    pop{{ x1=xc34;y1=yc34; x2=x34;y2=y34; x3=x4;y3=y4; x4=x45;y4=y45; x5=xc45;y5=yc45;  o=3; }}
+    pop{{ x1=xc45;y1=yc45; x2=x45;y2=y45; x3=x5;y3=y5; x4=x51;y4=y51; x5=xc51;y5=yc51;  o=4; }}
+    pop{{ x1=xc51;y1=yc51; x2=x51;y2=y51; x3=x1;y3=y1; x4=x12;y4=y12; x5=xc12;y5=yc12;  o=5; }}
+  }
+}
+
 _6_6t {
-  *{{ xc=(x1+x2+x3+x4+x5+x6)/6; yc=(y1+y2+y3+y4+y5+y6)/6; }} {
+  *{{ xc=(x1+x2+x3+x4+x5+x6)/6+xd; yc=(y1+y2+y3+y4+y5+y6)/6+yd; }} {
     pop{{x3=xc; y3=yc; o=1; }}
     pop{{x1=x2; y1=y2; x2=x3; y2=y3; x3=xc; y3=yc; o=2; }}
     pop{{x1=x3; y1=y3; x2=x4; y2=y4; x3=xc; y3=yc; o=3; }}
@@ -178,7 +246,7 @@ _6_6t {
   }
 }
 _6_6r {
-  *{{ xc=(x1+x2+x3+x4+x5+x6)/6; yc=(y1+y2+y3+y4+y5+y6)/6; 
+  *{{ xc=(x1+x2+x3+x4+x5+x6)/6+xd; yc=(y1+y2+y3+y4+y5+y6)/6+yd;
       x12=(x1+x2)/2; y12=(y1+y2)/2;
       x23=(x2+x3)/2; y23=(y2+y3)/2;
       x34=(x3+x4)/2; y34=(y3+y4)/2;
@@ -201,6 +269,63 @@ _6_3r {
   }
 }
 
+_6_h6p {
+  *{{ xc=(x1+x2+x3+x4+x5+x6)/6+xd; yc=(y1+y2+y3+y4+y5+y6)/6+yd;
+      x12=(x1+x2)/2; y12=(y1+y2)/2;
+      x23=(x2+x3)/2; y23=(y2+y3)/2;
+      x34=(x3+x4)/2; y34=(y3+y4)/2;
+      x45=(x4+x5)/2; y45=(y4+y5)/2;
+      x56=(x5+x6)/2; y56=(y5+y6)/2;
+      x61=(x6+x1)/2; y61=(y6+y1)/2;
+    }}
+  *{{ xc12=(xc+x12)/2; yc12=(yc+y12)/2;
+      xc23=(xc+x23)/2; yc23=(yc+y23)/2;
+      xc34=(xc+x34)/2; yc34=(yc+y34)/2;
+      xc45=(xc+x45)/2; yc45=(yc+y45)/2;
+      xc56=(xc+x56)/2; yc56=(yc+y56)/2;
+      xc61=(xc+x61)/2; yc61=(yc+y61)/2;
+    }}
+  {
+    POP{{ x1=xc12;y1=yc12; x2=xc23;y2=yc23; x3=xc34;y3=yc34; x4=xc45;y4=yc45; x5=xc56;y5=yc56; x6=xc61;y6=yc61; o=0; }}
+    pop{{ x1=xc12;y1=yc12; x2=x12;y2=y12; x3=x2;y3=y2; x4=x23;y4=y23; x5=xc23;y5=yc23;  o=1; }}
+    pop{{ x1=xc23;y1=yc23; x2=x23;y2=y23; x3=x3;y3=y3; x4=x34;y4=y34; x5=xc34;y5=yc34;  o=2; }}
+    pop{{ x1=xc34;y1=yc34; x2=x34;y2=y34; x3=x4;y3=y4; x4=x45;y4=y45; x5=xc45;y5=yc45;  o=3; }}
+    pop{{ x1=xc45;y1=yc45; x2=x45;y2=y45; x3=x5;y3=y5; x4=x56;y4=y56; x5=xc56;y5=yc56;  o=4; }}
+    pop{{ x1=xc56;y1=yc56; x2=x56;y2=y56; x3=x6;y3=y6; x4=x61;y4=y61; x5=xc61;y5=yc61;  o=5; }}
+    pop{{ x1=xc61;y1=yc61; x2=x61;y2=y61; x3=x1;y3=y1; x4=x12;y4=y12; x5=xc12;y5=yc12;  o=6; }}
+  }
+}
+
+_7_s7p {
+  *{{ xc=(x1+x2+x3+x4+x5+x6+x7)/7+xd; yc=(y1+y2+y3+y4+y5+y6+y7)/7+yd;
+      x12=(x1+x2)/2; y12=(y1+y2)/2;
+      x23=(x2+x3)/2; y23=(y2+y3)/2;
+      x34=(x3+x4)/2; y34=(y3+y4)/2;
+      x45=(x4+x5)/2; y45=(y4+y5)/2;
+      x56=(x5+x6)/2; y56=(y5+y6)/2;
+      x67=(x6+x7)/2; y67=(y6+y7)/2;
+      x71=(x7+x1)/2; y71=(y7+y1)/2;
+    }}
+  *{{ xc12=(xc+x12)/2; yc12=(yc+y12)/2;
+      xc23=(xc+x23)/2; yc23=(yc+y23)/2;
+      xc34=(xc+x34)/2; yc34=(yc+y34)/2;
+      xc45=(xc+x45)/2; yc45=(yc+y45)/2;
+      xc56=(xc+x56)/2; yc56=(yc+y56)/2;
+      xc67=(xc+x67)/2; yc67=(yc+y67)/2;
+      xc71=(xc+x71)/2; yc71=(yc+y71)/2;
+    }}
+  {
+    POP{{ x1=xc12;y1=yc12; x2=xc23;y2=yc23; x3=xc34;y3=yc34; x4=xc45;y4=yc45; x5=xc56;y5=yc56; x6=xc67;y6=yc67; x7=xc71;y7=yc71; o=0; }}
+    pop{{ x1=xc12;y1=yc12; x2=x12;y2=y12; x3=x2;y3=y2; x4=x23;y4=y23; x5=xc23;y5=yc23;  o=1; }}
+    pop{{ x1=xc23;y1=yc23; x2=x23;y2=y23; x3=x3;y3=y3; x4=x34;y4=y34; x5=xc34;y5=yc34;  o=2; }}
+    pop{{ x1=xc34;y1=yc34; x2=x34;y2=y34; x3=x4;y3=y4; x4=x45;y4=y45; x5=xc45;y5=yc45;  o=3; }}
+    pop{{ x1=xc45;y1=yc45; x2=x45;y2=y45; x3=x5;y3=y5; x4=x56;y4=y56; x5=xc56;y5=yc56;  o=4; }}
+    pop{{ x1=xc56;y1=yc56; x2=x56;y2=y56; x3=x6;y3=y6; x4=x67;y4=y67; x5=xc67;y5=yc67;  o=5; }}
+    pop{{ x1=xc67;y1=yc67; x2=x67;y2=y67; x3=x7;y3=y7; x4=x71;y4=y71; x5=xc71;y5=yc71;  o=6; }}
+    pop{{ x1=xc71;y1=yc71; x2=x71;y2=y71; x3=x1;y3=y1; x4=x12;y4=y12; x5=xc12;y5=yc12;  o=7; }}
+  }
+}
+
 pop{POP{}}
 
 
@@ -210,7 +335,7 @@ pop{POP{}}
 _3Bb {
   _3Ba{{
     x1=x3;y1=y3; x2=x1;y2=y1; x3=x2;y3=y2;
-      c1ax=c3ax;c1ay=c3ay; c1bx=c3bx;c1by=c3by; 
+      c1ax=c3ax;c1ay=c3ay; c1bx=c3bx;c1by=c3by;
         c2ax=c1ax;c2ay=c1ay; c2bx=c1bx;c2by=c1by;
           c3ax=c2ax;c3ay=c2ay; c3bx=c2bx;c3by=c2by;
   }}
@@ -218,7 +343,7 @@ _3Bb {
 _3Bc {
   _3Ba{{
     x1=x2;y1=y2; x2=x3;y2=y3; x3=x1;y3=y1;
-      c1ax=c2ax;c1ay=c2ay; c1bx=c2bx;c1by=c2by; 
+      c1ax=c2ax;c1ay=c2ay; c1bx=c2bx;c1by=c2by;
         c2ax=c3ax;c2ay=c3ay; c2bx=c3bx;c2by=c3by;
           c3ax=c1ax;c3ay=c1ay; c3bx=c1bx;c3by=c1by;
   }}
@@ -233,16 +358,16 @@ _3Ba {
     dx12= 0.75*(-x1 - c1bx + c2ax + x2);
     dy12= 0.75*(-y1 - c1by + c2ay + y2);
     tx1= (5/6)**3*x1 + 3*(5/6)**2*(1/6)*c1bx + 3*(5/6)*(1/6)**2*c2ax + (1/6)**3*x2; // (1/6) midpoint on curve
-    ty1= (5/6)**3*y1 + 3*(5/6)**2*(1/6)*c1by + 3*(5/6)*(1/6)**2*c2ay + (1/6)**3*y2;      
+    ty1= (5/6)**3*y1 + 3*(5/6)**2*(1/6)*c1by + 3*(5/6)*(1/6)**2*c2ay + (1/6)**3*y2;
     tx4= (1/6)**3*x1 + 3*(1/6)**2*(5/6)*c1bx + 3*(1/6)*(5/6)**2*c2ax + (5/6)**3*x2; // (5/6) midpoint on curve
-    ty4= (1/6)**3*y1 + 3*(1/6)**2*(5/6)*c1by + 3*(1/6)*(5/6)**2*c2ay + (5/6)**3*y2;      
+    ty4= (1/6)**3*y1 + 3*(1/6)**2*(5/6)*c1by + 3*(1/6)*(5/6)**2*c2ay + (5/6)**3*y2;
   }} *{{
     l2_t1= sqrt((tx1-x1)**2 + (ty1-y1)**2) * S1/.5;
     l2_t4= sqrt((tx4-x2)**2 + (ty4-y2)**2) * S2/.5;
     cx= (x1+x2+x3)/3; cy= (y1+y2+y3)/3;
   }} {
     pop{{
-      x2=x12;y2=y12; c2bx=cx;c2by=cy; c3ax=cx;c3ay=cy; 
+      x2=x12;y2=y12; c2bx=cx;c2by=cy; c3ax=cx;c3ay=cy;
       c1bx= x1 + l2_t1 * dx1 / sqrt(dx1**2 + dy1**2);
       c1by= y1 + l2_t1 * dy1 / sqrt(dx1**2 + dy1**2);
       c2ax= x12 - l2_t1 * dx12 / sqrt(dx12**2 + dy12**2);
@@ -257,5 +382,3 @@ _3Ba {
     }}
   }
 }
-
-
