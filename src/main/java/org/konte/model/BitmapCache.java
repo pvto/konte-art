@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
-import sun.awt.image.ToolkitImage;
 
 /**
  *
@@ -16,7 +15,7 @@ import sun.awt.image.ToolkitImage;
 public class BitmapCache {
 
     private static final HashMap<String, Image> cache = new HashMap<>();
-    
+
     private HashMap<String, Image> references = new HashMap<>();
 
     public Image[] imageArr;
@@ -26,7 +25,7 @@ public class BitmapCache {
         return fl.getAbsolutePath() + "_" + fl.lastModified();
     }
 
-    public Image add(Object src, String reference) throws Exception 
+    public Image add(Object src, String reference) throws Exception
     {
         String key = null;
         if (src instanceof File)
@@ -46,12 +45,12 @@ public class BitmapCache {
             {
                 throw new Exception("Image not found");
             }
-            if (img instanceof ToolkitImage)
+            if (img instanceof sun.awt.image.ToolkitImage)
             {
-                ((ToolkitImage)img).preload(null);
+                ((sun.awt.image.ToolkitImage)img).preload(null);
                 BufferedImage bim = null;
                 while(bim == null)
-                    bim = ((ToolkitImage)img).getBufferedImage();
+                    bim = ((sun.awt.image.ToolkitImage)img).getBufferedImage();
                 img = bim;
             }
             cache.put(key, img);
@@ -97,7 +96,7 @@ public class BitmapCache {
         }
         return -1;
     }
-    
+
     public void init()
     {
         imageArr = new Image[references.size()];

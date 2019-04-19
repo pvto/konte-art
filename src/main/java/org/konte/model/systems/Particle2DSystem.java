@@ -19,7 +19,7 @@ public class Particle2DSystem implements GreyBoxSystem {
     private float[][] netg;
     public Model model;
     private boolean fullyInitialized = false;
-    
+
     public static class Particle {
         float x, y;
         float xv = 0f, yv = 0f;
@@ -55,7 +55,7 @@ public class Particle2DSystem implements GreyBoxSystem {
 
     private void initInternal()
     {
-        if (fullyInitialized) 
+        if (fullyInitialized)
             return;
         for (int i = 0; i < netg.length; i++)
         {
@@ -69,32 +69,32 @@ public class Particle2DSystem implements GreyBoxSystem {
         }
         fullyInitialized = true;
     }
-    
+
     @Override
     public void evaluate(float[] args)
     {
-        
+
         initInternal();
         for (int i = 0; i < particles.size(); i++)
         {
             Particle p = particles.get(i);
-            
+
             netg[i][0] = 0f;
             netg[i][1] = 0f;
 
             // apply change in velocity due to attraction to other particles
-            
+
             for (int j = 0; j < particles.size(); j++)
             {
                 if (i == j) { continue; }
-                
+
                 Particle other = particles.get(j);
 
                 float xd = other.x - p.x;
                 float yd = other.y - p.y;
                 float distance = (float) Math.sqrt(xd*xd + yd*yd);
                 float angle = (float) Math.atan2(yd, xd);
-                
+
                 float g = 0f;
                 int order = gravityPolynomial.length - 1;
                 for (int k = 0; k < gravityPolynomial.length; k++, order--)
@@ -113,7 +113,7 @@ public class Particle2DSystem implements GreyBoxSystem {
             p.xv += timeIncrement * netg[i][0];
             p.yv += timeIncrement * netg[i][1];
         }
-        
+
         for (int i = 0; i < particles.size(); i++)
         {
             Particle p = particles.get(i);
@@ -122,7 +122,75 @@ public class Particle2DSystem implements GreyBoxSystem {
         }
     }
 
-    public static final int 
+    private float xa(float mass, float x, float y)
+    {
+        float netg = 0f;
+        for (int j = 0; j < particles.size(); j++)
+        {
+            Particle other = particles.get(j);
+
+            float xd = other.x - x;
+            float yd = other.y - y;
+            float distance = (float) Math.sqrt(xd*xd + yd*yd);
+            float angle = (float) Math.atan2(yd, xd);
+
+            float g = 0f;
+            int order = gravityPolynomial.length - 1;
+            for (int k = 0; k < gravityPolynomial.length; k++, order--)
+            {
+                if (gravityPolynomial[k] == 0f)
+                    continue;
+                g += gravityPolynomial[k] * (float) Math.pow(distance, order);
+            }
+            if (g == 0f) { // propel not from the state of equilibrium
+                continue;
+            }
+            g = other.mass / g;
+            netg += (float) Math.cos(angle) * g;
+        }
+        return netg;
+    }
+
+    private float ya(float mass, float x, float y)
+    {
+        float netg = 0f;
+        for (int j = 0; j < particles.size(); j++)
+        {
+            Particle other = particles.get(j);
+
+            float xd = other.x - x;
+            float yd = other.y - y;
+            float distance = (float) Math.sqrt(xd*xd + yd*yd);
+            float angle = (float) Math.atan2(yd, xd);
+
+            float g = 0f;
+            int order = gravityPolynomial.length - 1;
+            for (int k = 0; k < gravityPolynomial.length; k++, order--)
+            {
+                if (gravityPolynomial[k] == 0f)
+                    continue;
+                g += gravityPolynomial[k] * (float) Math.pow(distance, order);
+            }
+            if (g == 0f) { // propel not from the state of equilibrium
+                continue;
+            }
+            g = other.mass / g;
+            netg += (float) Math.sin(angle) * g;
+        }
+        return netg;
+    }
+
+    private float getAccelerationInternal(float[] args)
+    {
+        float m = args[2];
+        float x = args[3];
+        float y = args[4];
+        int which = (int) args[5];
+        if (which == 0) { return xa(m, x, y); }
+        return ya(m, x, y);
+    }
+
+    public static final int
             X = 1,
             Y = 2,
             XV = 10,
@@ -130,11 +198,13 @@ public class Particle2DSystem implements GreyBoxSystem {
             MASS = 3,
             TIMEINCR = 0
             ;
-    
+
     @Override
     public float read(float[] args)
     {
-        int particle = normalize( (int) args[1] );
+        int particle = (int) args[1];
+        if (particle == -1) return getAccelerationInternal(args);
+        particle = normalize(particle);
         int property = (int) args[2];
         Particle p = particles.get(particle);
         switch (property) {
@@ -152,7 +222,7 @@ public class Particle2DSystem implements GreyBoxSystem {
     {
         return (particle % particles.size() + particles.size()) % particles.size();
     }
-    
+
     @Override
     public void write(float[] args)
     {

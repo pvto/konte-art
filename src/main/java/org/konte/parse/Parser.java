@@ -950,11 +950,6 @@ public class Parser {
                         i = getExpressionList(tokenStrings, i+1, exprL);
                         lexpr = exprParser.parse(exprL, 0, m);
                             lightBd.alpha(lexpr);
-                    } else if  (t == Language.specular)
-                    {
-                        i = getExpressionList(tokenStrings, i+1, exprL);
-                        lexpr = exprParser.parse(exprL, 0, m);
-                            lightBd.alpha(lexpr);
                     } else if (t == Language.left_curl)
                     {
                         contextStack.push(curCtx);
@@ -1777,10 +1772,6 @@ public class Parser {
                         if (!isSpecialContext)
                         {
                             throw new ParseException("Missing * from repeat block near " + s, lineNr, caretPos);
-                        }
-                        if (lastRule instanceof PathRule)
-                        {
-                            throw new ParseException("keyword '*' prohibited within 'path'", lineNr, caretPos);
                         }
                         RepeatStructure r = new RepeatStructure(lineNr, caretPos);
                         r.repeats = lexpr;
