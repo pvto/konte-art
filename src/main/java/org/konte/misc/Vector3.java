@@ -38,6 +38,12 @@ public final class Vector3 {
         z = v.z;
     }
 
+    public Vector3(float[] xyz) {
+        x = xyz[0];
+        y = xyz[1];
+        z = xyz[2];
+    }
+
     public static final Vector3 decode(short n, Vector3 dest) {
         int t = (n & 0xFF00) >>> 8;
         int p = n & 0xFF;

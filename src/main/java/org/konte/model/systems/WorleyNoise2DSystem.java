@@ -144,12 +144,7 @@ public class WorleyNoise2DSystem implements GreyBoxSystem {
         }
         model = (Model) args[args.length - 1];
         if (args.length > 2) {
-            Object metric = args[1];
-            if (metric instanceof Float) {
-                this.metric = new DistanceMetric.PNorm((Float)metric);
-            } else {
-                this.metric = DistanceMetric.DistanceMetrics.valueOf(metric.toString()).dm;
-            }
+            this.metric = DistanceMetric.guess(args[1]);
         }
         int n = 0;
         try {

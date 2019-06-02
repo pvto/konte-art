@@ -53,6 +53,7 @@ public class BitmapCache {
                     bim = ((sun.awt.image.ToolkitImage)img).getBufferedImage();
                 img = bim;
             }
+
             cache.put(key, img);
         }
         references.put(reference, img);

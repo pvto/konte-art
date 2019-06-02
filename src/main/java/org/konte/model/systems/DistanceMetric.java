@@ -66,4 +66,11 @@ public interface DistanceMetric {
         private DistanceMetrics(DistanceMetric m) { this.dm = m; }
     }
 
+    public static DistanceMetric guess(Object metric)
+    {
+        if (metric instanceof Float) {
+            return new DistanceMetric.PNorm((Float)metric);
+        }
+        return DistanceMetric.DistanceMetrics.valueOf(metric.toString()).dm;
+    }
 }

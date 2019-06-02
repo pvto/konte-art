@@ -1,12 +1,6 @@
 package org.konte.model;
 
-import org.konte.model.systems.Curl2DSystem;
-import org.konte.model.systems.ImgChannelSystem;
-import org.konte.model.systems.Particle2DSystem;
-import org.konte.model.systems.Particle3DSystem;
-import org.konte.model.systems.PerlinNoise2DSystem;
-import org.konte.model.systems.PerlinNoise3DSystem;
-import org.konte.model.systems.WorleyNoise2DSystem;
+import org.konte.model.systems.*;
 
 /**
  *
@@ -28,7 +22,8 @@ public interface GreyBoxSystem {
         Curl2(new Curl2DSystem()),
         Particle2(new Particle2DSystem()),
         Particle3(new Particle3DSystem()),
-        Worley2(new WorleyNoise2DSystem())
+        Worley2(new WorleyNoise2DSystem()),
+        Triangulation(new TriangulationSystem())
         ;
 
         public GreyBoxSystem generator;
