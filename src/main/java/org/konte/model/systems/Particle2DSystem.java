@@ -11,7 +11,7 @@ import org.konte.model.Model;
  */
 public class Particle2DSystem implements GreyBoxSystem {
 
-    public float timeIncrement = 1f;
+    public float timeIncrement = 0.0001f;
     public List<Particle> particles = new ArrayList<Particle>();
     /**  By default, Newton's universal law of gravitation with distance polynomial x²+0x+0 expressed by factors {1,0,0},
      *   yielding  G = (1 / d^2) * m1 * m2 */
@@ -196,7 +196,8 @@ public class Particle2DSystem implements GreyBoxSystem {
             XV = 10,
             YV = 20,
             MASS = 3,
-            TIMEINCR = 0
+            TIMEINCR = 0,
+            ALL = -1
             ;
 
     @Override
@@ -238,6 +239,13 @@ public class Particle2DSystem implements GreyBoxSystem {
             case YV: p.yv = value;  break;
             case MASS: p.mass = value;  break;
             case TIMEINCR: timeIncrement = value;  break;
+            case ALL:
+                p.x = args[3];
+                p.y = args[4];
+                if (args.length > 5) p.xv = args[5];
+                if (args.length > 6) p.yv = args[6];
+                if (args.length > 7) p.mass = args[7];
+                break;
         }
     }
 
