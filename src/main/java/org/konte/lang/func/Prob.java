@@ -404,7 +404,7 @@ public final class Prob {
     {
         //MACRO MSLICE (.5/M + irndf(M) / M ) ** PW  * rndsig / 2
         //MACRO RNDnme (MSLICE + .5)  / (Nm)  +  irndf(Nm) / Nm
-        double mslice = Math.pow(.5/m + irnd(rfeed, (int)m) / m, exp) * rndSig(rfeed);
+        double mslice = Math.pow(.5/m + irnd(rfeed, (int)m) / m, exp) * rndSig(rfeed) / 2.0;
         double nslice = (mslice + 0.5) / n + irnd(rfeed, (int)n) / n;
         return nslice;
     }
