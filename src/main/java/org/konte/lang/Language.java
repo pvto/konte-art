@@ -160,6 +160,7 @@ public class Language {
         }
     });  // other InnerTokens are introduced below
     public static final Token lookat = addToken(new LanguageFunctor("lookat", 3));
+    public static final Token metric = addToken(new Token("metric"));
     public static final Token fx = addToken(new Token("fx"));
     public static final Token rule = addToken(new Token("rule"));
     public static final Token path = addToken(new Token("path"));

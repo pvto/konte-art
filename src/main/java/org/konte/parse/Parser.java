@@ -28,6 +28,7 @@ import org.konte.expression.Value;
 import org.konte.generate.Runtime;
 import org.konte.generate.StreamingShapeReader;
 import org.konte.image.Camera;
+import org.konte.model.systems.DistanceMetric;
 import org.konte.image.CanvasEffect;
 import org.konte.imprt.SvgImport;
 import org.konte.lang.CameraProperties;
@@ -720,7 +721,7 @@ public class Parser {
                     {
                         GreyBoxSystem.Names gn = GreyBoxSystem.Names.valueOf(s);
                         if (gn == null)
-                            throw new ParseException("Expecting 'system <type>', found " + lastName 
+                            throw new ParseException("Expecting 'system <type>', found " + lastName
                                     + " instead. (Types are: " + GreyBoxSystem.Names.values(), lineNr, caretPos);
                         greyBoxSystem = gn.generator.newInstance();
                         lastName = "--xxx--";
@@ -748,7 +749,7 @@ public class Parser {
                         ExpressionFunction func = (ExpressionFunction)lexpr;
                         Object[] vals = new Object[func.getArgs().length + 1];
                         vals[vals.length - 1] = m;  // insert model as last argument
-                        
+
                         int it = 0;
                         for (Expression e : func.getArgs())
                         {
@@ -1135,6 +1136,8 @@ public class Parser {
                         i = getExpressionList(tokenStrings, i, exprL);
                         lexpr = exprParser.parse(exprL, 0, m);
                         camBd.lookat = (ExpressionFunction)lexpr;
+                    } else if (t == Language.metric) {
+                        lastName = tokenStrings.get(++i).getString();
                     } else if (t == Language.right_curl)
                     {
                         if (lastInnerToken != null)
@@ -1143,6 +1146,13 @@ public class Parser {
                         Camera cam = camBd.build();
                         m.cameras.add(cam);
                         m.addConstant(cam.getName(), new Value((float)m.cameras.indexOf(cam)), true);
+                        if (lastName != null) {
+                            Object arg = lastName;
+                            try { arg = Float.parseFloat(lastName); } catch(Exception ex) {}
+                            DistanceMetric metric = DistanceMetric.guess(arg);
+                            cam.setDistanceMetric(metric);
+                            lastName = null;
+                        }
                         camBd = null;
                     }
                     else
