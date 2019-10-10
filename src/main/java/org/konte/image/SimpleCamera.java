@@ -11,21 +11,23 @@ import org.konte.model.TransformModifier;
 import org.konte.parse.ParseException;
 import org.konte.generate.Runtime;
 import org.konte.misc.Matrix4Red;
+import org.konte.model.systems.DistanceMetric;
 
 /**
  *
  * @author pvto
  */
 public class SimpleCamera implements Camera {
-    
+
     protected float viewerDfromCamera = 1;
-    protected Matrix3 cameraRotationMatrix; 
+    protected Matrix3 cameraRotationMatrix;
     protected Vector3 position;
     protected Vector3 target;
-    
+
     protected String name;
     protected Canvas canvas;
-    
+    protected DistanceMetric metric;
+
     public SimpleCamera() {}
 
     public SimpleCamera(Transform pos) throws ParseException
@@ -70,7 +72,7 @@ public class SimpleCamera implements Camera {
             rz = iniPos.z;
             Runtime.sysoutln("fov " + this.getName() + " initial dir: " + iniPos, 10);
         }
-        
+
         for(TransformModifier tr : posT.acqTrs)
         {
             if (tr instanceof TransformModifier.rx)
@@ -81,7 +83,7 @@ public class SimpleCamera implements Camera {
             else
             if (tr instanceof TransformModifier.rz)
                 rz += tr.evaluateAll()[0] * toRad;
-                
+
         }
         Matrix3 zrotm = Matrix3.rotation(0,0,rz);
         Matrix3 xyrotm = Matrix3.rotation(rx,ry,0);
@@ -90,6 +92,7 @@ public class SimpleCamera implements Camera {
         target = cameraRotationMatrix.multiply(new Vector3(0f,0f,-1f));
     }
 
+    @Override
     public Vector3 getPosition()
     {
         return position;
@@ -99,7 +102,8 @@ public class SimpleCamera implements Camera {
     {
         return cameraRotationMatrix;
     }
-    
+
+    @Override
     public void setCanvas(Canvas canvas)
     {
         this.canvas = canvas;
@@ -112,13 +116,30 @@ public class SimpleCamera implements Camera {
 //        float zs = (position.z-matrix.m23);
 //        return xs*xs+ys*ys+zs*zs;
 //    }
-    
+
+    @Override
+    public void setDistanceMetric(DistanceMetric metric) {
+        this.metric = metric;
+    }
+
+    private Vector3 v1 = new Vector3();
+    private Vector3 v2 = new Vector3();
+    @Override
     public float distMetric(Matrix4Red matrix)
     {
+        if (metric != null) {
+            v1.x = matrix.m03;
+            v1.y = -matrix.m13;
+            v1.z = matrix.m23;
+            v2.x = position.x;
+            v2.y = position.y;
+            v2.z = position.z;
+            return metric.distance(v1, v2);
+        }
         float xs = (position.x-matrix.m03);
         float ys = (position.y+matrix.m13);
         float zs = (position.z-matrix.m23);
-        return xs*xs+ys*ys+zs*zs;   
+        return xs*xs+ys*ys+zs*zs;
     }
 
     public Vector3 getTarget()
@@ -131,12 +152,12 @@ public class SimpleCamera implements Camera {
     {
         setTarget(target);
     }
-    
+
     public void setTarget(Vector3 trgt)
     {
         target = trgt;
     }
-    
+
     protected Vector3 initialRotation() {
         Vector3 diff = Vector3.sub(target, position);
         float rx = 0f;
@@ -151,10 +172,10 @@ public class SimpleCamera implements Camera {
         float ry = 0f;
         if (diff.x == 0f)
         {
-            
+
             if ( diff.z < 0f)
                 ry = (float)Math.PI;
-            else 
+            else
                 ry = 0;
         }
         else
