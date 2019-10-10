@@ -52,17 +52,20 @@ path LINE__{
 
 
 LINE2 {
-  *{{k=atan((y2-y1)/(x2-x1)); }}
-  RECTANGLE{{
-     x1=x1 - width*cos(k-PI/2);
-     y1=y1 - width*sin(k-PI/2);
-     x2=x1 + width*cos(k-PI/2);
-     y2=y1 + width*sin(k-PI/2);
-     x3=x2 + width*cos(k-PI/2);
-     y3=y2 + width*sin(k-PI/2);
-     x4=x2 - width*cos(k-PI/2);
-     y4=y2 - width*sin(k-PI/2);
-  }}
+*{{k=atan((y2-y1) / (x2-x1+.00001)); }}
+RECTANGLE{{
+   x1=x1 - width*cos(k-PI/2);
+   y1=y1 - width*sin(k-PI/2);
+   x2=x1 + width*cos(k-PI/2);
+   y2=y1 + width*sin(k-PI/2);
+   x3=x2 + width*cos(k-PI/2);
+   y3=y2 + width*sin(k-PI/2);
+   x4=x2 - width*cos(k-PI/2);
+   y4=y2 - width*sin(k-PI/2);
+   z3=z2;
+   z4=z2;
+   z2=z1;
+}}
 }
 
 
