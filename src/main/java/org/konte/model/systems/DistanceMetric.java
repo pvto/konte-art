@@ -57,6 +57,25 @@ public interface DistanceMetric {
             double dz = Math.abs(a.z - b.z);
             return (float)Math.pow(Math.pow(dx, exp) + Math.pow(dy, exp) + Math.pow(dz, exp), cexp); } }
 
+    public static class ModularPNorm implements DistanceMetric {
+        private double exp, cexp;
+        private double modulus;
+        public ModularPNorm(double exp, double modulus) {
+            this.exp = exp; this.cexp = 1.0 / exp;
+            this.modulus = modulus;
+        }
+
+        public float distance(Vector3 a, Vector3 b)
+        {
+            double dx = Math.abs(a.x - b.x);
+            double dy = Math.abs(a.y - b.y);
+            double dz = Math.abs(a.z - b.z);
+            return (float)Math.pow(
+                Math.pow(dx, exp) % modulus
+                + Math.pow(dy, exp) % modulus
+                + Math.pow(dz, exp) % modulus, cexp); } }
+
+
     public static class CosineDistance implements DistanceMetric {
         public float distance(Vector3 a, Vector3 b)
         {
@@ -103,7 +122,8 @@ public interface DistanceMetric {
         CHEBYSHEV(new ChebyshevDistance()),
         COSINE(new CosineDistance()),
         MAE(new MeanAbsoluteErrorDistance()),
-        MODHAMMING(new ModularHammingDistance(1e-6))
+        MODHAMMING(new ModularHammingDistance(1e-6)),
+        MODP(new ModularPNorm(2.0, 1e6))
         ;
 
         public final DistanceMetric dm;
@@ -125,6 +145,16 @@ public interface DistanceMetric {
                 // fallback to valueof below
             }
 
+        } else if (name.startsWith(DistanceMetrics.MODP.name())) {
+            try {
+                String rest = name.substring(DistanceMetrics.MODP.name().length()).replaceAll("(^[\\s_]+)|([\\s_]+$)", "");
+                String[] parts = rest.split("_\\s*");
+                double p = Double.parseDouble(parts[0]);
+                double modulo = Double.parseDouble(parts[1]);
+                return new DistanceMetric.ModularPNorm(p, modulo);
+            } catch(Exception e) {
+                // fallback to valueof below
+            }
         }
         return DistanceMetric.DistanceMetrics.valueOf(name).dm;
     }
