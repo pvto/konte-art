@@ -11,26 +11,26 @@ public class Curl2DSystem implements GreyBoxSystem {
 
     GreyBoxSystem noise;
     float eps = 0.00001f;
-    
+
     private float[] tmp = new float[] { 0f,0f,0f };
-    
+
     /** returns curl as a polar angle */
     public float curl(float x, float y)
     {
-        float n1, n2, a, b; 
-        
-        
+        float n1, n2, a, b;
+
+
 
         tmp[1]=x; tmp[2]=y + eps;    n1 = noise.read(tmp);
         tmp[1]=x; tmp[2]=y - eps;    n2 = noise.read(tmp);
-        a = (n1 - n2)/(2 * eps); 
+        a = (n1 - n2)/(2 * eps);
         tmp[1]=x + eps; tmp[2]=y;    n1 = noise.read(tmp);
         tmp[1]=x - eps; tmp[2]=y;    n2 = noise.read(tmp);
-        b = (n1 - n2)/(2 * eps); 
+        b = (n1 - n2)/(2 * eps);
 
         return (float)Math.atan2(b, a);
     }
-    
+
     @Override
     public GreyBoxSystem newInstance() {
         return new Curl2DSystem();
@@ -49,7 +49,7 @@ public class Curl2DSystem implements GreyBoxSystem {
         }
         if (args.length > 2)
         {
-            eps = (Float)args[2];
+            eps = (Float)args[1];
         }
     }
 
@@ -69,5 +69,5 @@ public class Curl2DSystem implements GreyBoxSystem {
         throw new UnsupportedOperationException("Curl model is immutable. Try altering its noise system..");
     }
 
-    
+
 }

@@ -15,10 +15,10 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
     public int w, h;
     public float[][][] Gradient;
     public GradientFunction gf = Gradients.SMOOTHSTEP.gf;
-    
+
     private Model model;
-    
-    
+
+
 
 
     // Computes the dot product of the distance and gradient vectors.
@@ -27,7 +27,7 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
 
         int ixc = ix % w;
         int iyc = iy % h;
-        
+
         // Compute the distance vector
         float dx = x - (float) ix - Gradient[iyc][ixc][2];
         float dy = y - (float) iy - Gradient[iyc][ixc][3];
@@ -47,7 +47,7 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
         int x1 = x0 + 1;
         int y0 = (int) y;
         int y1 = y0 + 1;
-        
+
         // Determine interpolation weights
         float sx = x - (float) x0;
         float sy = y - (float) y0;
@@ -61,7 +61,7 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
         n1 = dotGridGradient(x1, y1, x, y);
         ix1 = gf.gradient(n0, n1, sx);
         value = gf.gradient(ix0, ix1, sy);
-        
+
         return value;
     }
 
@@ -70,7 +70,7 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
         Gradient[y][x][0] = (float)Math.cos(angle);
         Gradient[y][x][1] = (float)Math.sin(angle);
     }
-    
+
     @Override
     public GreyBoxSystem newInstance()
     {
@@ -118,7 +118,7 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
         if (y < 0) y += h;
         return y;
     }
-    
+
     @Override
     public void write(float[] args)
     {
@@ -130,18 +130,18 @@ public class PerlinNoise2DSystem implements GreyBoxSystem {
         if (args.length > 4) { Gradient[y][x][2] = args[4]; }
         if (args.length > 5) { Gradient[y][x][3] = args[5]; }
     }
-    
+
     private boolean initialized = false;
     private void initInternal()
     {
         if (initialized)
             return;
         initialized = true;
-        
+
         for (int i = 0; i < h; i++) {
             for (int j = 0; j < w; j++) {
                 float ang = (float)( model.getRandomFeed().get() * Math.PI * 2.0 );
-                setGridVal(i, j, ang);
+                setGridVal(j, i, ang);
             }
         }
     }

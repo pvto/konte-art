@@ -185,7 +185,7 @@ public class WorleyNoise2DSystem implements GreyBoxSystem {
         initInternal();
         float x = normalize(args[1]);
         float y = normalize(args[2]);
-        float nth = args[3] % points.length;
+        float nth = args.length > 3 ? args[3] % points.length : 1;
         return worley(x, y, nth);
     }
 
@@ -193,6 +193,8 @@ public class WorleyNoise2DSystem implements GreyBoxSystem {
         x = x % 1f;
         if (x < 0f) {
             x = x + 1f;
+            if (x == 1f) // floating point error...
+                x = 0f;
         }
         return x;
     }
