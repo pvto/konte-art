@@ -37,6 +37,12 @@ public interface GradientFunction {
             return u0 + (u1 - u0) * (float)Math.sin(u * Math.PI / 2.0); }
         }
 
+    public static class SigmoidGradient implements GradientFunction {
+        public float gradient(float u0, float u1, float u)
+        {
+            double pos = (u - 0.5) * 10.0; // approximately [0..1] ...
+            return u0 + (u1 - u0) * (float) (1.0 / (1.0 + Math.pow(Math.E, -pos))); }
+        }
 
     public enum Gradients {
         LINEAR(new LinearGradient()),
@@ -44,7 +50,8 @@ public interface GradientFunction {
         CUBIC(new PowGradient(3.0)),
         QUADRATIC(new PowGradient(4.0)),
         SMOOTHSTEP(new SmoothstepGradient()),
-        SIN(new SinGradient())
+        SIN(new SinGradient()),
+        SIGMOID(new SigmoidGradient())
         ;
 
         public final GradientFunction gf;
