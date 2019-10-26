@@ -24,7 +24,6 @@ fov{IC z -1 FISHEYE .03 2 1 .5      (.35) (-.05)}
 fov{ID z -1 FISHEYE .04 2 1 .5      (.35) (-.2)}
 fov{IE z -1 FISHEYE .05 2 1 .5      (.35) (-.325)}
 
-model{pushstack 100}
 
 include #monospace
 startshape foo

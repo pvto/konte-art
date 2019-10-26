@@ -12,6 +12,7 @@ import org.konte.parse.ParseException;
 import static org.konte.misc.Mathc3.bounds1;
 import static org.konte.misc.Mathc3.roll1;
 import org.konte.misc.Matrix4Red;
+import org.konte.struct.RefStack;
 
 /**
  *
@@ -32,13 +33,25 @@ public class DrawingContext implements Serializable {
     public int d = -1;
     /** stores all definition-->value mappings for this instance */
     public Def[] defs;
-    public int[] pushstack;
+    public RefStack<Integer> pushstack2;
 //    public short bitmap = -1;
     public short shading = -1;
     public float col0;
 
 
+    public int popPushstack() {
+        if (pushstack2 == null)
+            return Integer.MIN_VALUE;
+        RefStack.StackRetVal<Integer> ret = pushstack2.pop();
+        pushstack2 = ret.stackRef;
+        return ret.val == null ? Integer.MIN_VALUE : ret.val;
+    }
 
+    public int peekPushstack() {
+        if (pushstack2 == null)
+            return Integer.MIN_VALUE;
+        return pushstack2.peek().val;
+    }
 
 
 
@@ -59,7 +72,7 @@ public class DrawingContext implements Serializable {
         {
             out.writeInt(d);
             out.writeObject(defs);
-            out.writeObject(pushstack);
+            out.writeObject(pushstack2);
 //            out.writeShort(bitmap);
             out.writeShort(shading);
             if (shading != -1)
@@ -86,7 +99,7 @@ public class DrawingContext implements Serializable {
         {
             d = in.readInt();
             defs = (Def[])in.readObject();
-            pushstack = (int[])in.readObject();
+            pushstack2 = (RefStack<Integer>)in.readObject();
 //            bitmap = in.readShort();
             shading = in.readShort();
             if (shading != -1)

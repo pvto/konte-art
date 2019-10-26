@@ -63,12 +63,4 @@ rndsh { CIRCLE{} }
 rndsh { SQUARE{} }
 
 
-/*
-* Rule stack has a finite size. First inserts
-* will silently drop out if the stack gets too
-* full. Default size is 16.
-*
-*/
-model { pushstack 5 }
-
 

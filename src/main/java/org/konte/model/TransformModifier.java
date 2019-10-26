@@ -51,8 +51,10 @@ public abstract class TransformModifier {
     }    
     public void addExpression(Expression expr)
     {
-        this.exprs.add(expr);
-        n++;
+        if (expr != null) {
+            this.exprs.add(expr);
+            n++;
+        }
     }
 
     public Float[] evaluateAll() throws ParseException 
@@ -665,7 +667,24 @@ public abstract class TransformModifier {
         {
             throw new UnsupportedOperationException("Not supported.");
         }
-    }    
+    }
 
+    public static class clear extends TransformModifier {
+        public clear(Expression expr, Token token)
+        {
+            super(expr, token);
+        }
+        @Override
+        public void updateSTVal(DrawingContext st, Float delta)
+        {
+            st.pushstack2 = null;
+        }
+
+        @Override
+        public void updateSTVal(DrawingContext st, Float[] delta)
+        {
+            st.pushstack2 = null;
+        }
+    }
 
 }

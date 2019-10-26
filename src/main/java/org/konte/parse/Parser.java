@@ -1548,6 +1548,14 @@ public class Parser {
                         {
                             lastInnerToken = t;
                             pos = 0;
+                            InnerToken it = (InnerToken)t;
+                            if (it.nParamsAllowed(0) && !it.higherParamCountAllowed(0)) {
+                                lexprs.clear();
+                                if (curCtx==ParsingContext.TRANSFORM_ADJUSTMENTS)
+                                    ltfm.setShapeTransform(lastInnerToken, lexprs);
+                                else
+                                    lrstfm.setShapeTransform(lastInnerToken, lexprs);
+                            }
                         } else if (lastInnerToken != null && ((InnerToken)lastInnerToken).nParamsAllowed(pos)) {  // number of set arguments is (pos+1)-1 = pos
                             if (pos > 0) {
                                 if (curCtx==ParsingContext.TRANSFORM_ADJUSTMENTS)
@@ -1563,8 +1571,7 @@ public class Parser {
                             throw new ParseException("Wrong number of arguments to " + lastInnerToken +
                                     " or missing () in " + lastRule, lineNr, caretPos);
                         }
-                        if (t == Language.def || t == Language.undef)
-                        {
+                        if (t == Language.def || t == Language.undef) {
                             contextStack.push(curCtx);
                             isSpecialContext = false;
                             pos = (t == Language.undef ? 1 : 0);    // 0 denotes def

@@ -1,6 +1,5 @@
 include #monospace
 startshape funcHelp
-model { pushstack 32 }
 DEF W .05
 DEF LW 1/5  DEF DW 1/7
 DEF F 1

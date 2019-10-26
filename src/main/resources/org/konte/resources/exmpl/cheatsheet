@@ -1,7 +1,6 @@
 
 include #monospace
 startshape help
-model { pushstack 32 }
 DEF W .05
 
 help {
@@ -149,7 +148,6 @@ help {
      TEXT{ y -3 s F PUSH "^m^    |stream|disk"}
      TEXT{ y -3.5 s F PUSH "^m^    |width|smallness"}
 
-     TEXT{y -4 s F PUSH "^m^  pushstack 50"}
      TEXT{y -4.5 s F PUSH "^m^  maxshapes 1000"}
      TEXT{y -5 s F PUSH "^m^  feature .001"}
      TEXT{y -5.5 s F PUSH "^m^  streamrate 30"}

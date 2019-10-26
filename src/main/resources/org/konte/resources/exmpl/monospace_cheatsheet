@@ -1,6 +1,5 @@
 include #monospace
 startshape line
-model { pushstack 60 }
 
 DEF NR 8
 line {

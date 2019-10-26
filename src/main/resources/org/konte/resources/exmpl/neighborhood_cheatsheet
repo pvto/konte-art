@@ -89,6 +89,5 @@ grid {
     SQUARE {s .98 lightness 1 } }
 }
 
-model{pushstack 100}
 include #monospace
 include #geometry

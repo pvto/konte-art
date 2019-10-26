@@ -3,7 +3,6 @@ include #geometry
 include #recursions
 
 startshape recursionSheet 
-model { pushstack 100 }
 
 
 recursionSheet {*{s .05 x -8 y 6.5 s .75 {F=.3}} {

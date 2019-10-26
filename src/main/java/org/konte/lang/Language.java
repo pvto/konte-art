@@ -138,7 +138,7 @@ public class Language {
     // misc keywords: (type-index,[list])
     public static final int MISC_model = 0;
     public static final String[][] miscKeywords = {
-        {"pushstack", "maxshapes", "feature", "order", "streamrate"}
+        {"pushstack", "maxshapes", "feature", "order", "streamrate"} // pushstack is deprecated; not needed
     };
 
     // enumerate keywords in the language
@@ -451,6 +451,11 @@ public class Language {
     public static final Token push = addToken(new InnerToken("PUSH",-1) { }); // -1 denotes any number of params...
     public static final Token peek = addToken(new Token("PEEK"));
     public static final Token pop = addToken(new Token("POP"));
+    public static final Token clear = addToken(new InnerToken("CLEAR", 0) {
+        @Override public TransformModifier newInstance(Expression e, Token t) {
+            return new TransformModifier.clear(e, t);
+        }
+    });
     // bitmap reference related
 //    public static final Token img = addToken(new Token("img"));
 //    public static final Token imgu = addToken(new Token("u"));

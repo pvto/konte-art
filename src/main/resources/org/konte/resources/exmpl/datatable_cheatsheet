@@ -2,7 +2,6 @@ include #monospace
 include #geometry
 
 startshape tableUsageSheet 
-model { pushstack 100 }
 
 include empty TAB1
 include empty MYTAB

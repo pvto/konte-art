@@ -15,6 +15,7 @@ import org.konte.expression.Value;
 import org.konte.image.Camera;
 import org.konte.lang.func.Mathm;
 import org.konte.generate.Runtime;
+import org.konte.struct.RefStack;
 
 /**<p>This is the abstract definition of a set of transforms that are applied
  * to a branch at generate time. 
@@ -141,7 +142,7 @@ public class Transform {
         } else if (Language.pop.compareTo(ruleName) == 0)
         {
             indexedNd = -3;    
-        }        
+        }
         boolean matrixIsResolved = true;
         ArrayList<TransformModifier> tmplist = new ArrayList<TransformModifier>();
         tmplist.addAll(acqExps);
@@ -319,7 +320,7 @@ public class Transform {
     public void setShapeTransform(Token t, ArrayList<Expression> lexprs) throws ParseException 
     {
 //        Runtime.sysoutln("SETTING " + t + ": " + lexprs, 0);
-        Expression lexpr =  lexprs.get(0);
+        Expression lexpr =  lexprs.size() == 0 ? null : lexprs.get(0);
         
         if (t instanceof InnerToken)
         {
@@ -407,47 +408,27 @@ public class Transform {
         // init all fields from st
         if (indexedNd < 0)
         {
-            if (old.pushstack == null || old.pushstack.length == 0)
-            {
-                poppedContinuation = Integer.MIN_VALUE;
-            }
-            else
-            {
-                poppedContinuation = old.pushstack[old.pushstack.length-1]; // will be picked up by rulewriter
+            int poppedContinuation = Integer.MIN_VALUE;
+            if (old.pushstack2 != null) {
                 if (indexedNd == -3) { // POP
-                    if (old.pushstack.length > 1)
-                    {
-                        old.pushstack = Arrays.copyOf(old.pushstack, old.pushstack.length-1);
-                    }
-                    else
-                    {
-                        old.pushstack = null;
-                    }
+                    poppedContinuation = old.popPushstack();
+                } else {
+                    poppedContinuation = old.peekPushstack();
                 }
             }
+            this.poppedContinuation = poppedContinuation;
         }
+        newt.pushstack2 = old.pushstack2;
         if (this.continuationStack.size() > 0)
         {
-            int oldsize = old.pushstack != null ? old.pushstack.length : 0;
-            int requestedSize = oldsize+this.continuationStack.size();
-            int size = Math.min(requestedSize,model.pushStackSize);
-            newt.pushstack = new int[size];
-            int oldpos = requestedSize - size;
-            requestedSize = oldpos;
-            int i = 0;            
-            while(oldpos < oldsize)
-                newt.pushstack[i++] = old.pushstack[oldpos++];
-            if (oldpos != requestedSize)
-                oldpos--;
-            oldpos = Math.max(0, this.continuationStack.size() - size);
-            while(i < newt.pushstack.length)
-                newt.pushstack[i++] = this.continuationStack.get(oldpos++);
+            int i = 0;
+            while(i < this.continuationStack.size()) {
+                Integer cnt = this.continuationStack.get(i++);
+                System.out.println("conststack " + i + " =" + cnt);
+                if (cnt != null)
+                    newt.pushstack2 = new RefStack(newt.pushstack2, cnt);
+            }
         }
-        else
-        {
-             newt.pushstack = old.pushstack;
-        }
-
 
         // copy general parameters
         newt.d = old.d;      
