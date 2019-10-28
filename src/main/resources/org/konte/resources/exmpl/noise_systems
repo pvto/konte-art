@@ -1,0 +1,73 @@
+system Worley2 Wa init(2, 2) // init( <number of points>, <distance metric=EUCLIDEAN> )
+system Worley2 Wb init(4, 2)  // four local maxima, dm = euclidean norm (p=2)
+system Worley2 Wc init(4, 1) // dm = MANHATTAN distance
+system Worley2 Wd init(10, .3) // 10 local maxima; dm=p.3 norm
+
+system Perlin2 Pa init(2, 2) // init( <width>, <height=w> <gradient=SMOOTHSTEP> )
+system Perlin2 Pb init(4, 4)
+system Perlin2 Pc init(4, 4, 2) // gradient = x^2
+system Perlin2 Pd init(10, 10) // 10x10 grid of perlin noise
+
+system Curl2 Ca init(Pa) // init( <noise sys>, <eps=1e-6> )
+system Curl2 Cb init(Pb) // use default eps
+system Curl2 Cc init(Pc, .5) // noisy curl sampling with eps=2!
+system Curl2 Cd init(Pd, .1) // but noisy too
+
+system Curl2 Cwa init(Wa)  // we can underlay curl with worley noise too!
+system Curl2 Cwb init(Wb)
+system Curl2 Cwc init(Wc, .001) // not so noisy
+system Curl2 Cwd init(Wd, .5) // noisy too
+
+fov{PANNING}
+DEF n 160
+// sample noise from worley sys: sysread(worley, x, y, worley-rank)
+MACRO worley_col sysread(W, i, j, coalesce(Wn, 2))
+// sample noise from perlin: sysread(perlin, x, y)
+MACRO perlin_col sysread(W, i*coalesce(Ws,4) , j*coalesce(Ws, 4))
+// sample from curl: like perlin
+MACRO curl_col sysread(W, i*coalesce(Ws,4), j*coalesce(Ws,4))
+model{ pushstack 30}
+
+all {
+  *{ s .2 y 1.75 } {
+	  *{x -1.85} { dr{ PUSH wor {W=Wa; Wn=1;}}   t{PUSH "^m^worley 2,dm=EUCLIDEAN "} }
+	  *{x -.65} { dr{ PUSH wor {W=Wb}} t{PUSH "^m^worley 4,EUCLIDEAN "} }
+	  *{x .65} { dr{ PUSH wor {W=Wc}} t{PUSH "^m^worley 4,MANHATTAN "} }
+	  *{x 1.85} { dr{ PUSH wor {W=Wd}} t{PUSH "^m^worley 10, .3 "} }
+    }
+  *{ s .2 y .575 } {
+	  *{x -1.85} { dr{ PUSH per {W=Pa; Ws=02}} t{PUSH "^m^perlin 2x2,grad=SMOOTHSTEP "} }
+	  *{x -.65} { dr{ PUSH per {W=Pb}} t{PUSH "^m^perlin 4x4,SMOOTHSTEP "} }
+	  *{x .65} { dr { PUSH per {W=Pc}} t{PUSH "^m^perlin 4x4, grad=x^2 "} }
+	  *{x 1.85} { dr{ PUSH per {W=Pd; Ws=10}} t{PUSH "^m^perlin 10x10,SMOOTHSTEP "} }
+    }
+  *{ s .2 y -.575 } {
+	  *{x -1.85} { dr{ PUSH cur {W=Ca; Ws=02}} t{PUSH "^m^curl perlin(2x2), eps=1e-5 "} }
+	  *{x -.65} { dr{ PUSH cur {W=Cb}} t{PUSH "^m^curl perlin(4x4), eps=1e-5 "} }
+	  *{x .65} { dr { PUSH cur {W=Cc}} t{PUSH "^m^curl perlin(4x4, x^2), eps=.5 "} }
+	  *{x 1.85} { dr{ PUSH cur {W=Cd; Ws=10}} t{PUSH "^m^curl perlin(10x10), eps=.1 "} }
+    }
+  *{ s .2 y -1.75 } {
+	  *{x -1.85} { dr{ PUSH cur {W=Cwa; Ws=01}} t{PUSH "^m^curl worley(2,P2) eps=1e-5 "}}
+	  *{x -.65} { dr{ PUSH cur {W=Cwb; Ws=01}} t{PUSH "^m^curl worley(4,P2) eps=1e-5 "}}
+	  *{x .65} { dr { PUSH cur {W=Cwc; Ws=01}} t{PUSH "^m^curl worley(4,P1) eps=1e-3 "}}
+	  *{x 1.85} { dr{ PUSH cur {W=Cwd; Ws=01}} t{PUSH "^m^curl worley(10,P.3) eps=.5 "}}
+    }
+}
+
+t{ TEXT{y .54 x -.45 s .06 } }
+
+include #monospace
+
+wor { SQUARE { L worley_col s 1.2} }
+per { SQUARE { L perlin_col s 1.2} }
+cur { SQUARE { L curl_col s 1.2} }
+
+dr {
+  *{x -.5 y -.5}
+  (n)*{{i=i+1/n}}
+  (n)*{{j=j+1/n}}
+  pop{x i y j s 1.5/n  }
+}
+
+pop{POP{}}

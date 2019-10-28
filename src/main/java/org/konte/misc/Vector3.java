@@ -1,8 +1,8 @@
 package org.konte.misc;
 
 /**<p>Refactored from org.sunflow.math.Vector3
- * 
- * 
+ *
+ *
  */
 public final class Vector3 {
     private static final float[] COS_THETA = new float[256];
@@ -191,6 +191,10 @@ public final class Vector3 {
         return dest;
     }
 
+    public static final Vector3 add(Vector3 v1, Vector3 v2) {
+        return new Vector3(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
+    }
+
     public static final Vector3 sub(Vector3 v1, Vector3 v2) {
         return new Vector3(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
     }
@@ -207,7 +211,7 @@ public final class Vector3 {
         z = orig.m20 * b.m03 + orig.m21 * b.m13 + orig.m22 * b.m23 + orig.m23 * b.m33;
         return this;
     }
-    
+
     public Vector3 setXyz(Matrix4Red orig, Matrix4 b)
     {
         x = orig.m00 * b.m03 + orig.m01 * b.m13 + orig.m02 * b.m23 + orig.m03 * b.m33;

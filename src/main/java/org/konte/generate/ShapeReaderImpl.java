@@ -49,8 +49,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
     private RuleWriter rulew;
     private long shapeCount;
     private boolean enableLaterIteration = false;
-    
-    
+
+
     public ShapeReaderImpl(Model model)
     {
         this.model = model;
@@ -67,12 +67,12 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         return this.rulew;
     }
 
-    
+
     public void setEnableLaterIteration(boolean enable)
     {
         this.enableLaterIteration = enable;
     }
-    
+
     public long getShapeCount()
     {
         return shapeCount;
@@ -86,6 +86,8 @@ public abstract class ShapeReaderImpl implements ShapeReader{
     public void setCanvas(Canvas canvas)
     {
         this.canvas = canvas;
+        for(Camera cam: model.cameras)
+            cam.setCanvas(canvas);
     }
 
     public int state()
@@ -93,7 +95,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         return state;
     }
 
-    
+
     protected void drawLastToFirst()
     {
         Runtime.sysoutln(String.format("Drawing  (%s;%s)",
@@ -151,7 +153,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
             delTmpFiles();
         }
     }
-    
+
 
 
 
@@ -212,10 +214,10 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         }
     }
 
-       
+
     private void delTmpFiles()
     {
-        
+
         for(TmpFile file : tmpMin.values())
         {
             file.file.delete();
@@ -233,14 +235,14 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                 processFirstToLast();
             else
                 processLastToFirst();
-        } 
+        }
         catch(Exception e)
         {
             e.printStackTrace();
         }
         return 0;
     }
-    
+
     private long processFirstToLast() throws InterruptedException
     {
         long l = 0;
@@ -255,7 +257,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
             for(;;)
             {
 //                Runtime.sysoutln(cnt + " processed",0);
-                if(curMin!=null && curMin.getKey().compareTo(curMax.getKey()) >= 0) 
+                if(curMin!=null && curMin.getKey().compareTo(curMax.getKey()) >= 0)
                     break;
                 if (openFiles.size()==0)
                 {
@@ -264,14 +266,14 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                         if ((ois = curMin.getValue().openTmpFile()) == null)
                             break;
                         Runtime.sysoutln(curMin.getValue().file,0);
-                    } 
+                    }
                     catch(NullPointerException npe)
                     {
                         break;
                     }
-                    openFiles.add(curTmp = curMin.getValue());  
+                    openFiles.add(curTmp = curMin.getValue());
                     curMin = tmpMin.higherEntry(curMin.getKey());
-                } 
+                }
                 else
                 {
                     boolean match = false;
@@ -297,7 +299,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                         if ((ois = tmf.openTmpFile()) == null)
                             break;
                         Runtime.sysoutln(tmf.file,0);
-                        openFiles.add(curTmp = tmf); 
+                        openFiles.add(curTmp = tmf);
                         curMin = tmpMin.higherEntry(curMin.getKey());
                     }
                 }
@@ -331,27 +333,27 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                 catch(Exception ex)
                 {
                     ex.printStackTrace();
-                } 
+                }
                 finally
                 {
                     try
                     {
                         if (toEnd)
                         {
-                            ois.close(); 
+                            ois.close();
                             curTmp.file.delete();
                             openFiles.remove(curTmp);
                             curTmp.ois = null;
                             curTmp = null;
                         }
-                    } 
+                    }
                     catch(Exception e)
                     {
                         e.printStackTrace();
                         break;
                     }
                 }
-                if (curMin == null || 
+                if (curMin == null ||
                         curMin.getKey().compareToWeak(curMax.getKey()) >= 0)
                 {
                     drawIntermediate = true;
@@ -365,7 +367,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         }
         Runtime.sysoutln(openFiles.size() + " open; " + tmpMax.size() + " in tmpMax; + addedCount2 " + addedCount2, 0);
         return l;
-        
+
     }
     private void processLastToFirst() throws InterruptedException
     {
@@ -374,7 +376,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         ArrayList<TmpFile> openFiles = new ArrayList<TmpFile>();
         TmpFile curTmp = null;
         ObjectInputStream ois = null;
-        
+
         for(;;)
         {
             for(;;)
@@ -388,7 +390,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                     ois = tmp.openTmpFile();
                     openFiles.add(curTmp = tmp);
                     curMax = tmpMax.higherEntry(curMax.getKey());
-                } 
+                }
                 else
                 {
                     boolean match = false;
@@ -413,9 +415,9 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                         tmf = curMax.getValue();
                         ois = tmf.openTmpFile();
                         Runtime.sysoutln(tmf.file + " opened ",0);
-                        openFiles.add(curTmp = tmf); 
+                        openFiles.add(curTmp = tmf);
                         curMax = tmpMax.higherEntry(curMax.getKey());
-                        
+
                     }
                 }
                 OutputShape p;
@@ -437,7 +439,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                             curTmp.current = o;
                             toEnd = false;
                             break;
-                        }                            
+                        }
                         if (state != 3)
                             break;
                     }
@@ -463,7 +465,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                             curTmp.ois = null;
                             curTmp = null;
                         }
-                    } 
+                    }
                     catch(Exception e)
                     {
                         e.printStackTrace();
@@ -483,13 +485,13 @@ public abstract class ShapeReaderImpl implements ShapeReader{
             {
                 break;
             }
-                
+
         }
         drawIntermediate = true;
         drawLastToFirst();
         Runtime.sysoutln(openFiles.size() + " open; " + tmpMax.size() + " in tmpMax; + addedCount2 " + addedCount2, 0);
     }
-    
+
     protected class Layer implements Comparable<Layer>
     {
 
@@ -509,10 +511,10 @@ public abstract class ShapeReaderImpl implements ShapeReader{
             else if (layerIndex < o.layerIndex) return -1;
             return 0;
         }
-        
+
     }
-    
-    
+
+
     @Override
     public void finish(int step)
     {
@@ -520,7 +522,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         state = step;
     }
 
-    
+
     public void rewind()
     {
         finish(5);
@@ -528,7 +530,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
     /**This template method polls shapes from RuleWriter, and, depending on
      * Brushmode, either draws some immediately on the canvas, or delays
      * all drawing till RuleWriter is exhausted.
-     * 
+     *
      */
     @Override
     public void run()
@@ -546,11 +548,12 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                 int i = 0;
                 for(OutputShape p : shapes)
                 {
-                    if (i++ % 20 == 0)
+                    Camera cam = model.cameras.get(p.fov);
+                    if (i++ % 20 == 0 || cam.primingRate() < Math.random())
                         try
                         {
-                            p.shape.draw(model.cameras.get(p.fov), canvas, p);
-                        } 
+                            p.shape.draw(cam, canvas, p);
+                        }
                         catch(Exception e)
                         {
                             Runtime.sysoutln("Unable to draw shape " + p.shape.name + " ["+ p.shape.getClass() + "]", 20);
@@ -559,7 +562,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                     addShape(p);
                 }
 
-            } 
+            }
             catch(Exception e)
             {
                 e.printStackTrace();
@@ -593,7 +596,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         catch(InterruptedException ie)
         {
             throw new RuntimeException("ShapeReader:run:draw remaining");
-        } 
+        }
         Runtime.sysoutln("sr2 " + state, 0);
         if (state < 3)
         {
@@ -614,7 +617,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         canvas.finish();
         state = 0;
     }
-    
+
     private int addedCount = 0;
     private int moveCountInt;
     public void addShape(OutputShape shape)
@@ -643,7 +646,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
             {
                 moveToTmpFiles();
                 count = 0;
-            } 
+            }
             catch(Exception mm)
             {
                 mm.printStackTrace();
@@ -674,28 +677,28 @@ public abstract class ShapeReaderImpl implements ShapeReader{
     {
         return tmpFilePhase? addedCount2 : addedCount;
     }
-    
-    
+
+
 
     protected abstract void drawRemainingShapes();
     protected abstract float getMetric(OutputShape p);
-    
+
 
     protected Layer addLayer(Layer l)
     {
         int ind = Collections.binarySearch(this.layerInd, l);
         if (ind >= 0)
         {
-            
+
         }
         else
         {
-            this.layers.put(l.layerIndex, l);            
+            this.layers.put(l.layerIndex, l);
             layerInd.add(-(ind+1),l);
         }
         return l;
     }
-    
+
     public Iterator<OutputShape> iterator()
     {
         return new Iterator<OutputShape>()
@@ -704,7 +707,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
             int layer = -1;
             Entry<Float, ? extends List<OutputShape>> curEntry;
             Iterator<OutputShape> curI;
-            
+
             public boolean hasNext()
             {
                 throw new UnsupportedOperationException("Not supported.");
@@ -734,7 +737,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
             {
                 throw new UnsupportedOperationException("Not supported.");
             }
-            
+
         };
     }
 
@@ -804,7 +807,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                 layer = ll;
                 break;
             }
-        }        
+        }
         if (layer==null)
             return;
         TmpFile f = createTmpFile(null, layer.layerIndex,
@@ -813,7 +816,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         for (Layer ll : layerInd)
         {
             f.layermax = ll.layerIndex;
-            
+
             Entry<Float, ? extends List<OutputShape>> e = ll.points.lastEntry();
 
             while (e != null)
@@ -846,17 +849,17 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                     {
                         f = createTmpFile(f, ll.layerIndex,
                                 e.getKey());
-                        
+
                         l += added;
                         added = 0;
                     }
-                } 
+                }
                 else
                 {
                     e = ll.points.lowerEntry(e.getKey());
                 }
-                
-            }   
+
+            }
             if (ll.points != null)
             {
                 Entry<Float, ? extends List<OutputShape>> e2 = ll.points.firstEntry();
@@ -908,7 +911,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         {
             return "L" + layer + " M" + metric;
         }
-        
+
         public int compareTo(ShapeReaderImpl.Order o)
         {
             if (layer > o.layer)
@@ -934,7 +937,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                 return -1;
             return 0;
         }
-        
+
     }
 
     private TmpFile createTmpFile(TmpFile f0, float layerIndex, Float key) throws IOException
@@ -944,7 +947,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
             {
                 f0.oos.close();
                 f0.oos = null;
-            } 
+            }
             catch(Exception ec)
             {
                 ec.printStackTrace();
@@ -956,10 +959,10 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         Runtime.sysoutln("Created sr temp " + f.file, 2);
         return f;
     }
-    
+
     TmpFile search;
     { try { search = new TmpFile(0f); } catch(Exception eos){}}
-    
+
     private int tmpInd = 0;
     private class TmpFile
     {
@@ -967,7 +970,7 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         File file;
         ObjectOutputStream oos;
         ObjectInputStream ois;
-        
+
         Order current;
 
         TmpFile(float layer) throws IOException
@@ -981,13 +984,13 @@ public abstract class ShapeReaderImpl implements ShapeReader{
         void openOos() throws IOException
         {
             oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(file)));
-        } 
-        
+        }
+
         private ObjectInputStream openTmpFile()
         {
             Runtime.sysoutln("Opening tmp file " + file,0);
             try {
-                this.ois = 
+                this.ois =
                         new ObjectInputStream(
                         new BufferedInputStream(
                         new FileInputStream(file)));
@@ -998,10 +1001,9 @@ public abstract class ShapeReaderImpl implements ShapeReader{
                 return null;
             }
             return ois;
-        }        
-    
+        }
+
     }
 
-    
-}
 
+}

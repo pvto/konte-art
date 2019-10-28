@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import org.konte.image.Canvas;
 import org.konte.image.OutputShape;
+import org.konte.image.Camera;
 import org.konte.misc.DiskBackedTreeMapBag;
 import org.konte.misc.DiskBackedTreeMapBag.BagWrapper;
 import org.konte.model.Model;
@@ -24,7 +25,7 @@ public class DiskBackedShapeReader implements ShapeReader {
     Layers layers = new Layers();
     private RuleWriter rulew;
     private Canvas canvas;
-    
+
     private Model model;
     private boolean enableLaterIteration;
 
@@ -33,7 +34,7 @@ public class DiskBackedShapeReader implements ShapeReader {
         this.model = model;
         this.metric = metric;
     }
-    
+
     @Override
     public void setEnableLaterIteration(boolean enable)
     {
@@ -56,7 +57,7 @@ public class DiskBackedShapeReader implements ShapeReader {
         state = step;
     }
 
-    
+
     public void rewind()
     {
         finish(5);
@@ -74,7 +75,7 @@ public class DiskBackedShapeReader implements ShapeReader {
             state = 5;
         }
     }
-    private void runInternal() throws IOException 
+    private void runInternal() throws IOException
     {
         rulew.countdown.countDown();
         state = 1;
@@ -86,7 +87,7 @@ public class DiskBackedShapeReader implements ShapeReader {
                 List<OutputShape> shapes = rulew.exchangeShapes();
                 addShapes(shapes);
 
-            } 
+            }
             catch(Exception e)
             {
                 e.printStackTrace();
@@ -121,7 +122,7 @@ public class DiskBackedShapeReader implements ShapeReader {
         catch(InterruptedException ie)
         {
             throw new RuntimeException("ShapeReader:run:draw remaining");
-        } 
+        }
         Runtime.sysoutln("sr2 " + state, 0);
         if (state < 3)
         {
@@ -133,17 +134,18 @@ public class DiskBackedShapeReader implements ShapeReader {
         state = 5;
         state = 0;
     }
-    
+
     private void addShapes(List<OutputShape> shapes)  throws Exception
     {
         int i = 0;
         for(OutputShape p : shapes)
         {
-            if (i++ % 100 == 0)
+            Camera cam = model.cameras.get(p.fov);
+            if (i++ % 100 == 0 || cam.primingRate() < Math.random())
                 try
                 {
-                    p.shape.draw(model.cameras.get(p.fov), canvas, p);
-                } 
+                    p.shape.draw(cam, canvas, p);
+                }
                 catch(Exception e)
                 {
                     Runtime.sysoutln("Unable to draw shape " + p.shape.name + " ["+ p.shape.getClass() + "]", 20);
@@ -165,9 +167,9 @@ public class DiskBackedShapeReader implements ShapeReader {
         {
             Layer layer = layers.layers.get(keyset[i]);
             canvas.initLayer(model, layer.layerIndex);
-            
+
             Iterator lr = layer.points.descendingMap().values().iterator();
-            
+
             while(lr.hasNext() && state == 3)
             {
                 Object o = lr.next();
@@ -190,7 +192,7 @@ public class DiskBackedShapeReader implements ShapeReader {
                     }
                     if (!enableLaterIteration)
                     {
-                        orig.val = null; 
+                        orig.val = null;
                         orig.next = orig.last = null; // cleanup to save memory
                     }
                 }
@@ -210,13 +212,17 @@ public class DiskBackedShapeReader implements ShapeReader {
     @Override public Iterator<OutputShape> iterator() { return layers.shapeIterator(false); }
     @Override public Iterator<OutputShape> descendingIterator() { return layers.shapeIterator(true); }
     @Override public Canvas getCanvas() { return canvas; }
-    @Override public void setCanvas(Canvas canvas) { this.canvas = canvas; }
+    @Override public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
+        for(Camera cam: model.cameras)
+            cam.setCanvas(canvas);
+    }
     @Override public void setRuleWriter(RuleWriter aThis) { this.rulew = aThis; }
     @Override public RuleWriter getRuleWriter() { return this.rulew; }
-    
+
     OutputShapeSerializer outputShapeSerializer = new OutputShapeSerializer();
-    
-    
+
+
     protected class Layers
     {
         public int addedCount = 0;
@@ -246,13 +252,13 @@ public class DiskBackedShapeReader implements ShapeReader {
                 private int i = 0;
                 private Iterator<Object> lr = lriter();
                 private Object li = null;
-                
+
                 @Override
                 public boolean hasNext()
                 {
                     return li != null || lr != null && lr.hasNext() || i < keyset.length - 1;
                 }
-                
+
                 private Object lrnext()
                 {
                     try {
@@ -262,11 +268,11 @@ public class DiskBackedShapeReader implements ShapeReader {
                         return null;
                     }
                 }
-                
+
                 private Iterator lriter()
                 {
                     Collection vals = layers.get(keyset[i++]).points.values();
-                    
+
                     if (desc)
                     {
                         if (!(vals instanceof List))
@@ -326,7 +332,7 @@ public class DiskBackedShapeReader implements ShapeReader {
                 }
 
                 @Override public void remove() { throw new UnsupportedOperationException("Not supported."); }
-                
+
             };
         }
     }
@@ -349,12 +355,12 @@ public class DiskBackedShapeReader implements ShapeReader {
             else if (layerIndex < o.layerIndex) return -1;
             return 0;
         }
-        
+
         public void addPoint(OutputShape p)
         {
             float dist = metric.measure(p);
             points.put(dist, p);
         }
-        
+
     }
 }

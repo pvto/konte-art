@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.konte.expression.Expression;
+import org.konte.image.Camera;
 import org.konte.image.Canvas;
 import org.konte.image.OutputShape;
 import org.konte.model.Model;
@@ -118,7 +119,7 @@ public class StreamingShapeReader implements ShapeReader {
         }
         addedCount++;
     }
-    
+
     public void finish(int step) {
         if (state == 1 || state == 3) {
             state = step;
@@ -159,10 +160,12 @@ public class StreamingShapeReader implements ShapeReader {
 
     public void setCanvas(Canvas canvas) {
         this.canvas = canvas;
+        for(Camera cam: model.cameras)
+            cam.setCanvas(canvas);
     }
 
     @Override public RuleWriter getRuleWriter() { return this.ruleWriter; }
-    
+
     public void setRuleWriter(RuleWriter aThis) {
         this.ruleWriter = aThis;
     }

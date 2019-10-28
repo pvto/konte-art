@@ -15,19 +15,23 @@ import org.konte.parse.ParseException;
 public class PanningCamera extends SimpleCamera {
 
     Vector3 moveDirection;
-    Vector3 tmpv;
+    Vector3 tmpv = new Vector3();
     private float h;
     private float w;
     private float threshold = 0.45f;
     private float panningBase = -0.9f + 2.1f;
     Vector3 tmp2 = new Vector3();
 
+    @Override public float primingRate() {
+        return 1f;
+    }
+
     public PanningCamera()
     {
         super();
     }
 
-    public PanningCamera(Transform position) throws ParseException 
+    public PanningCamera(Transform position) throws ParseException
     {
         super(position);
     }
@@ -43,45 +47,60 @@ public class PanningCamera extends SimpleCamera {
     public void setCanvas(Canvas canvas)
     {
         super.setCanvas(canvas);
-        h = canvas.getHeight() / 2;
-        w = canvas.getWidth() / 2;
-    }
-    
-    @Override
-    public void setPosition(Transform posT) throws ParseException 
-    {
-        super.setPosition(posT);
-        float unitL = 1/(float)Math.sqrt(3);
-        moveDirection = new Vector3();
-        moveDirection = this.cameraRotationMatrix.multiply(new Vector3(0f,0f,-unitL));
+        setWh();
     }
 
-    float prevest = 0f;
+    private void setWh() {
+        h = canvas.getHeight() / 2f / (float)canvas.getWidth();
+        w = 0.5f;
+    }
+
+    private int iii = 0;
+
+    @Override
+    public void setPosition(Transform posT) throws ParseException
+    {
+        super.setPosition(posT);
+        moveDirection = Vector3.sub(position, target).normalize();
+    }
+
+    private boolean inBounds(Point2 p) {
+        if (Math.abs(p.x) > w) return false;
+        if (Math.abs(p.y) > h) return false;
+        return true;
+    }
     @Override
     public Point2 mapTo2D(Vector3 v)
     {
+        if (w == 0)
+            setWh();
         Point2 p = super.mapTo2D(v);
-        if (p.x >= -threshold && p.x <= threshold && p.y >= -threshold && p.y <= threshold)
+        if (inBounds(p)) {
             return p;
-        // if tmp out of bounds, move backward 
+        }
+        // if tmp out of bounds, move backward
+        // iterate linear estimate
+
         int i = 0;
-        while (i++ < 100)
+        while (i++ < 20)
         {
-            float estimate = Math.abs(p.x) + Math.abs(p.y) + panningBase;
-            if (Float.isNaN(estimate) || Float.isInfinite(estimate))
-            {
+            float maxd = (float)Math.max(
+                Math.abs(p.x) - w,
+                Math.abs(p.y) - h
+            );
+            float estimate = maxd / 100f / w;
+            if (Float.isNaN(estimate) || Float.isInfinite(estimate)) {
                 return p;
             }
-            tmpv = moveDirection.mul(estimate);
+            estimate = (float)Math.max(estimate, 0.05f);
+
+            tmpv = moveDirection.mul((float)Math.sqrt(estimate), tmpv);
             Vector3.add(position, tmpv, tmp2);
             position.set(tmp2);
-//            System.out.println("PAN pos: " + tmp2 + " - est. " + estimate);
+            //System.out.println("PAN pos: " + tmp2 + " p= " + p + " - est. " + estimate + " d=" + tmpv + " md=" + moveDirection);
             p = super.mapTo2D(v);
-            if (p.x >= -threshold && p.x <= threshold && p.y >= -threshold && p.y <= threshold)
+            if (inBounds(p))
                 return p;
-            if (prevest == estimate)    // prevent eternal panning if movement is asymptotic
-                return p;
-            prevest = estimate;
         }
         return p;
     }
@@ -94,5 +113,5 @@ public class PanningCamera extends SimpleCamera {
 
 
 
-    
+
 }

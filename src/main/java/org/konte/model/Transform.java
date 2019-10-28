@@ -18,22 +18,22 @@ import org.konte.generate.Runtime;
 import org.konte.struct.RefStack;
 
 /**<p>This is the abstract definition of a set of transforms that are applied
- * to a branch at generate time. 
+ * to a branch at generate time.
  * <p>A transform can carry Definitions, Continuations, and Expressions.
  * Definitions are user defined generationtime values.
  * Continuations define children for PEEK and POP structures.
- * Expressions are either spatial transforms or other modifiers 
+ * Expressions are either spatial transforms or other modifiers
  * that are strictly defined in org.konte.Language. Each
  * instantiated InnerToken in Language has a TransformModifier counterpart.
  * <h3>Definitions</h3>
- * 
+ *
  * <h3>Continuations</h3>
- * 
+ *
  * <h3>Expression</h3>
- * <p>Expressions are either spatial transforms (stored in list 
+ * <p>Expressions are either spatial transforms (stored in list
  * acqTrs in this class) or other modifiers (stored in list acqExps).
- * <p>Each spatial transform will maintain an affine transform superMatrix, and 
- * the Transform itself will maintain one super matrix. If all 
+ * <p>Each spatial transform will maintain an affine transform superMatrix, and
+ * the Transform itself will maintain one super matrix. If all
  * spatial transforms are solvable at compile time, i.e.
  * they contain neither backreferences nor non-constant (macro)
  * definitions, the super matrix will be pre-evaluated at compile time.
@@ -44,7 +44,7 @@ import org.konte.struct.RefStack;
  */
 public class Transform {
 
-    
+
     public Model model;
     public int index;
     public NonDeterministicRule rule = null;
@@ -59,7 +59,7 @@ public class Transform {
     public boolean terminatingShape = false;
     public boolean repeatStructure = false;
     public boolean conditionalStructure = false;
-    
+
     public int lineNr = 0, caretPos = 0;
 
     private Transform()
@@ -68,7 +68,7 @@ public class Transform {
         continuationStack = new ArrayList<Integer>();
         acqExps = new ArrayList<TransformModifier>();   // other expressions
         acqTrs = new ArrayList<TransformModifier>();    // transforms
-        defs = new ArrayList<Definition>();        
+        defs = new ArrayList<Definition>();
     }
 
     public Transform(int lineNr, int caretPos) {
@@ -83,7 +83,7 @@ public class Transform {
         this.ruleName = ruleName;
     }
 
-    
+
     public Definition setDef(String lastName, Expression lexpr, boolean isUndef)
     {
         Definition def = new Definition(lastName, lexpr);
@@ -107,7 +107,7 @@ public class Transform {
         }
     }
     /** Run this before attaching a RuleWriter to Model. */
-    public void initialize(Model model) throws ParseException 
+    public void initialize(Model model) throws ParseException
     {
         this.model = model;
         NonDeterministicRule ndr;
@@ -119,7 +119,7 @@ public class Transform {
             {
                 if (u.compareTo(name)==0)
                 {
-                    cont = true; 
+                    cont = true;
                     Runtime.sysoutln("CONT(UNTR): " + u,0);
                     continuationStack.set(cnind, u.getId());
                     break;
@@ -135,13 +135,13 @@ public class Transform {
             }
             Runtime.sysoutln("CONT: " + ndr,0);
             continuationStack.set(cnind, ndr.id);
-        }        
+        }
         if (Language.peek.compareTo(ruleName) == 0)
         {
             indexedNd = -2;
         } else if (Language.pop.compareTo(ruleName) == 0)
         {
-            indexedNd = -3;    
+            indexedNd = -3;
         }
         boolean matrixIsResolved = true;
         ArrayList<TransformModifier> tmplist = new ArrayList<TransformModifier>();
@@ -167,7 +167,7 @@ public class Transform {
                             tmpe = new Value((float)j);
                             aq.exprs.set(i,tmpe);
                         }
-                    }                        
+                    }
                 } else if (aq instanceof TransformModifier.shading)
                 {
                    for (int j =0; j < model.colorSpaces.size(); j++)
@@ -179,7 +179,7 @@ public class Transform {
                             tmpe = new Value((float)j);
                             aq.exprs.set(i,tmpe);
                         }
-                    }                        
+                    }
 /*                } else if (aq instanceof TransformModifier.img)
                 {
                     int ind = model.bitmapCache.getIndex(
@@ -206,17 +206,17 @@ public class Transform {
                     }
                     catch(NullPointerException npe)
                     {
-                        // definitions are not defined yet - 
+                        // definitions are not defined yet -
                         isEvaluated = false;
                     }
                 }
             }
-            
+
             if (isEvaluated)
             {
                 aq.resolved = true;
                 aq.transform = aq.createTransform(res);
-            }            
+            }
             if (!isEvaluated && aq.isInTransform())
             {
                 matrixIsResolved = false;
@@ -233,7 +233,7 @@ public class Transform {
             if (ind == -1)
             {
                 Runtime.sysoutln("Setting PUSH target to " + s, 0);
-                
+
             }
         }
     }
@@ -247,7 +247,7 @@ public class Transform {
                 return true;
         return false;
     }
-    private Matrix4 createTransformMatrix() throws ParseException 
+    private Matrix4 createTransformMatrix() throws ParseException
     {
         Matrix4 tmp = null; // = Matrix4.IDENTITY;
         try {
@@ -257,7 +257,7 @@ public class Transform {
                     Float[] f = new Float[aq.n];
                     for (int i = 0; i < aq.n; i++)
                     {
-                        f[i] = aq.exprs.get(i).evaluate();            
+                        f[i] = aq.exprs.get(i).evaluate();
                     }
                     if (tmp == null)
                     {
@@ -279,7 +279,7 @@ public class Transform {
         return tmp;
     }
 
-    public Matrix4 getTransformMatrix() throws ParseException 
+    public Matrix4 getTransformMatrix() throws ParseException
     {
         if (superMatrix != null) return superMatrix;
         return createTransformMatrix();
@@ -309,19 +309,19 @@ public class Transform {
 
     /**Should be called from the parser only.
      * As of dynamic generation, the possibility is open for future versions.
-     * 
+     *
      * @param t
      * @param lexprs
      * @throws org.konte.model.ParseException
      */
-    @SuppressWarnings( 
+    @SuppressWarnings(
         value = {"unchecked"}
     )
-    public void setShapeTransform(Token t, ArrayList<Expression> lexprs) throws ParseException 
+    public void setShapeTransform(Token t, ArrayList<Expression> lexprs) throws ParseException
     {
 //        Runtime.sysoutln("SETTING " + t + ": " + lexprs, 0);
         Expression lexpr =  lexprs.size() == 0 ? null : lexprs.get(0);
-        
+
         if (t instanceof InnerToken)
         {
             if (t == Language.push)
@@ -335,14 +335,14 @@ public class Transform {
                         throw new ParseException("Push directive must be followed by a rule name instead of:  " + lexpr, lineNr, caretPos);
                     }
                     continuationNames.add(((Name)lexpr).toString());
-                    continuationStack.add(-1);  // will be replaced by Model.initialize() 
+                    continuationStack.add(-1);  // will be replaced by Model.initialize()
                 }
             }
             else
             {
-                
-                
-                
+
+
+
                 boolean takesArray = (((InnerToken)t).higherParamCountAllowed(1) ? true : false);
                 TransformModifier te = null;
 //                try {
@@ -381,17 +381,17 @@ public class Transform {
         else {
             throw new ParseException("Unrecognized transform token " + t.name, lineNr, caretPos);
         }
-        
+
     }
 
-    
-    
-    
-    
+
+
+
+
     private static ArrayList<DrawingContext.Def> tmpdef = new ArrayList<Def>();
     /**This continuation is picked up by RuleWriter at generate time (it is
      * removed by transform() in POP).
-     * 
+     *
      */
     public int poppedContinuation = Integer.MIN_VALUE;
     /** Accepts the given DrawingContext and transforms it to a new according to all
@@ -400,7 +400,7 @@ public class Transform {
      * @return
      * @throws org.konte.model.ParseException
      */
-    public DrawingContext transform(DrawingContext old) throws ParseException 
+    public DrawingContext transform(DrawingContext old) throws ParseException
     {
         DrawingContext newt = new DrawingContext();
         if (terminatingShape)
@@ -424,20 +424,19 @@ public class Transform {
             int i = 0;
             while(i < this.continuationStack.size()) {
                 Integer cnt = this.continuationStack.get(i++);
-                System.out.println("conststack " + i + " =" + cnt);
                 if (cnt != null)
                     newt.pushstack2 = new RefStack(newt.pushstack2, cnt);
             }
         }
 
         // copy general parameters
-        newt.d = old.d;      
+        newt.d = old.d;
         // decrement iteration level counter, if necessary
         // when the counter reaches zero, that branch will be cut from recursion
         if (newt.d > 0)
         {
             newt.d--;
-        }        
+        }
         // copy colors
         newt.R = old.R;
         newt.G = old.G;
@@ -448,9 +447,9 @@ public class Transform {
         newt.col0 = old.col0;
         newt.layer = old.layer;
         newt.fov = old.fov;
-        
+
         // update matrix
-        newt.matrix = old.matrix.multiply(this.getTransformMatrix());        
+        newt.matrix = old.matrix.multiply(this.getTransformMatrix());
         // update other expressions
         for (TransformModifier aq : this.acqExps)
         {
@@ -462,19 +461,19 @@ public class Transform {
             }
         }
         // apply shading - moved to ruleWriter (only for final shapes)
-        
+
         // update definition table
         if (this.defs.size() == 0)
         {
             newt.defs = old.defs;
-        // if there are changes to parent,    
-        // first add all definitions from old object for the transform            
+        // if there are changes to parent,
+        // first add all definitions from old object for the transform
         }
         else
         {
-            int thisind = 0;            
+            int thisind = 0;
             tmpdef.clear();
-            if (old.defs != null) 
+            if (old.defs != null)
                 for(int i=0; i < old.defs.length; i++)
                     tmpdef.add(new Def(old.defs[i].nameid,old.defs[i].defval));
             // then - assuming both tmpdef and st.defs are ordered -
@@ -506,9 +505,9 @@ public class Transform {
                         {
                             tmpdef.add(thisind,new Def(sd.nameId,sd.definition.evaluate()));
                         }
-                        thisind++;                    
+                        thisind++;
                         stind++;
-                    }                
+                    }
                 } else if (sd.nameId > dd.nameid)
                 {
                     thisind++;
@@ -516,24 +515,24 @@ public class Transform {
                 {
                     tmpdef.add(thisind,new Def(sd.nameId,sd.definition.evaluate()));
                     thisind++;
-                    stind++;   
-                }   
+                    stind++;
+                }
             }
             newt.defs = new Def[tmpdef.size()];
             thisind = 0;
             for(Def dd : tmpdef)
-                newt.defs[thisind++] = dd;                
+                newt.defs[thisind++] = dd;
         }
         return newt;
-            
+
     }
-    
-    
+
+
     public String toString()
     {
         return String.format("\"%s\"", ruleName != null ? ruleName : "");
     }
-    
+
     public String toStringVerbose()
     {
         StringBuilder bd = new StringBuilder();
@@ -548,7 +547,7 @@ public class Transform {
         }
         for(String ss: continuationNames)
             bd.append(" PUSH:").append(ss);
-        if (defs.size()>0) bd.append(" DEFS:").append(defs);        
+        if (defs.size()>0) bd.append(" DEFS:").append(defs);
         bd.append("}");
 
         return bd.toString();

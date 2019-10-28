@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import org.konte.image.Canvas;
 import org.konte.image.OutputShape;
+import org.konte.image.Camera;
 import org.konte.misc.DiskBackedFlointTree;
 import org.konte.struct.FlointTree;
 import org.konte.model.Model;
@@ -19,7 +20,7 @@ public class DiskedFlointShapeReader implements ShapeReader {
     Layers layers = new Layers();
     private RuleWriter rulew;
     private Canvas canvas;
-    
+
     private Model model;
     private boolean enableLaterIteration;
 
@@ -28,7 +29,7 @@ public class DiskedFlointShapeReader implements ShapeReader {
         this.model = model;
         this.metric = metric;
     }
-    
+
     @Override
     public void setEnableLaterIteration(boolean enable)
     {
@@ -51,7 +52,7 @@ public class DiskedFlointShapeReader implements ShapeReader {
         state = step;
     }
 
-    
+
     public void rewind()
     {
         finish(5);
@@ -69,7 +70,7 @@ public class DiskedFlointShapeReader implements ShapeReader {
             state = 5;
         }
     }
-    private void runInternal() throws IOException 
+    private void runInternal() throws IOException
     {
         rulew.countdown.countDown();
         state = 1;
@@ -81,7 +82,7 @@ public class DiskedFlointShapeReader implements ShapeReader {
                 List<OutputShape> shapes = rulew.exchangeShapes();
                 addShapes(shapes);
 
-            } 
+            }
             catch(Exception e)
             {
                 e.printStackTrace();
@@ -116,7 +117,7 @@ public class DiskedFlointShapeReader implements ShapeReader {
         catch(InterruptedException ie)
         {
             throw new RuntimeException("ShapeReader:run:draw remaining");
-        } 
+        }
         Runtime.sysoutln("sr2 " + state, 0);
         if (state < 3)
         {
@@ -128,17 +129,18 @@ public class DiskedFlointShapeReader implements ShapeReader {
         state = 5;
         state = 0;
     }
-    
+
     private void addShapes(List<OutputShape> shapes)  throws Exception
     {
         int i = 0;
         for(OutputShape p : shapes)
         {
-            if (i++ % 100 == 0)
+            Camera cam = model.cameras.get(p.fov);
+            if (i % 100 == 0 || cam.primingRate() < Math.random())
                 try
                 {
-                    p.shape.draw(model.cameras.get(p.fov), canvas, p);
-                } 
+                    p.shape.draw(cam, canvas, p);
+                }
                 catch(Exception e)
                 {
                     Runtime.sysoutln("Unable to draw shape " + p.shape.name + " ["+ p.shape.getClass() + "]", 20);
@@ -160,7 +162,7 @@ public class DiskedFlointShapeReader implements ShapeReader {
         {
             Layer layer = layers.layers.get(keyset[x]);
             canvas.initLayer(model, layer.layerIndex);
-            
+
             DiskBackedFlointTree lr = layer.points;
 
             out: for(int i = lr.root.children.length - 1; i >= 0; i--) { Node1 n1 = lr.root.children[i]; if (n1 != null)
@@ -201,7 +203,7 @@ public class DiskedFlointShapeReader implements ShapeReader {
         //Runtime.sysoutln("drawn: " + (shapeCount-then) + " state=" + state, 0);
     }
 
-    
+
     private void drawShapes(FUPair fu) throws IOException
     {
         while(fu != null)
@@ -213,7 +215,7 @@ public class DiskedFlointShapeReader implements ShapeReader {
                 p = (OutputShape)w.getValue();
                 if (!enableLaterIteration)
                 {
-                    w.val = null; 
+                    w.val = null;
                 }
             }
             else
@@ -228,7 +230,7 @@ public class DiskedFlointShapeReader implements ShapeReader {
         }
 
     }
-    
+
     BinBranch.Do drawShapesDo = new BinBranch.Do() {
         @Override
         public void now(BinBranch bb)
@@ -243,14 +245,18 @@ public class DiskedFlointShapeReader implements ShapeReader {
             }
         }
     };
-    
+
     @Override public Iterator<OutputShape> iterator() { return layers.shapeIterator(false); }
     @Override public Iterator<OutputShape> descendingIterator() { return layers.shapeIterator(true); }
     @Override public Canvas getCanvas() { return canvas; }
-    @Override public void setCanvas(Canvas canvas) { this.canvas = canvas; }
+    @Override public void setCanvas(Canvas canvas) {
+        this.canvas = canvas;
+        for(Camera cam: model.cameras)
+            cam.setCanvas(canvas);
+    }
     @Override public void setRuleWriter(RuleWriter aThis) { this.rulew = aThis; }
     @Override public RuleWriter getRuleWriter() { return this.rulew; }
-    
+
     OutputShapeSerializer outputShapeSerializer = new OutputShapeSerializer();
 
     protected class Layers
@@ -297,12 +303,12 @@ public class DiskedFlointShapeReader implements ShapeReader {
             else if (layerIndex < o.layerIndex) return -1;
             return 0;
         }
-        
+
         public void addPoint(OutputShape p)
         {
             float dist = metric.measure(p);
             points.put(dist, p);
         }
-        
+
     }
 }

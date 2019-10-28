@@ -24,6 +24,7 @@ RGB
 shadings
 extending-shading-to-2d
 color_HSB
+noise_systems
 ---------------
 CABINET_camera
 FISHEYE_camera

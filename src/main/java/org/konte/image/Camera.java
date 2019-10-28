@@ -31,4 +31,6 @@ public interface Camera {
 
     public void lookat(Vector3 vector3);
 
+    public float primingRate();
+
 }

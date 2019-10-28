@@ -28,6 +28,8 @@ public class SimpleCamera implements Camera {
     protected Canvas canvas;
     protected DistanceMetric metric;
 
+    private float rx = 0f, ry = 0f, rz = 0f;
+
     public SimpleCamera() {}
 
     public SimpleCamera(Transform pos) throws ParseException
@@ -61,35 +63,46 @@ public class SimpleCamera implements Camera {
     {
         DrawingContext pos = posT.transform(DrawingContext.ZERO);
         position = new Vector3(pos.getx(),-pos.gety(),pos.getz());
-        float rx = 0f;
-        float ry = 0f;
-        float rz = 0f;
-        if (target != null)
-        {
-            Vector3 iniPos = this.initialRotation();
-            rx = iniPos.x;
-            ry = iniPos.y;
-            rz = iniPos.z;
-            Runtime.sysoutln("fov " + this.getName() + " initial dir: " + iniPos, 10);
-        }
 
         for(TransformModifier tr : posT.acqTrs)
         {
             if (tr instanceof TransformModifier.rx)
-                rx += tr.evaluateAll()[0] * toRad;
+                this.rx += tr.evaluateAll()[0] * toRad;
             else
             if (tr instanceof TransformModifier.ry)
-                ry += tr.evaluateAll()[0] * toRad;
+                this.ry += tr.evaluateAll()[0] * toRad;
             else
             if (tr instanceof TransformModifier.rz)
-                rz += tr.evaluateAll()[0] * toRad;
-
+                this.rz += tr.evaluateAll()[0] * toRad;
         }
+
+        float rx = this.rx, ry = this.ry, rz = this.rz;
+
+        if (target != null)
+        {
+            Vector3 iniPos = this.initialRotation();
+            rx += iniPos.x;
+            ry += iniPos.y;
+            rz += iniPos.z;
+            Runtime.sysoutln("fov " + this.getName() + " initial dir: " + iniPos, 10);
+        }
+
         Matrix3 zrotm = Matrix3.rotation(0,0,rz);
         Matrix3 xyrotm = Matrix3.rotation(rx,ry,0);
         cameraRotationMatrix = new Matrix3();
         Matrix3.multiply(zrotm, xyrotm, cameraRotationMatrix);
-        target = cameraRotationMatrix.multiply(new Vector3(0f,0f,-1f));
+        if (target == null) {
+            computeTarget();
+        }
+    }
+
+    private void computeTarget() {
+        Vector3 p0 = new Vector3(0f, 0f, 1f);
+        Vector3 pb0 = cameraRotationMatrix.multiply(p0);
+
+        target = pb0.normalize().negate();
+        target.z = -target.z;
+        Runtime.sysoutln((name==null?"":name) + " target " + target);
     }
 
     @Override
@@ -109,13 +122,6 @@ public class SimpleCamera implements Camera {
         this.canvas = canvas;
     }
 
-//    public float distMetric(Matrix4 matrix)
-//    {
-//        float xs = (position.x-matrix.m03);
-//        float ys = (position.y-matrix.m13);
-//        float zs = (position.z-matrix.m23);
-//        return xs*xs+ys*ys+zs*zs;
-//    }
 
     @Override
     public void setDistanceMetric(DistanceMetric metric) {
@@ -186,6 +192,9 @@ public class SimpleCamera implements Camera {
         return new Vector3(rx, ry, rz);
     }
 
+    @Override public float primingRate() {
+        return 0.0f;
+    }
 
     @Override
     public String toString()
