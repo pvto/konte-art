@@ -158,12 +158,13 @@ public class RuleWriter {
                         y0 = (y - a.y),
                         z0 = (z - a.z);
                 double w = ((OutputShape)((Tuple)a.o).t).getAvgWidth() / 2f;
-                double dista = Math.max(0, Math.sqrt(x0*x0 + y0*y0 + z0*z0) - w);
+                w = w * w;
+                double dista = Math.max(0, x0*x0 + y0*y0 + z0*z0 - w);
                 x0 = (x - b.x);
                 y0 = (y - b.y);
                 z0 = (z - b.z);
                 w = ((OutputShape)((Tuple)b.o).t).getAvgWidth() / 2f;
-                double distb = Math.max(0, Math.sqrt(x0*x0 + y0*y0 + z0*z0) - w);
+                double distb = Math.max(0, x0*x0 + y0*y0 + z0*z0 - w);
                 if (dista < distb) { return -1; }
                 if (dista > distb) { return 1; }
                 return 0;
