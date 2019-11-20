@@ -164,7 +164,7 @@
                 <Property name="mnemonic" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="&apos;f&apos;" type="code"/>
                 </Property>
-                <Property name="selected" type="boolean" value="true"/>
+                <Property name="selected" type="boolean" value="false"/>
                 <Property name="text" type="java.lang.String" value="Full screen"/>
               </Properties>
               <Events>

@@ -3,6 +3,7 @@ package org.konte.ui;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.swing.ImageIcon;
@@ -108,7 +109,7 @@ public abstract class EditViewCombo extends JSplitPane implements EditViewInterf
         int bWIDTH = 6;
         edit.setBorder(new javax.swing.border.EmptyBorder(bWIDTH, bWIDTH, bWIDTH, bWIDTH));
         jScrollPane1.setViewportView(edit);
-        
+
         this.setLeftComponent(jScrollPane1);
 
         view.setBorder(new javax.swing.border.LineBorder(Color.BLACK, 1));
@@ -118,6 +119,18 @@ public abstract class EditViewCombo extends JSplitPane implements EditViewInterf
     }
 
 
+
+    public void changeFontSize(float delta)
+    {
+        Font f = edit.getFont();
+        float newSize = f.getSize() + delta;
+        Font f2 = f.deriveFont(newSize);
+        edit.setFont(f2);
+    }
+
+    public float getFontSize() {
+        return edit.getFont().getSize();
+    }
 
     public void setFile(File file)
     {
@@ -138,7 +151,7 @@ public abstract class EditViewCombo extends JSplitPane implements EditViewInterf
     {
         return edit;
     }
-    
+
     public String getScriptText()
     {
         return edit.getText();

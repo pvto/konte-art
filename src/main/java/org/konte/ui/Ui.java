@@ -118,7 +118,7 @@ public class Ui extends MyJFrame {
         super(new FileNameExtensionFilter(
                 "c3dg grammar files", "c3dg"));
 //        this.setUndecorated(true);
-        boolean extendAutomatically = !System.getProperty("os.name").matches("mac|osx");
+        boolean extendAutomatically = !System.getProperty("os.name").matches("mac|osx|win");
         extendFrame(extendAutomatically);
         initComponents();
         this.setTitle(String.format(Locale.ENGLISH, "konte %.2f", Language.version));
@@ -306,7 +306,18 @@ public class Ui extends MyJFrame {
 
         }
     }
-    
+
+    private void changeFontSize(float delta)
+    {
+        for(Object obj : tabs.getComponents()) {
+            EditViewCombo ev = (EditViewCombo) obj;
+            ev.changeFontSize(delta);
+            props.setProperty("fontSize", ev.getFontSize()+"");
+        }
+        saveProps();
+    }
+
+
     private void updateLatestMenu()
     {
         //this.latestMenu.removeAll();
@@ -324,7 +335,7 @@ public class Ui extends MyJFrame {
         int count = 1;
         for (String s : deq)
         {
-            props.setProperty("M" + count, s);            
+            props.setProperty("M" + count, s);
             final JMenuItem item = new JMenuItem();
             item.setText(count + " " + s);
             item.setMnemonic('0' + count);
@@ -344,7 +355,7 @@ public class Ui extends MyJFrame {
             count++;
         }
     }
-    
+
     private void open(File f)
     {
         setPath(f);
@@ -370,6 +381,13 @@ public class Ui extends MyJFrame {
         tabs.setSelectedComponent(ev);
         ev.edit.requestFocus();
         ev.edit.setCaretPosition(0);
+        try {
+            Object foo = props.getProperty("fontSize");
+            float f = Float.parseFloat(foo+"");
+            ev.changeFontSize(f - ev.getFontSize());
+        } catch (NullPointerException npe) { /* noop */ }
+        catch (NumberFormatException nfe) { /* noob */ }
+
     }
 
     void addUntitledTab()
@@ -667,6 +685,8 @@ public class Ui extends MyJFrame {
         jCheckBoxMenuItem2 = new javax.swing.JCheckBoxMenuItem();
         editMenu = new javax.swing.JMenu();
         replaceItem = new javax.swing.JMenuItem();
+        fontIncItem = new javax.swing.JMenuItem();
+        fontDecItem = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItem11 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -938,7 +958,7 @@ public class Ui extends MyJFrame {
 
         jCheckBoxMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F11, 0));
         jCheckBoxMenuItem2.setMnemonic('f');
-        jCheckBoxMenuItem2.setSelected(true);
+        jCheckBoxMenuItem2.setSelected(false);
         jCheckBoxMenuItem2.setText("Full screen");
         jCheckBoxMenuItem2.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -998,6 +1018,27 @@ public class Ui extends MyJFrame {
             }
         });
         editMenu.add(jMenuItem5);
+
+        fontIncItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_PLUS, java.awt.event.InputEvent.CTRL_MASK));
+        fontIncItem.setMnemonic('+');
+        fontIncItem.setText("Font size +");
+        fontIncItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fontIncItemActionPerformed(evt);
+            }
+        });
+        editMenu.add(fontIncItem);
+
+        fontDecItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_MINUS, java.awt.event.InputEvent.CTRL_MASK));
+        fontDecItem.setMnemonic('-');
+        fontDecItem.setText("Font size -");
+        fontDecItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fontDecItemActionPerformed(evt);
+            }
+        });
+        editMenu.add(fontDecItem);
+
 
         menuBar.add(editMenu);
 
@@ -1282,6 +1323,14 @@ public class Ui extends MyJFrame {
         pickColor();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
+    private void fontIncItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fontIncItemActionPerformed
+        changeFontSize(1f);
+    }//GEN-LAST:event_fontIncItemActionPerformed
+
+    private void fontDecItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fontDecItemActionPerformed
+        changeFontSize(-1f);
+    }//GEN-LAST:event_fontDecItemActionPerformed
+
     private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
         importFromSvg();
     }//GEN-LAST:event_jMenuItem12ActionPerformed
@@ -1492,6 +1541,8 @@ public class Ui extends MyJFrame {
     private javax.swing.JMenuItem newMenuItem;
     private javax.swing.JMenuItem openMenuItem;
     private javax.swing.JMenuItem replaceItem;
+    private javax.swing.JMenuItem fontIncItem;
+    private javax.swing.JMenuItem fontDecItem;
     private javax.swing.JMenuItem saveAsMenuItem;
     private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JTabbedPane tabs;
