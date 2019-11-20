@@ -14,6 +14,7 @@ import java.util.List;
 public class Octree<T> {
 
     public int LEAF_MAX_OBJECTS = 10;
+    public final double LEAF_MIN_SIZE = 1e-6;
     public boolean DYNAMIC_MAX_OBJECTS = false;
     public double MAX_OBJ_TARGET_EXPONENT = 0.5;
     private int size = 0;
@@ -164,7 +165,7 @@ public class Octree<T> {
                     return parent.place_(h, n+1);
                 }
             }
-            if (items.size() >= LEAF_MAX_OBJECTS && dirty == 0)
+            if (items.size() >= LEAF_MAX_OBJECTS && dirty == 0 && x2-x1 > LEAF_MIN_SIZE)
             {
                 expand(n+1);
             }
