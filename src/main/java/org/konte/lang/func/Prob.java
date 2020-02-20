@@ -392,6 +392,17 @@ public final class Prob {
         return rnd;
     }
 
+    public static double gaussian(RandomFeed rfeed) {
+        double u = 0.0, v = 0.0;
+        double s = 0.0;
+        while(s == 0.0 || s >= 1.0) {
+            u = rfeed.get() * 2.0 - 1.0;
+            v = rfeed.get() * 2.0 - 1.0;
+            s = u*u + v*v;
+        }
+        double ret = u * Math.sqrt(-2.0 * Math.log(s) / s);
+        return ret;
+    }
 
 
     public static double rndSig(RandomFeed rfeed) {

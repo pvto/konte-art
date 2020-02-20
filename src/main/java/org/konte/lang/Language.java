@@ -248,6 +248,7 @@ public class Language {
     public static final Token max = addToken(new Mathm.EMax("max"));
     public static final Token min = addToken(new Mathm.EMin("min"));
     public static final Token coalesce = addToken(new Mathm.ECoalesce("coalesce"));
+    public static final Token gaussian = addToken(new Func.EGaussian("norm", null));
     public static final Token binm = addToken(new Prob.EBinm("binm"));
     public static final Token binmcuml = addToken(new Prob.EBincuml("binmc"));
     public static final Token binmRndf = addToken(new Func.ERndfbin("brndf", null));

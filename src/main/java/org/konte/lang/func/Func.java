@@ -1,6 +1,7 @@
 
 package org.konte.lang.func;
 
+import org.konte.generate.RandomFeed;
 import org.konte.lang.Tokens;
 import org.konte.lang.Tokens.ContextualOneToOneFunction;
 import org.konte.lang.Tokens.Function3;
@@ -147,6 +148,22 @@ public class Func {
         }
     }
 
+
+    public static class EGaussian extends ContextualOneToOneFunction {
+        // this implements Box-Mueller transform in the polar form
+        public EGaussian(String name, Model model) { super(name, model); }
+
+        @Override public int getArgsCount() { return 0; }
+        @Override public boolean nArgsAllowed(int n) { return n==0; }
+
+        @Override
+        public float value(float... val) {
+            if (!model.isPreEvaluated)
+                throw new java.util.MissingResourceException("blocking preliminary access", this.getClass().getName(), "");
+            RandomFeed rand = model.getRandomFeed();
+            return (float)Prob.gaussian(rand);
+        }
+    }
 
     public static class EChoice extends Function3 {
 

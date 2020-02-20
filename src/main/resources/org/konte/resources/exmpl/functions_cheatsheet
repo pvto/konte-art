@@ -105,6 +105,12 @@ funcHelp {
     *{y -23}{  TEXTR{ s F x -2 PUSH "^m\^binmc(n,p,i)" }
       200*{{X=X+.1}} SQUARE { x X y binmc(20, .5, X) s DW }
     }
+
+    *{y -26}{  TEXTR{ s F x -2 PUSH "^m\^norm()" }
+      200*{{X=X+.1}} SQUARE { x X y norm()*.1 s DW }
+    }
+
+    *{y -3} {
     *{y -26}{  TEXTR{ s F x -2 PUSH "^m\^brndf(n,p)" }
       200*{{X=X+.1}} SQUARE { x X y brndf(10, .5)*.1 s DW }
       TEXTR{B .4 {FLAT=1;} x 20 y 2 rz 10 s F*.9 PUSH "^m\^scaled " }
@@ -125,6 +131,7 @@ funcHelp {
       TEXTR{ s F x -2 PUSH "^m\^rndnme(2,2,1)" }
       200*{{X=X+.1}} SQUARE { x X y rndnme(2, 2, 1)*2 s DW }
       TEXTR{B .4 {FLAT=1;} x 20 y 3 rz 10 s F*.9 PUSH "^m\^scaled" }
+    }
     }
   }
 
