@@ -326,6 +326,8 @@ public class Language {
     public static Token MIX_HEXAGON;
     public static Token MIX_32GON;
 
+    public static Token BITRATE;
+
     public static Token RUBBER_SQUARE;
     public static Token RUBBER_TRIANGLE;
     public static Token RUBBER_HEXAGON;

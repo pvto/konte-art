@@ -50,7 +50,10 @@ public class DrawingContext implements Serializable {
     public int peekPushstack() {
         if (pushstack2 == null)
             return Integer.MIN_VALUE;
-        return pushstack2.peek().val;
+        RefStack.StackRetVal<Integer> sr = pushstack2.peek();
+        if (sr.val == null)
+            return Integer.MIN_VALUE;
+        return sr.val;
     }
 
 

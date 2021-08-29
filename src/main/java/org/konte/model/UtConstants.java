@@ -202,6 +202,10 @@ public class UtConstants {
                     .addShape(_32GONP)
                     .effect(Effects.MIX)
                     .build());
+            Language.BITRATE      = Language.addUntransformable(utb.name("BITRATE").clearShapes()
+                    .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)
+                    .effect(Effects.BITRATE)
+                    .build());
             
             Language.RUBBER_SQUARE      = Language.addUntransformable(utb.name("RUBBER").clearShapes()
                     .addShape(PATH_TOPL,PATH_TOPR,PATH_BOTR,PATH_BOTL)

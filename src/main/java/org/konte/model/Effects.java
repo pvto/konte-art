@@ -1,6 +1,8 @@
 package org.konte.model;
 
 import java.awt.Color;
+import java.util.Arrays;
+import java.util.Comparator;
 import org.konte.image.OutputShape;
 import org.konte.misc.Mathc3;
 import org.konte.model.Untransformable.EffectApply;
@@ -62,6 +64,96 @@ public class Effects {
                     dest[u + w * v] = a << 24 | r << 16 | g << 8 | b;
                 }
             }
+        }
+    };
+
+    private static int getBright(int a) {
+        return Math.max((a & 0xFF), Math.max((a >>> 8) & 0xFF, Math.max((a >>> 16) & 0xFF, (a >>> 24) & 0xFF)));
+    }
+    private static int getDark(int a) {
+        return -Math.max((a & 0xFF), Math.max((a >>> 8) & 0xFF, Math.max((a >>> 16) & 0xFF, (a >>> 24) & 0xFF)));
+    }
+
+    private static Comparator<Integer> brightComp = new Comparator<Integer>() {
+        public int compare(Integer a, Integer b) { return getBright(a) - getBright(b); }
+    };
+    private static Comparator<Integer> darkComp = new Comparator<Integer>() {
+        public int compare(Integer a, Integer b) { return getDark(a) - getDark(b); }
+    };
+
+    public static final EffectApply BITRATE = new Untransformable.EffectApply() {
+        
+        @Override public int xcontext(OutputShape s)
+        { 
+            return Math.max(1, (((s.col >>> 24) + 1) & 0xFF) >> 3);
+        }
+        @Override public int ycontext(OutputShape s)
+        { 
+            return xcontext(s);
+        }
+        @Override
+        public void apply(int[] data, int[] dest, int w, int h, int u, int v, OutputShape shape, int bg)
+        {
+            int ew = xcontext(shape); int eh = ew;
+            int ew2 = 2 * ew + 1;
+            int eh2 = ew2;
+            if (u < 0) return;
+            if (u > w - 1 - ew2) return;
+            if (v < 0) return;
+            if (v > h - 1 - eh2) return;
+            if (u % ew2 != 0) return;
+            if (v % eh2 != 0) return;
+
+            Integer[] stuff = new Integer[ew2*eh2];
+            int mode = (shape.col >>> 16) & 0xFF;
+            int quantile = (shape.col >>> 8) & 0xFF;
+            int u_jvw = u + v * w;
+            int sind = 0;
+            for (int j = 0; j < eh2; j++)
+            {
+                for (int i = 0; i < ew2; i++)
+                    stuff[sind++] = data[i + u_jvw];
+                u_jvw += w;
+            }
+            Comparator<Integer> comp = null;
+            switch(mode) {
+                case 1: comp = darkComp; break;
+                case 0: default: comp = brightComp; break;
+            }
+            Arrays.sort(stuff, comp);
+            int src = 0;
+            switch(mode) {
+                case 1:
+                    src = stuff[(int)(quantile / 255.0 * stuff.length)];
+                    break;
+                case 0:
+                default:
+                    int n = 0;
+                    int maxn = 0;
+                    int maxind = 0;
+                    int ind = 0;
+                    int ex = -1;
+                    for(int i = 0; i < stuff.length; i++) {
+                        if (ex != stuff[i]) {
+                            n = 0;
+                            ex = stuff[i];
+                        }
+                        n++;
+                        if (n > maxn) {
+                            maxn = n;
+                            src = stuff[i];
+                        }
+                    }
+                    break;
+            }
+            u_jvw = u + v * w;
+            for (int j = 0; j < eh2; j++)
+            {
+                for (int i = 0; i < ew2; i++)
+                    dest[u_jvw++] = src;
+                u_jvw += w - ew2;
+            }
+
         }
     };
     

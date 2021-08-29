@@ -11,7 +11,7 @@ tilp {
     *{layer 1} {
         *{rx -10}
         40*{ z .01 {i=i+1} B .3 G .15 R .1} 
-	   *{ lightness -lightness+.2*(i+1)%(cos(i/20)*3) {FLAT=4}}
+     *{ lightness -lightness+.2*(i+1)%(cos(i/20)*3) {FLAT=4}}
         1*{{BOLD=BOLD-.75;FLAT=FLAT+.5}}
         TEXT { PUSH  "^m^Konte"
               {BOLD=BOLD+3;DANCE=0.5;CAROL=5;WIDE=2}
@@ -25,9 +25,10 @@ tilp {
               scale .05 
               x -4.25
               y -2
-              lightness 1
+              lightness .6
               red -.1}
-        
+        12*{y .05 {BR=BR+.05}}
+          BITRATE{z -.05 y .05 sy .05 A -1+BR}
      }
 }
 
