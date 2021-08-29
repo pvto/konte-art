@@ -155,6 +155,55 @@ path RIM__ {
   close
 }
 
+RIM2{ *{{r=coalesce(r,1)}} RIM2__{{rim__=r-coalesce(rim, .1); ANG=coalesce(ANG,360)}} }
+path RIM2__ {
+  moveto(0,.5*r,0)
+  bend(cos((90+90)*RAD)*SECLB*r, .5*r, 0)
+  bend(.5*cos((90+ANG/4)*RAD)*r + cos((ANG/4)*RAD)*SECLB*r,
+      .5*sin((90+ANG/4)*RAD)*r + sin((ANG/4)*RAD)*SECLB*r, 0)
+  curveto(.5*cos((90+ANG/4)*RAD)*r, .5*sin((90+ANG/4)*RAD)*r, 0)
+  bend(.5*cos((90+ANG/4)*RAD)*r + cos((90+ANG/4+90)*RAD)*SECLB*r,
+      .5*sin((90+ANG/4)*RAD)*r + sin((90+ANG/4+90)*RAD)*SECLB*r, 0)
+  bend(.5*cos((90+ANG/4*2)*RAD)*r + cos((ANG/4*2)*RAD)*SECLB*r,
+      .5*sin((90+ANG/4*2)*RAD)*r + sin((ANG/4*2)*RAD)*SECLB*r, 0)
+  curveto(.5*cos((90+ANG/4*2)*RAD)*r, .5*sin((90+ANG/4*2)*RAD)*r, 0)
+  bend(.5*cos((90+ANG/4*2)*RAD)*r + cos((90+ANG/4*2+90)*RAD)*SECLB*r,
+      .5*sin((90+ANG/4*2)*RAD)*r + sin((90+ANG/4*2+90)*RAD)*SECLB*r, 0)
+  bend(.5*cos((90+ANG/4*3)*RAD)*r + cos((ANG/4*3)*RAD)*SECLB*r,
+      .5*sin((90+ANG/4*3)*RAD)*r + sin((ANG/4*3)*RAD)*SECLB*r, 0)
+  curveto(.5*cos((90+ANG/4*3)*RAD)*r, .5*sin((90+ANG/4*3)*RAD)*r, 0)
+  bend(.5*cos((90+ANG/4*3)*RAD)*r + cos((90+ANG/4*3+90)*RAD)*SECLB*r,
+      .5*sin((90+ANG/4*3)*RAD)*r + sin((90+ANG/4*3+90)*RAD)*SECLB*r, 0)
+  bend(.5*cos((90+ANG/4*4)*RAD)*r + cos((ANG/4*4)*RAD)*SECLB*r,
+      .5*sin((90+ANG/4*4)*RAD)*r + sin((ANG/4*4)*RAD)*SECLB*r, 0)
+  curveto(.5*cos((90+ANG)*RAD)*r, .5*sin((90+ANG)*RAD)*r, 0)
+  lineto(.5*cos((90+ANG)*RAD)*rim__, .5*sin((90+ANG)*RAD)*rim__, 0)
+
+  bend(.5*cos((90+ANG/4*4)*RAD)*rim__ + cos((ANG/4*4)*RAD)*SECLB*rim__,
+      .5*sin((90+ANG/4*4)*RAD)*rim__ + sin((ANG/4*4)*RAD)*SECLB*rim__, 0)
+  bend(.5*cos((90+ANG/4*3)*RAD)*rim__ + cos((90+ANG/4*3+90)*RAD)*SECLB*rim__,
+      .5*sin((90+ANG/4*3)*RAD)*rim__ + sin((90+ANG/4*3+90)*RAD)*SECLB*rim__, 0)
+  curveto(.5*cos((90+ANG/4*3)*RAD)*rim__, .5*sin((90+ANG/4*3)*RAD)*rim__, 0)
+  bend(.5*cos((90+ANG/4*3)*RAD)*rim__ + cos((ANG/4*3)*RAD)*SECLB*rim__,
+      .5*sin((90+ANG/4*3)*RAD)*rim__ + sin((ANG/4*3)*RAD)*SECLB*rim__, 0)
+  bend(.5*cos((90+ANG/4*2)*RAD)*rim__ + cos((90+ANG/4*2+90)*RAD)*SECLB*rim__,
+      .5*sin((90+ANG/4*2)*RAD)*rim__ + sin((90+ANG/4*2+90)*RAD)*SECLB*rim__, 0)
+  curveto(.5*cos((90+ANG/4*2)*RAD)*rim__, .5*sin((90+ANG/4*2)*RAD)*rim__, 0)
+  bend(.5*cos((90+ANG/4*2)*RAD)*rim__ + cos((ANG/4*2)*RAD)*SECLB*rim__,
+      .5*sin((90+ANG/4*2)*RAD)*rim__ + sin((ANG/4*2)*RAD)*SECLB*rim__, 0)
+  bend(.5*cos((90+ANG/4)*RAD)*rim__ + cos((90+ANG/4+90)*RAD)*SECLB*rim__,
+      .5*sin((90+ANG/4)*RAD)*rim__ + sin((90+ANG/4+90)*RAD)*SECLB*rim__, 0)
+  curveto(.5*cos((90+ANG/4)*RAD)*rim__, .5*sin((90+ANG/4)*RAD)*rim__, 0)
+  bend(.5*cos((90+ANG/4)*RAD)*rim__ + cos((ANG/4)*RAD)*SECLB*rim__,
+      .5*sin((90+ANG/4)*RAD)*rim__ + sin((ANG/4)*RAD)*SECLB*rim__, 0)
+  bend(cos((90+90)*RAD)*SECLB*rim__, .5*rim__, 0)
+  curveto(0, .5*rim__, 0)
+  lineto(0,.5*r,0)
+  close
+}
+
+
+
 
 path SQU {
   moveto(-.5 + min(.5, .5*r), .5, 0)
