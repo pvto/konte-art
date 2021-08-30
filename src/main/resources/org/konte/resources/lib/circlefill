@@ -1,17 +1,19 @@
-// this requires LINE2 from #geometry
+
+MACRO rsig irndf(2)*2 - 1
+MACRO DPL__ (1-k/n)/2*rsig/8*shake
 
 aa {
   *{s .07 x -6 y 5} {
-    CIRCCO{{n=5; rim=.1} s .8}		tt{ PUSH "^m^CIRCCO{{n=5; rim=.1}}" }
-    *{y -1} { CIRCCO{{n=5; rim=.15} s .8}	tt{ PUSH "^m^CIRCCO{{n=5; rim=.15}}" }}
-    *{y -2} { CIRCCO{{n=7; rim=.05; shake=2} s .8} 	tt{ PUSH "^m^CIRCCO{{n=7; rim=.05; shake=2}}" }}
-    *{y -3} { CIRCHL{{n=7; rim=.5} s .8}	tt{ PUSH "^m^CIRCHL{{n=7; rim=.5}}" }}
-    *{y -4} { CIRCVL{{n=13; rim=1} s .8}	tt{ PUSH "^m^CIRCVL{{n=13; rim=1}}" }}
-    *{y -5} { CIRCVL{{n=13; rim=.3; shake=1} s .8}	tt{ PUSH "^m^CIRCVL{{n=13; rim=.3; shake=1}}" }}
-    *{y -6} { CIRCH{{n=9; rim=.3} s .8}	tt{ PUSH "^m^CIRCH{{n=9; rim=.3}}" }}
-    *{y -7} { CIRCH{{n=15; rim=.3; shake=1} s .8}	tt{ PUSH "^m^CIRCH{{n=15; rim=.3; shake=1}}" }}
-    *{y -8} { CIRCH3{{n=15; rim=.3; shake=0.5} s .8}	tt{ PUSH "^m^CIRCH3{{n=15; rim=.3; shake=.5}}" }}
-    *{y -9} { CIRCH4{{n=15; rim=.3; shake=1} s .8}	tt{ PUSH "^m^CIRCH4{{n=15; rim=.3; shake=1}}" }}
+    CIRCCO{{n=5; rim=.5} s .8}    tt{ PUSH "^m^CIRCCO{{n=5; rim=.5}}" }
+    *{y -1} { CIRCCO{{n=5; rim=.75} s .8} tt{ PUSH "^m^CIRCCO{{n=5; rim=.75}}" }}
+    *{y -2} { CIRCCO{{n=7; rim=.05; shake=2} s .8}  tt{ PUSH "^m^CIRCCO{{n=7; rim=.05; shake=2}}" }}
+    *{y -3} { CIRCHL{{n=7; rim=.5} s .8}  tt{ PUSH "^m^CIRCHL{{n=7; rim=.5}}" }}
+    *{y -4} { CIRCVL{{n=13; rim=1} s .8}  tt{ PUSH "^m^CIRCVL{{n=13; rim=1}}" }}
+    *{y -5} { CIRCVL{{n=13; rim=.3; shake=1} s .8}  tt{ PUSH "^m^CIRCVL{{n=13; rim=.3; shake=1}}" }}
+    *{y -6} { CIRCH{{n=9; rim=.3} s .8} tt{ PUSH "^m^CIRCH{{n=9; rim=.3}}" }}
+    *{y -7} { CIRCH{{n=15; rim=.3; shake=1} s .8} tt{ PUSH "^m^CIRCH{{n=15; rim=.3; shake=1}}" }}
+    *{y -8} { CIRCH3{{n=15; rim=.3; shake=0.5} s .8}  tt{ PUSH "^m^CIRCH3{{n=15; rim=.3; shake=.5}}" }}
+    *{y -9} { CIRCH4{{n=15; rim=.3; shake=1} s .8}  tt{ PUSH "^m^CIRCH4{{n=15; rim=.3; shake=1}}" }}
   *{x 4.5} {
     *{y  0} { CIRCRL{{n=100;rim=.2} s .8} tt{ PUSH "^m^CIRCRL{{n=100; rim=.2}}" }}
     *{y -1} { CIRCBL{{n=35;rim=.3} s .8} tt{ PUSH "^m^CIRCBL{{n=35; rim=.3}}" }}
@@ -27,22 +29,21 @@ aa {
   }
   *{x 9} {
     *{y  0} { CIRCRLH{{n=300;rim=.2} s .8} tt{ PUSH "^m^CIRCRLH{{n=300; rim=.2}}" }}
+    *{y  -1} { CIRCSEC{{n=30;rim=.5} s .8} tt{ PUSH "^m^CIRCSEC{{n=30; rim=.5}}" }}
+    *{y  -2} { CIRCSUB{{n=15;rim=1} s .8 PUSH TRIANGLE} tt{ PUSH "^m^CIRCSUB{{n=15; rim=1} PUSH TRIANGLE}" }}
+    *{y  -3} { CIRCSUB{{n=20;rim=.7} s .8 PUSH CIRCLE} tt{ PUSH "^m^CIRCSUB{{n=20; rim=.7} PUSH CIRCLE}" }}
+    *{y  -4} { CIRCSUH{{n=13;rim=.6} s .8 rz 45 PUSH RIM2} tt{ PUSH "^m^CIRCSUH{{n=13; rim=.6} PUSH RIM2}" }}
+    *{y  -5} { CIRCWOR{{n=400; rim=5} s .8 PUSH TRIANGLE} tt{ PUSH "^m^CIRCWOR{{n=400; rim=5} PUSH TRIANGLE}" }}
   }
   }
 }
 
 
-
-
-MACRO rsig irndf(2)*2 - 1
-MACRO DPL__ (1-k/n)/2*rsig/8*shake
-MACRO altsg k%2*2-1
-
 CIRCCO {
   *{{k=n}}
   (n)*{{k=k-1} } 
   {
-    RIM2{ {r=k/n}  x DPL__ y DPL__}
+    RIM2{ {r=k/n;rim=rim/n}  x DPL__ y DPL__}
   }
 }
 
@@ -75,6 +76,7 @@ CIRCRLH {
       x2=cos(U)*Uc; y2=sin(U)*Uc; }}
 }
 
+MACRO altsg k%2*2-1
 CIRCBL {
   *{{y1=-.5; y2= -.5+rndf()/n*2;}}
   *{{x1 = sqrt(.5**2 - y1**2); width=coalesce(width,rim/100)}}
@@ -113,10 +115,41 @@ CIRCRSS {
       x2=cos(U)*Uc; y2=sin(U)*Uc; } rz shake*rsig*5}
 }
 
+CIRCSEC {
+  (n)*{rz 360/n}
+  *{{ANG=360/n*rim}}
+  SECTOR{}  
+}
 
+CIRCSUB {
+  //CIRCLE{lr -1 G 1}
+  *{{N=n/2+n%2}}
+  (N)*{{k=k+1 } }
+  *{{Y= ((n+1)%2/2 +  k) / (N-n%2)/2}}
+  *{{Rn=max(1, floor(Y**(2-max(rim, .75-Y*2))*2*PI/(rim/n)))}}
+  *{rz k%2*360/Rn/4}
+  (Rn)*{rz (360/Rn) {ii=ii+1}}
+  pop{y Y - (ii%2)*(1-rim) / (N - n%2) *.25
+    s rim/n }  
+}
+
+CIRCSUH{
+  CIRCSUB{}
+  CIRCH{{rim=rim/4}}
+}
+
+system Worley2 worley__ init(1000)
+CIRCWOR {
+  (n)*{}
+  *{{ T=rndf()*PI*2; c=rndf()*.48}} *{{X=cos(T)*c; Y=sin(T)*c; }}
+  {
+    pop{  x X y Y
+      s min(.5-sqrt(X*X+Y*Y), sysread(worley__, x+X*(shake+1), y+Y*(shake+1), 1)*rim*.75) }
+  }
+}
 
 // ----------------------
 tt { TEXT{ x .7 s .15} }
+pop{POP{}}
 include #geometry
 include #monospace
-

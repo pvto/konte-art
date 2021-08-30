@@ -68,6 +68,16 @@ RECTANGLE{{
 }}
 }
 
+DASHLINE {
+  *{{dash=coalesce(dash, .05); gap=coalesce(gap, 0.25)} x x1 y y1}
+  (1/dash)*{x (x2-x1)*dash y (y2-y1)*dash} {
+    LINE2{
+      {x1=0;y1=0; x2=(x2-x1)*dash*(1-gap); y2=(y2-y1)*dash*(1-gap);
+      }
+    }
+  }
+}
+
 
 rule RECT     { RECTANGLE{} }
 
