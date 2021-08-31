@@ -69,10 +69,23 @@ RECTANGLE{{
 }
 
 DASHLINE {
-  *{{dash=coalesce(dash, .05); gap=coalesce(gap, 0.25)} x x1 y y1}
-  (1/dash)*{x (x2-x1)*dash y (y2-y1)*dash} {
-    LINE2{
-      {x1=0;y1=0; x2=(x2-x1)*dash*(1-gap); y2=(y2-y1)*dash*(1-gap);
+  *{{dash=coalesce(dash, .05); gap=coalesce(gap, 0.25);offset=(offset%1+1)%1} x x1 y y1} {
+       if (offset > gap) {
+         LINE2{{x1=0;y1=0;x2=(offset-gap)*(x2-x1)*dash;y2=(offset-gap)*(y2-y1)*dash}}
+       }
+       *{x (x2-x1)*dash*offset y (y2-y1)*dash*offset}
+    ((1-dash*offset)/dash)*{x (x2-x1)*dash y (y2-y1)*dash} {
+      LINE2{{x1=0;y1=0; x2=(x2-x1)*dash*(1-gap); y2=(y2-y1)*dash*(1-gap);}}
+    }
+    *{{left=(1-dash*offset)/dash - floor((1-dash*offset)/dash)}} {
+      if (left > 0) {
+        if (left > 1 - gap) {
+             *{{pp=left-1+gap; mulx=(x2-x1)*dash; muly=(y2-y1)*dash}}
+             LINE2{{x1=x2-x1-left*mulx; y1=y2-y1-left*muly;x2=x2-x1-pp*mulx;y2=y2-y1-pp*muly}}
+        }
+        if (left <= 1 - gap) {
+          LINE2{{x1=x2-x1-(x2-x1)*left*dash; y1=y2-y1-(y2-y1)*left*dash;x2=x2-x1;y2=y2-y1}}
+        }
       }
     }
   }

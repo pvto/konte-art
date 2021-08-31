@@ -34,6 +34,7 @@ aa {
     *{y  -3} { CIRCSUB{{n=20;rim=.7} s .8 PUSH CIRCLE} tt{ PUSH "^m^CIRCSUB{{n=20; rim=.7} PUSH CIRCLE}" }}
     *{y  -4} { CIRCSUH{{n=13;rim=.6} s .8 rz 45 PUSH RIM2} tt{ PUSH "^m^CIRCSUH{{n=13; rim=.6} PUSH RIM2}" }}
     *{y  -5} { CIRCWOR{{n=400; rim=5} s .8 PUSH TRIANGLE} tt{ PUSH "^m^CIRCWOR{{n=400; rim=5} PUSH TRIANGLE}" }}
+    *{y  -7} { CIRCHDL{{n=12; dash=.18; gap=.3; rim=.5} s .8 } tt{ PUSH "^m^CIRCHDL{{n=12;dash=.18;gap=.3;rim=.5}" }}
   }
   }
 }
@@ -54,6 +55,14 @@ CIRCHL {
   RSQU{y Y rz shake*rsig*5
     sx cos(Y*PI)**.5
     sy rim/n }  
+}
+
+CIRCHDL {
+  (n)*{{k=k+1}}
+  *{{Y= (k-(n-1)/2)/(n)}}
+  *{{x1=-.5*abs(cos(Y*PI))**.5; y1=Y; x2=.5*abs(cos(Y*PI))**.5; y2=Y}} {
+    DASHLINE{rz shake*rsig*5 {width=rim/n/2; dash=dash/x2/2}}  
+  }
 }
 
 CIRCH { 2*{rz 90} CIRCHL{}}
@@ -153,3 +162,4 @@ tt { TEXT{ x .7 s .15} }
 pop{POP{}}
 include #geometry
 include #monospace
+
