@@ -30,9 +30,9 @@ aa {
   *{x 9} {
     *{y  0} { CIRCRLH{{n=300;rim=.2} s .8} tt{ PUSH "^m^CIRCRLH{{n=300; rim=.2}}" }}
     *{y  -1} { CIRCSEC{{n=30;rim=.5} s .8} tt{ PUSH "^m^CIRCSEC{{n=30; rim=.5}}" }}
-    *{y  -2} { CIRCSUB{{n=15;rim=1} s .8 PUSH TRIANGLE} tt{ PUSH "^m^CIRCSUB{{n=15; rim=1} PUSH TRIANGLE}" }}
-    *{y  -3} { CIRCSUB{{n=20;rim=.7} s .8 PUSH CIRCLE} tt{ PUSH "^m^CIRCSUB{{n=20; rim=.7} PUSH CIRCLE}" }}
-    *{y  -4} { CIRCSUH{{n=13;rim=.6} s .8 rz 45 PUSH RIM2} tt{ PUSH "^m^CIRCSUH{{n=13; rim=.6} PUSH RIM2}" }}
+    *{y  -2} { CIRCSUB{{n=15;rim=0} s .8 PUSH TRIANGLE} tt{ PUSH "^m^CIRCSUB{{n=15; rim=0} PUSH TRIANGLE}" }}
+    *{y  -3} { CIRCSUB{{n=20;rim=.3} s .8 PUSH CIRCLE} tt{ PUSH "^m^CIRCSUB{{n=20; rim=.3} PUSH CIRCLE}" }}
+    *{y  -4} { CIRCSUH{{n=13; m=7;rim=.2} s .8 rz 45 PUSH RIM2} tt{ PUSH "^m^CIRCSUH{{n=13;m=5;rim=.2} PUSH RIM2}" }}
     *{y  -5} { CIRCWOR{{n=400; rim=5} s .8 PUSH TRIANGLE} tt{ PUSH "^m^CIRCWOR{{n=400; rim=5} PUSH TRIANGLE}" }}
     *{y  -7} { CIRCHDL{{n=12; dash=.18; gap=.3; rim=.5} s .8 } tt{ PUSH "^m^CIRCHDL{{n=12;dash=.18;gap=.3;rim=.5}" }}
   }
@@ -60,8 +60,9 @@ CIRCHL {
 CIRCHDL {
   (n)*{{k=k+1}}
   *{{Y= (k-(n-1)/2)/(n)}}
-  *{{x1=-.5*abs(cos(Y*PI))**.5; y1=Y; x2=.5*abs(cos(Y*PI))**.5; y2=Y}} {
-    DASHLINE{rz shake*rsig*5 {width=rim/n/2; dash=dash/x2/2}}  
+  *{{X=.5*abs(cos(Y*PI))**.5}}
+  *{{x1=-X; y1=Y; x2=X; y2=Y}} {
+    DASHLINE{rz shake*rsig*5 {width=rim/n/2; dash=dash/x2/2; offset=-(.5-X)*6+k%2/4}}  
   }
 }
 
@@ -131,20 +132,19 @@ CIRCSEC {
 }
 
 CIRCSUB {
-  //CIRCLE{lr -1 G 1}
   *{{N=n/2+n%2}}
   (N)*{{k=k+1 } }
   *{{Y= ((n+1)%2/2 +  k) / (N-n%2)/2}}
-  *{{Rn=max(1, floor(Y**(2-max(rim, .75-Y*2))*2*PI/(rim/n)))}}
+  *{{Rn=max(1, floor(Y**(2-max(1-rim, .75-Y*2))*2*PI/((1-rim)/n)))}}
   *{rz k%2*360/Rn/4}
   (Rn)*{rz (360/Rn) {ii=ii+1}}
-  pop{y Y - (ii%2)*(1-rim) / (N - n%2) *.25
-    s rim/n }  
+  pop{y Y - (ii%2)*(rim) / (N - n%2) *.25
+    s (1-rim)/n }  
 }
 
 CIRCSUH{
-  CIRCSUB{}
-  CIRCH{{rim=rim/4}}
+  CIRCSUB{{n=m}}
+  CIRCH{{rim=rim}}
 }
 
 system Worley2 worley__ init(1000)
