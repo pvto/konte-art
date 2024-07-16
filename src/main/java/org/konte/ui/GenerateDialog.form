@@ -151,7 +151,16 @@
             <StringItem index="15" value="1024 * 60"/>
             <StringItem index="16" value="1024 * 100"/>
             <StringItem index="17" value="1024 * 200"/>
-            <StringItem index="18" value="----------"/>
+            <StringItem index="18" value="-B 300 dpi-"/>
+            <StringItem index="19" value="11820 * 8430"/>
+            <StringItem index="20" value="8340 * 5910"/>
+            <StringItem index="21" value="5910 * 4170"/>
+            <StringItem index="22" value="4170 * 2940"/>
+            <StringItem index="19" value="8430 * 11820"/>
+            <StringItem index="20" value="5910 * 8340"/>
+            <StringItem index="21" value="4170 * 5910"/>
+            <StringItem index="22" value="2940 * 4170"/>
+
           </StringArray>
         </Property>
       </Properties>

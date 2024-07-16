@@ -125,7 +125,14 @@ public class GenerateDialog extends javax.swing.JFrame {
             }
         });
 
-        presets.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "1000 * 1000", "2000 * 2000", "4000 * 4000", "8000 * 8000", "----------", "800 * 600", "1024 * 768", "1200 * 1000", "1600 * 1200", "----------", "32 * 32", "64 * 64", "128 * 128", "256 * 256", "----------", "1024 * 60", "1024 * 100", "1024 * 200", "----------" }));
+        presets.setModel(new javax.swing.DefaultComboBoxModel(new String[] { 
+            "1000 * 1000", "2000 * 2000", "4000 * 4000", "8000 * 8000", "----------", 
+            "800 * 600", "1024 * 768", "1200 * 1000", "1600 * 1200", "----------", 
+            "32 * 32", "64 * 64", "128 * 128", "256 * 256", "----------", 
+            "1024 * 60", "1024 * 100", "1024 * 200", 
+            "-B 300 dpi-", "11820 * 8430", "8340 * 5910", "5910 * 4170", "4170 * 2940",
+                "8430 * 11820", "5910 * 8340", "4170 * 5910", "2940 * 4170" }));
+            
         presets.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
