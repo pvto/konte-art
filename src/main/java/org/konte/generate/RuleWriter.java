@@ -51,6 +51,7 @@ public class RuleWriter {
     private ShapeReader sr;
     public List<OutputShape> shapes;
     private LinkedList<Expansion> expansions;
+    private Integer expansionSync = 1;
     private OutQueueList outoftheway;
     private List<File> expansionTmpFiles;
     private List<File> handledExpansionTmpFiles = new ArrayList<File>();
@@ -67,6 +68,11 @@ public class RuleWriter {
     private boolean contextSearch = false;
     private Octree<Tuple<DrawingContext, OutputShape>> xyzIndex;
     
+    /** for testing only */
+    public void setExpansions(LinkedList<Expansion> ll) {
+        this.expansions = ll;
+    }
+
     public void enableContextSeach() {
         contextSearch = true;
         xyzIndex = new Octree<>();
@@ -222,6 +228,7 @@ public class RuleWriter {
 
     public void init(ShapeReader sr) throws ParseException 
     {
+        Runtime.sysoutln("RuleWriter init");
         expansions = new LinkedList<Expansion>();
         outoftheway = new OutQueueList();
         expansionTmpFiles = new ArrayList<File>();
@@ -235,6 +242,9 @@ public class RuleWriter {
         sr.setRuleWriter(this);
         new File("tmp").mkdir();
     }
+
+    //int totRead = 0;
+    //int totWrit = 0;
 
     CountDownLatch countdown = new CountDownLatch(1);
     public void generate() throws ParseException 
@@ -287,12 +297,19 @@ public class RuleWriter {
                                     count++;
                                     if (count >= fileShapes)
                                     {
+                                        //Runtime.sysoutln(String.format("Written %d to RW oos; (%d, %d)", count, expansionTmpFiles.size(), tmpFileSz));
                                         oos = nextOos(oos);
+                                        //totWrit += count;
                                         count = 0;
                                     }
                                 }
-                            outoftheway = new OutQueueList();
+                            //Runtime.sysoutln(String.format("Written %d/%d to RW oos; (%d)", count, fileShapes, expansionTmpFiles.size()));
+                            synchronized(expansionSync) {
+                                outoftheway = new OutQueueList();
+                            }
                             oos.close();
+                            oos = null;
+                            //totWrit += count;
                         }
                         catch (IOException ex)
                         {
@@ -301,8 +318,10 @@ public class RuleWriter {
                     }
                     else
                     {
-                        outoftheway.add(expansions);
-                        expansions = new LinkedList<Expansion>();
+                        synchronized(expansionSync) {
+                            outoftheway.add(expansions);
+                            expansions = new LinkedList<Expansion>();
+                        }
                     }
                 }
             }
@@ -314,13 +333,15 @@ public class RuleWriter {
                     model.context = e.point;
                     Rule r = model.indexedNd[e.ndruleIndex].randomRule(rndFeed);
                     processRule(r);
-                } else if (this.expansionTmpFiles.size() > 0 || ois != null)
+                }
+                else if (this.expansionTmpFiles.size() > 0 || ois != null)
                 {
                     boolean closeOis = false;
+                    List<Expansion> expansionTmp = new ArrayList<Expansion>();
                     try {
                         if (ois == null)
                         {
-//                            Runtime.sysoutln(getStats() + ", loading " + expansionTmpFiles.get(0).getName(), 0);
+                            //Runtime.sysoutln(getStats() + ", loading " + expansionTmpFiles.get(0).getName());
                             File file = expansionTmpFiles.remove(0);
                             handledExpansionTmpFiles.add(file);
                             ois = new ObjectInputStream(
@@ -332,20 +353,29 @@ public class RuleWriter {
                         {
                             if (count++ > 1000)
                             {
+                                //totRead += count - 1;
                                 break;
                             }
-                            Expansion f = (Expansion) ois.readObject();
+                            Expansion f = null;
+                            try {
+                                f = (Expansion)ois.readObject();
+                            } catch(java.io.EOFException eof) {
+                                //Runtime.sysoutln("EOF, read " + count + " from RuleW tmpf");
+                                //totRead += count - 1;
+                            }
                             if (f == null)
                             {
                                 closeOis = true;
+                                //Runtime.sysoutln("Read " + count + " from RuleW tmpf");
                                 break;
                             }
-                            expansions.add(f);
+                            expansionTmp.add(f);
                         }
                     }
                     catch(Exception ex)
                     {
                         closeOis = true;
+                        ex.printStackTrace();
                     } finally {
                         if (closeOis)
                         {
@@ -355,11 +385,16 @@ public class RuleWriter {
                                 } catch(Exception ex) {}
                             ois = null;
                         }
+                        synchronized(expansionSync) {
+                            expansions.addAll(expansionTmp);
+                        }
                     }                
                 }
                 else
                 {
                     drained = true;
+                    Runtime.sysoutln(String.format("drained, fw=%d, exps=%d, outofthew=%d", //totWrit=%d, totRead=%d", 
+                        forwardedShapes, generatedExpansions, outoftheway.totalSize())); //, totWrit, totRead)); 
                 }
             } 
         }
@@ -368,7 +403,8 @@ public class RuleWriter {
         outoftheway = null;
         deleteTmpFiles();
         printStats();
-//        Runtime.sysoutln("Rulewriter finished", 1);
+        Runtime.sysoutln(String.format("Rulewriter finished, fw=%d, exps=%d, outN=%d", // totWrit=%d, totRead=%d,
+             forwardedShapes, generatedExpansions, tmpFileSz));  // totWrit, totRead, 
         while(sr.state()==1 || sr.state()==2)
         {
             if (sr.state() < 2) sr.finish(2);
@@ -408,8 +444,10 @@ public class RuleWriter {
                 e.printStackTrace();
             }
         }
-        Runtime.sysoutln(getStats() + ", writing tempfile " + ++tmpfc, 10);
-        File filee = File.createTempFile("c3dg-"+tmpfc, "tmp");
+        tmpfc++;
+        File filee = File.createTempFile("c3dg-"+tmpfc, "tmp"); // new File("c3dg-" + tmpfc +  ".tmp");
+        Runtime.sysoutln(getStats() + ", writing tempfile " + filee + "(" + expansionTmpFiles.size() + ")", 10);
+        
         expansionTmpFiles.add(filee);
         //FileWriter wr = new FileWriter(new File(fname));
         BufferedOutputStream bo = new BufferedOutputStream(new FileOutputStream(filee));
