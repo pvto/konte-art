@@ -28,6 +28,13 @@ public class RefStack<T extends Serializable> implements Serializable {
         return new RefStack<T>(this, val);
     }
 
+    public int depth() {
+        int depth = 0;
+        RefStack it = this;
+        for(; it != null; it = it.prev, depth++);
+        return depth;
+    }
+
     private void writeObject(java.io.ObjectOutputStream out)
             throws IOException {
         int depth = 0;
@@ -40,12 +47,22 @@ public class RefStack<T extends Serializable> implements Serializable {
         out.writeObject(tmp);
     }
 
+    private void debugPrintStack(Object[] tmp, String id) {
+        StringBuilder bd = new StringBuilder(id).append(" [").append(tmp.length).append("] ");
+        for (Object o : tmp) { 
+            bd.append((o instanceof StackRetVal) ? ((StackRetVal)o).val : "i"+o).append(",");
+        }
+        System.out.println(bd.toString());
+    }
+
     private void readObject(java.io.ObjectInputStream in)
             throws IOException, ClassNotFoundException {
         Object[] tmp = (Object[]) in.readObject();
         RefStack<T> ret = null;
         for(int i = 0; i < tmp.length; i++)
             ret = new RefStack(ret, (T)tmp[i]);
+        this.val = ret.val;
+        this.prev = ret.prev;
     }
 
     public static class StackRetVal<T extends Serializable> {
