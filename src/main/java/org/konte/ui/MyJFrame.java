@@ -148,6 +148,7 @@ public class MyJFrame extends JFrame {
     }
     
     public void extendFrame(boolean isExtended) {
+        System.out.println("extending frame: " + isExtended);
         this.setVisible(false);
         this.setExtendedState(isExtended?JFrame.MAXIMIZED_BOTH:JFrame.NORMAL); 
         try {
